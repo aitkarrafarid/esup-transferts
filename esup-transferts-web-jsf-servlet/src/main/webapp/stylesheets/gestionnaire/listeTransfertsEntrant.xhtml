@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/stylesheets/gestionnaire/template.xhtml">
+	<ui:define name="navigation">
+		<ui:include src="/stylesheets/gestionnaire/_include/_header.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="corps">
+		<p:panel
+			rendered="#{!administrationController.personnel || (!administrationController.droitsDepart and !sessionController.currentUser.admin)}">
+			<ui:include
+				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
+		</p:panel>
+		<h:form id="form"
+			rendered="#{administrationController.personnel and (administrationController.droitsDepart || sessionController.currentUser.admin)}">
+			<p:growl id="growl" />
+			<!-- 			<p:messages id="msgs" /> -->
+			<p:spacer height="20px" />
+			<!-- 				<p:dataTable var="opi" styleClass="datatable" -->
+			<!-- 					style="text-align:center;width:80%;" -->
+			<!-- 					filteredValue="#{administrationController.filteredEtudiantOpi}" -->
+			<!-- 					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50" rows="10" -->
+			<!-- 					paginator="true" emptyMessage="Aucune demande de transfert entrant" -->
+			<!-- 					selection="#{administrationController.currentOpi}" -->
+			<!-- 					value="#{administrationController.allIndOpi}">				 -->
+
+			<p:dataTable var="opi" styleClass="datatable"
+				style="text-align:center;width:80%;"
+				filteredValue="#{administrationController.filteredEtudiantOpi}"
+				rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50" rows="10"
+				paginator="true" emptyMessage="Aucune demande de transfert entrant"
+				selection="#{administrationController.selectedOpis}" rowSelectMode="add" 
+				value="#{administrationController.allIndOpi}">
+
+				<!-- 				<p:ajax event="rowSelect" update=":form:display" -->
+				<!-- 					oncomplete="carDialog.show()" /> -->
+
+				<f:facet name="header">  
+            Liste des informations OPI's #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}
+            <p:spacer width="20px" /> 
+            Total #{administrationController.totalOpi} demande(s) de transfert <h:outputText
+						value="issus des établissements partenaires"
+						rendered="#{opi.source=='D'}" />
+				</f:facet>
+
+				<!-- 				<p:column selectionMode="multiple" style="width:18px" /> -->
+				<p:column selectionMode="multiple" style="width:18px" />
+<!-- 				<p:column style="width:18px" rendered="#{opi.synchro!=0}" /> -->
+
+				<p:column headerText="Etat OPI" style="width:10%;"
+					rendered="#{administrationController.modeSynchro}" sortBy="synchro"
+					id="nb">
+					<h:graphicImage alt="pasdesynchro" title="Pas de synchro"
+						value="/media/images/player_pause.png"
+						rendered="#{opi.synchro==0}" />
+					<h:graphicImage alt="synchro" title="Synchro"
+						value="/media/images/opi_ok.png" rendered="#{opi.synchro==1}" />
+					<h:graphicImage alt="exclu" title="Exclu"
+						value="/media/images/alert.png" rendered="#{opi.synchro==2}" />
+					<h:graphicImage alt="vap" title="Vap"
+						value="/media/images/flag.png" rendered="#{opi.synchro==3}" />						
+				</p:column>
+
+				<p:column headerText="Numéro Etudiant" style="width:10%;" sortBy="codEtuLpa" filterBy="codEtuLpa"
+					filterMatchMode="contains"
+					id="codEtu">
+					<h:outputText value="#{opi.codEtuLpa}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">  
+                    Numéro OPI
+            </f:facet>
+					<h:outputText value="#{opi.numeroOpi}" />
+				</p:column>
+
+				<p:column filterBy="libNomPatIndOpi" sortBy="libNomPatIndOpi">
+					<f:facet name="header">  
+                    Nom  
+            </f:facet>
+					<h:outputText value="#{opi.libNomPatIndOpi}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">  
+                    Prénom   
+            </f:facet>
+					<h:outputText value="#{opi.libPr1IndOpi}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">  
+                    Date de naissance 
+            </f:facet>
+					<h:outputText value="#{opi.dateNaiIndOpi}">
+						<!-- 							<f:converter converterId="XMLGregorianCalendarConverterDate" /> -->
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+					</h:outputText>
+				</p:column>
+				<p:column filterBy="libEtabDepart" sortBy="libEtabDepart"
+					filterMatchMode="contains">
+					<f:facet name="header">  
+                    Etablissement de départ 
+            </f:facet>
+					<h:outputText value="#{opi.libEtabDepart}" />
+				</p:column>
+				<p:column sortBy="voeux.libEtp">
+					<f:facet name="header">  
+                    Etape 
+            </f:facet>
+					<h:outputText value="#{opi.voeux.libEtp}" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Visualisation" title="Visualisation"
+						icon="ui-icon-search" update=":form:display"
+						oncomplete="PF('opiDialog').show()" />
+					<p:spacer width="20px" />
+					<p:commandButton value="Données de l'étudiant" icon="ui-icon-disk"
+						title="Export OPI" action="#{administrationController.exportOpi}" />
+					<p:spacer width="20px" />
+					<p:commandButton value="Voeux de l'étudiant" icon="ui-icon-disk"
+						title="Export OPI"
+						action="#{administrationController.exportOpiVoeux}" />
+					<p:spacer width="20px" />
+					<p:commandButton value="Synchro OPI ==> APOGEE"
+						rendered="#{administrationController.modeSynchro and sessionController.currentUser.admin and !administrationController.switchTraiteNontraite}"
+						onclick="confirmation.show()">
+					</p:commandButton>
+					<p:spacer width="20px" />
+					<p:selectBooleanButton
+						value="#{administrationController.switchTraiteNontraite}"
+						onLabel="Synchronisées" offLabel="En cours"
+						onIcon="ui-icon-check" offIcon="ui-icon-close">
+						<p:ajax update=":form" oncomplete="true"
+							listener="#{administrationController.addMessage}" />
+					</p:selectBooleanButton>
+				</f:facet>
+			</p:dataTable>
+			<p:spacer height="20px" />
+			<center>
+				<p:panel header="Légende" toggleable="true" style="width:80%;"
+					collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
+					widgetVar="panel"
+					rendered="#{administrationController.personnel and (administrationController.droitsDepart || sessionController.currentUser.admin)}">
+					<h:panelGrid columns="6" cellpadding="10">
+						<p:graphicImage value="/media/images/player_pause.png" />
+						<h:outputText value="Pas de synchronisation" />
+						<p:graphicImage value="/media/images/opi_ok.png" />
+						<h:outputText value="Synchronisé" />
+						<p:graphicImage value="/media/images/flag.png" />
+						<h:outputText value="VAP en cours" />
+					</h:panelGrid>
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:graphicImage value="/media/images/alert.png" />
+						<h:outputText
+							value="Liste des Codes étapes exclus de la synchronisation (#{administrationController.exclueEtpOpi})" />
+					</h:panelGrid>
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:graphicImage value="/media/images/alert.png" />
+						<h:outputText
+							value="Liste des Codes Bac exclus de la synchronisation (#{administrationController.exclueBacOpi})" />
+					</h:panelGrid>					
+				</p:panel>
+			</center>
+
+			<p:confirmDialog
+				message="Êtes-vous sur de vouloir envoyer les informations OPI dans votre outils de scolarité. Attention, 
+				le temps de chargement peut être assez élevé..."
+				header="Confirmation" severity="alert" widgetVar="confirmation">
+				<p:commandButton value="Oui" update="form,growl"
+					oncomplete="confirmation.hide()"
+					action="#{administrationController.synchroOpi}" />
+				<p:commandButton value="Non" onclick="confirmation.hide()"
+					type="button" />
+			</p:confirmDialog>
+
+			<p:dialog header="Détails transfert entrant" widgetVar="opiDialog"
+				height="300" resizable="true" id="carDlg" showEffect="explode"
+				hideEffect="explode" modal="true">
+
+				<!-- 					<h:panelGrid id="display" columns="2" cellpadding="4" -->
+				<!-- 						style="margin:0 auto;text-align:left;"> -->
+
+				<p:dataList id="display"
+					value="#{administrationController.selectedOpis}" var="selectedOpis">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;text-align:left;">
+
+						<h:outputText value="ETAT CIVIL" style="font-weight:bold" />
+						<p:separator style="height:10px" />
+
+						<h:outputText value="Numéro OPI : " />
+						<h:outputText value="#{selectedOpis.numeroOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Etablissement de départ : " />
+						<h:outputText value="#{selectedOpis.etabDepart}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Identifiant national étudiant (I.N.E) : " />
+						<h:outputText
+							value="#{selectedOpis.codNneIndOpi}#{selectedOpis.codCleNneIndOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Nom de famille : " />
+						<h:outputText value="#{selectedOpis.libNomPatIndOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Nom d'usage : " />
+						<h:outputText value="#{selectedOpis.libNomUsuIndOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Premier prénom de l'étudiant : " />
+						<h:outputText value="#{selectedOpis.libPr1IndOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Second prénom de l'étudiant : " />
+						<h:outputText value="#{selectedOpis.libPr2IndOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Troisième prénom de l'étudiant : " />
+						<h:outputText value="#{selectedOpis.libPr3IndOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Date de naissance : " />
+						<h:outputText value="#{selectedOpis.dateNaiIndOpi}"
+							style="font-weight:bold">
+							<!-- 							<f:converter converterId="XMLGregorianCalendarConverterDate" /> -->
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+						</h:outputText>
+
+						<h:outputText value="Ville de naissance : " />
+						<h:outputText value="#{selectedOpis.libVilNaiEtuOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText
+							value="Année de première inscription en Université française : " />
+						<h:outputText value="#{selectedOpis.daaEntEtbOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="BACCALAUREAT" style="font-weight:bold" />
+						<p:separator style="height:10px" />
+
+						<h:outputText
+							value="Code du baccalauréat ou de l'équivalence de l'étudiant : " />
+						<h:outputText value="#{selectedOpis.codBac}"
+							style="font-weight:bold" />
+
+						<h:outputText
+							value="Code de l'établissement du baccalauréat ou de l'équivalence : " />
+						<h:outputText value="#{selectedOpis.codEtbBac}"
+							style="font-weight:bold" />
+
+						<h:outputText
+							value="Département d'obtention du baccalauréat ou de l'équivalence : " />
+						<h:outputText value="#{selectedOpis.codDep}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code de la mention obtenue baccalauréat : " />
+						<h:outputText value="#{selectedOpis.codMnb}"
+							style="font-weight:bold" />
+
+						<h:outputText
+							value="Année d'obtention du baccalauréat ou de l'équivalence : " />
+						<h:outputText value="#{selectedOpis.daabacObtOba}"
+							style="font-weight:bold" />
+
+						<h:outputText value="ADRESSE" style="font-weight:bold" />
+						<p:separator style="height:10px" />
+
+						<h:outputText value="Adresse 1 : " />
+						<h:outputText value="#{selectedOpis.libAd1}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Adresse 2 : " />
+						<h:outputText value="#{selectedOpis.libAd2}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Adresse 3 : " />
+						<h:outputText value="#{selectedOpis.libAd3}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code postal : "
+							rendered="#{selectedOpis.codPay == 100}" />
+						<h:outputText value="#{selectedOpis.codBdi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code commune : "
+							rendered="#{selectedOpis.codPay == 100}" />
+						<h:outputText value="#{selectedOpis.codCom}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code ville étranger : "
+							rendered="#{selectedOpis.codPay != 100}" />
+						<h:outputText rendered="#{selectedOpis.codPay != 100}"
+							value="#{selectedOpis.libAde}" style="font-weight:bold" />
+
+						<h:outputText value="Pays : "
+							rendered="#{selectedOpis.codPay == 100}" />
+						<h:outputText rendered="#{selectedOpis.codPay == 100}"
+							value="#{selectedOpis.codPay}" style="font-weight:bold" />
+
+						<h:outputText value="Téléphone fixe : " />
+						<h:outputText value="#{selectedOpis.numTel}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Téléphone portable : " />
+						<h:outputText value="#{selectedOpis.numTelPorOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Adresse mail : " />
+						<h:outputText value="#{selectedOpis.adrMailOpi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="VOEUX ORIENTATION" style="font-weight:bold" />
+						<p:separator style="height:10px" />
+
+						<h:outputText value="Code du centre de gestion : " />
+						<h:outputText value="#{selectedOpis.voeux.codCge}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code etape de la version d'étape du voeu : " />
+						<h:outputText value="#{selectedOpis.voeux.codEtp}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code de la version d'étape du voeu : " />
+						<h:outputText value="#{selectedOpis.voeux.codVrsVet}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code du diplôme du voeu : " />
+						<h:outputText value="#{selectedOpis.voeux.codDip}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code de la version du diplôme du voeu : " />
+						<h:outputText value="#{selectedOpis.voeux.codVrsVdi}"
+							style="font-weight:bold" />
+
+						<h:outputText value="Code de la composante : " />
+						<h:outputText value="#{selectedOpis.voeux.codCmp}"
+							style="font-weight:bold" />
+
+						<p:separator style="height:20px" />
+						<p:separator style="height:20px" />
+
+					</h:panelGrid>
+
+				</p:dataList>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

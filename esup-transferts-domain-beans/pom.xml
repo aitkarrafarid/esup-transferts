@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>esup-transferts</artifactId>
+		<groupId>org.esupportail.transferts</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>org.esupportail.transferts</groupId>
+	<artifactId>esup-transferts-domain-beans</artifactId>
+	<description>The business object</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.esupportail</groupId>
+			<artifactId>esup-commons2-core</artifactId>
+			<version>${esupcommons.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.esupportail</groupId>
+			<artifactId>esup-commons2-jpa</artifactId>
+			<version>${esupcommons.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.axis</groupId>
+			<artifactId>axis</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>local</groupId>
+			<!-- <groupId>internal</groupId> -->
+			<artifactId>apo-webservicesclient</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<!-- apo-webservicesclient450la.jar -->
+			<systemPath>${basedir}/../esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/apo-webservicesclient.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local</groupId>
+			<artifactId>RimbausTransfert.jar</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+<!-- 			<systemPath>C:\workspaceHelios5Transferts\esup-transferts\esup-transferts-domain-services\jars\RimbausTransfert.jar</systemPath> -->
+			<systemPath>${basedir}/../esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/RimbausTransfert.jar</systemPath>
+		</dependency>		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.2.0.Final</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>

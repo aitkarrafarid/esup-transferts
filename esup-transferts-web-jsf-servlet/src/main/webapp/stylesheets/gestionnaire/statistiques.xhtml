@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/stylesheets/gestionnaire/template.xhtml">
+
+	<ui:define name="navigation">
+		<ui:include src="/stylesheets/gestionnaire/_include/_header.xhtml"></ui:include>
+	</ui:define>
+
+	<ui:define name="corps">
+		<p:panel
+			rendered="#{!administrationController.personnel || (!administrationController.droitsDepart and !sessionController.currentUser.admin)}">
+			<ui:include
+				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
+		</p:panel>
+		<h:form id="annee"
+			rendered="#{administrationController.personnel and (administrationController.droitsDepart || sessionController.currentUser.admin)}">
+			<p:growl id="messages" showDetail="true" />
+			<p:messages id="msgs" showDetail="false" />
+			<center>
+							<p:panel id="pnl" style="width:80%; text-align:center;"
+				rendered="#{sessionController.currentUser.admin}" styleClass="panel"
+				header="Liste des statistiques #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" />			
+				<h:panelGrid columns="2">
+					<p:barChart id="depart"
+						value="#{statistiqueController.categoryModelDetailsDepartAndArrive}" orientation="horizontal" 
+						legendPosition="ne1" title="Liste des transferts" min="0" max="200"
+						style="height:5000px;width:500px" animate="true">
+						<p:ajax event="itemSelect"
+							listener="#{statistiqueController.itemSelect}" update="messages" />
+					</p:barChart>
+
+					<p:barChart id="arrive"
+						value="#{statistiqueController.categoryModelTotalDepartAndArrive}" legendPosition="ne2"
+						title="Total" min="0" max="1000" style="width:400px"
+						animate="true" />
+
+					<!-- 					<p:barChart id="opi" value="#{statistiqueController.categoryModel}" -->
+					<!-- 						legendPosition="ne" title="Données OPI" min="0" max="200" -->
+					<!-- 						style="width:400px" animate="true" />						 -->
+				</h:panelGrid>
+			</center>
+			<p:messages id="msgs2" showDetail="false" />
+		</h:form>
+	</ui:define>
+
+	<!-- 	<ui:define name="content"> -->
+	<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
+	<!-- 	</ui:define> -->
+
+</ui:composition>
+</html>

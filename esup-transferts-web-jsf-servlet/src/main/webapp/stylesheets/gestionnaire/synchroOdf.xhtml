@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/stylesheets/gestionnaire/template.xhtml">
+
+	<ui:define name="navigation">
+		<ui:include src="/stylesheets/gestionnaire/_include/_header.xhtml"></ui:include>
+	</ui:define>
+
+	<ui:define name="corps">
+		<p:panel rendered="#{!sessionController.currentUser.admin}">
+			<ui:include
+				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
+		</p:panel>
+		<h:form id="formOdf" rendered="#{sessionController.currentUser.admin}">
+			<p:growl id="msgs" showDetail="true" />
+			<center>
+				<p:dataTable id="multiOdf" var="odf" styleClass="datatableOdf"
+					filteredValue="#{odfController.filteredODF}" editable="true"
+					editMode="cell" rowSelectMode="add"
+					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50,100,200,300"
+					value="#{odfController.odfDataModel}" paginator="true" rows="10"
+					selection="#{odfController.selectedOdfs}">
+
+					<f:facet name="header">  
+            Offre de formations #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1} 
+        </f:facet>
+
+					<p:column selectionMode="multiple" style="width:18px" />
+
+					<p:column id="libCentreGestion" headerText="Centre de gestion"
+						filterBy="libCentreGestion" filterMatchMode="contains"
+						sortBy="libCentreGestion">  
+            #{odf.libCentreGestion}  
+        </p:column>
+
+					<p:column id="libComposante" headerText="Composante"
+						filterBy="libComposante" filterMatchMode="contains"
+						sortBy="libComposante">  
+            #{odf.libComposante}  
+        </p:column>
+
+					<p:column id="codeVersionEtape" headerText="Code version d'etape"
+						filterBy="codeVersionEtape" filterMatchMode="contains"
+						sortBy="codeVersionEtape">  
+            #{odf.codeVersionEtape}  
+        </p:column>
+
+					<p:column id="libVersionEtape" headerText="Libelle version d'etape"
+						filterBy="libVersionEtape" filterMatchMode="contains"
+						sortBy="libVersionEtape" style="text-align:left">  
+            #{odf.libVersionEtape}  
+        </p:column>
+
+					<p:column id="codeEtape" headerText="Code etape"
+						filterBy="codeEtape" filterMatchMode="contains" sortBy="codeEtape">  
+            #{odf.codeEtape}  
+        </p:column>
+
+					<p:column id="codeVersionDiplome" headerText="Code version diplome"
+						filterBy="codeVersionDiplome" filterMatchMode="contains"
+						sortBy="codeVersionDiplome">  
+            #{odf.codeVersionDiplome}  
+        </p:column>
+
+					<p:column id="libVersionDiplome"
+						headerText="Libelle version du diplome"
+						filterBy="libVersionDiplome" filterMatchMode="contains"
+						sortBy="libVersionDiplome" style="text-align:left">  
+            #{odf.libVersionDiplome}  
+        </p:column>
+
+					<p:column id="codeDiplome" headerText="Code diplome"
+						filterBy="codeDiplome" filterMatchMode="contains"
+						sortBy="codeDiplome">  
+            #{odf.codeDiplome}  
+        </p:column>
+
+					<p:column id="libTypDip" headerText="Type de Diplôme"
+						filterBy="libTypDip" sortBy="libTypDip">  
+            #{odf.libTypDip}  
+        </p:column>
+
+					<p:column id="depart" headerText="Départ" style="width:10%"
+						sortBy="depart" filterBy="depart" filterMatchMode="contains">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{odf.depart}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{odf.depart}" style="width:100%">
+									<f:selectItem itemLabel="oui" itemValue="oui" />
+									<f:selectItem itemLabel="non" itemValue="non" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column id="arrivee" headerText="Arrivée" style="width:10%"
+						sortBy="arrivee" filterBy="arrivee" filterMatchMode="contains"
+						rendered="#{sessionController.transfertsAccueil}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{odf.arrivee}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{odf.arrivee}" style="width:100%">
+									<f:selectItem itemLabel="oui" itemValue="oui" />
+									<f:selectItem itemLabel="non" itemValue="non" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<f:facet name="footer">
+						<!--             Total #{fn:length(odfController.odfs)} formation(s).   -->
+						Total : #{odfController.nbOdfs} formation(s).
+					</f:facet>
+				</p:dataTable>
+				<p:spacer height="30px" />
+				<p:commandButton value="Enregistrer" icon="ui-icon-disk"
+					update="msgs" title="Enregistrer" action="#{odfController.addOdfs}" />
+				<p:commandButton value="Vérifier" icon="ui-icon-disk" update="msgs"
+					title="Vérifier" action="#{odfController.verifier}" />
+			</center>
+		</h:form>
+	</ui:define>
+
+	<!-- 	<ui:define name="content"> -->
+	<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
+	<!-- 	</ui:define> -->
+
+</ui:composition>
+</html>

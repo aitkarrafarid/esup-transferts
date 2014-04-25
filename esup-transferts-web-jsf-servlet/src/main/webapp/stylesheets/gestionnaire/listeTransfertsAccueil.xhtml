@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/stylesheets/gestionnaire/template.xhtml">
+	<ui:define name="navigation">
+		<ui:include src="/stylesheets/gestionnaire/_include/_header.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="corps">
+		<p:panel
+			rendered="#{!administrationController.personnel || (!administrationController.droitsArrivee and !sessionController.currentUser.admin)}">
+			<ui:include
+				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
+		</p:panel>
+		<p:spacer height="10px" />
+		<h:form id="display"
+			rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
+			<p:growl id="msgs" showDetail="true" />
+			<p:dataTable var="transferts" styleClass="datatable" id="test"
+				style="text-align:center;width:80%;"
+				value="#{administrationController.allDemandesTransfertsAccueil}"
+				rows="10" paginator="true" selectionMode="single"
+				rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50"
+				emptyMessage="Auncune demande de transferts accueil"
+				selection="#{administrationController.currentDemandeTransferts}"
+				filteredValue="#{administrationController.filteredEtudiantAccueil}"
+				rowStyleClass="#{transferts.accueil.from_source eq 'P' ? 'highlightTableRow' : null}" >
+
+				<f:facet name="header">  
+            Liste des demandes de transferts accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1} 
+            <p:spacer width="20px" />
+             Total #{administrationController.totalAccueil} demande(s) de transfert accueil.
+        </f:facet>
+
+				<p:column headerText="Etat" style="width:7%;"
+					sortBy="transferts.temoinTransfertValide" id="nb">
+					<h:graphicImage alt="avisSaisie" title="En cours"
+						value="/media/images/player_pause.png"
+						rendered="#{transferts.transferts.temoinTransfertValide==0 || transferts.transferts.temoinTransfertValide==null}" />
+					<h:graphicImage alt="avisSaisie" title="Avis saisie"
+						value="/media/images/tick.png"
+						rendered="#{transferts.transferts.temoinTransfertValide==1}" />
+					<h:graphicImage alt="avisSaisie" title="Bloquer"
+						value="/media/images/lock.png"
+						rendered="#{transferts.transferts.temoinTransfertValide==2}" />
+				</p:column>
+
+				<p:column headerText="Composante de la formation choisie"
+					filterBy="transferts.odf.codeComposante" style="text-align:left;"
+					sortBy="transferts.odf.codeComposante" filterMatchMode="contains">
+            #{transferts.transferts.odf.codeComposante} - #{transferts.transferts.odf.libComposante}  
+        </p:column>
+
+				<p:column headerText="Etape d'inscription"
+					filterBy="transferts.odf.libVersionEtape" style="text-align:left;"
+					sortBy="transferts.odf.libVersionEtape" filterMatchMode="contains"
+					id="etapeInscription">  
+            #{transferts.transferts.odf.libVersionEtape}
+        </p:column>
+
+				<p:column headerText="Numéro étudiant" filterBy="numeroEtudiant"
+					sortBy="numeroEtudiant" filterMatchMode="contains">
+            #{transferts.numeroEtudiant}  
+        </p:column>
+
+				<p:column headerText="Numéro I.N.E" filterBy="numeroIne"
+					sortBy="numeroIne" filterMatchMode="contains">
+            #{transferts.numeroIne}  
+        </p:column>
+
+				<p:column headerText="Nom" filterBy="nomPatronymique"
+					style="text-align:left;" sortBy="nomPatronymique" id="nom">  
+            #{transferts.nomPatronymique}  
+        </p:column>
+
+				<p:column headerText="Prénom" style="text-align:left;">  
+            #{transferts.prenom1}  
+        </p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Voir la demande" icon="ui-icon-search"
+						update=":display:msgs"
+						action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" />
+					<p:spacer width="20px" />
+					<p:selectBooleanButton
+						value="#{administrationController.switchTraiteNontraite}"
+						onLabel="Toutes les demandes" offLabel="En cours"
+						onIcon="ui-icon-check" offIcon="ui-icon-close">
+						<p:ajax update=":display" oncomplete="true"
+							listener="#{administrationController.addMessage}" />
+					</p:selectBooleanButton>
+				</f:facet>
+			</p:dataTable>
+			<p:spacer height="40" />
+
+			<!-- 				<p:spacer height="30px" /> -->
+			<!-- 				<p:commandButton icon="ui-icon-disk" title="Export Excel"  -->
+			<!-- 					action="#{administrationController.exportDemandeTransferts}" /> -->
+		</h:form>
+		<center>
+			<p:panel header="Légende" toggleable="true" style="width:80%;"
+				collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
+				widgetVar="panel"
+				rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
+				<h:panelGrid columns="3" cellpadding="10">
+					<h:panelGrid columns="6" cellpadding="10">
+						<p:graphicImage value="/media/images/player_pause.png" />
+						<h:outputText value="Non traité" />
+						<p:graphicImage value="/media/images/tick.png" />
+						<h:outputText value="En cours de traitement" />
+						<p:graphicImage value="/media/images/lock.png" />
+						<h:outputText value="Traité" />
+					</h:panelGrid>
+					<h:outputText value="Etablissements partenaires" styleClass="highlightTableRow" />
+					<p:pieChart id="custom"
+						value="#{statistiqueController.pieModelAccueil}"
+						legendPosition="e" fill="false" showDataLabels="true"
+						title="Transferts Accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}"
+						style="width:400px;height:300px" sliceMargin="5" diameter="150" />
+				</h:panelGrid>
+			</p:panel>
+		</center>
+	</ui:define>
+
+	<!-- 	<ui:define name="content"> -->
+	<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
+	<!-- 	</ui:define> -->
+
+</ui:composition>
+</html>
