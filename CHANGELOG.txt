@@ -1,0 +1,867 @@
+------------------------------------------------------------------------
+r64 | messeant | 2013-09-09 15:29:52 +0200 (Mon, 09 Sep 2013) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceRimbausImpl.java
+
+Correction Academie pour BAC (Rimbaus)
+------------------------------------------------------------------------
+r65 | farid | 2013-10-25 14:28:36 +0200 (Fri, 25 Oct 2013) | 4 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/NamingStrategy.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-dao.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/EtudiantRef.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IndOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/User.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/StatistiqueController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/exceptions/ViewExpiredExceptionExceptionHandler.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/navigation-rules.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsAccueil.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/statistiques.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/synchroOdf.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/welcome.xhtml
+
+- !!! Pr?\195?\169fixe !!! Ajout d'un nouvelle class "NamingStrategy" permettant de pr?\195?\169fixer les tables de l'application transferts cr?\195?\169es au travers de l'ORM sans retoucher au nom des Bean's.
+Afin de l'utiliser avec une extreme prudence, la propri?\195?\169t?\195?\169 de l'objet "NamingStrategy" n'a pas ?\195?\169t?\195?\169 externalis?\195?\169e : String prefixe="" par d?\195?\169faut;
+- Mise ?\195?\160 jour PrimeFaces de la 3.5 --> 4.0
+- Mise ?\195?\160 jour du th?\195?\168me PrimeFaces de la 1.0.9 --> 1.0.10
+------------------------------------------------------------------------
+r66 | farid | 2013-10-25 15:22:33 +0200 (Fri, 25 Oct 2013) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-dao.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
+
+- Suppression de l'appel de la class "NamingStrategy" pour cause de cr?\195?\169ation de champ avec un "_"
+------------------------------------------------------------------------
+r67 | farid | 2013-11-04 14:08:33 +0100 (Mon, 04 Nov 2013) | 3 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/NamingStrategy.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-dao.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/CodeSizeDataModel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/ListeTransfertDepartDataModel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/SignatureDataModel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/SituationUniversitaireDataModel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/TransfertDataModelOpi.java
+
+- !!! Pr?\195?\169fixe !!! Ajout d'un nouvelle class "NamingStrategy" permettant de pr?\195?\169fixer les tables de l'application transferts cr?\195?\169es au travers de l'ORM sans retoucher au nom des Bean's.
+Afin de l'utiliser avec une extreme prudence, la propri?\195?\169t?\195?\169 de l'objet "NamingStrategy" n'a pas ?\195?\169t?\195?\169 externalis?\195?\169e : String prefixe="" par d?\195?\169faut;
+- Suppression des "@Override" dans les "dataModel"
+------------------------------------------------------------------------
+r68 | farid | 2013-11-05 14:50:13 +0100 (Tue, 05 Nov 2013) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/dataModel/SituationUniversitaireDataModel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/OffreDeFormationsDTO.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/TestController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/FileGeneratorServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsAccueil.xhtml
+
+- Ajout pour les gestionnaires de visualiser les informations sur le voeu de l'?\195?\169tudiant m?\195?\170me si la formation est d?\195?\169sactiv?\195?\169e
+- Suppression de quelques @override
+------------------------------------------------------------------------
+r76 | farid | 2013-11-21 09:31:31 +0100 (Thu, 21 Nov 2013) | 1 line
+Changed paths:
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/artois.jar
+
+- Ajout du th?\195?\168me primeFaces Artois
+------------------------------------------------------------------------
+r77 | farid | 2013-11-22 14:44:47 +0100 (Fri, 22 Nov 2013) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/artois.jar
+
+- Modification du th?\195?\168me primeFaces Artois
+------------------------------------------------------------------------
+r88 | farid | 2013-12-10 09:50:13 +0100 (Tue, 10 Dec 2013) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/ListeTransfertDepartDataModel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/misc/application.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/navigation-rules.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/web.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsAccueil.xhtml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsDepartSelectionMultiple.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+
+- 1er commit de la version de travail 2.1.0 en version BETA (ne pas mettre en production)
+- Se connecter sur la branche tags/v2.0.0 afin de r?\195?\169cup?\195?\169rer la derni?\195?\168re version stable
+------------------------------------------------------------------------
+r89 | farid | 2013-12-10 09:53:50 +0100 (Tue, 10 Dec 2013) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/Test.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImplOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceOpi.java
+
+- Ajout d'un bean test concernant l'int?\195?\169rop?\195?\169rabilit?\195?\169 des WS CXFn avec PHP
+------------------------------------------------------------------------
+r90 | farid | 2013-12-11 10:53:28 +0100 (Wed, 11 Dec 2013) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/media/style/esup-transfertsgest.css
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsDepartSelectionMultiple.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/partenaires.xhtml
+
+- Ajout de l'envoi en masse des demandes de transferts d?\195?\169part
+- Modification de l'IHM liste des demandes de transferts d?\195?\169part et liste des partenaires
+------------------------------------------------------------------------
+r91 | farid | 2013-12-11 14:41:43 +0100 (Wed, 11 Dec 2013) | 3 lines
+Changed paths:
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/comparator/ComparatorEtudiantRef.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/LazyListeTransfertDepartDataModel.java (from /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/ListeTransfertDepartDataModel.java:89)
+   R /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/ListeTransfertDepartDataModel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/media/style/esup-transfertsgest.css
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsAccueil.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsDepartSelectionMultiple.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/statistiques.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/synchroOdf.xhtml
+
+- Optimisation du chargement des diff?\195?\169rents datatables
+- Modification de l'IHM des transferts OPI et accueil
+- Modification des statistiques
+------------------------------------------------------------------------
+r92 | farid | 2014-01-24 15:43:58 +0100 (Fri, 24 Jan 2014) | 4 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/pom.xml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/CGE.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/CGEPK.java
+   R /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/CentreDeGestion.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/Composante.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/ComposantePK.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/PersonnelComposante.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/PersonnelComposantePK.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceRimbausImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceScolarite.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceScolariteImpl.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/ManagerController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/SessionController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/navigation-rules.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/web.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/validationCGEAutoTransfertsDepart.xhtml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/validationComposantesAutoTransfertsDepart.xhtml
+
+- Ajout d'un champ annee dans la table personnel_composante (gestion des droits)
+- Ajout d'un fichier SQL de mise ?\195?\160 jour
+- Ajout de la validation automatique des transferts d?\195?\169part par composante ou centre de gestion avec un param?\195?\169trage depuis le fichier config.properties
+- Suppression du client apo-webservicesclientXXX.jar du r?\195?\169peroire "esup-transferts-web-jsf-servlet\src\main\webapp\WEB-INF\lib"
+------------------------------------------------------------------------
+r93 | farid | 2014-02-07 15:54:24 +0100 (Fri, 07 Feb 2014) | 15 lines
+Changed paths:
+   A /trunk/esup-transferts-v2.0.0/apogee
+   A /trunk/esup-transferts-v2.0.0/apogee/apo-webservicesclient.jar
+   A /trunk/esup-transferts-v2.0.0/apogee/apo-webservicesclient430lk.jar
+   A /trunk/esup-transferts-v2.0.0/apogee/apo-webservicesclient450la.jar
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-dao.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/EtudiantRef.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/OffreDeFormationsDTO.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceRimbausImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceScolarite.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceScolariteImpl.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/.metadata
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/FileUploadController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/OdfController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/TestController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/OdfColonneEnum.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/cache/cache.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/cache/ehcache.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_etatCivil.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_recapitulatif.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/synchroOdf.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/test.xhtml
+
+- Ajout d'un champ annee dans la table personnel_composante (gestion des droits)
+- Ajout d'un fichier SQL de mise ?\195?\160 jour
+- Ajout de la validation automatique des transferts d?\195?\169part par composante ou centre de gestion avec un param?\195?\169trage depuis le fichier config.properties
+- Suppression du client apo-webservicesclientXXX.jar du r?\195?\169peroire "esup-transferts-web-jsf-servlet\src\main\webapp\WEB-INF\lib"
+Ajout de la condition type.equalsIgnoreCase("application/octet-stream") lors de l'insertion d'une signature li?\195?\169 ?\195?\160 java7
+- Ajout de la m?\195?\169thode "public String getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId)" du DomainServiceScolarite (pr?\195?\169venir Lille 1)
+- Ajout de 2 propri?\195?\169t?\195?\169s au Bean OffreDeFormationDTO (depart,arrivee), modification de la m?\195?\169thode 	public List<OffreDeFormationsDTO> getOffreDeFormation(String rne, Integer annee) (pr?\195?\169venir Lille 1)
+- Ajout d'un filteredValue="#{odfController.filteredODF}" dans le datatable ODF
+- Correction d'un BUG dans le datatable de l'ODF lors du clique sur une formation qui d?\195?\169-selectionn?\195?\169 le reste grace ?\195?\160 l'attribut rowSelectMode="add"
+- Visualisation de l'ODF cot?\195?\169 d?\195?\169part et arriv?\195?\169e
+- Ajout dans l'export excel de l'ODF des champs depart et arrivee
+- Ajout dans le fichier "update_v2.0_vers_v2.1-esup-transferts.sql" de la mise ?\195?\160 jour des champs depart et arrivee avec la valeur "oui"
+- Activation du cache sur la m?\195?\169thode : 	@Cacheable(cacheName = "getOffreDeFormation")
+- Ajout de l'affichage du nombre total de formations dans le footer (sans la fonction #{fn:length(odfController.odfs)} formation(s).
+- Ajout d'un r?\195?\169pertoire apogee contenant les jars clients des WS Apogee
+------------------------------------------------------------------------
+r94 | farid | 2014-02-17 18:09:52 +0100 (Mon, 17 Feb 2014) | 10 lines
+Changed paths:
+   A /trunk/esup-transferts-v2.0.0/README.txt
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/media/images/info.png
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/_include/_etatCivil.xhtml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/_include/_informationAppli.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/connexionApogee/adresse.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/connexionApogee/authApogee.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/connexionApogee/etatCivil.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/connexionApogee/welcome.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/welcome.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/EtudiantRef.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IndOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/OffreDeFormationsDTO.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/PersonnelComposante.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/ManagerController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/OdfController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/converters/PersonnelComposanteConverter.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/apo-webservicesclient.jar
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/navigation-rules.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_adresse.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_etatCivil.xhtml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_informationAppli.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_recapitulatif.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_voeuxOrientation.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/connexionApogee/authApogee.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/connexionApogee/welcome.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/depart/welcome.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransfertsAccueil.xhtml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/detailsDroits.xhtml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/information.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/manager.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/managerChoixLicences.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/saisieAvis.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/validationCGEAutoTransfertsDepart.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/validationComposantesAutoTransfertsDepart.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/welcome.xhtml
+   A /trunk/esup-transferts-v2.0.0/sql (from /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/sql:89)
+   A /trunk/esup-transferts-v2.0.0/sql/update_v2.0_vers_v2.1-esup-transferts.sql (from /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/sql/update_v2.0_vers_v2.1-esup-transferts.sql:93)
+
+- Correction de BUG li?\195?\169 ?\195?\160 la validation automatique par composante ou centre de gestion
+- Reinitialisation des filtres dans la liste des centres de gestion et composantes
+- Optimisation du code concernant l'initialisation des propri?\195?\169t?\195?\169s transient du bean EtudiantRef dans les controleurs userController et administrationController
+- Correction du BUG sur l'affichage des composantes dans la saisie de la formation du module accueil (liste des composantes d?\195?\169part et arriv?\195?\169)
+- Ajout d'une gestion fine des droits cot?\195?\169 d?\195?\169part et arriv?\195?\169
+- Ajout de messages informatifs
+- Ajout de 2 donn?\195?\169es suppl?\195?\169mentaires dans les OPI's suite ?\195?\160 l'?\195?\169volution d'APOGEE :
+	- Code r?\195?\169gime inscription       alpha  1     IND_OPI.COD_RGI
+	- Code statut de l?\226?\128?\153?\195?\169tudiant     alpha  2     IND_OPI.COD_STU
+
+------------------------------------------------------------------------
+r95 | farid | 2014-02-17 18:12:14 +0100 (Mon, 17 Feb 2014) | 1 line
+Changed paths:
+   R /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/apo-webservicesclient430lk.jar
+
+
+------------------------------------------------------------------------
+r96 | farid | 2014-02-17 18:14:06 +0100 (Mon, 17 Feb 2014) | 1 line
+Changed paths:
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/apo-webservicesclient430lk.jar
+
+- Suppression des clients APOGEE
+------------------------------------------------------------------------
+r97 | farid | 2014-02-17 18:16:57 +0100 (Mon, 17 Feb 2014) | 1 line
+Changed paths:
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/sql
+
+- Suppression du repertoire SQL dans le module de vue
+------------------------------------------------------------------------
+r98 | farid | 2014-02-17 18:18:32 +0100 (Mon, 17 Feb 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/sql/nomenclatures-esup-transferts.sql
+   M /trunk/esup-transferts-v2.0.0/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+
+- Mise ?\195?\160 jour des fichiers SQL
+------------------------------------------------------------------------
+r99 | farid | 2014-02-18 21:50:16 +0100 (Tue, 18 Feb 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/DatasExterne.java (from /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/InterditBu.java:94)
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/DatasExternePK.java
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/InterditBu.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/OdfController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_etatCivil.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/depart/welcome.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/synchroOdf.xhtml
+
+- Suppression du bean interditBu au profit du bean datasExterne (int?\195?\169grer plusieurs interdit dans une m?\195?\170me table avec une notion de niveau)
+------------------------------------------------------------------------
+r100 | farid | 2014-02-19 17:10:53 +0100 (Wed, 19 Feb 2014) | 3 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/SessionController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/WEB-INF/lib/apo-webservicesclient.jar
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/WEB-INF/lib/apo-webservicesclient430lk.jar
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/media/xmlxsl/etudiant_accueil.xsl
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/_include/_voeuxOrientation.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/AdresseEtablissement.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/OffreDeFormationsDTO.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/TrEtablissementDTO.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/OdfController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/SessionController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/media/xmlxsl/etudiant.xsl
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/media/xmlxsl/etudiant_accueil.xsl
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/_include/_voeuxOrientation.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransferts.xhtml
+   A /trunk/esup-transferts-v2.0.0/sql/nomenclatures-esup-transferts-v2.0.0.sql
+   A /trunk/esup-transferts-v2.0.0/sql/nomenclatures-esup-transferts-v2.1.0.sql
+   D /trunk/esup-transferts-v2.0.0/sql/nomenclatures-esup-transferts.sql
+   M /trunk/esup-transferts-v2.0.0/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+
+- Suppression du Bean AdresseEtablissement (table etablissement) suite ?\195?\160 l'?\195?\169volution du WS APOGEE 430lk-->450la (r?\195?\169cup?\195?\169ration de l'adresse)
+- Remplacement du jar apo-webservicesclient430lk.jar-->apo-webservicesclient.jar dans le module accueil
+- Correction d'un BUG d'affichage li?\195?\169 ?\195?\160 la m?\195?\169thode getOdfComposanteByRneAndAnneeAndActifAndArrivee-->OdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip
+------------------------------------------------------------------------
+r101 | farid | 2014-02-21 12:47:04 +0100 (Fri, 21 Feb 2014) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/ManagerController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/navigation-rules.xml
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/signatureParDefautObligatoire.xhtml
+
+- Correction d'un BUG dans la validation de masse des demandes de transferts
+- Correction d'un BUG lors de la validation automatique si pas de signature par d?\195?\169faut
+------------------------------------------------------------------------
+r102 | farid | 2014-02-21 16:15:19 +0100 (Fri, 21 Feb 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+
+- Correction d'un libell?\195?\169
+------------------------------------------------------------------------
+r103 | farid | 2014-02-28 16:05:12 +0100 (Fri, 28 Feb 2014) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+
+- Ajout d'un message d'enreistrement et d'un mail dans l'i18n lors de la validation automatique
+- Correction d'une faute d'othographe dans un message d'erreurs de l'i18n : ERREUR.CONNEXION_BDD_SCOLARITE
+------------------------------------------------------------------------
+r109 | farid | 2014-03-03 14:48:26 +0100 (Mon, 03 Mar 2014) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+
+- Ajout d'un message d'enregistrement et d'un mail dans l'i18n lors de la validation automatique
+- Correction d'un BUG dans le userController 
+------------------------------------------------------------------------
+r111 | farid | 2014-03-03 17:52:52 +0100 (Mon, 03 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/PersonnelComposante.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/ManagerController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/converters/PersonnelComposanteConverter.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransfertsAccueil.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/detailsDroits.xhtml
+   M /trunk/esup-transferts-v2.0.0/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+
+- Ajout du droit de d?\195?\169verrouiller pour les gestionnaires d?\195?\169part et arriv?\195?\169
+------------------------------------------------------------------------
+r113 | farid | 2014-03-04 21:57:16 +0100 (Tue, 04 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/FileGeneratorService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/FileGeneratorServiceImpl.java
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/PersonnelsComposantesColonneEnum.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/PersonnelsComposantesColonneEnumArrivee.java (from /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/PersonnelsComposantesColonneEnum.java:94)
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/PersonnelsComposantesColonneEnumDepart.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+
+- Ajout des diff?\195?\169rents droits dans les exports excel
+------------------------------------------------------------------------
+r123 | farid | 2014-03-10 08:55:02 +0100 (Mon, 10 Mar 2014) | 5 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/DatasExterne.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IndOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/resources/META-INF/esup-transferts-domain-services-domain.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/OdfController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/SessionController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-odf-dao-1.0.jar
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-odf-domain-beans-1.0.jar
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-odf-domain-services-1.0.jar
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-si-scol-dao-1.0.jar
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-si-scol-domain-beans-1.0.jar
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-si-scol-domain-services-1.0.jar
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/media/style/esup-transfertsgest.css
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransfertsAccueil.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/template.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/welcome.xhtml
+   M /trunk/esup-transferts-v2.0.0/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+
+- Suppression de la propri?\195?\169t?\195?\169 "prefixe.schema.table.bdd" dans le config-exemple.properties
+- Suppression du WS-ODF au profit du Ws-Si-Scol (authentifi?\195?\169)
+- Ajout de la source "d?\195?\169part ou arriv?\195?\169e" dans la table IND_OPI
+- Ajout du controle des VAP dans le module gestionnaire depuis la table datas-externe
+- Ajout du datatable OPI dans les transferts accueil
+------------------------------------------------------------------------
+r124 | farid | 2014-03-10 15:49:31 +0100 (Mon, 10 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+
+- Ajout du test des VAP soi ?\195?\160 l'authentication soi par une alerte aux gestionnaires
+------------------------------------------------------------------------
+r125 | farid | 2014-03-10 15:52:46 +0100 (Mon, 10 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+
+- Ajout de commentaires suppl?\195?\169mentaire dans le fichier config-exemple.properties
+------------------------------------------------------------------------
+r126 | farid | 2014-03-10 16:08:58 +0100 (Mon, 10 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/synchroOdf.xhtml
+
+- Mise en page du datatable offre de formations
+------------------------------------------------------------------------
+r127 | farid | 2014-03-31 10:07:54 +0200 (Mon, 31 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/AccueilAnnee.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/Fichier.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IdentifiantEtudiant.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IndOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/SituationUniversitaire.java
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/TrInfosAdmEtu.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImplOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceRimbausImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceScolarite.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceScolariteImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/SessionController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+   R /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-si-scol-dao-1.0.jar
+   R /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-si-scol-domain-beans-1.0.jar
+   R /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/ws-si-scol-domain-services-1.0.jar
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransfertsAccueil.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsDepartSelectionMultiple.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r128 | farid | 2014-03-31 10:10:49 +0200 (Mon, 31 Mar 2014) | 1 line
+Changed paths:
+   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/media/images/flag.png
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r129 | farid | 2014-03-31 10:14:23 +0200 (Mon, 31 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r130 | farid | 2014-03-31 11:20:34 +0200 (Mon, 31 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/sql/nomenclatures-esup-transferts-v2.1.0.sql
+   M /trunk/esup-transferts-v2.0.0/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r131 | farid | 2014-03-31 13:30:15 +0200 (Mon, 31 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/_include/_situationUniversitaire.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/InfosAccueil.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r132 | farid | 2014-03-31 14:31:13 +0200 (Mon, 31 Mar 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransferts.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransfertsAccueil.xhtml
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r133 | farid | 2014-04-02 13:36:21 +0200 (Wed, 02 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r134 | farid | 2014-04-02 13:45:06 +0200 (Wed, 02 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r135 | farid | 2014-04-02 15:00:06 +0200 (Wed, 02 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/SessionController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r136 | farid | 2014-04-03 10:41:09 +0200 (Thu, 03 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IndOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/VoeuxIns.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+
+- maj de test sur la gestion des opis's ?\195?\160 ne pas mettre en prod
+------------------------------------------------------------------------
+r140 | farid | 2014-04-07 09:11:10 +0200 (Mon, 07 Apr 2014) | 3 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/cache/ehcache.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/media/style/esup-transfertsgest.css
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsAccueil.xhtml
+
+- Ajout du num?\195?\169ro d'?\195?\169tudiant dans le mail transmis ?\195?\160 l'?\195?\169tudiant pour l'acc?\195?\168s ?\195?\160 IAR?\195?\169ins
+- Ajout du chemin par d?\195?\169faut " /tmp/" dans le fichier ehcache.xml
+- Ajout de la coloration automatique dans le module accueil pour un transfert provenant d'un ?\195?\169tablissement partenaire
+------------------------------------------------------------------------
+r142 | farid | 2014-04-07 13:37:43 +0200 (Mon, 07 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/cache/ehcache.xml
+
+- Correction du /temp/ en tmp sue le fichier ehcache.xml
+------------------------------------------------------------------------
+r143 | farid | 2014-04-07 14:41:08 +0200 (Mon, 07 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+
+- Annulation d'un null pointer dans l'authentification
+------------------------------------------------------------------------
+r144 | farid | 2014-04-07 14:45:31 +0200 (Mon, 07 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/EtudiantRefExcel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/EtudiantAccueilColonneEnum.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+
+- Ajout d'un champ dans l'export excel
+------------------------------------------------------------------------
+r145 | farid | 2014-04-07 15:15:11 +0200 (Mon, 07 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+
+- Correction dans une vue header
+------------------------------------------------------------------------
+r146 | farid | 2014-04-08 12:44:32 +0200 (Tue, 08 Apr 2014) | 5 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/configUrlServices-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/EtudiantRefExcel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IndOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/EtudiantAccueilColonneEnum.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/configUrlServices-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+   M /trunk/esup-transferts-v2.0.0/sql/nomenclatures-esup-transferts-v2.1.0.sql
+   M /trunk/esup-transferts-v2.0.0/sql/update_v2.0_vers_v2.1-esup-transferts.sql
+
+- Correction du BUG 'ERREUR.CODE_SIZE_PAR_DEFAUT' for locale 'fr_FR'
+- Ajout de la nomenclature 2013/2014 lors de la sasie du cursus d'une personne
+- Ajout de l'avis d?\195?\169finitive de la direction des ?\195?\169tudes dans l'export excel des transferts accueil
+- Ajout d'une condition li?\195?\169e au BAC lors de l'ajout dans les tables OPI depuis les transferts accueil
+- Ajout du lien IAPrimo dans le corps du mail envoy?\195?\169 ?\195?\160 l'?\195?\169tudiant
+------------------------------------------------------------------------
+r147 | farid | 2014-04-08 15:41:32 +0200 (Tue, 08 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+
+- Correction d'un BUG lors de l'envoi du mail ?\195?\160 l'?\195?\169tudiant IAPrimo (Messages '')
+------------------------------------------------------------------------
+r148 | farid | 2014-04-10 14:59:09 +0200 (Thu, 10 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+
+test ESPE
+------------------------------------------------------------------------
+r149 | farid | 2014-04-10 15:00:11 +0200 (Thu, 10 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+
+test ESPE
+------------------------------------------------------------------------
+r150 | farid | 2014-04-10 15:23:17 +0200 (Thu, 10 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+
+test ESPE
+------------------------------------------------------------------------
+r151 | farid | 2014-04-10 15:29:38 +0200 (Thu, 10 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+
+test ESPE
+------------------------------------------------------------------------
+r152 | farid | 2014-04-11 10:20:56 +0200 (Fri, 11 Apr 2014) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+
+- Correction d'un BUG lorsqu'aucune demande de transferts d?\195?\169part n'est selectionn?\195?\169 et que l'on clique sur voir la demande
+- Correction d'un BUG lorsqu'aucune demande de transferts accueil n'est selectionn?\195?\169 et que l'on clique sur voir la demande
+------------------------------------------------------------------------
+r153 | farid | 2014-04-15 22:13:15 +0200 (Tue, 15 Apr 2014) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IndOpi.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/resources/META-INF/esup-transferts-domain-services-auth.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/web.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/size.xhtml
+
+- Externalisation des param?\195?\168tres du CAS du fichier web.xml (targetBean)
+- Ajout du flag (drapeau rouge) dans les OPI's lors d'une candidature
+------------------------------------------------------------------------
+r154 | farid | 2014-04-16 10:17:31 +0200 (Wed, 16 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+
+- Externalisation des param?\195?\168tres du CAS du fichier web.xml (targetBean)
+------------------------------------------------------------------------
+r155 | farid | 2014-04-17 11:37:31 +0200 (Thu, 17 Apr 2014) | 13 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/WEB-INF/web.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/AccueilAnnee.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/AccueilResultat.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/pom.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   D /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/LazyListeTransfertDepartDataModel.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/web.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
+
+- Cr?\195?\169ation d'un m?\195?\169thode getAccueilResultatSansNull
+- Cr?\195?\169ation d'un m?\195?\169thode getAccueilAnneeSansNull
+- Ajout du mail DECISION.MAIL.BODY_AVIS_D
+- Ajout du mail DECISION.DECISION.MAIL.BODY_AVIS_D_CANDIDATURE
+- Ajout du mail DECISION.MAIL.BODY_AVIS_F_NON_PARTENAIRE
+- Ajout du mail DECISION.MAIL.BODY_AVIS_F_PARTENAIRE
+- Ajout du mail DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_NON_PARTENAIRE
+- Ajout du mail DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_PARTENAIRE
+- Ajout du mail DECISION.MAIL.BODY_EXCLU_BAC
+- Ajout du mail SYNCHRO.MAIL.PRIMO.BODY
+- Ajout du mail SYNCHRO.MAIL.REINS.BODY
+- Ajout du mail TRANSFERT_AUTO_MAIL_BODY
+- Ajout du mail MAIL.ETUDIANT.BODY
+------------------------------------------------------------------------
+r156 | farid | 2014-04-17 19:31:26 +0200 (Thu, 17 Apr 2014) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Custom_fr.properties
+
+- Netoyage des fichiers Custom_fr.properties et Custom_en.properties
+- Netoyage du fichier config-exemple.properties du modu transferts-accueil
+------------------------------------------------------------------------
+r157 | farid | 2014-04-17 21:08:40 +0200 (Thu, 17 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/_include/_voeuxOrientation.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/OffreDeFormationsDTO.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransfertsAccueil.xhtml
+
+- Suppression du menu d?\195?\169roulant li?\195?\169 au dipl?\195?\180me dans le module transferts-accueil
+------------------------------------------------------------------------
+r160 | farid | 2014-04-19 08:22:39 +0200 (Sat, 19 Apr 2014) | 3 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceRimbausImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceScolarite.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceScolariteImpl.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/SessionController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/currentTransfertsAccueil.xhtml
+
+- Netoyage du DomainServiceScolarite (supression de m?\195?\169thode plus utilis?\195?\169)
+- Suppresion des param?\195?\168tres li?\195?\169s au WSSiScol (laissez-passer), utilisation des OPI's uniquement pour l'inscription en ligne (IAPrimo et IAR?\195?\169ins)
+- Ajout d'un test de corresondance du code baccalaureat dans l'affichage d'une demande de transfert-accueil 
+------------------------------------------------------------------------
+r161 | farid | 2014-04-24 13:45:21 +0200 (Thu, 24 Apr 2014) | 5 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/SessionController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/defaults.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/web/controllers.xml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/_include/_recapitulatif.xhtml
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_en.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/i18n/bundles/Messages_fr.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/test.xhtml
+
+- Netoyage du DomainServiceScolarite (supression de m?\195?\169thode plus utilis?\195?\169)
+- Suppresion des param?\195?\168tres li?\195?\169s au WSSiScol (laissez-passer), utilisation des OPI's uniquement pour l'inscription en ligne (IAPrimo et IAR?\195?\169ins)
+- Ajout d'un test de corresondance du code baccalaureat dans l'affichage d'une demande de transfert-accueil 
+- Modification des mails envoy?\195?\169 aux ?\195?\169tudiants
+- Ajout de la propri?\195?\169t?\195?\169 "editionPdfAccueilSansDecision=false" dans le fichier default.properties
+------------------------------------------------------------------------
+r162 | farid | 2014-04-24 15:53:44 +0200 (Thu, 24 Apr 2014) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
+
+- Ajout du num?\195?\169ro ?\195?\169tudiant dans le datatable des OPI's (afin de savoir si c'est un primo ou une r?\195?\169ins)
+- Ajout de commentaire dans le fichier config-exemple.properties
+------------------------------------------------------------------------
+r163 | farid | 2014-04-25 14:51:59 +0200 (Fri, 25 Apr 2014) | 1 line
+Changed paths:
+   A /trunk/esup-transferts (from /trunk/esup-transferts-v2.0.0:162)
+
+copy du trunk
+------------------------------------------------------------------------
+r164 | farid | 2014-04-28 13:58:41 +0200 (Mon, 28 Apr 2014) | 1 line
+Changed paths:
+   M /trunk/esup-transferts/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/stylesheets/welcome.xhtml
+   M /trunk/esup-transferts/esup-transferts-web-jsf-servlet/src/main/resources/configUrlServices-exemple.properties
+   M /trunk/esup-transferts/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+
+- Ajout de commentaire dans le fichier config-exemple.properties
+------------------------------------------------------------------------
