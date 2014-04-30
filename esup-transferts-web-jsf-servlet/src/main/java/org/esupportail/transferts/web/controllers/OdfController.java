@@ -339,9 +339,10 @@ public class OdfController extends AbstractContextAwareController {
 		List<OffreDeFormationsDTO> list = new ArrayList<OffreDeFormationsDTO>();
 		System.out.println("################### test1");
 		list = getDomainServiceScolarite().getOffreDeFormation(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-		nbOdfs=list.size();
+		nbOdfs=0;
 		if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)
 		{
+			nbOdfs=list.size();
 			//				if (logger.isDebugEnabled())
 			//					logger.debug("if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)");
 			for(int i=0;i<this.selectedOdfs.length;i++)
