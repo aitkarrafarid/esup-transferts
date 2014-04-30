@@ -140,8 +140,7 @@
 			<p:submenu label="Statistiques" icon="ui-icon-calculator"
 				rendered="#{sessionController.currentAnnee!=null and sessionController.currentUser.admin and administrationController.personnel}">
 				<p:column>
-					<p:submenu label="CartesianChartModel"
-						rendered="#{sessionController.currentUser.admin}">
+					<p:submenu label="Statistiques" rendered="#{sessionController.currentUser.admin}">
 						<p:menuitem value="Liste des statistiques"
 							action="#{administrationController.goToStats}" />
 					</p:submenu>

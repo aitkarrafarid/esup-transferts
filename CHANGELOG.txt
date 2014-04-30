@@ -1,96 +1,4 @@
 ------------------------------------------------------------------------
-r64 | messeant | 2013-09-09 15:29:52 +0200 (Mon, 09 Sep 2013) | 1 line
-Changed paths:
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceRimbausImpl.java
-
-Correction Academie pour BAC (Rimbaus)
-------------------------------------------------------------------------
-r65 | farid | 2013-10-25 14:28:36 +0200 (Fri, 25 Oct 2013) | 4 lines
-Changed paths:
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/pom.xml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
-   A /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/NamingStrategy.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-dao.xml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/EtudiantRef.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/IndOpi.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/User.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceApogeeImpl.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/pom.xml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/StatistiqueController.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/exceptions/ViewExpiredExceptionExceptionHandler.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/navigation-rules.xml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/_include/_header.xhtml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransferts.xhtml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsAccueil.xhtml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsEntrant.xhtml
-   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/statistiques.xhtml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/synchroOdf.xhtml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/welcome.xhtml
-
-- !!! Pr?\195?\169fixe !!! Ajout d'un nouvelle class "NamingStrategy" permettant de pr?\195?\169fixer les tables de l'application transferts cr?\195?\169es au travers de l'ORM sans retoucher au nom des Bean's.
-Afin de l'utiliser avec une extreme prudence, la propri?\195?\169t?\195?\169 de l'objet "NamingStrategy" n'a pas ?\195?\169t?\195?\169 externalis?\195?\169e : String prefixe="" par d?\195?\169faut;
-- Mise ?\195?\160 jour PrimeFaces de la 3.5 --> 4.0
-- Mise ?\195?\160 jour du th?\195?\168me PrimeFaces de la 1.0.9 --> 1.0.10
-------------------------------------------------------------------------
-r66 | farid | 2013-10-25 15:22:33 +0200 (Fri, 25 Oct 2013) | 1 line
-Changed paths:
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-dao.xml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
-
-- Suppression de l'appel de la class "NamingStrategy" pour cause de cr?\195?\169ation de champ avec un "_"
-------------------------------------------------------------------------
-r67 | farid | 2013-11-04 14:08:33 +0100 (Mon, 04 Nov 2013) | 3 lines
-Changed paths:
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/NamingStrategy.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-dao.xml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/resources/META-INF/esup-transferts-dao-persistence.xml
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/CodeSizeDataModel.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/ListeTransfertDepartDataModel.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/SignatureDataModel.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/SituationUniversitaireDataModel.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/dataModel/TransfertDataModelOpi.java
-
-- !!! Pr?\195?\169fixe !!! Ajout d'un nouvelle class "NamingStrategy" permettant de pr?\195?\169fixer les tables de l'application transferts cr?\195?\169es au travers de l'ORM sans retoucher au nom des Bean's.
-Afin de l'utiliser avec une extreme prudence, la propri?\195?\169t?\195?\169 de l'objet "NamingStrategy" n'a pas ?\195?\169t?\195?\169 externalis?\195?\169e : String prefixe="" par d?\195?\169faut;
-- Suppression des "@Override" dans les "dataModel"
-------------------------------------------------------------------------
-r68 | farid | 2013-11-05 14:50:13 +0100 (Tue, 05 Nov 2013) | 2 lines
-Changed paths:
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/controllers/UserController.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-accueil-web-jsf-servlet/src/main/java/org/esupportail/transferts/accueil/web/dataModel/SituationUniversitaireDataModel.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/DaoService.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-dao/src/main/java/org/esupportail/transferts/dao/JPADaoServiceImpl.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-beans/src/main/java/org/esupportail/transferts/domain/beans/OffreDeFormationsDTO.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainService.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-domain-services/src/main/java/org/esupportail/transferts/domain/DomainServiceImpl.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/AdministrationController.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/TestController.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/UserController.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/utils/FileGeneratorServiceImpl.java
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/stylesheets/gestionnaire/listeTransfertsAccueil.xhtml
-
-- Ajout pour les gestionnaires de visualiser les informations sur le voeu de l'?\195?\169tudiant m?\195?\170me si la formation est d?\195?\169sactiv?\195?\169e
-- Suppression de quelques @override
-------------------------------------------------------------------------
-r76 | farid | 2013-11-21 09:31:31 +0100 (Thu, 21 Nov 2013) | 1 line
-Changed paths:
-   A /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/artois.jar
-
-- Ajout du th?\195?\168me primeFaces Artois
-------------------------------------------------------------------------
-r77 | farid | 2013-11-22 14:44:47 +0100 (Fri, 22 Nov 2013) | 1 line
-Changed paths:
-   M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/artois.jar
-
-- Modification du th?\195?\168me primeFaces Artois
-------------------------------------------------------------------------
 r88 | farid | 2013-12-10 09:50:13 +0100 (Tue, 10 Dec 2013) | 2 lines
 Changed paths:
    M /trunk/esup-transferts-v2.0.0/esup-transferts-web-jsf-servlet/pom.xml
@@ -864,4 +772,31 @@ Changed paths:
    M /trunk/esup-transferts/esup-transferts-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
 
 - Ajout de commentaire dans le fichier config-exemple.properties
+------------------------------------------------------------------------
+r165 | farid | 2014-04-29 16:10:50 +0200 (Tue, 29 Apr 2014) | 4 lines
+Changed paths:
+   A /trunk/esup-transferts/CHANGELOG.txt
+   M /trunk/esup-transferts/README.txt
+   A /trunk/esup-transferts/documentations
+   A /trunk/esup-transferts/documentations/fonctionnelle
+   A /trunk/esup-transferts/documentations/technique
+   A /trunk/esup-transferts/documentations/technique/version 2.1.0
+   A /trunk/esup-transferts/documentations/technique/version 2.1.0/esup-transferts-v2.1.0-doc-technique.docx
+   M /trunk/esup-transferts/esup-transferts-accueil-web-jsf-servlet/src/main/resources/configUrlServices-exemple.properties
+   M /trunk/esup-transferts/esup-transferts-accueil-web-jsf-servlet/src/main/resources/properties/config-exemple.properties
+   M /trunk/esup-transferts/esup-transferts-accueil-web-jsf-servlet/src/main/webapp/WEB-INF/web.xml
+   M /trunk/esup-transferts/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/web.xml
+
+- Ajout de la documentation technique
+- Ajout d'un CHANGELOG.txt
+- Changement du javax.faces.PROJECT_STAGE de "Development" ==> Production
+- Ajout de commentaire dans les fichiers de *-exemple.properties
+------------------------------------------------------------------------
+r166 | farid | 2014-04-30 13:31:46 +0200 (Wed, 30 Apr 2014) | 2 lines
+Changed paths:
+   M /trunk/esup-transferts/esup-transferts-web-jsf-servlet/src/main/java/org/esupportail/transferts/web/controllers/OdfController.java
+   D /trunk/esup-transferts/sql/nomenclatures-esup-transferts-v2.0.0.sql
+
+- Correction d'un BUG nullPointerException lors du chargement d'une offre de formation vide
+- Suppression de la nomenclature sql concernant la version 2.0.0
 ------------------------------------------------------------------------
