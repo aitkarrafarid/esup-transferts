@@ -2,7 +2,7 @@
 
 SET DEFINE OFF; 
 
-update personnel_composante set annee=2013 where annee is null;;
+update personnel_composante set annee=2013 where annee is null;
 
 update offre_formations set depart='oui', arrivee='oui' where cod_anu=2013;
 
