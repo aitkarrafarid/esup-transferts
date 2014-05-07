@@ -3,10 +3,17 @@
  */
 package org.esupportail.transferts.domain;
 
+import gouv.education.apogee.commun.client.ws.administratifmetier.AdministratifMetierServiceInterfaceProxy;
+import gouv.education.apogee.commun.client.ws.etudiantmetier.EtudiantMetierServiceInterfaceProxy;
 import gouv.education.apogee.commun.client.ws.offreformationmetier.OffreFormationMetierServiceInterfaceProxy;
 import gouv.education.apogee.commun.client.ws.referentielmetier.ReferentielMetierServiceInterfaceProxy;
+import gouv.education.apogee.commun.servicesmetiers.AdministratifMetierServiceInterface;
+import gouv.education.apogee.commun.servicesmetiers.EtudiantMetierServiceInterface;
 import gouv.education.apogee.commun.servicesmetiers.OffreFormationMetierServiceInterface;
 import gouv.education.apogee.commun.servicesmetiers.ReferentielMetierServiceInterface;
+import gouv.education.apogee.commun.transverse.dto.administratif.InsAdmEtpDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.IdentifiantsEtudiantDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.InfoAdmEtuDTO;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.DiplomeDTO2;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.EtapeDTO2;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.SECritereDTO2;
@@ -46,6 +53,7 @@ import org.esupportail.transferts.domain.beans.Transferts;
 import org.esupportail.transferts.domain.beans.VoeuxIns;
 
 import rimbaustransfert.acces.RimbausTransfertAcces;
+import rimbaustransfert.data.Bac;
 import rimbaustransfert.data.Commune;
 import rimbaustransfert.data.Composante;
 import rimbaustransfert.data.Departement;
@@ -680,7 +688,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			logger.debug("supannEtuId --> " + supannEtuId);
 		}
 		try {
-			String composante = rta.recupererDerniereComposante(supannEtuId);
+			String composante = rta.recupererDerniereComposante(supannEtuId).getCode();
 
 			if (logger.isDebugEnabled()) {
 				logger.debug("composante = --> " + composante);
@@ -791,9 +799,21 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 
 	@Override
 	public List<TrBac> recupererBacOuEquWS(String codeBac) {
-		// TODO Auto-generated method stub
-		// pour l'application Accueil
-		return null;
+
+		try {
+			List<TrBac> lBac = new ArrayList<TrBac>();
+			Bac[] tabBacouEquiv = rta.recupererListeBac(codeBac);
+
+			for(int i=0;i<tabBacouEquiv.length;i++)
+				lBac.add(new TrBac(tabBacouEquiv[i].getCodBac(), tabBacouEquiv[i].getLibelleBac()));
+
+			return lBac;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 	@Override
@@ -805,10 +825,10 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 		if(comp.length!=0)
 		{
 			List<PersonnelComposante> pc = new ArrayList<PersonnelComposante>();
-			pc.add(new PersonnelComposante(uid, codeComposanteInconnue, source, annee, diplayName, "Inconnue"));
+			pc.add(new PersonnelComposante(uid, codeComposanteInconnue, source, annee, diplayName, "Inconnue",0,"oui","oui","oui","oui","oui"));
 			for(int i=0;i<comp.length;i++)
 			{
-				pc.add(new PersonnelComposante(uid, comp[i].getCode(), source, annee, diplayName, comp[i].getLibelle()));
+				pc.add(new PersonnelComposante(uid, comp[i].getCode(), source, annee, diplayName, comp[i].getLibelle(),0,"oui","oui","oui","oui","oui"));
 			}
 			return pc;
 		}
@@ -842,22 +862,114 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 
 	@Override
 	public List<org.esupportail.transferts.domain.beans.Composante> recupererListeComposantes(Integer annee, String source) {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (logger.isDebugEnabled()) 
+			logger.debug("public List<Composante> recupererListeComposantes(Integer annee, String source)-->"+annee+"-----"+source);
+	
+		try 
+		{
+		Composante[] comp = rta.recupererComposantes();
+
+		if(comp.length!=0)
+		{
+			List<org.esupportail.transferts.domain.beans.Composante> pc = new ArrayList<org.esupportail.transferts.domain.beans.Composante>();
+			pc.add(new org.esupportail.transferts.domain.beans.Composante(codeComposanteInconnue, source, annee, "Inconnue", "non"));
+			for(int i=0;i<comp.length;i++)
+			{
+				pc.add(new org.esupportail.transferts.domain.beans.Composante(comp[i].getCode(), source, annee, comp[i].getLibelle(),"non"));
+			}
+			return pc;
+		}
+		else
+			return null;	
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	
 	}
 
 	@Override
 	public List<CGE> recupererListeCGE(
 			Integer annee, String source) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		if (logger.isDebugEnabled()) 
+			logger.debug("public List<CGE> recupererListeCGE(Integer annee, String source)-->"+annee+"-----"+source);
+	
+		try 
+		{
+		Composante[] comp = rta.recupererComposantes();
+
+		if(comp.length!=0)
+		{
+			List<CGE> pc = new ArrayList<CGE>();
+			pc.add(new CGE(codeComposanteInconnue, source, annee, "Inconnue", "non"));
+			for(int i=0;i<comp.length;i++)
+			{
+				if (logger.isDebugEnabled()) 
+					logger.debug("cge[i].getCodCge() ----- cge[i].getLibCge()-->"+comp[i].getCode()+"-----"+comp[i].getLibelle());
+				pc.add(new CGE(comp[i].getCode(), source, annee, comp[i].getLibelle(),"non"));
+			}
+			return pc;
+		}
+		else
+			return null;	
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}	}
 
 	@Override
 	public Map<String, String> getEtapePremiereAndCodeCgeAndLibCge(
 			String supannEtuId) {
-		// TODO Auto-generated method stub
-		return null;
+		if (logger.isDebugEnabled()) {
+			logger.debug("public Map<String,String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId)");
+			logger.debug("supannEtuId --> "+supannEtuId);
+		}			
+
+		try {
+			String libelleDiplomePrincipal = rta.recupererDiplomePrincipal(supannEtuId);
+			
+			Composante composanteRimbaus=rta.recupererDerniereComposante(supannEtuId);
+			
+			String composante = composanteRimbaus.getCode();
+			//Composante[] comp = rta.recupererComposantes();
+			
+			String libComposante="";
+			/*for (int i = 0; i < comp.length; i++) {
+				if (comp[i].getCode().equals(composante)){
+					libComposante=comp[i].getLibelle();
+					break;
+				}
+			}*/
+			libComposante=composanteRimbaus.getLibelle();
+			
+			Map<String, String> map = new HashMap<String, String>();
+		
+			map.put("libWebVet", libelleDiplomePrincipal);
+			map.put("codeCGE", composante);
+			map.put("libCGE", libComposante);
+			map.put("codeComposante", composante);
+			map.put("libComposante", libComposante);					
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("----------------------> "+"libWebVet "+ libelleDiplomePrincipal);
+				logger.debug("----------------------> "+"codeCGE "+ composante);
+				logger.debug("----------------------> "+"libCGE "+ libComposante);
+				logger.debug("----------------------> "+"codeComposante "+ composante);
+				logger.debug("----------------------> "+"libComposante "+ libComposante);
+			}					
+			
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("libWebVet", "Inconnue");
+			map.put("codeCGE", "Inconnue");
+			map.put("libCGE", "Inconnue");			
+			return map;
+		}
 	}
 
 //	@Override
@@ -875,13 +987,51 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 	@Override
 	public org.esupportail.transferts.domain.beans.IdentifiantEtudiant getIdentifiantEtudiantByIne(String codNneIndOpi,
 			String codCleNneIndOpi) {
-		// TODO Auto-generated method stub
-		return null;
+		// appel au WS AMUE
+		if (logger.isDebugEnabled())
+			logger.debug("Je suis dans le WS RIMBAUS");
+
+		if (logger.isDebugEnabled()) 
+		{
+			logger.debug("public Integer getCleIndByCodAndCle(String codNneIndOpi, String codCleNneIndOpi) ");
+			logger.debug("codNneIndOpi --> "+ codNneIndOpi);
+			logger.debug("codCleNneIndOpi --> "+ codCleNneIndOpi);
+		}	
+
+		try {
+			IdentifiantEtudiant identifiantEtudiantRimbaus = rta
+					.recupererIdentifiantsEtudiantByINE(codNneIndOpi+codCleNneIndOpi);
+			if( identifiantEtudiantRimbaus==null)
+			{
+				logger.debug("ine invalide  on inconnue--> ");
+				return null;
+			}
+			org.esupportail.transferts.domain.beans.IdentifiantEtudiant ie = new org.esupportail.transferts.domain.beans.IdentifiantEtudiant(Integer.valueOf(identifiantEtudiantRimbaus.getCodeEtu()), Integer.valueOf(identifiantEtudiantRimbaus.getCodeEtu()), identifiantEtudiantRimbaus.getNumINE());
+			return ie;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
 	public TrInfosAdmEtu getInfosAdmEtu(String supannEtuId) {
-		// TODO Auto-generated method stub
-		return null;
+		// Recuperation des infos de l'etudiant dans Apogee
+		InfoAdmEtu infoAdmEtuDTO;
+	
+		if (logger.isDebugEnabled()) 
+			logger.debug("Je suis dans le WS RIMBAUS");
+			logger.debug("getInfosAdmEtu(String supannEtuId)"+supannEtuId);
+	
+		try 
+		{
+			infoAdmEtuDTO = rta.recupererInfosAdmEtu(supannEtuId);
+			TrInfosAdmEtu trInfosAdmEtu = new TrInfosAdmEtu(infoAdmEtuDTO.getPaysNaissance().getCodePay(), infoAdmEtuDTO.getPaysNaissance().getLibNat());
+			return trInfosAdmEtu;	
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
