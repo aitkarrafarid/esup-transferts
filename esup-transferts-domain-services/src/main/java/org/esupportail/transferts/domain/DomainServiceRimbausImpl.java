@@ -616,7 +616,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			indOpi.setLibPr2IndOpi(infoAdmEtuDTO.getPrenom2());
 			indOpi.setLibPr3IndOpi("");
 			indOpi.setLibVilNaiEtuOpi(infoAdmEtuDTO.getLibVilleNaissance());
-			/* Code pays ou dÃ©partement de naissance */
+			/* Code pays ou dÃƒÂ©partement de naissance */
 
 			if (infoAdmEtuDTO.getPaysNaissance().getCodePay() != null
 					&& !infoAdmEtuDTO.getPaysNaissance().getCodePay()
