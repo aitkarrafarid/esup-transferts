@@ -131,6 +131,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private Avis selectedAvis;
 	private Avis currentAvis;
 	private Avis currentAvisMultiple;
+	private AccueilDecision currentDecisionMultiple;
 	private List<SelectItem> listeEtatsDossier;
 	private List<SelectItem> listeLocalisationDossier;
 	private List<SelectItem> listeDecisionsDossier;
@@ -189,6 +190,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private List<EtudiantRef> filteredEtudiantAccueil;
 	private List<EtudiantRef> filteredEtudiantOpi;
 	private List<EtudiantRef> filteredEtudiantDepartMultiple;
+	private List<EtudiantRef> filteredEtudiantAccueilMultiple;
 	private Integer totalDepart;
 	private Integer totalAccueil;
 	private Integer totalOpi;
@@ -198,6 +200,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	DatasExterne datasEterneVap;	
 	private IndOpi[] selectedOpis;
 	private boolean existCodeBac;
+	private boolean multiple;
 
 	@Override
 	public void afterPropertiesSetInternal()
@@ -1276,16 +1279,36 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("goToValideMasseTransfertsDepart");
 		setSource("D");
-		setFilteredEtudiantDepartMultiple(null);
-		setListeTransfertDepartDataModel(null);
-		//		setLazyListeTransfertDepartDataModel(null);
-		setListeAvisByNumeroEtudiantAndAnnee(new ArrayList<Avis>());
-		setSelectedFichier(new Fichier());
-		//		setSelectedAvis(new Avis());
-		setCurrentAvis(new Avis());		
-		setProgress(null);  
-		setSwitchTraiteNontraite(false);
-		return "goToValideMasseTransfertsDepart";
+		if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource())!=null)
+		{
+			setFilteredEtudiantDepartMultiple(null);
+			setListeTransfertDepartDataModel(null);
+			setListeAvisByNumeroEtudiantAndAnnee(new ArrayList<Avis>());
+			setSelectedFichier(new Fichier());
+			setCurrentAvis(new Avis());		
+			setProgress(null);  
+			setSwitchTraiteNontraite(false);			
+			return "goToValideMasseTransfertsDepart";
+		}
+		else
+			return "goToSignatureParDefautObligatoire";				
+	}		
+
+	public String goToValideMasseTransfertsAccueil() {
+		if (logger.isDebugEnabled())
+			logger.debug("goToValideMasseTransfertsAccueil");
+		setSource("A");
+		if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource())!=null)
+		{		
+			setFilteredEtudiantAccueilMultiple(null);
+			setListeTransfertDepartDataModel(null);
+			setSelectedFichier(new Fichier());
+			setCurrentAccueilDecision(new AccueilDecision());
+			setSwitchTraiteNontraite(false);		
+			return "goToValideMasseTransfertsAccueil";
+		}
+		else
+			return "goToSignatureParDefautObligatoire";				
 	}		
 
 	public String goToTransfertsAccueil() {
@@ -1295,7 +1318,6 @@ public class AdministrationController extends AbstractContextAwareController {
 		sudm=null;
 		setFilteredEtudiantAccueil(null);
 		setListeTransfertDepartDataModel(null);
-		//		setLazyListeTransfertDepartDataModel(null);
 		return "goToTransfertsAccueil";
 	}		
 
@@ -1352,16 +1374,16 @@ public class AdministrationController extends AbstractContextAwareController {
 				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
 				this.currentDemandeTransferts.getTransferts().setFichier(file);
 			}
-			
+
 			List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(this.currentDemandeTransferts.getAccueil().getCodeBac());
 			if (logger.isDebugEnabled())
 				logger.debug("existCodeBac---listeBacDTO-->"+listeBacDTO);	
-			
+
 			if(listeBacDTO==null)
 				this.setExistCodeBac(false);
 			else
 				this.setExistCodeBac(true);
-			
+
 			return "goToCurrentDemandeTransfertsAccueil";
 		}
 		else 
@@ -2980,6 +3002,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("public void addAccueilDecisionDefinitif()");		
 		try {
 
+			this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
+			//			getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
+			this.addDemandeTransfertsFromAvis(2);
+
 			//############################################################################################################################################
 			this.currentDemandeTransferts.getTransferts().setTemoinOPIWs(1);
 			//IndOpi opi = getDomainServiceScolarite().getInfosOpi(this.currentDemandeTransferts.getNumeroEtudiant());
@@ -3061,13 +3087,20 @@ public class AdministrationController extends AbstractContextAwareController {
 			opi.getVoeux().setNumCls("1");
 			opi.getVoeux().setCodCmp(currentDemandeTransferts.getTransferts().getOdf().getCodeComposante());
 
-			if (logger.isDebugEnabled()) 
-				logger.debug("IndOpi: " + opi);
+			//			if (logger.isDebugEnabled()) 
+			//				logger.debug("IndOpi: " + opi);
 
-			String summary = getString("ENREGISTREMENT.ACCUEIL_DECISION");
-			String detail = getString("ENREGISTREMENT.ACCUEIL_DECISION");
-			Severity severity = FacesMessage.SEVERITY_INFO;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));				
+			String summary;
+			String detail;
+			Severity severity;
+
+			if(!this.isMultiple())
+			{
+				summary = getString("ENREGISTREMENT.ACCUEIL_DECISION");
+				detail = getString("ENREGISTREMENT.ACCUEIL_DECISION");
+				severity = FacesMessage.SEVERITY_INFO;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+			}
 
 			TrEtablissementDTO etab =  getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne());
 			String libEtab = etab.getLibOffEtb()+" <BR /> "+
@@ -3092,130 +3125,148 @@ public class AdministrationController extends AbstractContextAwareController {
 				if(this.isVap())
 				{
 					opi.setSynchro(3);
-					if(decision.equals("F"))
+					if(getSessionController().isTransfertsAccueil())
 					{
-						if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
+						if(decision.equals("F"))
 						{
-							sujet = getString("DECISION.MAIL.SUJET");
-							body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_PARTENAIRE",
-									this.currentDemandeTransferts.getPrenom1(),
-									this.currentDemandeTransferts.getNomPatronymique(),
-									this.getListeAccueilDecision().get(0).getDecision(),
-									libEtab,
-									etab.getLibOffEtb());							
+
+							if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
+							{
+								sujet = getString("DECISION.MAIL.SUJET");
+								body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_PARTENAIRE",
+										this.currentDemandeTransferts.getPrenom1(),
+										this.currentDemandeTransferts.getNomPatronymique(),
+										this.getListeAccueilDecision().get(0).getDecision(),
+										libEtab,
+										etab.getLibOffEtb());							
+							}
+							else
+							{
+								sujet = getString("DECISION.MAIL.SUJET");
+								body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_NON_PARTENAIRE",
+										this.currentDemandeTransferts.getPrenom1(),
+										this.currentDemandeTransferts.getNomPatronymique(),
+										this.getListeAccueilDecision().get(0).getDecision(),
+										libEtab,
+										etab.getLibOffEtb());							
+							}
+							getDomainService().addIndOpi(opi);
 						}
 						else
 						{
 							sujet = getString("DECISION.MAIL.SUJET");
-							body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_NON_PARTENAIRE",
+							body = getString("DECISION.MAIL.BODY_AVIS_D_CANDIDATURE",
 									this.currentDemandeTransferts.getPrenom1(),
 									this.currentDemandeTransferts.getNomPatronymique(),
 									this.getListeAccueilDecision().get(0).getDecision(),
 									libEtab,
-									etab.getLibOffEtb());							
+									etab.getLibOffEtb());	
 						}
-						getDomainService().addIndOpi(opi);
+						try {
+							getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							summary = getString("ERREUR.ENVOI_MAIL");
+							detail = getString("ERREUR.ENVOI_MAIL");
+							severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}
 					}
 					else
 					{
-						sujet = getString("DECISION.MAIL.SUJET");
-						body = getString("DECISION.MAIL.BODY_AVIS_D_CANDIDATURE",
-								this.currentDemandeTransferts.getPrenom1(),
-								this.currentDemandeTransferts.getNomPatronymique(),
-								this.getListeAccueilDecision().get(0).getDecision(),
-								libEtab,
-								etab.getLibOffEtb());	
+						if(decision.equals("F"))
+							getDomainService().addIndOpi(opi);
 					}
-					try {
-						getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-					} 
-					catch (AddressException e) 
-					{
-						summary = getString("ERREUR.ENVOI_MAIL");
-						detail = getString("ERREUR.ENVOI_MAIL");
-						severity = FacesMessage.SEVERITY_INFO;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-					}	
 				}	
 				else
 				{
-					if(decision.equals("F"))
-					{					
-						if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
-						{
-							sujet = getString("DECISION.MAIL.SUJET");
-							body = getString("DECISION.MAIL.BODY_AVIS_F_PARTENAIRE",
-									this.currentDemandeTransferts.getPrenom1(),
-									this.currentDemandeTransferts.getNomPatronymique(),
-									this.getListeAccueilDecision().get(0).getDecision(),
-									libEtab,
-									etab.getLibOffEtb());							
+					if(getSessionController().isTransfertsAccueil())
+					{
+						if(decision.equals("F"))
+						{					
+							if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
+							{
+								sujet = getString("DECISION.MAIL.SUJET");
+								body = getString("DECISION.MAIL.BODY_AVIS_F_PARTENAIRE",
+										this.currentDemandeTransferts.getPrenom1(),
+										this.currentDemandeTransferts.getNomPatronymique(),
+										this.getListeAccueilDecision().get(0).getDecision(),
+										libEtab,
+										etab.getLibOffEtb());							
+							}
+							else
+							{
+								sujet = getString("DECISION.MAIL.SUJET");
+								body = getString("DECISION.MAIL.BODY_AVIS_F_NON_PARTENAIRE",
+										this.currentDemandeTransferts.getPrenom1(),
+										this.currentDemandeTransferts.getNomPatronymique(),
+										this.getListeAccueilDecision().get(0).getDecision(),
+										libEtab,
+										etab.getLibOffEtb());							
+							}
+							getDomainService().addIndOpi(opi);
 						}
 						else
 						{
 							sujet = getString("DECISION.MAIL.SUJET");
-							body = getString("DECISION.MAIL.BODY_AVIS_F_NON_PARTENAIRE",
+							body = getString("DECISION.MAIL.BODY_AVIS_D",
 									this.currentDemandeTransferts.getPrenom1(),
 									this.currentDemandeTransferts.getNomPatronymique(),
 									this.getListeAccueilDecision().get(0).getDecision(),
 									libEtab,
-									etab.getLibOffEtb());							
+									etab.getLibOffEtb());		
 						}
-						getDomainService().addIndOpi(opi);
+						try {
+							getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							summary = getString("ERREUR.ENVOI_MAIL");
+							detail = getString("ERREUR.ENVOI_MAIL");
+							severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}
 					}
 					else
 					{
-						sujet = getString("DECISION.MAIL.SUJET");
-						body = getString("DECISION.MAIL.BODY_AVIS_D",
-								this.currentDemandeTransferts.getPrenom1(),
-								this.currentDemandeTransferts.getNomPatronymique(),
-								this.getListeAccueilDecision().get(0).getDecision(),
-								libEtab,
-								etab.getLibOffEtb());		
+						if(decision.equals("F"))
+							getDomainService().addIndOpi(opi);
 					}
-					try {
-						getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-					} 
-					catch (AddressException e) 
-					{
-						summary = getString("ERREUR.ENVOI_MAIL");
-						detail = getString("ERREUR.ENVOI_MAIL");
-						severity = FacesMessage.SEVERITY_INFO;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-					}						
 				}
 			}
 			else
 			{
-				if(decision.equals("F"))
-				{				
-					sujet = getString("DECISION.MAIL.SUJET");
-					body = getString("DECISION.MAIL.BODY_EXCLU_BAC",
-							this.currentDemandeTransferts.getPrenom1(),
-							this.currentDemandeTransferts.getNomPatronymique(),
-							this.getListeAccueilDecision().get(0).getDecision(),
-							libEtab,
-							etab.getLibOffEtb());
+				if(getSessionController().isTransfertsAccueil())
+				{
+					if(decision.equals("F"))
+					{				
+						sujet = getString("DECISION.MAIL.SUJET");
+						body = getString("DECISION.MAIL.BODY_EXCLU_BAC",
+								this.currentDemandeTransferts.getPrenom1(),
+								this.currentDemandeTransferts.getNomPatronymique(),
+								this.getListeAccueilDecision().get(0).getDecision(),
+								libEtab,
+								etab.getLibOffEtb());
 
-					try {
-						getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-					} 
-					catch (AddressException e) 
-					{
-						summary = getString("ERREUR.ENVOI_MAIL");
-						detail = getString("ERREUR.ENVOI_MAIL");
-						severity = FacesMessage.SEVERITY_INFO;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-					}						
+						try {
+							getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							summary = getString("ERREUR.ENVOI_MAIL");
+							detail = getString("ERREUR.ENVOI_MAIL");
+							severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}						
+					}
 				}
 			}
-			this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
-			this.addDemandeTransfertsFromAvis(2);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			String summary = "Une erreur s'est produite lors de l'enregistrement d'une decision";
-			String detail = "Une erreur s'est produite lors de l'enregistrement d'une decision";
+			String summary = "Une erreur s'est produite lors de l'enregistrement d'une decision ("+this.currentDemandeTransferts.getNumeroIne()+")";
+			String detail = "Une erreur s'est produite lors de l'enregistrement d'une decision ("+this.currentDemandeTransferts.getNumeroIne()+")";
 			Severity severity = FacesMessage.SEVERITY_FATAL;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));					
 		}
@@ -3497,145 +3548,352 @@ public class AdministrationController extends AbstractContextAwareController {
 		setListeTransfertDepartDataModel(null);
 	}	
 
-	public void addAvisFavorableMultiple() {
-		if (logger.isDebugEnabled()) 
-			logger.debug("public void addAvisFavorableMultiple()");
+//	public void addAvisFavorableMultiple() {
+//		if (logger.isDebugEnabled()) 
+//			logger.debug("public void addAvisFavorableMultiple()");
+//
+//		if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0)
+//		{
+//			setCurrentAvisMultiple(getCurrentAvis());
+//			RequestContext context = RequestContext.getCurrentInstance();
+//			context.execute("pbAjax.cancel();startButton2.enable();");
+//			this.setProgress(null);
+//			context.execute("PF('pbAjax').start();PF('startButton2').disable();");
+//		}
+//		else
+//		{
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous devez selectionner au moins une demande", "Vous devez selectionner au moins une demande"));
+//		}
+//	}		
 
-		if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0)
-		{
-			setCurrentAvisMultiple(getCurrentAvis());
-			RequestContext context = RequestContext.getCurrentInstance();
-			context.execute("pbAjax.cancel();startButton2.enable();");
-			this.setProgress(null);
-			context.execute("PF('pbAjax').start();PF('startButton2').disable();");
-		}
-		else
-		{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous devez selectionner au moins une demande", "Vous devez selectionner au moins une demande"));
-		}
-	}		
+//	public void addDecisionMultiple() {
+//		if (logger.isDebugEnabled()) 
+//			logger.debug("public void addDecisionMultiple()");
+//
+//		if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0)
+//		{
+//			setCurrentDecisionMultiple(getCurrentAccueilDecision());
+//			RequestContext context = RequestContext.getCurrentInstance();
+//			context.execute("pbAjax.cancel();startButton2.enable();");
+//			this.setProgress(null);
+//			context.execute("PF('pbAjax').start();PF('startButton2').disable();");
+//		}
+//		else
+//		{
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous devez selectionner au moins une demande", "Vous devez selectionner au moins une demande"));
+//		}
+//	}		
+//
+//	public String getMsgAjaxStatus() {
+//		return msgAjaxStatus;
+//	}
+//
+//	public void setMsgAjaxStatus(String msgAjaxStatus) {
+//		this.msgAjaxStatus = msgAjaxStatus;
+//	}	
+//
+//	public void cancel() {  
+//		setProgress(null);  
+//	}  
+//
+//	public void onComplete() {  
+//		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, getMsgAjaxStatus(), getMsgAjaxStatus()));  
+//	}      
 
-	public String getMsgAjaxStatus() {
-		return msgAjaxStatus;
-	}
+	//	public Integer getProgress() {
+	//		if (logger.isDebugEnabled()) 
+	//		{
+	//			logger.debug("############################################# -->public Integer getProgress()");
+	//			logger.debug("############################################# -->getSelectedDemandeTransferts() --> "+getSelectedDemandeTransferts());
+	//		}
+	//
+	//		String test="";
+	//		if(progress == null)  
+	//			progress = 0;  
+	//
+	//		if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0 && progress==0)
+	//		{
+	//			int nb=getSelectedDemandeTransferts().length;
+	//			if (logger.isDebugEnabled()) 
+	//				logger.debug("if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0 && progress==0) -->"+getSelectedDemandeTransferts().length+"-----"+progress);
+	//
+	//			EtudiantRef[] etu = getSelectedDemandeTransferts();
+	//
+	//			if(this.getSource().equals("D"))
+	//			{
+	//				for(int i=0 ; i<etu.length; i++)
+	//				{
+	//					if (logger.isDebugEnabled()) 
+	//						logger.debug("Numero etudiant ----- nom-->"+etu[i].getNumeroEtudiant()+"-----"+etu[i].getNomPatronymique()); 
+	//
+	//					test+=etu[i].getNomPatronymique()+"-";
+	//
+	//					this.currentDemandeTransferts=etu[i];
+	//
+	//					if(this.currentDemandeTransferts.getTransferts().getTemoinOPIWs()!=null && this.currentDemandeTransferts.getTransferts().getTemoinOPIWs()==2)
+	//					{
+	//						if (logger.isDebugEnabled()) 
+	//							logger.debug("Reload OPI -->"+this.currentDemandeTransferts.getNumeroEtudiant()+"-----"+this.currentDemandeTransferts.getNomPatronymique()); 
+	//						this.addTransfertOpi();
+	//						//					this.addTransfertOpiTEST();
+	//						progress=(i*100)/nb;
+	//					}
+	//					else
+	//					{
+	//						if (logger.isDebugEnabled()) 
+	//							logger.debug("Validation demande de transferts -->"+this.currentDemandeTransferts.getNumeroEtudiant()+"-----"+this.currentDemandeTransferts.getNomPatronymique()); 
+	//						currentAvisMultiple.setNumeroEtudiant(this.currentDemandeTransferts.getNumeroEtudiant());
+	//						currentAvisMultiple.setAnnee(getSessionController().getCurrentAnnee());
+	//						this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
+	//						currentAvisMultiple.setDateSaisie(new Date());
+	//
+	//						if (logger.isDebugEnabled()) 
+	//							logger.debug("##################################### currentAvis -->"+currentAvisMultiple.toString()); 
+	//
+	//						getDomainService().addAvis(currentAvisMultiple);
+	//
+	//						setCodePaysItems(etu[i].getAdresse().getCodPay());
+	//
+	//						this.addTransfertOpi();
+	//						//					this.addTransfertOpiTEST();
+	//
+	//						String sujet = getString("TRANSFERT_MAIL_SUJET");
+	//						String body = getString("TRANSFERT_MAIL_BODY");
+	//						try {
+	//							body = getString("TRANSFERT_MAIL_BODY", this.currentDemandeTransferts.getPrenom1(),
+	//									this.currentDemandeTransferts.getNomPatronymique());
+	//
+	//							getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
+	//						} 
+	//						catch (AddressException e) 
+	//						{
+	//							String summary = getString("ERREUR.ENVOI_MAIL");
+	//							String detail = getString("ERREUR.ENVOI_MAIL");
+	//							Severity severity = FacesMessage.SEVERITY_INFO;
+	//							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+	//						}
+	//
+	//
+	//						progress=(i*100)/nb;
+	//						try {
+	//							Thread.sleep(300);
+	//						} catch (InterruptedException e) {
+	//							e.printStackTrace();
+	//						}
+	//					}
+	//				}
+	//			}
+	//			else if(this.getSource().equals("A"))
+	//			{
+	//				for(int i=0 ; i<etu.length; i++)
+	//				{
+	//					if (logger.isDebugEnabled()) 
+	//						logger.debug("Numero etudiant ----- nom-->"+etu[i].getNumeroEtudiant()+"-----"+etu[i].getNomPatronymique()); 
+	//
+	//					test+=etu[i].getNomPatronymique()+"-";
+	//
+	//					this.currentDemandeTransferts=etu[i];
+	//
+	//					//					if(this.currentDemandeTransferts.getTransferts().getTemoinOPIWs()!=null && this.currentDemandeTransferts.getTransferts().getTemoinOPIWs()==2)
+	//					//					{
+	//					//						if (logger.isDebugEnabled()) 
+	//					//							logger.debug("Reload OPI -->"+this.currentDemandeTransferts.getNumeroEtudiant()+"-----"+this.currentDemandeTransferts.getNomPatronymique()); 
+	//					//						this.addTransfertOpi();
+	//					//						//					this.addTransfertOpiTEST();
+	//					//						progress=(i*100)/nb;
+	//					//					}
+	//					//					else
+	//					//					{
+	//					if (logger.isDebugEnabled()) 
+	//						logger.debug("Validation demande de transferts -->"+this.currentDemandeTransferts.getNumeroEtudiant()+"-----"+this.currentDemandeTransferts.getNomPatronymique()); 
+	//					currentDecisionMultiple.setEtudiant(this.currentDemandeTransferts);
+	//					try {
+	//						currentDecisionMultiple.setAuteur(getSessionController().getCurrentUser().getLogin());
+	//						currentDecisionMultiple.setAvis(this.currentAccueilDecision.getAvis());
+	//						currentDecisionMultiple.setDateSaisie(new Date());
+	//						currentDecisionMultiple.setDecision(this.currentAccueilDecision.getDecision());
+	//					} catch (Exception e1) {
+	//						e1.printStackTrace();
+	//					}
+	//
+	//					if (logger.isDebugEnabled()) 
+	//						logger.debug("##################################### currentDecisionMultiple -->"+currentDecisionMultiple.toString()); 
+	//
+	//					this.currentDemandeTransferts.getAccueilDecision().add(currentDecisionMultiple);
+	//					setCodePaysItems(etu[i].getAdresse().getCodPay());
+	//
+	//					this.addAccueilDecisionDefinitif();
+	//
+	//					progress=(i*100)/nb;
+	//					try {
+	//						Thread.sleep(300);
+	//					} catch (InterruptedException e) {
+	//						e.printStackTrace();
+	//					}
+	//					//					}
+	//				}
+	//			}
+	//			else
+	//			{
+	//
+	//			}
+	//
+	//			if (logger.isDebugEnabled()) 
+	//				logger.debug("Liste des etudiants-->"+test); 
+	//			setMsgAjaxStatus(test);
+	//			progress=100;
+	//		}
+	//		if (logger.isDebugEnabled()) 
+	//			logger.debug("Progress-->"+progress); 
+	//
+	//		setListeTransfertDepartDataModel(null);		
+	//		setSelectedDemandeTransferts(null);
+	//
+	//		if(this.getSource().equals("D"))
+	//			setCurrentAvis(new Avis());
+	//		else if(this.getSource().equals("A"))
+	//			setCurrentAccueilDecision(new AccueilDecision());
+	//		else
+	//		{
+	//
+	//		}
+	//		return progress;  
+	//	}    
 
-	public void setMsgAjaxStatus(String msgAjaxStatus) {
-		this.msgAjaxStatus = msgAjaxStatus;
-	}	
-
-	public Integer getProgress2() {  
-		if(progress == null)  
-			progress = 0;  
-		else {  
-			progress = progress + (int)(Math.random() * 35);  
-
-			if(progress > 100)  
-				progress = 100;  
-		}  
-		return progress;  
-	}  	
-
-	public void cancel() {  
-		setProgress(null);  
-	}  
-
-	public void onComplete() {  
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, getMsgAjaxStatus(), getMsgAjaxStatus()));  
-	}      
-
-	public Integer getProgress() {
+	public void addAvisOuDecisionMultiple() {
 		if (logger.isDebugEnabled()) 
 		{
 			logger.debug("############################################# -->public Integer getProgress()");
 			logger.debug("############################################# -->getSelectedDemandeTransferts() --> "+getSelectedDemandeTransferts());
 		}
-
+		this.setMultiple(true);
 		String test="";
-		if(progress == null)  
-			progress = 0;  
-
-		if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0 && progress==0)
+		if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0)
 		{
 			int nb=getSelectedDemandeTransferts().length;
 			if (logger.isDebugEnabled()) 
 				logger.debug("if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0 && progress==0) -->"+getSelectedDemandeTransferts().length+"-----"+progress);
 
 			EtudiantRef[] etu = getSelectedDemandeTransferts();
-			for(int i=0 ; i<etu.length; i++)
+
+			if(this.getSource().equals("D"))
 			{
-				if (logger.isDebugEnabled()) 
-					logger.debug("Numero etudiant ----- nom-->"+etu[i].getNumeroEtudiant()+"-----"+etu[i].getNomPatronymique()); 
-
-				test+=etu[i].getNomPatronymique()+"-";
-
-				this.currentDemandeTransferts=etu[i];
-
-				if(this.currentDemandeTransferts.getTransferts().getTemoinOPIWs()!=null && this.currentDemandeTransferts.getTransferts().getTemoinOPIWs()==2)
+				setCurrentAvisMultiple(getCurrentAvis());
+				for(int i=0 ; i<etu.length; i++)
 				{
 					if (logger.isDebugEnabled()) 
-						logger.debug("Reload OPI -->"+this.currentDemandeTransferts.getNumeroEtudiant()+"-----"+this.currentDemandeTransferts.getNomPatronymique()); 
-					this.addTransfertOpi();
-					//					this.addTransfertOpiTEST();
-					progress=(i*100)/nb;
+						logger.debug("Numero etudiant ----- nom-->"+etu[i].getNumeroEtudiant()+"-----"+etu[i].getNomPatronymique()); 
+
+					test+=etu[i].getNomPatronymique()+"-";
+
+					this.currentDemandeTransferts=etu[i];
+
+					if(this.currentDemandeTransferts.getTransferts().getTemoinOPIWs()!=null && this.currentDemandeTransferts.getTransferts().getTemoinOPIWs()==2)
+					{
+						if (logger.isDebugEnabled()) 
+							logger.debug("Reload OPI -->"+this.currentDemandeTransferts.getNumeroEtudiant()+"-----"+this.currentDemandeTransferts.getNomPatronymique()); 
+						this.addTransfertOpi();
+					}
+					else
+					{
+						if (logger.isDebugEnabled()) 
+							logger.debug("Validation demande de transferts -->"+this.currentDemandeTransferts.getNumeroEtudiant()+"-----"+this.currentDemandeTransferts.getNomPatronymique()); 
+						currentAvisMultiple.setNumeroEtudiant(this.currentDemandeTransferts.getNumeroEtudiant());
+						currentAvisMultiple.setAnnee(getSessionController().getCurrentAnnee());
+						this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
+						currentAvisMultiple.setDateSaisie(new Date());
+
+						if (logger.isDebugEnabled()) 
+							logger.debug("##################################### currentAvis -->"+currentAvisMultiple.toString()); 
+
+						getDomainService().addAvis(currentAvisMultiple);
+
+						setCodePaysItems(etu[i].getAdresse().getCodPay());
+
+						this.addTransfertOpi();
+
+						String sujet = getString("TRANSFERT_MAIL_SUJET");
+						String body = getString("TRANSFERT_MAIL_BODY");
+						try {
+							body = getString("TRANSFERT_MAIL_BODY", this.currentDemandeTransferts.getPrenom1(),
+									this.currentDemandeTransferts.getNomPatronymique());
+
+							getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							String summary = getString("ERREUR.ENVOI_MAIL");
+							String detail = getString("ERREUR.ENVOI_MAIL");
+							Severity severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}
+
+						try {
+							Thread.sleep(300);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
 				}
-				else
+			}
+			else if(this.getSource().equals("A"))
+			{
+				setCurrentDecisionMultiple(getCurrentAccueilDecision());
+				for(int i=0 ; i<etu.length; i++)
 				{
+					if (logger.isDebugEnabled()) 
+						logger.debug("Numero etudiant ----- nom-->"+etu[i].getNumeroEtudiant()+"-----"+etu[i].getNomPatronymique()); 
+
+					test+=etu[i].getNomPatronymique()+"-";
+
+					this.currentDemandeTransferts=etu[i];
+
 					if (logger.isDebugEnabled()) 
 						logger.debug("Validation demande de transferts -->"+this.currentDemandeTransferts.getNumeroEtudiant()+"-----"+this.currentDemandeTransferts.getNomPatronymique()); 
-					currentAvisMultiple.setNumeroEtudiant(this.currentDemandeTransferts.getNumeroEtudiant());
-					currentAvisMultiple.setAnnee(getSessionController().getCurrentAnnee());
-					this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
-					currentAvisMultiple.setDateSaisie(new Date());
+					currentDecisionMultiple.setEtudiant(this.currentDemandeTransferts);
+					try {
+						currentDecisionMultiple.setAuteur(getSessionController().getCurrentUser().getLogin());
+						currentDecisionMultiple.setAvis(this.currentAccueilDecision.getAvis());
+						currentDecisionMultiple.setDateSaisie(new Date());
+						currentDecisionMultiple.setDecision(this.currentAccueilDecision.getDecision());
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 
 					if (logger.isDebugEnabled()) 
-						logger.debug("##################################### currentAvis -->"+currentAvisMultiple.toString()); 
+						logger.debug("##################################### currentDecisionMultiple -->"+currentDecisionMultiple.toString()); 
 
-					getDomainService().addAvis(currentAvisMultiple);
-
+					this.currentDemandeTransferts.getAccueilDecision().add(currentDecisionMultiple);
 					setCodePaysItems(etu[i].getAdresse().getCodPay());
-
-					this.addTransfertOpi();
-					//					this.addTransfertOpiTEST();
-
-					String sujet = getString("TRANSFERT_MAIL_SUJET");
-					String body = getString("TRANSFERT_MAIL_BODY");
-					try {
-						body = getString("TRANSFERT_MAIL_BODY", this.currentDemandeTransferts.getPrenom1(),
-								this.currentDemandeTransferts.getNomPatronymique());
-
-						getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-					} 
-					catch (AddressException e) 
-					{
-						String summary = getString("ERREUR.ENVOI_MAIL");
-						String detail = getString("ERREUR.ENVOI_MAIL");
-						Severity severity = FacesMessage.SEVERITY_INFO;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-					}
-
-
-					progress=(i*100)/nb;
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					this.addAccueilDecisionDefinitif();
 				}
 			}
 			if (logger.isDebugEnabled()) 
 				logger.debug("Liste des etudiants-->"+test); 
-			setMsgAjaxStatus(test);
-			progress=100;
+			
+			String summary = test;
+			String detail = test;
+			Severity severity = FacesMessage.SEVERITY_INFO;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 		}
-		if (logger.isDebugEnabled()) 
-			logger.debug("Progress-->"+progress); 
+		else
+		{
+			String summary = "Vous devez selectionner au moins une demande de transfert";
+			String detail = "Vous devez selectionner au moins une demande de transfert";
+			Severity severity = FacesMessage.SEVERITY_WARN;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));			
+		}
 
 		setListeTransfertDepartDataModel(null);		
-		//		setLazyListeTransfertDepartDataModel(null);
 		setSelectedDemandeTransferts(null);
-		setCurrentAvis(new Avis());
-		return progress;  
-	}    
+
+		if(this.getSource().equals("D"))
+			setCurrentAvis(new Avis());
+		else if(this.getSource().equals("A"))
+			setCurrentAccueilDecision(new AccueilDecision());
+		
+		this.setMultiple(false);
+	}    	
 
 	public void setProgress(Integer progress) {
 		this.progress = progress;
@@ -3721,10 +3979,13 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
 
-		String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
-		String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
-		Severity severity = FacesMessage.SEVERITY_INFO;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+		if(!this.isMultiple())
+		{
+			String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
+			String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
+			Severity severity = FacesMessage.SEVERITY_INFO;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+		}
 	}	
 
 	public void addTransfertOpi()
@@ -4556,6 +4817,31 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void setExistCodeBac(boolean existCodeBac) {
 		this.existCodeBac = existCodeBac;
+	}
+
+	public List<EtudiantRef> getFilteredEtudiantAccueilMultiple() {
+		return filteredEtudiantAccueilMultiple;
+	}
+
+	public void setFilteredEtudiantAccueilMultiple(
+			List<EtudiantRef> filteredEtudiantAccueilMultiple) {
+		this.filteredEtudiantAccueilMultiple = filteredEtudiantAccueilMultiple;
+	}
+
+	public AccueilDecision getCurrentDecisionMultiple() {
+		return currentDecisionMultiple;
+	}
+
+	public void setCurrentDecisionMultiple(AccueilDecision currentDecisionMultiple) {
+		this.currentDecisionMultiple = currentDecisionMultiple;
+	}
+
+	public boolean isMultiple() {
+		return multiple;
+	}
+
+	public void setMultiple(boolean multiple) {
+		this.multiple = multiple;
 	}
 
 	//	public LazyListeTransfertDepartDataModel getLazyListeTransfertDepartDataModel() {

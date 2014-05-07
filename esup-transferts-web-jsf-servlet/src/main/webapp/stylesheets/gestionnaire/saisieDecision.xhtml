@@ -19,7 +19,7 @@
 			<center>
 				<p:panel id="adresse" styleClass="panel"
 					style="width:80%;text-align:left;"
-					header="Demande de Transferts départ #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}">
+					header="Demande de Transferts accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}">
 					<p:messages id="msgs" showDetail="false" />
 					<p:growl id="growl" showDetail="false" sticky="true" />
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
@@ -147,7 +147,8 @@
 						<!-- 						</h:panelGrid> -->
 						<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
 							style="text-align:left;">
-							<h:selectOneRadio id="voeux"
+							<h:selectOneRadio id="voeux" required="true"
+								requiredMessage="#{msgs['ERREUR.DECISION_DOSSIER']}" 
 								valueChangeListener="#{administrationController.decisionChange}"
 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								value="#{administrationController.currentAccueilDecision.avis}"
@@ -160,6 +161,8 @@
 								<f:ajax immediate="true" event="change"
 									render="textareaDecision" />
 							</h:selectOneRadio>
+							<h:outputText id="libelle" style="color:red;"
+								value="#{msgs['DECISION.FAVORABLE_AIDE']}" />
 							<p:inputTextarea id="textareaDecision" rows="10" cols="100"
 								counter="counter"
 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"

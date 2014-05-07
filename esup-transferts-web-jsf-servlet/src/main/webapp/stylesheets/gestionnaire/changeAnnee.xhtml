@@ -14,11 +14,11 @@
 	</ui:define>
 
 	<ui:define name="corps">
-		<p:panel rendered="#{!administrationController.personnel || (!administrationController.droitsDepart and !sessionController.currentUser.admin)}">
+		<p:panel rendered="#{!administrationController.personnel || (administrationController.source eq 'D' and !administrationController.droitsDepart and !sessionController.currentUser.admin) || (administrationController.source eq 'A' and !administrationController.droitsArrivee and !sessionController.currentUser.admin)}">
 			<ui:include
 				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
 		</p:panel>
-		<h:form id="annee" rendered="#{administrationController.personnel and (administrationController.droitsDepart || sessionController.currentUser.admin)}">
+		<h:form id="annee" rendered="#{administrationController.personnel and (administrationController.source eq 'D' and administrationController.droitsDepart || sessionController.currentUser.admin) || (administrationController.source eq 'A' and administrationController.droitsArrivee || sessionController.currentUser.admin)}">
 			<p:growl id="messages" showDetail="false" />
 			<p:messages id="msgs" showDetail="false" />
 			<center>

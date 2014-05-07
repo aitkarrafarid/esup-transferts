@@ -28,7 +28,7 @@
 					<p:submenu label="Transferts départ">
 						<p:menuitem value="Liste des demandes"
 							action="#{administrationController.goToTransfertsDepart}" />
-						<p:menuitem value="Validation en masse" 
+						<p:menuitem value="Validation en masse"
 							action="#{administrationController.goToValideMasseTransfertsDepart}" />
 						<p:menuitem value="Exporter les demandes (XSL)"
 							action="#{administrationController.exportDemandeTransferts}" />
@@ -68,35 +68,37 @@
 				</p:column>
 			</p:submenu>
 
-<!-- 			<p:submenu label="Transferts accueil" icon="ui-icon-folder-open" -->
-<!-- 				rendered="#{administrationController.personnel  and sessionController.currentAnnee!=null and sessionController.transfertsAccueil and (administrationController.droitsArrivee || sessionController.currentUser.admin)}"> -->
 			<p:submenu label="Transferts accueil" icon="ui-icon-folder-open"
 				rendered="#{administrationController.personnel  and sessionController.currentAnnee!=null and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
 				<p:column>
 					<p:submenu label="Transferts accueil">
 						<p:menuitem value="Liste des demandes"
 							action="#{administrationController.goToTransfertsAccueil}" />
+						<p:menuitem value="Validation en masse" rendered="#{!sessionController.transfertsAccueil}"
+							action="#{administrationController.goToValideMasseTransfertsAccueil}" />
 						<p:menuitem value="Exporter les demandes (XSL)"
 							action="#{administrationController.exportDemandeTransfertsAccueil}" />
 					</p:submenu>
 				</p:column>
 				<p:column>
 					<p:submenu label="Messages"
-						rendered="#{sessionController.currentUser.admin}">
+						rendered="#{sessionController.currentUser.admin and sessionController.transfertsAccueil}">
 						<p:menuitem value="Message d'information"
-							rendered="#{sessionController.currentUser.admin}"
+							rendered="#{sessionController.currentUser.admin and sessionController.transfertsAccueil}"
 							action="#{administrationController.goToInformationAppliAccueil}" />
 						<p:menuitem value="Fermeture de l'application"
-							rendered="#{sessionController.currentUser.admin}"
+							rendered="#{sessionController.currentUser.admin and sessionController.transfertsAccueil}"
 							action="#{administrationController.goToFermetureAppliAccueil}" />
 					</p:submenu>
 				</p:column>
 				<p:column>
-					<p:submenu label="Paramètres accueil">
+					<p:submenu label="Paramètres accueil"
+						rendered="#{sessionController.transfertsAccueil}">
 						<p:menuitem value="Visualisation de l'ODF"
+							rendered="#{sessionController.transfertsAccueil}"
 							action="#{testController.goToTest2}" />
 						<p:menuitem value="Droits des utilisateurs"
-							rendered="#{sessionController.currentUser.admin}"
+							rendered="#{sessionController.currentUser.admin and sessionController.transfertsAccueil}"
 							action="#{managerController.goToListeManagerAccueil}" />
 						<p:menuitem value="Liste des signatures "
 							rendered="#{sessionController.currentUser.admin}"
@@ -140,7 +142,8 @@
 			<p:submenu label="Statistiques" icon="ui-icon-calculator"
 				rendered="#{sessionController.currentAnnee!=null and sessionController.currentUser.admin and administrationController.personnel}">
 				<p:column>
-					<p:submenu label="Statistiques" rendered="#{sessionController.currentUser.admin}">
+					<p:submenu label="Statistiques"
+						rendered="#{sessionController.currentUser.admin}">
 						<p:menuitem value="Liste des statistiques"
 							action="#{administrationController.goToStats}" />
 					</p:submenu>
@@ -163,8 +166,8 @@
 						<p:menuitem value="Données OPI"
 							rendered="#{sessionController.currentUser.admin}"
 							action="#{administrationController.goToTransfertsArriveFromAccueil}" />
-					</p:submenu>	
-				</p:column>				
+					</p:submenu>
+				</p:column>
 			</p:submenu>
 
 			<p:menuitem value="Déconnexion"

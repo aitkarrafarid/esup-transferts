@@ -58,20 +58,20 @@ public class AccueilDecision implements Serializable {
 	/**
 	 * Date de saisie
 	 */
-	@Column(name = "DATE_SAISIE")
+	@Column(name = "DATE_SAISIE", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateSaisie;
 
 	/**
 	 * Auteur de la saisie
 	 */
-	@Column(name = "AUTEUR")
+	@Column(name = "AUTEUR", nullable = false)
 	private String auteur;	
 
 	/**
 	 * Voeux
 	 */
-	@Column(name = "AVIS", length = 1)
+	@Column(name = "AVIS", nullable = false, length = 1)
 	private String avis;		
 	
 	/**

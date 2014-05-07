@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/stylesheets/gestionnaire/template.xhtml">
+	<ui:define name="navigation">
+		<ui:include src="/stylesheets/gestionnaire/_include/_header.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="corps">
+		<p:panel
+			rendered="#{!administrationController.personnel || (!administrationController.droitsArrivee and !sessionController.currentUser.admin)}">
+			<ui:include
+				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
+		</p:panel>
+
+		<p:spacer height="10px" />
+		<h:form id="multiple"
+			rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
+			<p:growl id="msgs" showDetail="false" />
+			<p:dataTable var="transferts" styleClass="datatable" id="test"
+				style="width:80%;"
+				value="#{administrationController.allDemandesTransfertsAccueil}"
+				rows="10" paginator="true"
+				rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50"
+				emptyMessage="Auncune demande de transferts accueil"
+				selection="#{administrationController.selectedDemandeTransferts}"
+				filteredValue="#{administrationController.filteredEtudiantAccueilMultiple}"
+				rowSelectMode="add">
+
+				<f:facet name="header">
+						Liste des demandes de transferts accueil	#{sessionController.currentAnnee}/#{sessionController.currentAnnee+1} 
+					</f:facet>
+
+				<p:column selectionMode="multiple" style="width:18px" />
+
+				<p:column headerText="Etat" style="width:7%;"
+					sortBy="transferts.temoinTransfertValide" id="nb">
+					<h:graphicImage alt="avisSaisie" title="En cours"
+						value="/media/images/player_pause.png"
+						rendered="#{transferts.transferts.temoinTransfertValide==0 || transferts.transferts.temoinTransfertValide==null}" />
+					<h:graphicImage alt="avisSaisie" title="Avis saisie"
+						value="/media/images/tick.png"
+						rendered="#{transferts.transferts.temoinTransfertValide==1}" />
+					<h:graphicImage alt="avisSaisie" title="Bloquer"
+						value="/media/images/lock.png"
+						rendered="#{transferts.transferts.temoinTransfertValide==2}" />
+				</p:column>
+
+				<p:column headerText="Composante de la formation choisie"
+					filterBy="transferts.odf.codeComposante" style="text-align:left;"
+					sortBy="transferts.odf.codeComposante" filterMatchMode="contains">
+            #{transferts.transferts.odf.codeComposante} - #{transferts.transferts.odf.libComposante}  
+        </p:column>
+
+				<p:column headerText="Etape d'inscription"
+					filterBy="transferts.odf.libVersionEtape" style="text-align:left;"
+					sortBy="transferts.odf.libVersionEtape" filterMatchMode="contains"
+					id="etapeInscription">  
+            #{transferts.transferts.odf.libVersionEtape}
+        </p:column>
+				<p:column headerText="Numéro étudiant" filterBy="numeroEtudiant"
+					sortBy="numeroEtudiant">
+            #{transferts.numeroEtudiant}  
+        </p:column>
+
+				<p:column headerText="Numéro I.N.E" filterBy="numeroIne"
+					sortBy="numeroIne">
+            #{transferts.numeroIne}  
+        </p:column>
+
+				<p:column headerText="Nom" filterBy="nomPatronymique"
+					style="text-align:left;" sortBy="nomPatronymique" id="nom">  
+            #{transferts.nomPatronymique}  
+        </p:column>
+
+				<p:column headerText="Prénom" style="text-align:left;">  
+            #{transferts.prenom1}  
+        </p:column>
+
+				<f:facet name="footer">  
+            Total #{administrationController.totalAccueil} demande(s) de transfert accueil.  
+        </f:facet>
+			</p:dataTable>
+
+			<p:spacer height="20" />
+			<center>
+				<p:panel id="avis" header="Saisie d'une décision" toggleable="true"
+					style="width:80%;" collapsed="true" closable="true"
+					toggleSpeed="500" closeSpeed="500" widgetVar="avis">
+					<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
+						style="text-align:left;">
+						<h:selectOneRadio id="voeux" required="true"
+							requiredMessage="#{msgs['ERREUR.DECISION_DOSSIER']}"
+							valueChangeListener="#{administrationController.decisionChange}"
+							value="#{administrationController.currentAccueilDecision.avis}"
+							layout="pageDirection">
+							<f:selectItem id="A" itemLabel="#{msgs['DECISION.FAVORABLE']}"
+								itemValue="A" />
+							<f:selectItem id="B" itemLabel="#{msgs['DECISION.DEFAVORABLE']}"
+								itemValue="B" />
+							<!-- 																<p:ajax update="decision" event="click" process="@this" immediate="true" />									 -->
+							<f:ajax immediate="true" event="change" render="textareaDecision" />
+						</h:selectOneRadio>
+						<h:outputText id="libelle" style="color:red;"
+							value="#{msgs['DECISION.FAVORABLE_AIDE']}" />
+						<p:inputTextarea id="textareaDecision" rows="10" cols="100"
+							counter="counter"
+							value="#{administrationController.currentAccueilDecision.decision}"
+							maxlength="255" counterTemplate="{0} charactère(s) restant(s)."
+							autoResize="false" />
+						<h:outputText id="counter" />
+						<!--  <p:editor id="editor" value="#{administrationController.currentDemandeTransferts.accueilDecision.decision}" width="600"/>   -->
+					</h:panelGrid>
+
+					<p:spacer height="20" />
+
+					<!-- 					<h:outputText value="Barre de chargement : " style="width:7%;" /> -->
+
+					<!-- 					<p:progressBar widgetVar="pbAjax" ajax="true" style="width:50%" -->
+					<!-- 						value="#{administrationController.progress}" -->
+					<!-- 						labelTemplate="{value}%" styleClass="animated"> -->
+					<!-- 						<p:ajax event="complete" -->
+					<!-- 							listener="#{administrationController.onComplete}" -->
+					<!-- 							update=":multiple:msgs,:multiple:test" -->
+					<!-- 							oncomplete="startButton2.enable()" /> -->
+					<!-- 					</p:progressBar> -->
+
+					<!-- 					<p:spacer height="40" /> -->
+
+					<!-- 					<p:commandButton value="Valider" icon="ui-icon-search" -->
+					<!-- 						update="msgs" widgetVar="startButton2" -->
+					<!-- 						action="#{administrationController.addDecisionMultiple}" /> -->
+
+					<!-- 					<p:commandButton value="Cancel" -->
+					<!-- 						actionListener="#{administrationController.cancel}" -->
+					<!-- 						oncomplete="pbAjax.cancel();startButton2.enable();" /> -->
+
+					<p:commandButton value="Valider" onclick="confirmation.show()"
+						type="button"
+						action="#{administrationController.addAvisOuDecisionMultiple}"
+						update=":multiple:msgs,:multiple:test" />
+
+				</p:panel>
+
+				<p:confirmDialog
+					message="Attention, la validation en masse peut prendre quelques minutes..."
+					header="Confirmation" severity="alert" widgetVar="confirmation">
+					<p:commandButton value="Oui" update=":multiple:msgs,:multiple:test"
+						oncomplete="confirmation.hide()"
+						action="#{administrationController.addAvisOuDecisionMultiple}" />
+					<p:commandButton value="Non" onclick="confirmation.hide()"
+						actionListener="#{administrationController.destroyWorld}"
+						type="button" />
+				</p:confirmDialog>
+
+			</center>
+
+		</h:form>
+		<p:spacer height="20" />
+		<center>
+			<p:panel header="Légende" toggleable="true" style="width:80%;"
+				collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
+				widgetVar="panel"
+				rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
+				<h:panelGrid columns="3" cellpadding="10">
+					<h:panelGrid columns="6" cellpadding="10">
+						<p:graphicImage value="/media/images/player_pause.png" />
+						<h:outputText value="Non traité" />
+						<p:graphicImage value="/media/images/tick.png" />
+						<h:outputText value="En cours de traitement" />
+						<p:graphicImage value="/media/images/lock.png" />
+						<h:outputText value="Traité" />
+					</h:panelGrid>
+					<h:outputText value="Etablissements partenaires"
+						styleClass="highlightTableRow" />
+					<p:pieChart id="custom"
+						value="#{statistiqueController.pieModelAccueil}"
+						legendPosition="e" fill="false" showDataLabels="true"
+						title="Transferts Accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}"
+						style="width:400px;height:300px" sliceMargin="5" diameter="150" />
+				</h:panelGrid>
+			</p:panel>
+		</center>
+	</ui:define>
+
+	<!-- 	<ui:define name="content"> -->
+	<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
+	<!-- 	</ui:define> -->
+
+</ui:composition>
+</html>

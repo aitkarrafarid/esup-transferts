@@ -51,8 +51,8 @@
 }
 
 .highlightTableRow {
-   background-color: #E0EEEE !important;
+/*    background-color: #E0EEEE !important; */
    font-weight: bold;
-   background: yellow  !important ;
+   background: #FAFABF  !important ;
 /*    color: yellow !important; */
 }

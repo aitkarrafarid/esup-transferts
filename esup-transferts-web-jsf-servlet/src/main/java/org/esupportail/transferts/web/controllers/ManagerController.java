@@ -127,16 +127,16 @@ public class ManagerController extends AbstractContextAwareController {
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("public String goToValidationTransfertsDepart()");
-		setFilteredComposantes(null);
-		listeComposantesFermeSplit=null;
-		this.listeComposantesMerge=null;
 		setFrom("D");
-//		return "goToValidationComposantesAutoTransfertsDepart";
 		if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getFrom())!=null)
+		{
+			setFilteredComposantes(null);
+			listeComposantesFermeSplit=null;
+			this.listeComposantesMerge=null;
 			return "goToValidationComposantesAutoTransfertsDepart";
+		}
 		else
 			return "goToSignatureParDefautObligatoire";		
-		
 	}    
 
 	public String goToValidationCGEAutoTransfertsDepart()

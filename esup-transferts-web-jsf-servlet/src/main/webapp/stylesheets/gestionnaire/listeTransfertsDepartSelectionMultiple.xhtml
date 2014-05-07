@@ -23,7 +23,7 @@
 		<p:spacer height="10px" />
 		<h:form id="multiple"
 			rendered="#{administrationController.personnel and (administrationController.droitsDepart || sessionController.currentUser.admin)}">
-			<p:growl id="msgs" showDetail="true" />
+			<p:growl id="msgs" showDetail="false" />
 			<p:dataTable var="transferts" styleClass="datatable" id="test"
 				style="width:80%;"
 				value="#{administrationController.allDemandesTransferts}" rows="10"
@@ -178,36 +178,41 @@
 					</h:panelGrid>
 					<p:spacer height="20" />
 
-					<!-- 				<h3>Ajax ProgressBar with Growl Integration</h3> -->
-					<!-- 				<p:panelGrid columns="2" columnClasses="column" cellpadding="5" style="text-align:left;width:80%;"> -->
-					<h:outputText value="Barre de chargement : " style="width:7%;" />
-					<p:progressBar widgetVar="pbAjax" ajax="true" style="width:50%"
-						value="#{administrationController.progress}"
-						labelTemplate="{value}%" styleClass="animated">
-						<p:ajax event="complete"
-							listener="#{administrationController.onComplete}"
-							update=":multiple:msgs,:multiple:test"
-							oncomplete="startButton2.enable()" />
-					</p:progressBar>
-					<!-- 				</p:panelGrid> -->
+<!-- 					<h:outputText value="Barre de chargement : " style="width:7%;" /> -->
+<!-- 					<p:progressBar widgetVar="pbAjax" ajax="true" style="width:50%" -->
+<!-- 						value="#{administrationController.progress}" -->
+<!-- 						labelTemplate="{value}%" styleClass="animated"> -->
+<!-- 						<p:ajax event="complete" -->
+<!-- 							listener="#{administrationController.onComplete}" -->
+<!-- 							update=":multiple:msgs,:multiple:test" -->
+<!-- 							oncomplete="startButton2.enable()" /> -->
+<!-- 					</p:progressBar> -->
 
-					<p:spacer height="40" />
+<!-- 					<p:spacer height="40" /> -->
 
-					<p:commandButton value="Valider" icon="ui-icon-search" update="msgs"
-						widgetVar="startButton2"
-						action="#{administrationController.addAvisFavorableMultiple}" />
-					<!-- 				<p:commandButton value="" type="button"  -->
-					<!-- 					rendered="false" -->
-					<!-- 					onclick="PF('pbAjax').start();PF('startButton2').disable();" -->
-					<!-- 					widgetVar="startButton3" /> -->
-					<p:commandButton value="Cancel"
-						actionListener="#{administrationController.cancel}"
-						oncomplete="pbAjax.cancel();startButton2.enable();" />
-					<!-- 				<p:spacer height="30px" /> -->
-					<!-- 				<p:commandButton icon="ui-icon-disk" title="Export Excel"  -->
-					<!-- 					action="#{administrationController.exportDemandeTransferts}" /> -->
+<!-- 					<p:commandButton value="Valider" icon="ui-icon-search" update="msgs" -->
+<!-- 						widgetVar="startButton2" -->
+<!-- 						action="#{administrationController.addAvisFavorableMultiple}" /> -->
+<!-- 					<p:commandButton value="Cancel" -->
+<!-- 						actionListener="#{administrationController.cancel}" -->
+<!-- 						oncomplete="pbAjax.cancel();startButton2.enable();" /> -->
+
+					<p:commandButton value="Valider" onclick="confirmation.show()" type="button"
+						action="#{administrationController.addAvisOuDecisionMultiple}" update=":multiple:msgs,:multiple:test" />
 
 				</p:panel>
+				
+			<p:confirmDialog
+				message="Attention, la validation en masse peut prendre quelques minutes..."
+				header="Confirmation" severity="alert" widgetVar="confirmation">
+				<p:commandButton value="Oui"
+					update=":multiple:msgs,:multiple:test"
+					oncomplete="confirmation.hide()"
+					action="#{administrationController.addAvisOuDecisionMultiple}" />
+				<p:commandButton value="Non" onclick="confirmation.hide()"
+					actionListener="#{administrationController.destroyWorld}" type="button" />
+			</p:confirmDialog>	
+			
 			</center>
 		</h:form>
 		<p:spacer height="20" />

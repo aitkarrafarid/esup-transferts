@@ -222,6 +222,11 @@
 			<from-outcome>goToSignatureParDefautObligatoire</from-outcome>
 			<to-view-id>/stylesheets/gestionnaire/signatureParDefautObligatoire.xhtml</to-view-id>
 			<redirect />
-		</navigation-case>			
+		</navigation-case>		
+		<navigation-case>
+			<from-outcome>goToValideMasseTransfertsAccueil</from-outcome>
+			<to-view-id>/stylesheets/gestionnaire/listeTransfertsAccueilSelectionMultiple.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>				
 	</navigation-rule>
 </faces-config>
