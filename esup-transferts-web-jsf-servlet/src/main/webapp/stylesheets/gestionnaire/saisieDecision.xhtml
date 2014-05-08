@@ -147,8 +147,7 @@
 						<!-- 						</h:panelGrid> -->
 						<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
 							style="text-align:left;">
-							<h:selectOneRadio id="voeux" required="true"
-								requiredMessage="#{msgs['ERREUR.DECISION_DOSSIER']}" 
+							<h:selectOneRadio id="voeux" 
 								valueChangeListener="#{administrationController.decisionChange}"
 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								value="#{administrationController.currentAccueilDecision.avis}"
