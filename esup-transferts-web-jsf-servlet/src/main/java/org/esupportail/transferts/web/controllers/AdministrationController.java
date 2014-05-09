@@ -3327,9 +3327,9 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		else
 		{
-			String summary = getString("ENREGISTREMENT.AVIS");
-			String detail = getString("ENREGISTREMENT.AVIS");
-			Severity severity = FacesMessage.SEVERITY_WARN;
+			String summary = getString("ERREUR.DECISION_DOSSIER");
+			String detail = getString("ERREUR.DECISION_DOSSIER");
+			Severity severity = FacesMessage.SEVERITY_ERROR;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));							
 		}
 	}
