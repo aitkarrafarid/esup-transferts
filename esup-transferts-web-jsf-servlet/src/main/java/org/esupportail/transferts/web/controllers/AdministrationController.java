@@ -2677,6 +2677,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("goToSaisirDecision");
 		}
+
 		List<PersonnelComposante> lpc = null;
 		try {
 			lpc = getDomainService().getListeComposantesByUidAndSourceAndAnnee(getSessionController().getCurrentUser().getLogin(), "A", getSessionController().getCurrentAnnee());
@@ -3001,7 +3002,6 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) 
 			logger.debug("public void addAccueilDecisionDefinitif()");		
 		try {
-
 			this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
 			this.addDemandeTransfertsFromAvis(2);
 
@@ -3151,148 +3151,148 @@ public class AdministrationController extends AbstractContextAwareController {
 				logger.debug("Candidature -->"+this.isVap());
 			}
 
-						if(!exclueBacOpi.contains(this.currentDemandeTransferts.getAccueil().getCodeBac()) || exclueBacOpi.equals(""))
+			if(!exclueBacOpi.contains(this.currentDemandeTransferts.getAccueil().getCodeBac()) || exclueBacOpi.equals(""))
+			{
+				if(this.isVap())
+				{
+					opi.setSynchro(3);
+					if(getSessionController().isTransfertsAccueil())
+					{
+						if(decision.equals("F"))
 						{
-							if(this.isVap())
+
+							if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
 							{
-								opi.setSynchro(3);
-								if(getSessionController().isTransfertsAccueil())
-								{
-									if(decision.equals("F"))
-									{
-			
-										if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
-										{
-											sujet = getString("DECISION.MAIL.SUJET");
-											body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_PARTENAIRE",
-													this.currentDemandeTransferts.getPrenom1(),
-													this.currentDemandeTransferts.getNomPatronymique(),
-													this.getListeAccueilDecision().get(0).getDecision(),
-													libEtab,
-													etab.getLibOffEtb());							
-										}
-										else
-										{
-											sujet = getString("DECISION.MAIL.SUJET");
-											body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_NON_PARTENAIRE",
-													this.currentDemandeTransferts.getPrenom1(),
-													this.currentDemandeTransferts.getNomPatronymique(),
-													this.getListeAccueilDecision().get(0).getDecision(),
-													libEtab,
-													etab.getLibOffEtb());							
-										}
-										getDomainService().addIndOpi(opi);
-									}
-									else
-									{
-										sujet = getString("DECISION.MAIL.SUJET");
-										body = getString("DECISION.MAIL.BODY_AVIS_D_CANDIDATURE",
-												this.currentDemandeTransferts.getPrenom1(),
-												this.currentDemandeTransferts.getNomPatronymique(),
-												this.getListeAccueilDecision().get(0).getDecision(),
-												libEtab,
-												etab.getLibOffEtb());	
-									}
-									try {
-										getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-									} 
-									catch (AddressException e) 
-									{
-										summary = getString("ERREUR.ENVOI_MAIL");
-										detail = getString("ERREUR.ENVOI_MAIL");
-										severity = FacesMessage.SEVERITY_INFO;
-										FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-									}
-								}
-								else
-								{
-									if(decision.equals("F"))
-										getDomainService().addIndOpi(opi);
-								}
-							}	
+								sujet = getString("DECISION.MAIL.SUJET");
+								body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_PARTENAIRE",
+										this.currentDemandeTransferts.getPrenom1(),
+										this.currentDemandeTransferts.getNomPatronymique(),
+										this.getListeAccueilDecision().get(0).getDecision(),
+										libEtab,
+										etab.getLibOffEtb());							
+							}
 							else
 							{
-								if(getSessionController().isTransfertsAccueil())
-								{
-									if(decision.equals("F"))
-									{					
-										if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
-										{
-											sujet = getString("DECISION.MAIL.SUJET");
-											body = getString("DECISION.MAIL.BODY_AVIS_F_PARTENAIRE",
-													this.currentDemandeTransferts.getPrenom1(),
-													this.currentDemandeTransferts.getNomPatronymique(),
-													this.getListeAccueilDecision().get(0).getDecision(),
-													libEtab,
-													etab.getLibOffEtb());							
-										}
-										else
-										{
-											sujet = getString("DECISION.MAIL.SUJET");
-											body = getString("DECISION.MAIL.BODY_AVIS_F_NON_PARTENAIRE",
-													this.currentDemandeTransferts.getPrenom1(),
-													this.currentDemandeTransferts.getNomPatronymique(),
-													this.getListeAccueilDecision().get(0).getDecision(),
-													libEtab,
-													etab.getLibOffEtb());							
-										}
-										getDomainService().addIndOpi(opi);
-									}
-									else
-									{
-										sujet = getString("DECISION.MAIL.SUJET");
-										body = getString("DECISION.MAIL.BODY_AVIS_D",
-												this.currentDemandeTransferts.getPrenom1(),
-												this.currentDemandeTransferts.getNomPatronymique(),
-												this.getListeAccueilDecision().get(0).getDecision(),
-												libEtab,
-												etab.getLibOffEtb());		
-									}
-									try {
-										getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-									} 
-									catch (AddressException e) 
-									{
-										summary = getString("ERREUR.ENVOI_MAIL");
-										detail = getString("ERREUR.ENVOI_MAIL");
-										severity = FacesMessage.SEVERITY_INFO;
-										FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-									}
-								}
-								else
-								{
-									if(decision.equals("F"))
-										getDomainService().addIndOpi(opi);
-								}
+								sujet = getString("DECISION.MAIL.SUJET");
+								body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_NON_PARTENAIRE",
+										this.currentDemandeTransferts.getPrenom1(),
+										this.currentDemandeTransferts.getNomPatronymique(),
+										this.getListeAccueilDecision().get(0).getDecision(),
+										libEtab,
+										etab.getLibOffEtb());							
 							}
+							getDomainService().addIndOpi(opi);
 						}
 						else
 						{
-							if(getSessionController().isTransfertsAccueil())
-							{
-								if(decision.equals("F"))
-								{				
-									sujet = getString("DECISION.MAIL.SUJET");
-									body = getString("DECISION.MAIL.BODY_EXCLU_BAC",
-											this.currentDemandeTransferts.getPrenom1(),
-											this.currentDemandeTransferts.getNomPatronymique(),
-											this.getListeAccueilDecision().get(0).getDecision(),
-											libEtab,
-											etab.getLibOffEtb());
-			
-									try {
-										getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-									} 
-									catch (AddressException e) 
-									{
-										summary = getString("ERREUR.ENVOI_MAIL");
-										detail = getString("ERREUR.ENVOI_MAIL");
-										severity = FacesMessage.SEVERITY_INFO;
-										FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-									}						
-								}
-							}
+							sujet = getString("DECISION.MAIL.SUJET");
+							body = getString("DECISION.MAIL.BODY_AVIS_D_CANDIDATURE",
+									this.currentDemandeTransferts.getPrenom1(),
+									this.currentDemandeTransferts.getNomPatronymique(),
+									this.getListeAccueilDecision().get(0).getDecision(),
+									libEtab,
+									etab.getLibOffEtb());	
 						}
+						try {
+							getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							summary = getString("ERREUR.ENVOI_MAIL");
+							detail = getString("ERREUR.ENVOI_MAIL");
+							severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}
+					}
+					else
+					{
+						if(decision.equals("F"))
+							getDomainService().addIndOpi(opi);
+					}
+				}	
+				else
+				{
+					if(getSessionController().isTransfertsAccueil())
+					{
+						if(decision.equals("F"))
+						{					
+							if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
+							{
+								sujet = getString("DECISION.MAIL.SUJET");
+								body = getString("DECISION.MAIL.BODY_AVIS_F_PARTENAIRE",
+										this.currentDemandeTransferts.getPrenom1(),
+										this.currentDemandeTransferts.getNomPatronymique(),
+										this.getListeAccueilDecision().get(0).getDecision(),
+										libEtab,
+										etab.getLibOffEtb());							
+							}
+							else
+							{
+								sujet = getString("DECISION.MAIL.SUJET");
+								body = getString("DECISION.MAIL.BODY_AVIS_F_NON_PARTENAIRE",
+										this.currentDemandeTransferts.getPrenom1(),
+										this.currentDemandeTransferts.getNomPatronymique(),
+										this.getListeAccueilDecision().get(0).getDecision(),
+										libEtab,
+										etab.getLibOffEtb());							
+							}
+							getDomainService().addIndOpi(opi);
+						}
+						else
+						{
+							sujet = getString("DECISION.MAIL.SUJET");
+							body = getString("DECISION.MAIL.BODY_AVIS_D",
+									this.currentDemandeTransferts.getPrenom1(),
+									this.currentDemandeTransferts.getNomPatronymique(),
+									this.getListeAccueilDecision().get(0).getDecision(),
+									libEtab,
+									etab.getLibOffEtb());		
+						}
+						try {
+							getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							summary = getString("ERREUR.ENVOI_MAIL");
+							detail = getString("ERREUR.ENVOI_MAIL");
+							severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}
+					}
+					else
+					{
+						if(decision.equals("F"))
+							getDomainService().addIndOpi(opi);
+					}
+				}
+			}
+			else
+			{
+				if(getSessionController().isTransfertsAccueil())
+				{
+					if(decision.equals("F"))
+					{				
+						sujet = getString("DECISION.MAIL.SUJET");
+						body = getString("DECISION.MAIL.BODY_EXCLU_BAC",
+								this.currentDemandeTransferts.getPrenom1(),
+								this.currentDemandeTransferts.getNomPatronymique(),
+								this.getListeAccueilDecision().get(0).getDecision(),
+								libEtab,
+								etab.getLibOffEtb());
+
+						try {
+							getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							summary = getString("ERREUR.ENVOI_MAIL");
+							detail = getString("ERREUR.ENVOI_MAIL");
+							severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}						
+					}
+				}
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -3305,22 +3305,32 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void addAccueilDecision()
 	{
-		try {
-			currentAccueilDecision.setAuteur(getSessionController().getCurrentUser().getLogin());
-			currentAccueilDecision.setDateSaisie(new Date());
-			this.currentDemandeTransferts.getAccueilDecision().add(this.currentAccueilDecision);
-			this.addDemandeTransfertsFromAvis(1);
-			this.currentDemandeTransferts=getDomainService().getPresenceEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
-			String summary = getString("ENREGISTREMENT.ACCUEIL_DECISION");
-			String detail = getString("ENREGISTREMENT.ACCUEIL_DECISION");
-			Severity severity = FacesMessage.SEVERITY_INFO;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));		
-		} catch (Exception e) {
-			e.printStackTrace();
-			String summary = "Une erreur s'est produite lors de l'enregistrement d'une decision";
-			String detail = "Une erreur s'est produite lors de l'enregistrement d'une decision";
-			Severity severity = FacesMessage.SEVERITY_FATAL;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));					
+		if(this.currentAccueilDecision!=null && this.currentAccueilDecision.getAvis()!="")
+		{
+			try {
+				currentAccueilDecision.setAuteur(getSessionController().getCurrentUser().getLogin());
+				currentAccueilDecision.setDateSaisie(new Date());
+				this.currentDemandeTransferts.getAccueilDecision().add(this.currentAccueilDecision);
+				this.addDemandeTransfertsFromAvis(1);
+				this.currentDemandeTransferts=getDomainService().getPresenceEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
+				String summary = getString("ENREGISTREMENT.ACCUEIL_DECISION");
+				String detail = getString("ENREGISTREMENT.ACCUEIL_DECISION");
+				Severity severity = FacesMessage.SEVERITY_INFO;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));		
+			} catch (Exception e) {
+				e.printStackTrace();
+				String summary = "Une erreur s'est produite lors de l'enregistrement d'une decision";
+				String detail = "Une erreur s'est produite lors de l'enregistrement d'une decision";
+				Severity severity = FacesMessage.SEVERITY_FATAL;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));					
+			}
+		}
+		else
+		{
+			String summary = getString("ENREGISTREMENT.AVIS");
+			String detail = getString("ENREGISTREMENT.AVIS");
+			Severity severity = FacesMessage.SEVERITY_WARN;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));							
 		}
 	}
 
@@ -4874,13 +4884,4 @@ public class AdministrationController extends AbstractContextAwareController {
 	public void setMultiple(boolean multiple) {
 		this.multiple = multiple;
 	}
-
-	//	public LazyListeTransfertDepartDataModel getLazyListeTransfertDepartDataModel() {
-	//		return lazyListeTransfertDepartDataModel;
-	//	}
-	//
-	//	public void setLazyListeTransfertDepartDataModel(
-	//			LazyListeTransfertDepartDataModel lazyListeTransfertDepartDataModel) {
-	//		this.lazyListeTransfertDepartDataModel = lazyListeTransfertDepartDataModel;
-	//	}	
 }
