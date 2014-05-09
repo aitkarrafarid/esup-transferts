@@ -41,17 +41,20 @@ import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.SE
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionDiplomeDTO2;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionEtapeDTO2;
 import gouv.education.apogee.commun.transverse.dto.opi.DonneesOpiDTO2;
+import gouv.education.apogee.commun.transverse.dto.opi.DonneesOpiDTO3;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJConvocationDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJDernierDiplObtDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJDernierEtbFrequenteDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJDonneesNaissanceDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJDonneesPersonnellesDTO2;
+import gouv.education.apogee.commun.transverse.dto.opi.MAJDonneesPersonnellesDTO3;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJEtatCivilDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJInscriptionParalleleDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiAdresseDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiBacDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiDacDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiIndDTO2;
+import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiIndDTO3;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiVoeuDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJPremiereInscriptionDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJPrgEchangeDTO;
@@ -1394,12 +1397,14 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}		
 
 
-		OpiMetierSoapBindingStub opiMetierServiceInterface2 = (OpiMetierSoapBindingStub) WSUtils.getService(WSUtils.OPI_SERVICE_NAME, this.user, this.password);
-
+//		OpiMetierSoapBindingStub opiMetierServiceInterface2 = (OpiMetierSoapBindingStub) WSUtils.getService(WSUtils.OPI_SERVICE_NAME, this.user, this.password);
+		OpiMetierSoapBindingStub opiMetierServiceInterface3 = (OpiMetierSoapBindingStub) WSUtils.getService(WSUtils.OPI_SERVICE_NAME, this.user, this.password);
+		
 		for(IndOpi opi : listeOpis)
 		{
 			//OpiMetierServiceInterface opiMetierServiceInterface = new OpiMetierServiceInterfaceProxy();
-			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
+//			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
+			DonneesOpiDTO3 donneesOpiDTO = new DonneesOpiDTO3();
 
 			/*Initialisation de l'objet DonneesOpiDTO2 d'apogee a partir de l'objet OPI de esup-transferts*/
 
@@ -1463,7 +1468,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				logger.debug("!!! OBLIGATOIRE !!! opi.getTemDateNaiRelOpi() --> "+opi.getTemDateNaiRelOpi());				
 				logger.debug("####################################################################################################");				
 			}			
-			MAJOpiIndDTO2 indDTO = new MAJOpiIndDTO2();
+//			MAJOpiIndDTO2 indDTO = new MAJOpiIndDTO2();
+			MAJOpiIndDTO3 indDTO = new MAJOpiIndDTO3();
+			
 			indDTO.setCodOpiIntEpo(opi.getNumeroOpi()); // !!! OBLIGATOIRE !!!
 			/*#################################################*/ 
 			/* MAJEtatCivilDTO */
@@ -1516,7 +1523,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			/*#################################################*/ 
 			/* MAJDonneesPersonnellesDTO2 */
 			/*#################################################*/
-			MAJDonneesPersonnellesDTO2 donneesPersonnellesDTO = new MAJDonneesPersonnellesDTO2();
+//			MAJDonneesPersonnellesDTO2 donneesPersonnellesDTO = new MAJDonneesPersonnellesDTO2();
+			MAJDonneesPersonnellesDTO3 donneesPersonnellesDTO = new MAJDonneesPersonnellesDTO3();
 			if (logger.isDebugEnabled()) {
 				logger.debug("##################################### MAJDonneesPersonnellesDTO2 #################################################");
 				logger.debug("opi.getAdrMailOpi() --> "+opi.getAdrMailOpi());
@@ -1680,7 +1688,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			/*APPEL DE LA METHODE DU WS APOGEE*/
 			try {
-				opiMetierServiceInterface2.mettreajourDonneesOpi_v2(donneesOpiDTO);
+//				opiMetierServiceInterface2.mettreajourDonneesOpi_v2(donneesOpiDTO);
+				opiMetierServiceInterface3.mettreajourDonneesOpi_v3(donneesOpiDTO);
 				// Traitement des exceptions
 			}catch (WebBaseException _ex) {
 				listeErreurs.add(opi);
