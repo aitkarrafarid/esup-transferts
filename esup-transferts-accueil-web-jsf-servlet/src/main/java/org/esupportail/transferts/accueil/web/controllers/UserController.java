@@ -852,7 +852,7 @@ public class UserController extends AbstractContextAwareController {
 				if(this.currentEtudiant!=null && authEtuScol==0)
 				{
 					if (logger.isDebugEnabled())
-						logger.debug("Etudiant dans pr�sent dans APOGEE - Compare date OK");
+						logger.debug("Etudiant dans present dans APOGEE - Compare date OK");
 
 					/**
 					 * niveau de l'interdit
@@ -879,6 +879,7 @@ public class UserController extends AbstractContextAwareController {
 						currentEtudiant.setBddScol(1);
 						currentEtudiant.getTransferts().setDept(getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getCodeDep());
 						currentEtudiant.getTransferts().setRne(getSessionController().getRne());
+//						getDomainServiceScolarite().getDerniereIAByNumeroEtudiant(this.currentEtudiant.getNumeroEtudiant());	
 						return "goToEtatCivilApogee";
 					}
 					else
