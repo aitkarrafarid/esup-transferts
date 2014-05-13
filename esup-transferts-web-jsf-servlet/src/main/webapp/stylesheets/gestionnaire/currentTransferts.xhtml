@@ -27,13 +27,13 @@
 			<!-- 			<p:growl id="growl" showDetail="false" sticky="true" /> -->
 			<center>
 
-<!-- 				<p:commandButton -->
-<!-- 					action="#{administrationController.addLaissezPasserReInscription}" -->
-<!-- 					value="addLaissezPasserReInscription" /> -->
+				<!-- 				<p:commandButton -->
+				<!-- 					action="#{administrationController.addLaissezPasserReInscription}" -->
+				<!-- 					value="addLaissezPasserReInscription" /> -->
 
-<!-- 				<p:commandButton -->
-<!-- 					action="#{administrationController.addTransfertOpiToListeTransfertsAccueil}" -->
-<!-- 					value="addTransfertOpiToListeTransfertsAccueil" /> -->
+				<!-- 				<p:commandButton -->
+				<!-- 					action="#{administrationController.addTransfertOpiToListeTransfertsAccueil}" -->
+				<!-- 					value="addTransfertOpiToListeTransfertsAccueil" /> -->
 
 				<p:panel id="adresse" styleClass="panel"
 					header="Demande de Transferts départ #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}"
@@ -41,74 +41,62 @@
 					<p:messages id="msgs" showDetail="false" />
 					<p:growl id="growl" showDetail="false" sticky="true" />
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-							style="text-align:left;">
+						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
+								style="text-align:left;">
+								<h:outputText value="Nom de famille : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
 
-							<!-- 							<h:outputText value="Interdits : " /> -->
-							<!-- 							<h:outputText -->
-							<!-- 								value="#{administrationController.currentDemandeTransferts.interdit}" /> -->
+								<h:outputText value="Nom d'usage : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
 
-							<!-- 							<h:outputText value="Interdit Local: " /> -->
-							<!-- 							<h:outputText -->
-							<!-- 								value="#{administrationController.currentDemandeTransferts.interditLocal}" /> -->
+								<h:outputText value="Prénom 1 : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.prenom1}" />
 
-							<h:outputText value="Date de la demande : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
-								<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-									timeZone="Europe/Paris" />
-							</h:outputText>
+								<h:outputText value="Prénom 2 : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.prenom2}" />
 
-							<!-- 							<h:outputText value="Code centre de gestion : " /> -->
-							<!-- 							<h:outputText -->
-							<!-- 								value="#{administrationController.currentDemandeTransferts.codCge}" /> -->
+								<h:outputText value="Date de naissance : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.dateNaissance}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+								</h:outputText>
+							</h:panelGrid>
 
-							<h:outputText value="Centre de gestion : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.libCge} (#{administrationController.currentDemandeTransferts.codCge})" />
+							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
+								style="margin-left:30%;text-align:left !important;">
 
-							<!-- 							<h:outputText value="Code Composante : " /> -->
-							<!-- 							<h:outputText -->
-							<!-- 								value="#{administrationController.currentDemandeTransferts.composante}" /> -->
+								<h:outputText value="Date de la demande : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
+									<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
+										timeZone="Europe/Paris" />
+								</h:outputText>
 
-							<h:outputText value="Composante : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.libComposante} (#{administrationController.currentDemandeTransferts.composante})" />
+								<h:outputText value="Numéro étudiant : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
 
-							<h:outputText value="Dernière I.A : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.libEtapePremiereLocal}" />
+								<h:outputText value="Nunméro I.N.E : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.numeroIne}" />
+								
+								<h:outputText value="Centre de gestion : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.libCge} (#{administrationController.currentDemandeTransferts.codCge})" />
 
-							<h:outputText value="Numéro étudiant : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
+								<h:outputText value="Composante : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.libComposante} (#{administrationController.currentDemandeTransferts.composante})" />
 
-							<h:outputText value="Nunméro I.N.E : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.numeroIne}" />
-
-							<h:outputText value="Nom de famille : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
-
-							<h:outputText value="Nom d'usage : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
-
-							<h:outputText value="Prénom 1 : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.prenom1}" />
-
-							<h:outputText value="Prénom 2 : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.prenom2}" />
-
-							<h:outputText value="Date de naissance : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.dateNaissance}">
-								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
-							</h:outputText>
-
+								<h:outputText value="Dernière I.A : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.libEtapePremiereLocal}" />
+							</h:panelGrid>
 						</h:panelGrid>
 					</p:fieldset>
 					<p:spacer height="10px" />

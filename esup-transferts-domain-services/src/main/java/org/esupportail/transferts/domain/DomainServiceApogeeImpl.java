@@ -70,6 +70,7 @@ import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,8 +100,10 @@ import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
 import org.esupportail.transferts.domain.beans.Transferts;
 import org.esupportail.transferts.domain.beans.VoeuxIns;
 import org.hibernate.annotations.Cache;
+import org.hibernate.validator.constraints.Length;
 
 import com.googlecode.ehcache.annotations.Cacheable;
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2012
@@ -158,33 +161,33 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		try {
 			if (logger.isDebugEnabled())
 				logger.debug("Numero etudiant -->"+etudiant.getNumeroEtudiant());
-			
+
 			infoAdmEtuDTO = etudiantMetierService.recupererInfosAdmEtu(etudiant.getNumeroEtudiant());
 			BlocageDTO[] listeBlocagesDTO = infoAdmEtuDTO.getListeBlocages();
 			if (logger.isDebugEnabled())
 				if(listeBlocagesDTO!=null)
 					logger.debug("listeBlocagesDTO -->"+listeBlocagesDTO.length);
-			
+
 			CoordonneesDTO coordonneesDTO = etudiantMetierService.recupererAdressesEtudiant(etudiant.getNumeroEtudiant(), null, null);
 			if (logger.isDebugEnabled())
 				logger.debug("coordonneesDTO -->"+coordonneesDTO.toString());
-			
+
 			AdresseDTO adresseFixe = coordonneesDTO.getAdresseFixe();
 			if (logger.isDebugEnabled())
 				logger.debug("adresseFixe -->"+adresseFixe.toString());		
-			
+
 			CommuneDTO communeDTO = adresseFixe.getCommune();
 			if (logger.isDebugEnabled())
 				logger.debug("communeDTO -->"+communeDTO.toString());	
-			
+
 			PaysDTO paysDTO = adresseFixe.getPays();
 			if (logger.isDebugEnabled())
 				logger.debug("paysDTO -->"+paysDTO.toString());	
-			
+
 			NationaliteDTO nationaliteDTO = infoAdmEtuDTO.getNationaliteDTO();
 			if (logger.isDebugEnabled())
 				logger.debug("nationaliteDTO -->"+nationaliteDTO.toString());	
-			
+
 			IndBacDTO[] indBac = infoAdmEtuDTO.getListeBacs();
 			if (logger.isDebugEnabled())
 				if(indBac!=null)
@@ -488,80 +491,80 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 	}	
 
-//	@Override
-//	public String getNumeroEtudiantByIne(String ine, Date dateNaissance){
-//		// appel au WS AMUE
-//		if (logger.isDebugEnabled())
-//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
-//		String ineSansCle = ine.substring(0, ine.length()-1);
-//		String cleIne = ine.substring(ine.length()-1, ine.length());
-//
-//		if (logger.isDebugEnabled()) {
-//			logger.debug("ineSansCle --> "+ ineSansCle);
-//			logger.debug("cleIne --> "+ cleIne);
-//			logger.debug("dateNaissance --> "+ dateNaissance);
-//		}	
-//		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//
-//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
-//		// Recuperation des infos de l'etudiant dans Apogee	
-//		InfoAdmEtuDTO infoAdmEtuDTO;
-//		try {
-//			if (logger.isDebugEnabled())
-//				logger.debug("ine --> " + ine);
-//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(null, null, ineSansCle, cleIne, null, null, null, null, null, null);
-//			infoAdmEtuDTO = etudiantMetierService.recupererInfosAdmEtu(identifiantEtudiant.getCodEtu().toString());
-//
-//			if(dateFormat.format(dateNaissance).equals(dateFormat.format(infoAdmEtuDTO.getDateNaissance())))
-//			{
-//				if (logger.isDebugEnabled())
-//					logger.debug("Compare date OK - getNumeroEtudiantByIne");
-//				return infoAdmEtuDTO.getNumEtu().toString();
-//			}
-//			else
-//			{
-//				if (logger.isDebugEnabled())
-//					logger.debug("Compare date FAUX - getNumeroEtudiantByIne !!!");
-//				return "";
-//			}
-//
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}		
+	//	@Override
+	//	public String getNumeroEtudiantByIne(String ine, Date dateNaissance){
+	//		// appel au WS AMUE
+	//		if (logger.isDebugEnabled())
+	//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
+	//		String ineSansCle = ine.substring(0, ine.length()-1);
+	//		String cleIne = ine.substring(ine.length()-1, ine.length());
+	//
+	//		if (logger.isDebugEnabled()) {
+	//			logger.debug("ineSansCle --> "+ ineSansCle);
+	//			logger.debug("cleIne --> "+ cleIne);
+	//			logger.debug("dateNaissance --> "+ dateNaissance);
+	//		}	
+	//		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	//
+	//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+	//		// Recuperation des infos de l'etudiant dans Apogee	
+	//		InfoAdmEtuDTO infoAdmEtuDTO;
+	//		try {
+	//			if (logger.isDebugEnabled())
+	//				logger.debug("ine --> " + ine);
+	//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(null, null, ineSansCle, cleIne, null, null, null, null, null, null);
+	//			infoAdmEtuDTO = etudiantMetierService.recupererInfosAdmEtu(identifiantEtudiant.getCodEtu().toString());
+	//
+	//			if(dateFormat.format(dateNaissance).equals(dateFormat.format(infoAdmEtuDTO.getDateNaissance())))
+	//			{
+	//				if (logger.isDebugEnabled())
+	//					logger.debug("Compare date OK - getNumeroEtudiantByIne");
+	//				return infoAdmEtuDTO.getNumEtu().toString();
+	//			}
+	//			else
+	//			{
+	//				if (logger.isDebugEnabled())
+	//					logger.debug("Compare date FAUX - getNumeroEtudiantByIne !!!");
+	//				return "";
+	//			}
+	//
+	//
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//			return null;
+	//		}
+	//	}		
 
-//	@Override
-//	public Integer getCleIndByIne(String ine){
-//		// appel au WS AMUE
-//		if (logger.isDebugEnabled())
-//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
-//		String ineSansCle = ine.substring(0, ine.length()-1);
-//		String cleIne = ine.substring(ine.length()-1, ine.length());
-//
-//		if (logger.isDebugEnabled()) 
-//		{
-//			logger.debug("public Integer getCleIndByIne(String ine)");
-//			logger.debug("ineSansCle --> "+ ineSansCle);
-//			logger.debug("cleIne --> "+ cleIne);
-//		}	
-//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
-//		// Recuperation des infos de l'etudiant dans Apogee	
-//		InfoAdmEtuDTO infoAdmEtuDTO;
-//		try {
-//			if (logger.isDebugEnabled())
-//				logger.debug("ine --> " + ine);
-//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(null, null, ineSansCle, cleIne, null, null, null, null, null, null);
-//			return identifiantEtudiant.getCodInd();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}		
+	//	@Override
+	//	public Integer getCleIndByIne(String ine){
+	//		// appel au WS AMUE
+	//		if (logger.isDebugEnabled())
+	//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
+	//		String ineSansCle = ine.substring(0, ine.length()-1);
+	//		String cleIne = ine.substring(ine.length()-1, ine.length());
+	//
+	//		if (logger.isDebugEnabled()) 
+	//		{
+	//			logger.debug("public Integer getCleIndByIne(String ine)");
+	//			logger.debug("ineSansCle --> "+ ineSansCle);
+	//			logger.debug("cleIne --> "+ cleIne);
+	//		}	
+	//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+	//		// Recuperation des infos de l'etudiant dans Apogee	
+	//		InfoAdmEtuDTO infoAdmEtuDTO;
+	//		try {
+	//			if (logger.isDebugEnabled())
+	//				logger.debug("ine --> " + ine);
+	//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(null, null, ineSansCle, cleIne, null, null, null, null, null, null);
+	//			return identifiantEtudiant.getCodInd();
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//			return null;
+	//		}
+	//	}		
 
 	@Override
-//	public Integer getCleIndByCodAndCle(String codNneIndOpi, String codCleNneIndOpi) 
+	//	public Integer getCleIndByCodAndCle(String codNneIndOpi, String codCleNneIndOpi) 
 	public IdentifiantEtudiant getIdentifiantEtudiantByIne(String codNneIndOpi, String codCleNneIndOpi) 	
 	{
 		// appel au WS AMUE
@@ -586,30 +589,30 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			return null;
 		}
 	}		
-	
-//	@Override
-//	public Integer getCleIndByNumeroEtudiant(String numeroEtudiant){
-//		// appel au WS AMUE
-//		if (logger.isDebugEnabled()) {
-//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
-//			logger.debug("numeroEtudiant --> "+ numeroEtudiant);
-//		}	
-//		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//
-//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
-//		// Recuperation des infos de l'etudiant dans Apogee	
-//		InfoAdmEtuDTO infoAdmEtuDTO;
-//		try {
-//			if (logger.isDebugEnabled())
-//				logger.debug("numeroEtudiant --> " + numeroEtudiant);
-//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(numeroEtudiant, null, null, null, null, null, null, null, null, null);
-//			return identifiantEtudiant.getCodInd();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}		
-	
+
+	//	@Override
+	//	public Integer getCleIndByNumeroEtudiant(String numeroEtudiant){
+	//		// appel au WS AMUE
+	//		if (logger.isDebugEnabled()) {
+	//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
+	//			logger.debug("numeroEtudiant --> "+ numeroEtudiant);
+	//		}	
+	//		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	//
+	//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+	//		// Recuperation des infos de l'etudiant dans Apogee	
+	//		InfoAdmEtuDTO infoAdmEtuDTO;
+	//		try {
+	//			if (logger.isDebugEnabled())
+	//				logger.debug("numeroEtudiant --> " + numeroEtudiant);
+	//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(numeroEtudiant, null, null, null, null, null, null, null, null, null);
+	//			return identifiantEtudiant.getCodInd();
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//			return null;
+	//		}
+	//	}		
+
 	public List<TrCommuneDTO> getCommunes(String codePostal){
 		// appel au WS AMUE
 		List<TrCommuneDTO> listTrCommuneDTO = null;
@@ -839,7 +842,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			return null;
 		}
 	}		
-	
+
 	@Override
 	public String getComposante(String supannEtuId){
 		if (logger.isDebugEnabled()) {
@@ -880,51 +883,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 	}		
 
-//	@Override
-//	public String getEtapePremiere(String supannEtuId){
-//		if (logger.isDebugEnabled()) {
-//			logger.debug("public String getEtapePremiere(String supannEtuId)");
-//			logger.debug("supannEtuId --> "+supannEtuId);
-//		}			
-//		AdministratifMetierServiceInterface administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
-//		InsAdmEtpDTO[] insAdmEtpDTO;
-//		try {
-//			String ret="";
-//			insAdmEtpDTO = administratifMetierServiceInterface.recupererIAEtapes(supannEtuId, null, "ARE", "ARE");
-//			Map<String, String> map = new HashMap<String, String>();
-//			for(int i=0; i<insAdmEtpDTO.length;i++)
-//			{
-//				if(insAdmEtpDTO[i].getEtapePremiere().equals("oui"))
-//				{
-//					ret=insAdmEtpDTO[i].getEtape().getLibWebVet();
-//				}
-//				if (logger.isDebugEnabled()) {
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getComposante().getLibComposante());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getTemoinPI());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getTemoinVae());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getEtatIae().getCodeEtatIAE());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getEtatIae().getLibEtatIAE());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getEtatIaa().getCodeEtatIAA());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getEtatIaa().getLibEtatIAA());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getEtapePremiere());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getCge().getCodeCGE());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getCge().getLibCGE());
-//					logger.debug("----------------------> "+insAdmEtpDTO[i].getEtape().getLibWebVet());
-//				}					
-//			}
-//			return "";			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "Inconnue";
-//		}
-//	}			
-	
 	@Override
 	public Map<String,String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId){
 		if (logger.isDebugEnabled()) {
 			logger.debug("public Map<String,String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId)");
 			logger.debug("supannEtuId --> "+supannEtuId);
-		}			
+		}                      
 		AdministratifMetierServiceInterface administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
 		InsAdmEtpDTO[] insAdmEtpDTO;
 		try {
@@ -939,7 +903,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					map.put("codeCGE", insAdmEtpDTO[i].getCge().getCodeCGE());
 					map.put("libCGE", insAdmEtpDTO[i].getCge().getLibCGE());
 					map.put("codeComposante", insAdmEtpDTO[i].getComposante().getCodComposante());
-					map.put("libComposante", insAdmEtpDTO[i].getComposante().getLibComposante());					
+					map.put("libComposante", insAdmEtpDTO[i].getComposante().getLibComposante());                                  
 				}
 				if (logger.isDebugEnabled()) {
 					logger.debug("----------------------> "+insAdmEtpDTO[i].getComposante().getLibComposante());
@@ -953,7 +917,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					logger.debug("----------------------> "+insAdmEtpDTO[i].getCge().getCodeCGE());
 					logger.debug("----------------------> "+insAdmEtpDTO[i].getCge().getLibCGE());
 					logger.debug("----------------------> "+insAdmEtpDTO[i].getEtape().getLibWebVet());
-				}					
+				}                                      
 			}
 			return map;
 		} catch (Exception e) {
@@ -961,10 +925,82 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("libWebVet", "Inconnue");
 			map.put("codeCGE", "Inconnue");
-			map.put("libCGE", "Inconnue");			
+			map.put("libCGE", "Inconnue");		
+			map.put("codeComposante", "Inconnue");
+			map.put("libComposante", "Inconnue");	              
 			return map;
 		}
-	}		
+	}             
+
+	//	@Override
+	//	public Map<String,String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId){
+	//		if (logger.isDebugEnabled()) {
+	//			logger.debug("public Map<String,String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId)");
+	//			logger.debug("supannEtuId --> "+supannEtuId);
+	//		}			
+	//		AdministratifMetierServiceInterface administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
+	//		InsAdmEtpDTO[] insAdmEtpDTO;
+	//		try {
+	//			String ret="";
+	//			insAdmEtpDTO = administratifMetierServiceInterface.recupererIAEtapes(supannEtuId, null, "ARE", "ARE");
+	//			Map<String, String> map = new HashMap<String, String>();
+	//			List<Integer> anneeIAE = new ArrayList<Integer>();
+	//			
+	//			for(int i=0; i<insAdmEtpDTO.length;i++)
+	//			{
+	//				if (logger.isDebugEnabled()) 
+	//				{
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getAnneeIAE() ----------->"+insAdmEtpDTO[i].getAnneeIAE());	
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getDateIAE() ----------->"+insAdmEtpDTO[i].getDateIAE());						
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getComposante().getLibComposante() ----------->"+insAdmEtpDTO[i].getComposante().getLibComposante());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getTemoinPI() ----------->>"+insAdmEtpDTO[i].getTemoinPI());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getTemoinVae() ----------->"+insAdmEtpDTO[i].getTemoinVae());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtatIae().getCodeEtatIAE() ----------->"+insAdmEtpDTO[i].getEtatIae().getCodeEtatIAE());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtatIae().getLibEtatIAE() ----------->"+insAdmEtpDTO[i].getEtatIae().getLibEtatIAE());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtatIaa().getCodeEtatIAA() ----------->"+insAdmEtpDTO[i].getEtatIaa().getCodeEtatIAA());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtatIaa().getLibEtatIAA() ----------->"+insAdmEtpDTO[i].getEtatIaa().getLibEtatIAA());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtapePremiere() ----------->"+insAdmEtpDTO[i].getEtapePremiere());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getCge().getCodeCGE() ----------->"+insAdmEtpDTO[i].getCge().getCodeCGE());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getCge().getLibCGE() ----------->"+insAdmEtpDTO[i].getCge().getLibCGE());
+	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtape().getLibWebVet() ----------->"+insAdmEtpDTO[i].getEtape().getLibWebVet());
+	//				}					
+	//				if(insAdmEtpDTO[i].getEtapePremiere().equals("oui"))
+	//					anneeIAE.add(Integer.parseInt(insAdmEtpDTO[i].getAnneeIAE()));
+	//			}
+	//
+	//			Integer tableau[] = new Integer[anneeIAE.size()];
+	//			for(int i=0 ; i<anneeIAE.size() ; i++)	
+	//				tableau[i]=anneeIAE.get(i);
+	//				
+	//			if (logger.isDebugEnabled()) 
+	//				for(int i=0;i<tableau.length;i++)
+	//					logger.debug("---------- tableau["+i+"] ------------>"+tableau[i]);		
+	//			
+	//			Arrays.sort(tableau);
+	//
+	//			for(int i=0; i<insAdmEtpDTO.length;i++)
+	//			{
+	//				if(insAdmEtpDTO[i].getEtapePremiere().equals("oui") && insAdmEtpDTO[i].getAnneeIAE().equals(tableau[0].toString()))
+	//				{
+	//					map.put("libWebVet", insAdmEtpDTO[i].getEtape().getLibWebVet());
+	//					map.put("codeCGE", insAdmEtpDTO[i].getCge().getCodeCGE());
+	//					map.put("libCGE", insAdmEtpDTO[i].getCge().getLibCGE());
+	//					map.put("codeComposante", insAdmEtpDTO[i].getComposante().getCodComposante());
+	//					map.put("libComposante", insAdmEtpDTO[i].getComposante().getLibComposante());		
+	//				}
+	//			}			
+	//			return map;
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//			Map<String, String> map = new HashMap<String, String>();
+	//			map.put("libWebVet", "Inconnue");
+	//			map.put("codeCGE", "Inconnue");
+	//			map.put("libCGE", "Inconnue");		
+	//			map.put("codeComposante", "Inconnue");
+	//			map.put("libComposante", "Inconnue");		
+	//			return map;
+	//		}
+	//	}		
 
 	@Override
 	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId){
@@ -1336,12 +1372,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 							Integer codeNiveau = ve.getCodSisDaaMin();
 							String libNiveau;
-							
+
 							if(codeNiveau==1)
 								libNiveau=codeNiveau+"er année";
 							else
 								libNiveau=codeNiveau+"ème année";
-							
+
 							odfs.add(new OffreDeFormationsDTO(rne,
 									annee,
 									ld.getTypeDiplome().getCodTypDip(),
@@ -1394,13 +1430,13 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}		
 
 
-//		OpiMetierSoapBindingStub opiMetierServiceInterface2 = (OpiMetierSoapBindingStub) WSUtils.getService(WSUtils.OPI_SERVICE_NAME, this.user, this.password);
+		//		OpiMetierSoapBindingStub opiMetierServiceInterface2 = (OpiMetierSoapBindingStub) WSUtils.getService(WSUtils.OPI_SERVICE_NAME, this.user, this.password);
 		OpiMetierSoapBindingStub opiMetierServiceInterface3 = (OpiMetierSoapBindingStub) WSUtils.getService(WSUtils.OPI_SERVICE_NAME, this.user, this.password);
-		
+
 		for(IndOpi opi : listeOpis)
 		{
 			//OpiMetierServiceInterface opiMetierServiceInterface = new OpiMetierServiceInterfaceProxy();
-//			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
+			//			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
 			DonneesOpiDTO3 donneesOpiDTO = new DonneesOpiDTO3();
 
 			/*Initialisation de l'objet DonneesOpiDTO2 d'apogee a partir de l'objet OPI de esup-transferts*/
@@ -1465,9 +1501,10 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				logger.debug("!!! OBLIGATOIRE !!! opi.getTemDateNaiRelOpi() --> "+opi.getTemDateNaiRelOpi());				
 				logger.debug("####################################################################################################");				
 			}			
-//			MAJOpiIndDTO2 indDTO = new MAJOpiIndDTO2();
+			//			MAJOpiIndDTO2 indDTO = new MAJOpiIndDTO2();
 			MAJOpiIndDTO3 indDTO = new MAJOpiIndDTO3();
-			
+
+			indDTO.setCodEtuOpi(opi.getCodEtuLpa());
 			indDTO.setCodOpiIntEpo(opi.getNumeroOpi()); // !!! OBLIGATOIRE !!!
 			/*#################################################*/ 
 			/* MAJEtatCivilDTO */
@@ -1520,7 +1557,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			/*#################################################*/ 
 			/* MAJDonneesPersonnellesDTO2 */
 			/*#################################################*/
-//			MAJDonneesPersonnellesDTO2 donneesPersonnellesDTO = new MAJDonneesPersonnellesDTO2();
+			//			MAJDonneesPersonnellesDTO2 donneesPersonnellesDTO = new MAJDonneesPersonnellesDTO2();
 			MAJDonneesPersonnellesDTO3 donneesPersonnellesDTO = new MAJDonneesPersonnellesDTO3();
 			if (logger.isDebugEnabled()) {
 				logger.debug("##################################### MAJDonneesPersonnellesDTO2 #################################################");
@@ -1627,6 +1664,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			/* MAJOpiVoeuDTO */
 			/*#################################################*/
 			MAJOpiVoeuDTO tabVoeux[] = new MAJOpiVoeuDTO[1];
+			//			MAJOpiVoeuDTO tabVoeux[] = new MAJOpiV
 			MAJOpiVoeuDTO opiVoeuDTO = new MAJOpiVoeuDTO();
 			if (logger.isDebugEnabled()) {
 				logger.debug("################################################### MAJOpiVoeuDTO #####################################################");
@@ -1669,6 +1707,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				logger.debug("#######################################################################################################################");				
 			}		
 			opiVoeuDTO.setTitreAccesExterne(titreAccesExterneDTO);
+			opiVoeuDTO.setLibCmtJur("TRANSFERTS");
 
 			/*#################################################*/ 
 			/* MAJConvocationDTO */
@@ -1685,7 +1724,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			/*APPEL DE LA METHODE DU WS APOGEE*/
 			try {
-//				opiMetierServiceInterface2.mettreajourDonneesOpi_v2(donneesOpiDTO);
+				//				opiMetierServiceInterface2.mettreajourDonneesOpi_v2(donneesOpiDTO);
 				opiMetierServiceInterface3.mettreajourDonneesOpi_v3(donneesOpiDTO);
 				// Traitement des exceptions
 			}catch (WebBaseException _ex) {
@@ -1827,7 +1866,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		else
 			return null;
 	}	
-	
+
 	@Override
 	public List<CGE> recupererListeCGE(Integer annee, String source) {
 		if (logger.isDebugEnabled()) 
@@ -1850,5 +1889,5 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		else
 			return null;
 	}	
-	
+
 }

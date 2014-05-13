@@ -9,8 +9,6 @@
 		used by the web interface. It should not be modified but by the developers. 
 		This file is referenced by /properties/applicationContext.xml. -->
 
-
-
 	<bean id="sessionController"
 		class="org.esupportail.transferts.web.controllers.SessionController"
 		parent="abstractDomainAwareBean" scope="session">
@@ -32,6 +30,7 @@
 		<property name="transfertsAccueil" value="${transferts.accueil}" />
 		<property name="superGestionnaire" value="${init.superGestionnaire}" />
 		<property name="validationAutomatique" value="${validation.automatique}" />
+		<property name="regleGestionTE02" value="${regle.gestion.TE02}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"

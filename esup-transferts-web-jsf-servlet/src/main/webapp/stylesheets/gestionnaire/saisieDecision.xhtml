@@ -147,7 +147,7 @@
 						<!-- 						</h:panelGrid> -->
 						<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
 							style="text-align:left;">
-							<h:selectOneRadio id="voeux" 
+							<h:selectOneRadio id="voeux"
 								valueChangeListener="#{administrationController.decisionChange}"
 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								value="#{administrationController.currentAccueilDecision.avis}"
@@ -156,7 +156,6 @@
 									itemValue="A" />
 								<f:selectItem id="B" itemLabel="#{msgs['DECISION.DEFAVORABLE']}"
 									itemValue="B" />
-								<!-- 																<p:ajax update="decision" event="click" process="@this" immediate="true" />									 -->
 								<f:ajax immediate="true" event="change"
 									render="textareaDecision" />
 							</h:selectOneRadio>

@@ -109,6 +109,30 @@
 
 		<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
 			<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+			<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
+				style="text-align:left !important;">
+				<h:outputText value="Nom de famille : " />
+				<h:outputText
+					value="#{userController.currentEtudiant.nomPatronymique}" />
+
+				<h:outputText value="Nom d'usage : " />
+				<h:outputText value="#{userController.currentEtudiant.nomUsuel}" />
+
+				<h:outputText value="Prénom 1 : " />
+				<h:outputText value="#{userController.currentEtudiant.prenom1}" />
+
+				<h:outputText value="Prénom 2 : " />
+				<h:outputText value="#{userController.currentEtudiant.prenom2}" />
+
+				<h:outputText value="Date de naissance : " />
+				<h:outputText
+					value="#{userController.currentEtudiant.dateNaissance}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+				</h:outputText>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
+				style="margin-left:30%;text-align:left;">
 				<h:outputText value="Centre de gestion : " />
 				<h:outputText
 					value="#{userController.currentEtudiant.libCge} (#{userController.currentEtudiant.codCge})" />
@@ -128,24 +152,7 @@
 				<h:outputText value="Numéro I.N.E : " />
 				<h:outputText value="#{userController.currentEtudiant.numeroIne}" />
 
-				<h:outputText value="Nom de famille : " />
-				<h:outputText
-					value="#{userController.currentEtudiant.nomPatronymique}" />
-
-				<h:outputText value="Nom d'usage : " />
-				<h:outputText value="#{userController.currentEtudiant.nomUsuel}" />
-
-				<h:outputText value="Prénom 1 : " />
-				<h:outputText value="#{userController.currentEtudiant.prenom1}" />
-
-				<h:outputText value="Prénom 2 : " />
-				<h:outputText value="#{userController.currentEtudiant.prenom2}" />
-
-				<h:outputText value="Date de naissance : " />
-				<h:outputText
-					value="#{userController.currentEtudiant.dateNaissance}">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
-				</h:outputText>
+			</h:panelGrid>			
 			</h:panelGrid>
 		</p:fieldset>
 		<p:spacer height="10px" />

@@ -201,6 +201,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private IndOpi[] selectedOpis;
 	private boolean existCodeBac;
 	private boolean multiple;
+	private boolean repriseEtudes;
 
 	@Override
 	public void afterPropertiesSetInternal()
@@ -1338,8 +1339,6 @@ public class AdministrationController extends AbstractContextAwareController {
 					getSessionController().getCurrentAnnee(), 
 					this.currentDemandeTransferts.getTransferts().getOdf().getCodeComposante());					
 
-			//				if (this.currentDemandeTransferts.getTransferts().getFichier() == null)
-			//					this.currentDemandeTransferts.getTransferts().setFichier(getDefautFichier());
 			if (this.currentDemandeTransferts.getAdresse().getCodPay().equals("100"))
 				this.setCodePaysItems("100");
 			else
@@ -1347,7 +1346,6 @@ public class AdministrationController extends AbstractContextAwareController {
 
 			if(currentDemandeTransferts.getTransferts().getOdf()!=null)
 			{
-				//				System.out.println();
 				setCodTypDip(currentDemandeTransferts.getTransferts().getOdf().getCodTypDip());
 				setCodeNiveau(currentDemandeTransferts.getTransferts().getOdf().getCodeNiveau());		
 				setCodeComposante(currentDemandeTransferts.getTransferts().getOdf().getCodeComposante());
@@ -1384,6 +1382,9 @@ public class AdministrationController extends AbstractContextAwareController {
 			else
 				this.setExistCodeBac(true);
 
+			if(getSessionController().getRegleGestionTE02()!=null)
+				this.verifRepriseEtudes();
+
 			return "goToCurrentDemandeTransfertsAccueil";
 		}
 		else 
@@ -1395,6 +1396,66 @@ public class AdministrationController extends AbstractContextAwareController {
 			return null;
 		}
 	}	
+
+	public void verifRepriseEtudes()
+	{
+		Integer tableau[] = new Integer[this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size()];
+
+		if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("L"))
+		{
+			for(int i=0 ; i<this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size() ; i++)	
+				tableau[i]=Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getAnnee().getLibelle().substring(0, 4));
+		}
+		else if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
+		{
+			for(int i=0 ; i<this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size() ; i++)	
+				tableau[i]=Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getLibAccueilAnnee().substring(0, 4));			
+		}
+		else
+		{
+			String summary = "Impossible de determiner la source de la demande de transfert";
+			String detail = "Impossible de determiner la source de la demande de transfert";			
+			Severity severity = FacesMessage.SEVERITY_FATAL;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));			
+		}
+
+		if (logger.isDebugEnabled()) 
+			for(int i=0;i<tableau.length;i++)
+				logger.debug("---------- tableau["+i+"] ------------>"+tableau[i]);		
+
+		Arrays.sort(tableau);
+
+		if (logger.isDebugEnabled()) 
+			for(int i=0;i<tableau.length;i++)
+				logger.debug("---------- tableau["+i+"] ------------>"+tableau[i]);				
+
+			Integer anneeVerifRepriseEtudes = getSessionController().getCurrentAnnee()-getSessionController().getRegleGestionTE02();
+			if (logger.isDebugEnabled()) 
+			{
+				logger.debug("---------- getSessionController().getCurrentAnnee() ------------>"+getSessionController().getCurrentAnnee());
+				logger.debug("---------- tableau.length-1 ------------>"+tableau[tableau.length-1]);				
+				logger.debug("---------- getSessionController().getRegleGestionTE02() ------------>"+getSessionController().getRegleGestionTE02());
+				logger.debug("---------- anneeVerifRepriseEtudes ------------>"+anneeVerifRepriseEtudes);
+			}	
+			setRepriseEtudes(true);
+			for(int i=0;i<tableau.length;i++)
+			{
+				if (logger.isDebugEnabled()) 
+					logger.debug("---------- Boucle tableau["+i+"] ------------>"+tableau[i]);
+				if(tableau[i].equals(anneeVerifRepriseEtudes))
+				{
+					if (logger.isDebugEnabled()) 
+						logger.debug("---------- if(tableau[i].equals(anneeVerifRepriseEtudes)) ------------>"+tableau[i]);
+					setRepriseEtudes(false);
+					break;
+				}
+			}
+			if (logger.isDebugEnabled()) 
+				if(this.isRepriseEtudes())
+					logger.debug("---------- Reprise d'études ------------>"+this.isRepriseEtudes());
+				else
+					logger.debug("---------- Pas de reprise d'étude ------------>"+this.isRepriseEtudes());
+	}
 
 	public String goToCurrentDemandeTransferts() {
 		if (logger.isDebugEnabled())
@@ -4883,5 +4944,13 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void setMultiple(boolean multiple) {
 		this.multiple = multiple;
+	}
+
+	public boolean isRepriseEtudes() {
+		return repriseEtudes;
+	}
+
+	public void setRepriseEtudes(boolean repriseEtudes) {
+		this.repriseEtudes = repriseEtudes;
 	}
 }

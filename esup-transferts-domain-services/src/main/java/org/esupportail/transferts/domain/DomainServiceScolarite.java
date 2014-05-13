@@ -60,14 +60,6 @@ public interface DomainServiceScolarite extends Serializable {
 
 	public String getComposante(String supannEtuId);
 
-	/*
-	 * map.put("libWebVet", insAdmEtpDTO[i].getEtape().getLibWebVet());
-	 * map.put("codeCGE", insAdmEtpDTO[i].getCge().getCodeCGE());
-	 * map.put("libCGE", insAdmEtpDTO[i].getCge().getLibCGE());
-	 * 
-	 * */
-//	public String getEtapePremiere(String supannEtuId);
-
 	public List<OffreDeFormationsDTO> getOffreDeFormation(String rne, Integer annee);
 
 	public List<IndOpi> synchroOpi(List<IndOpi> listeSynchroScolarite);
@@ -76,8 +68,6 @@ public interface DomainServiceScolarite extends Serializable {
 	
 	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String source, Integer annee);
 
-//	String getNumeroEtudiantByIne(String ine, Date dateNaissance);
-
 	public Integer getAuthEtu(String ine, Date dateNaissanceApogee);
 
 	public List<Composante> recupererListeComposantes(Integer annee, String source);
@@ -85,10 +75,6 @@ public interface DomainServiceScolarite extends Serializable {
 	List<CGE> recupererListeCGE(Integer annee, String source);
 
 	Map<String, String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId);
-
-//	Integer getCleIndByIne(String ine);
-
-//	Integer getCleIndByNumeroEtudiant(String numeroEtudiant);
 
 	public IdentifiantEtudiant getIdentifiantEtudiantByIne(String codNneIndOpi, String codCleNneIndOpi);
 

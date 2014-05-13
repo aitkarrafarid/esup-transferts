@@ -61,6 +61,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	private String superGestionnaire;
 	private List<String> listSuperGestionnaire = new ArrayList<String>();	
 	private String validationAutomatique;
+	private Integer regleGestionTE02;
 	private Logger logger = new LoggerImpl(getClass());
 	
 	/*
@@ -352,5 +353,13 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setValidationAutomatique(String validationAutomatique) {
 		this.validationAutomatique = validationAutomatique;
+	}
+
+	public Integer getRegleGestionTE02() {
+		return regleGestionTE02;
+	}
+
+	public void setRegleGestionTE02(Integer regleGestionTE02) {
+		this.regleGestionTE02 = regleGestionTE02;
 	}
 }
