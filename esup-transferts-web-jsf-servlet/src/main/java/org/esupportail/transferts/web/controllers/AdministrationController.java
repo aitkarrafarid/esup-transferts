@@ -66,6 +66,7 @@ import org.esupportail.transferts.domain.beans.ResultatEtape;
 import org.esupportail.transferts.domain.beans.ResultatSession;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.TrBac;
+import org.esupportail.transferts.domain.beans.TrBlocageDTO;
 import org.esupportail.transferts.domain.beans.TrCommuneDTO;
 import org.esupportail.transferts.domain.beans.TrDepartementDTO;
 import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
@@ -196,8 +197,9 @@ public class AdministrationController extends AbstractContextAwareController {
 	private Integer totalOpi;
 	private PersonnelComposante droitPC;
 	private String aideTypeTransfert;	
-	private boolean vap;
-	DatasExterne datasEterneVap;	
+	private boolean interditNiveau2;
+	//DatasExterne datasEterneVap;
+	private String texteInterditNiveau2;
 	private IndOpi[] selectedOpis;
 	private boolean existCodeBac;
 	private boolean multiple;
@@ -218,14 +220,14 @@ public class AdministrationController extends AbstractContextAwareController {
 		this.isDefaultCodeSizeAnnee();	
 	}	
 
-	public void showMessageVAP() {
+	public void showMessageInterditNiveau2() {
 		if (logger.isDebugEnabled())
-			logger.debug("public void showMessageVAP()");
-		if(isVap())
+			logger.debug("public void showMessageInterditNiveau2()");
+		if(isInterditNiveau2())
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("if(isVap())");			
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, datasEterneVap.getLibInterdit(), datasEterneVap.getLibInterdit());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Attention...", this.getTexteInterditNiveau2());
 			RequestContext.getCurrentInstance().showMessageInDialog(message);			
 		}
 	}
@@ -1326,13 +1328,22 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("goToCurrentDemandeTransfertsAccueil");
 
+		setTexteInterditNiveau2("");
+		
 		if (this.currentDemandeTransferts != null) 
 		{
-			datasEterneVap = getDomainService().getDataExterneByIdentifiantAndCode(this.currentDemandeTransferts.getNumeroIne(),"vap");
-			if(datasEterneVap!=null)
-				setVap(true);			
+			List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 2);
+			
+			for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
+				this.texteInterditNiveau2 += "<BR /> - "+lInterditNiveau2.getLibInterdit();
+			
+			if (logger.isDebugEnabled())
+				logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
+			
+			if(listeDatasEterneNiveau2!=null && !listeDatasEterneNiveau2.isEmpty())
+				setInterditNiveau2(true);			
 			else
-				setVap(false);			
+				setInterditNiveau2(false);			
 
 			droitPC = getDomainService().getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(getCurrentUserLogin(),
 					getSource(), 
@@ -3209,12 +3220,12 @@ public class AdministrationController extends AbstractContextAwareController {
 				logger.debug("this.currentDemandeTransferts.getTransferts().getOdf().getCodeEtape() -->"+this.currentDemandeTransferts.getTransferts().getOdf().getCodeEtape());
 				logger.debug("exclueBacOpi -->"+exclueBacOpi);
 				logger.debug("this.currentDemandeTransferts.getAccueil().getCodeBac() -->"+this.currentDemandeTransferts.getAccueil().getCodeBac());
-				logger.debug("Candidature -->"+this.isVap());
+				logger.debug("Candidature -->"+this.isInterditNiveau2());
 			}
 
 			if(!exclueBacOpi.contains(this.currentDemandeTransferts.getAccueil().getCodeBac()) || exclueBacOpi.equals(""))
 			{
-				if(this.isVap())
+				if(this.isInterditNiveau2())
 				{
 					opi.setSynchro(3);
 					if(getSessionController().isTransfertsAccueil())
@@ -4881,21 +4892,21 @@ public class AdministrationController extends AbstractContextAwareController {
 		this.aideTypeTransfert = aideTypeTransfert;
 	}
 
-	public boolean isVap() {
-		return vap;
-	}
+//	public boolean isVap() {
+//		return vap;
+//	}
+//
+//	public void setVap(boolean vap) {
+//		this.vap = vap;
+//	}
 
-	public void setVap(boolean vap) {
-		this.vap = vap;
-	}
-
-	public DatasExterne getDatasEterneVap() {
-		return datasEterneVap;
-	}
-
-	public void setDatasEterneVap(DatasExterne datasEterneVap) {
-		this.datasEterneVap = datasEterneVap;
-	}
+//	public DatasExterne getDatasEterneVap() {
+//		return datasEterneVap;
+//	}
+//
+//	public void setDatasEterneVap(DatasExterne datasEterneVap) {
+//		this.datasEterneVap = datasEterneVap;
+//	}
 
 	public IndOpi[] getSelectedOpis() {
 		return selectedOpis;
@@ -4952,5 +4963,21 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void setRepriseEtudes(boolean repriseEtudes) {
 		this.repriseEtudes = repriseEtudes;
+	}
+
+	public String getTexteInterditNiveau2() {
+		return texteInterditNiveau2;
+	}
+
+	public void setTexteInterditNiveau2(String texteInterditNiveau2) {
+		this.texteInterditNiveau2 = texteInterditNiveau2;
+	}
+
+	public boolean isInterditNiveau2() {
+		return interditNiveau2;
+	}
+
+	public void setInterditNiveau2(boolean interditNiveau2) {
+		this.interditNiveau2 = interditNiveau2;
 	}
 }
