@@ -445,7 +445,7 @@ public class OdfController extends AbstractContextAwareController {
 	}
 
 	public OdfDataModel getOdfDataModel() {
-		if(logger.isDebugEnabled())
+		if(logger.isDebugEnabled() && odfs!=null)
 			logger.debug("################################## odfs ######################################## --> "+odfs.size());
 		if(odfs!=null)
 		{

@@ -72,8 +72,21 @@
 					</p:dataTable>
 					<p:spacer height="30px" />
 					<p:commandButton value="Code sise par défaut"
+						onclick="confirmation.show()" type="button"
 						update=":size,:messages,:msgs,:msgs2"
 						actionListener="#{administrationController.updateDefautCodeSize}" />
+
+					<p:confirmDialog
+						message="Attention, la modification du code SISE par défaut entrainera la prise en compte l'année correspondante pour toutes les nouvelles demandes de transferts effectuées par les étudiants"
+						header="Confirmation" severity="alert" widgetVar="confirmation">
+						<p:commandButton value="Oui"
+							update=":size,:messages,:msgs,:msgs2"
+							oncomplete="confirmation.hide()"
+							action="#{administrationController.updateDefautCodeSize}" />
+						<p:commandButton value="Non" onclick="confirmation.hide()"
+							actionListener="#{administrationController.destroyWorld}"
+							type="button" />
+					</p:confirmDialog>
 				</h:form>
 			</p:panel>
 		</center>
