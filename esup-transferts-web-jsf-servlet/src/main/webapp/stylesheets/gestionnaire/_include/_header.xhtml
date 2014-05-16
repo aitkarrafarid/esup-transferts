@@ -109,12 +109,12 @@
 			<p:submenu label="Paramétrage" icon="ui-icon-key"
 				rendered="#{administrationController.personnel and (administrationController.droitsDepart || administrationController.droitsArrivee || sessionController.currentUser.admin)}">
 				<p:column>
-					<p:submenu label="Code sise"
+					<p:submenu label="Campagnes"
 						rendered="#{sessionController.currentUser.admin}">
-						<p:menuitem value="Liste des codes 'sise'"
+						<p:menuitem value="Campagne en cours"
 							action="#{administrationController.goToChangeCodeSize}" />
 					</p:submenu>
-					<p:submenu label="Année"
+					<p:submenu label="Historiques"
 						rendered="#{sessionController.currentAnnee!=null}">
 						<p:menuitem value="Liste des campagnes"
 							action="#{administrationController.goToChangeAnnee}" />

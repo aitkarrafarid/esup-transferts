@@ -77,7 +77,7 @@
 						actionListener="#{administrationController.updateDefautCodeSize}" />
 
 					<p:confirmDialog
-						message="Attention, la modification du code SISE par défaut entrainera la prise en compte l'année correspondante pour toutes les nouvelles demandes de transferts effectuées par les étudiants"
+						message="Attention... Le code SISE et l'année par défaut correspondent à la campagne en cours"
 						header="Confirmation" severity="alert" widgetVar="confirmation">
 						<p:commandButton value="Oui"
 							update=":size,:messages,:msgs,:msgs2"
