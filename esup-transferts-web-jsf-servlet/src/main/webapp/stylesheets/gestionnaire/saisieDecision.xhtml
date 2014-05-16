@@ -23,45 +23,64 @@
 					<p:messages id="msgs" showDetail="false" />
 					<p:growl id="growl" showDetail="false" sticky="true" />
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-							style="text-align:left;">
+						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
+								style="text-align:left;">
+								<h:outputText value="Nom de famille : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
 
-							<h:outputText value="Date de la demande : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
-								<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-									timeZone="Europe/Paris" />
-							</h:outputText>
+								<h:outputText value="Nom d'usage : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
 
-							<h:outputText value="Numéro étudiant : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
+								<h:outputText value="Prénom 1 : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.prenom1}" />
 
-							<h:outputText value="Numéro I.N.E : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.numeroIne}" />
+								<h:outputText value="Prénom 2 : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.prenom2}" />
 
-							<h:outputText value="Nom de famille : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
+								<h:outputText value="Date de naissance : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.dateNaissance}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+								</h:outputText>
+							</h:panelGrid>
+							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
+								style="margin-left:30%;text-align:left !important;">
 
-							<h:outputText value="Nom d'usage : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
+								<h:outputText value="Date de la demande : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
+									<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
+										timeZone="Europe/Paris" />
+								</h:outputText>
 
-							<h:outputText value="Prénom 1 : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.prenom1}" />
+								<h:graphicImage alt="Reprise d'étude" title="Reprise d'étude"
+									value="/media/images/warning_40px.png"
+									rendered="#{administrationController.repriseEtudes}" />
+								<h:outputText
+									value="Aucune inscription administratrive universitaire en #{sessionController.currentAnnee-sessionController.regleGestionTE02}/#{sessionController.currentAnnee-sessionController.regleGestionTE02+1}"
+									rendered="#{administrationController.repriseEtudes}" />
 
-							<h:outputText value="Prénom 2 : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.prenom2}" />
+								<h:graphicImage alt="Reprise d'étude" title="Reprise d'étude"
+									value="/media/images/warning_40px.png"
+									rendered="#{administrationController.interditNiveau2}" />
+								<h:outputText
+									value="#{administrationController.texteInterditNiveau2}"
+									escape="false"
+									rendered="#{administrationController.interditNiveau2}" />
 
-							<h:outputText value="Date de naissance : " />
-							<h:outputText
-								value="#{administrationController.currentDemandeTransferts.dateNaissance}">
-								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
-							</h:outputText>
+								<h:outputText value="Numéro étudiant : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
+
+								<h:outputText value="Nunméro I.N.E : " />
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.numeroIne}" />
+							</h:panelGrid>
 						</h:panelGrid>
 					</p:fieldset>
 
@@ -71,7 +90,7 @@
 					<p:fieldset id="listeDecisionDetails" legend="liste des décision"
 						styleClass="panel" collapsed="false" toggleable="true"
 						style="width:700px;" toggleSpeed="200">
-						<p:dataList
+						<p:dataList emptyMessage="Aucune décision"
 							value="#{administrationController.listeAccueilDecision}"
 							var="decision" paginator="true" rows="5" effectSpeed="fast"
 							paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"
