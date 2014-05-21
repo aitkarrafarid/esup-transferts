@@ -1003,7 +1003,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	//	}		
 
 	@Override
-	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId){
+	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId, String source)
+	{
+		int max=15;
+		if(source.equals("A"))
+			max=9;
+
 		PedagogiqueMetierServiceInterface pedagogiqueMetierServiceInterface = new PedagogiqueMetierServiceInterfaceProxy();
 		ContratPedagogiqueResultatVdiVetDTO[] contratPedagogiqueResultatVdiVetDTO;
 		try
@@ -1062,7 +1067,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					ResultatVetDTO[] resultatVetDTO = etapeResVdiVetDTO[j].getResultatVet();
 					listResultatSession = new ArrayList<ResultatSession>(); 
 
-					if(resultatVetDTO != null && etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=15)
+					if(resultatVetDTO != null && etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=max)
 						//if(resultatVetDTO != null)
 					{
 						if (logger.isDebugEnabled()) {
@@ -1132,7 +1137,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					else if(resultatVdiDTO != null && etapeResVdiVetDTO[j].getEtape().getTemDipVet().equals("O") 
 							&& etapeResVdiVetDTO[j].getCodEtaIae()!=null 
 							&& etapeResVdiVetDTO[j].getCodEtaIae().equals("E")
-							&& nb<=15)
+							&& nb<=max)
 					{
 						r = new ResultatSession();
 						if (logger.isDebugEnabled()) {
@@ -1212,7 +1217,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						r.setMention("");
 						listResultatSession.add(r);					
 					}
-					if(etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=15)
+					if(etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=max)
 					{
 						listResultatEtape.add(new ResultatEtape(etapeResVdiVetDTO[j].getCodAnu() + "/" + (Integer.parseInt(etapeResVdiVetDTO[j].getCodAnu())+1),
 								etapeResVdiVetDTO[j].getEtape().getLibEtp(), 

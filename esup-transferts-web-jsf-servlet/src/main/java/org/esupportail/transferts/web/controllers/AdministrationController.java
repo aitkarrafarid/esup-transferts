@@ -2440,7 +2440,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 			// écriture finale du document XML dans un fichier etudiant.xml
 			TrResultatVdiVetDTO trResultatVdiVetDTO;
-			trResultatVdiVetDTO = getDomainServiceScolarite().getSessionsResultats(this.currentDemandeTransferts.getNumeroEtudiant());
+			trResultatVdiVetDTO = getDomainServiceScolarite().getSessionsResultats(this.currentDemandeTransferts.getNumeroEtudiant(), "D");
 
 			Fichier file = getDomainService().getFichierByIdAndAnneeAndFrom(this.currentDemandeTransferts.getTransferts().getFichier().getMd5(),getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
 			String nom = this.getTempPath() + "" + file.getMd5();
@@ -3460,7 +3460,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						ia.setNumeroEtudiant(etu.getNumeroIne());
 						ia.setAnnee(etu.getAnnee());
 
-						TrResultatVdiVetDTO sessionsResultats = getDomainServiceScolarite().getSessionsResultats(this.currentDemandeTransferts.getNumeroEtudiant());
+						TrResultatVdiVetDTO sessionsResultats = getDomainServiceScolarite().getSessionsResultats(this.currentDemandeTransferts.getNumeroEtudiant(), "A");
 						TrBac bac = getDomainServiceScolarite().getBaccalaureat(this.currentDemandeTransferts.getNumeroEtudiant());
 						TrInfosAdmEtu trInfosAdmEtu = getDomainServiceScolarite().getInfosAdmEtu(this.currentDemandeTransferts.getNumeroEtudiant());
 						TrEtablissementDTO trEtablissementDTO = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne());

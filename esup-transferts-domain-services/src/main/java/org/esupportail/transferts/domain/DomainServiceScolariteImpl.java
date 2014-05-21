@@ -125,8 +125,8 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 	}
 
 	@Override
-	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId) {
-		return dss.getSessionsResultats(supannEtuId);
+	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId, String source) {
+		return dss.getSessionsResultats(supannEtuId, source);
 	}
 	
 	@Override

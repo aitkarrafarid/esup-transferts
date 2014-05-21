@@ -52,7 +52,7 @@ public interface DomainServiceScolarite extends Serializable {
 
 	public TrBac getBaccalaureat(String supannEtuId);
 
-	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId);
+	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId, String source);
 
 	public IndOpi getInfosOpi(String numeroEtudiant);
 

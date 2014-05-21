@@ -491,7 +491,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 	}
 
 	@Override
-	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId) {
+	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId, String source) {
 
 		TrResultatVdiVetDTO trResultatVdiVetDTO;
 		List<ResultatEtape> listResultatEtape = new ArrayList<ResultatEtape>();

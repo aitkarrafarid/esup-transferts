@@ -578,7 +578,7 @@ public class UserController extends AbstractContextAwareController {
 						ia.setNumeroEtudiant(etu.getNumeroIne());
 						ia.setAnnee(etu.getAnnee());
 
-						TrResultatVdiVetDTO sessionsResultats = getDomainServiceScolarite().getSessionsResultats(this.currentEtudiant.getNumeroEtudiant());
+						TrResultatVdiVetDTO sessionsResultats = getDomainServiceScolarite().getSessionsResultats(this.currentEtudiant.getNumeroEtudiant(), "D");
 						TrBac bac = getDomainServiceScolarite().getBaccalaureat(this.currentEtudiant.getNumeroEtudiant());
 						TrInfosAdmEtu trInfosAdmEtu = getDomainServiceScolarite().getInfosAdmEtu(this.currentEtudiant.getNumeroEtudiant());
 						TrEtablissementDTO trEtablissementDTO = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne());
@@ -1591,7 +1591,7 @@ public class UserController extends AbstractContextAwareController {
 			//getSessionController().getRne();
 
 			TrResultatVdiVetDTO trResultatVdiVetDTO;
-			trResultatVdiVetDTO = getDomainServiceScolarite().getSessionsResultats(this.currentEtudiant.getNumeroEtudiant());
+			trResultatVdiVetDTO = getDomainServiceScolarite().getSessionsResultats(this.currentEtudiant.getNumeroEtudiant(), "D");
 
 			Fichier file = getDomainService().getFichierByIdAndAnneeAndFrom(this.currentEtudiant.getTransferts().getFichier().getMd5(), getSessionController().getCurrentAnnee(), "D");
 
