@@ -3,24 +3,6 @@
  */
 package org.esupportail.transferts.domain;
 
-import gouv.education.apogee.commun.client.ws.administratifmetier.AdministratifMetierServiceInterfaceProxy;
-import gouv.education.apogee.commun.client.ws.etudiantmetier.EtudiantMetierServiceInterfaceProxy;
-import gouv.education.apogee.commun.client.ws.offreformationmetier.OffreFormationMetierServiceInterfaceProxy;
-import gouv.education.apogee.commun.client.ws.referentielmetier.ReferentielMetierServiceInterfaceProxy;
-import gouv.education.apogee.commun.servicesmetiers.AdministratifMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.EtudiantMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.OffreFormationMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.ReferentielMetierServiceInterface;
-import gouv.education.apogee.commun.transverse.dto.administratif.InsAdmEtpDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.IdentifiantsEtudiantDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.InfoAdmEtuDTO;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.DiplomeDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.EtapeDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.SECritereDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionDiplomeDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionEtapeDTO2;
-import gouv.education.apogee.commun.transverse.dto.pedagogique.ComposanteDTO3;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +16,6 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.AdresseRef;
 import org.esupportail.transferts.domain.beans.CGE;
-import org.esupportail.transferts.domain.beans.CentreDeGestion;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.IndOpi;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
@@ -84,7 +65,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 	 */
 	@SuppressWarnings("unused")
 	private final Logger logger = new LoggerImpl(this.getClass());
-	private Transferts transfert;
+	//private Transferts transfert;
 
 	private RimbausTransfertAcces rta;
 
@@ -125,7 +106,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			Commune communeDTO = adresseFixe.getCommune();
 			Pays paysDTO = adresseFixe.getPays();
 			Pays nationaliteDTO = infoAdmEtuDTO.getNationalite();
-			IndBac[] IndBacDTO = infoAdmEtuDTO.getListeBacs();
+			//IndBac[] IndBacDTO = infoAdmEtuDTO.getListeBacs();
 
 			if (listeBlocagesDTO != null) {
 				if (listeBlocagesDTO != null && listeBlocagesDTO.length == 0) {
@@ -591,13 +572,13 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 		InfoAdmEtu infoAdmEtuDTO;
 		try {
 			infoAdmEtuDTO = rta.recupererInfosAdmEtu(numeroEtudiant);
-			Coordonnees coordonneesDTO = rta
-					.recupererAdressesEtudiant(numeroEtudiant);
-			Adresse adresseFixe = coordonneesDTO.getAdresseFixe();
-			Commune communeDTO = adresseFixe.getCommune();
-			Pays paysDTO = adresseFixe.getPays();
-			Pays nationaliteDTO = infoAdmEtuDTO.getNationalite();
-			IndBac[] IndBacDTO = infoAdmEtuDTO.getListeBacs();
+			//Coordonnees coordonneesDTO = rta
+			//		.recupererAdressesEtudiant(numeroEtudiant);
+			//Adresse adresseFixe = coordonneesDTO.getAdresseFixe();
+			//Commune communeDTO = adresseFixe.getCommune();
+			//Pays paysDTO = adresseFixe.getPays();
+			//Pays nationaliteDTO = infoAdmEtuDTO.getNationalite();
+			//IndBac[] IndBacDTO = infoAdmEtuDTO.getListeBacs();
 
 			/* OPI */
 			/* IND_OPI */
@@ -740,7 +721,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			logger.debug("getOffreDeFormation(String rne,Integer annee)");
 		}
 		List<OffreDeFormationsDTO> odfs = new ArrayList<OffreDeFormationsDTO>();
-		OffreFormationMetierServiceInterface offreFormation = new OffreFormationMetierServiceInterfaceProxy();	
+		//OffreFormationMetierServiceInterface offreFormation = new OffreFormationMetierServiceInterfaceProxy();	
 
 		try 
 		{
