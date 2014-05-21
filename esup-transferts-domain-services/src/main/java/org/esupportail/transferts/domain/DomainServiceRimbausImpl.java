@@ -508,8 +508,15 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 				logger.debug("resultatEtapes.length -----> "
 						+ resultatEtapes.length);
 			}
+			
+			int max=15;
+			if(source.equals("A"))
+				max=9;
+			
+			if(resultatEtapes.length<max)
+				max=resultatEtapes.length;
 
-			for (int i = 0; i < resultatEtapes.length; i++) {
+			for (int i = 0; i < max; i++) {
 				rimbaustransfert.etudiant.ResultatEtape resultatEtape = resultatEtapes[i];
 
 				listResultatSession = new ArrayList<ResultatSession>();
