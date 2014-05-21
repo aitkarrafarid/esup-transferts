@@ -354,7 +354,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 				listTrPaysDTO = new ArrayList<TrPaysDTO>();
 				for (int i = 0; i < listePays.length; i++)
 					listTrPaysDTO.add(new TrPaysDTO(listePays[i].getCodePay(),
-							listePays[i].getLibPay()));
+							listePays[i].getLibPay(),listePays[i].getLibNat()));
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
