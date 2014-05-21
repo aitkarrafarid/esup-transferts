@@ -16,7 +16,7 @@
 	<ui:define name="corps">
 
 		<p:panel
-			rendered="#{!sessionController.currentUser.admin or sessionController.validationAutomatique!='cge'}">
+			rendered="#{!sessionController.currentUser.admin}">
 			<ui:include
 				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
 		</p:panel>

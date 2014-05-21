@@ -1005,6 +1005,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	@Override
 	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId, String source)
 	{
+		if (logger.isDebugEnabled())
+		{
+			logger.debug("getSessionsResultats ----- supannEtuId -----> " + supannEtuId);
+			logger.debug("getSessionsResultats ----- source -----> " + source);
+		}
+
 		int max=15;
 		if(source.equals("A"))
 			max=9;
@@ -1014,9 +1020,33 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		try
 		{
 			contratPedagogiqueResultatVdiVetDTO = pedagogiqueMetierServiceInterface.recupererContratPedagogiqueResultatVdiVet(supannEtuId, "toutes", "Apogee", "AET", "toutes", null);
-			if (logger.isDebugEnabled()) {
+			ContratPedagogiqueResultatVdiVetDTO[] tab = new ContratPedagogiqueResultatVdiVetDTO[9];
+
+			if (logger.isDebugEnabled())
 				logger.debug("contratPedagogiqueResultatVdiVetDTO.length -----> " + contratPedagogiqueResultatVdiVetDTO.length);
-			}			
+
+			if(contratPedagogiqueResultatVdiVetDTO!=null)
+			{
+				if(source.equals("A") && contratPedagogiqueResultatVdiVetDTO.length>max)
+				{
+					int compteur=max-1;
+					int diff=contratPedagogiqueResultatVdiVetDTO.length-max;
+					System.out.println("##################### ----->"+diff);
+					for(int i=contratPedagogiqueResultatVdiVetDTO.length-1;i>=0;i--)
+					{
+						if(diff<=i)
+						{
+							if (logger.isDebugEnabled())
+								logger.debug("########## i ########### ----->"+i);
+							tab[compteur]=contratPedagogiqueResultatVdiVetDTO[i];
+						}
+						if (logger.isDebugEnabled())
+							logger.debug("########## compteur ########### ----->"+compteur);
+						compteur--;
+					}
+					contratPedagogiqueResultatVdiVetDTO=tab;			
+				}
+			}
 		}
 		catch (WebBaseException a) {
 			a.printStackTrace();
