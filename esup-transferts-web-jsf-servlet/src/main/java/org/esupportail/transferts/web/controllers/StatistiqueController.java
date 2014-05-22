@@ -159,20 +159,24 @@ public class StatistiqueController extends AbstractContextAwareController implem
 		categoryModelTotalDepartAndArrive = new CartesianChartModel();  
 
 		ChartSeries totalDepart = new ChartSeries();
-		ChartSeries totalArrive = new ChartSeries();
+		ChartSeries totalAccueil = new ChartSeries();
+		ChartSeries totalOPI = new ChartSeries();
 		totalDepart.setLabel("Depart");
-		totalArrive.setLabel("Arrive");
+		totalAccueil.setLabel("Accueil");
+		totalOPI.setLabel("OPI");
 		
 		Long nbDepart = getDomainService().getStatistiquesNombreTotalTransfertDepart(getSessionController().getCurrentAnnee());
 		Long nbAccueil = getDomainService().getStatistiquesNombreTotalTransfertAccueil(getSessionController().getCurrentAnnee());
 		Long nbOPI = getDomainService().getStatistiquesNombreTotalTransfertOPI(getSessionController().getCurrentAnnee());
-		Long AccueilPlusOPI = nbAccueil+nbOPI;
+//		Long AccueilPlusOPI = nbAccueil+nbOPI;
 		
 		totalDepart.set("", nbDepart);  
-		totalArrive.set("", AccueilPlusOPI);  
+		totalAccueil.set("", nbAccueil);  
+		totalOPI.set("", nbOPI);  
 
 		categoryModelTotalDepartAndArrive.addSeries(totalDepart);  
-		categoryModelTotalDepartAndArrive.addSeries(totalArrive);  
+		categoryModelTotalDepartAndArrive.addSeries(totalAccueil);  
+		categoryModelTotalDepartAndArrive.addSeries(totalOPI); 
 	}  	
 
 	public PieChartModel getPieModelDepart() {  
