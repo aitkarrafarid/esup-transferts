@@ -32,6 +32,10 @@ import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
  * 
  */
 public interface DomainServiceScolarite extends Serializable {
+	
+	public static int MAX_SESSIONS_RESULTAT_DEPART=15;
+	public static int MAX_SESSIONS_RESULTAT_ACCUEIL=9;
+	
 
 	public EtudiantRef getCurrentEtudiant(String supannEtuId);
 

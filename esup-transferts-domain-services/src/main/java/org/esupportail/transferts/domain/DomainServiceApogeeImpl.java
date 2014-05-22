@@ -1011,9 +1011,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			logger.debug("getSessionsResultats ----- source -----> " + source);
 		}
 
-		int max=15;
+		int max=MAX_SESSIONS_RESULTAT_DEPART;
 		if(source.equals("A"))
-			max=9;
+			max=MAX_SESSIONS_RESULTAT_ACCUEIL;
 
 		PedagogiqueMetierServiceInterface pedagogiqueMetierServiceInterface = new PedagogiqueMetierServiceInterfaceProxy();
 		ContratPedagogiqueResultatVdiVetDTO[] contratPedagogiqueResultatVdiVetDTO;

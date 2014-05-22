@@ -509,9 +509,9 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 						+ resultatEtapes.length);
 			}
 			
-			int max=15;
+			int max=MAX_SESSIONS_RESULTAT_DEPART;
 			if(source.equals("A"))
-				max=9;
+				max=MAX_SESSIONS_RESULTAT_ACCUEIL;
 			
 			if(resultatEtapes.length<max)
 				max=resultatEtapes.length;
