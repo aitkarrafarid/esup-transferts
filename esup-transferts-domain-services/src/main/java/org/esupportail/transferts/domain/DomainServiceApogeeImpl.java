@@ -35,6 +35,7 @@ import gouv.education.apogee.commun.transverse.dto.etudiant.InfoAdmEtuDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.NationaliteDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.PaysDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.DepartementDTO;
+import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.ComposanteCentreGestionDTO;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.DiplomeDTO2;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.EtapeDTO2;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.SECritereDTO2;
@@ -705,9 +706,10 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		// appel au WS AMUE
 		List<TrEtablissementDTO> listTrEtablissementDTO = null;
 		EtablissementMetierServiceInterface etablissementMetierServiceInterface = new EtablissementMetierServiceInterfaceProxy();
-		EtablissementCompletDTO[] listeEtablissements;
+		EtablissementCompletDTO2[] listeEtablissements;
 		try{
-			listeEtablissements = etablissementMetierServiceInterface.recupererEtablissementWS(typeEtablissement, null, null, dept, null, null, null);
+			//			listeEtablissements = etablissementMetierServiceInterface.recupererEtablissementWS(typeEtablissement, null, null, dept, null, null, null);
+			listeEtablissements = etablissementMetierServiceInterface.recupererEtablissementWS_v2(typeEtablissement, null, null, dept, null, null, null);
 			if(listeEtablissements.length>0)
 			{
 				listTrEtablissementDTO = new ArrayList<TrEtablissementDTO>();
@@ -738,7 +740,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						typeEtablissementDTO[0].getDepartement().getCodeDept(),
 						typeEtablissementDTO[0].getDepartement().getLibDept(),
 						typeEtablissementDTO[0].getAcademie().getLibAcd(),
-						typeEtablissementDTO[0].getLibOffEtb(),
+						typeEtablissementDTO[0].getLibArtOffEtb().toLowerCase()+""+typeEtablissementDTO[0].getLibOffEtb(),
 						typeEtablissementDTO[0].getAdresse().getLibAd1Etb(),
 						typeEtablissementDTO[0].getAdresse().getLibAd2Etb(),
 						typeEtablissementDTO[0].getAdresse().getLibAd3Etb(),
@@ -1377,6 +1379,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			//			{
 			//				odfs.add(new OffreDeFormationsDTO());
 			//			}
+
 			for(DiplomeDTO2 ld : diplomeDTO2)
 			{
 				VersionDiplomeDTO2[] versionDiplomeDTO2 =ld.getListVersionDiplome();
@@ -1413,25 +1416,28 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 							else
 								libNiveau=codeNiveau+"ème année";
 
-							odfs.add(new OffreDeFormationsDTO(rne,
-									annee,
-									ld.getTypeDiplome().getCodTypDip(),
-									ld.getTypeDiplome().getLibTypDip(),
-									ld.getCodDip(), 
-									lvd.getCodVrsVdi(), 
-									le.getCodEtp(), 
-									ve.getCodVrsVet().toString(),
-									lvd.getLibWebVdi(),
-									ve.getLibWebVet(),
-									le.getListComposanteCentreGestion()[0].getCodComposante(),
-									le.getListComposanteCentreGestion()[0].getLibComposante(),
-									le.getListComposanteCentreGestion()[0].getCodCentreGestion(),
-									le.getListComposanteCentreGestion()[0].getLibCentreGestion(),
-									//1,"tout niveau")
-									codeNiveau,
-									libNiveau,
-									"oui",
-									"oui"));
+							for(int i=0;i<le.getListComposanteCentreGestion().length;i++)
+							{
+								odfs.add(new OffreDeFormationsDTO(rne,
+										annee,
+										ld.getTypeDiplome().getCodTypDip(),
+										ld.getTypeDiplome().getLibTypDip(),
+										ld.getCodDip(), 
+										lvd.getCodVrsVdi(), 
+										le.getCodEtp(), 
+										ve.getCodVrsVet().toString(),
+										lvd.getLibWebVdi(),
+										ve.getLibWebVet(),
+										le.getListComposanteCentreGestion()[i].getCodComposante(),
+										le.getListComposanteCentreGestion()[i].getLibComposante(),
+										le.getListComposanteCentreGestion()[i].getCodCentreGestion(),
+										le.getListComposanteCentreGestion()[i].getLibCentreGestion(),
+										//1,"tout niveau")
+										codeNiveau,
+										libNiveau,
+										"oui",
+										"oui"));
+							}
 						}
 					}
 				}
