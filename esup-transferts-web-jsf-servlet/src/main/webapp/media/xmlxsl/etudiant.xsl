@@ -354,11 +354,11 @@
 			<!--<fo:table height="{$margehaute}px" background-image="url({$baseMediaPdf}/images/logo.gif)" 
 				background-repeat="no-repeat"> -->
 			<fo:table border="0.018cm solid #000000" padding="3pt">
-				<fo:table-column column-width="15mm" />
+				<fo:table-column column-width="19mm" />
 				<fo:table-column column-width="83mm" />
-				<fo:table-column column-width="33mm" />
+				<fo:table-column column-width="31mm" />
 				<fo:table-column column-width="13mm" />
-				<fo:table-column column-width="33mm" />
+				<fo:table-column column-width="31mm" />
 				<fo:table-column column-width="13mm" />
 				<fo:table-body>
 					<fo:table-row>

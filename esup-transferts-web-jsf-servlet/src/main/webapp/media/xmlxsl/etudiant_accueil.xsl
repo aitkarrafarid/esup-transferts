@@ -332,23 +332,23 @@
 			<!--<fo:table height="{$margehaute}px" background-image="url({$baseMediaPdf}/images/logo.gif)" 
 				background-repeat="no-repeat"> -->
 			<fo:table border="0.018cm solid #000000" padding="3pt">
-				<fo:table-column column-width="17mm" />
-				<fo:table-column column-width="127mm" />
+				<fo:table-column column-width="19mm" />
+				<fo:table-column column-width="125mm" />
 				<fo:table-column column-width="46mm" />
 				<fo:table-body>
 					<fo:table-row>
-						<fo:table-cell border="0.018cm solid #000000">
-							<fo:block font-size="9pt">
+						<fo:table-cell border="0.019cm solid #000000">
+							<fo:block font-size="8pt">
 								<xsl:text>Année</xsl:text>
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="0.018cm solid #000000">
-							<fo:block font-size="9pt">
+							<fo:block font-size="8pt">
 								<xsl:text>Cycle et année d'étude</xsl:text>
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="0.018cm solid #000000">
-							<fo:block font-size="9pt">
+							<fo:block font-size="8pt">
 								<xsl:text>Résultats</xsl:text>
 							</fo:block>
 						</fo:table-cell>
@@ -356,17 +356,17 @@
 					<xsl:for-each select="//situationUniversitaire">
 						<fo:table-row border="1">
 							<fo:table-cell border="0.018cm solid #000000">
-								<fo:block font-size="9pt">
+								<fo:block font-size="8pt">
 									<xsl:value-of select="annee" />
 								</fo:block>
 							</fo:table-cell>
 							<fo:table-cell border="0.018cm solid #000000">
-								<fo:block font-size="9pt">
+								<fo:block font-size="8pt">
 									<xsl:value-of select="libelle" />
 								</fo:block>
 							</fo:table-cell>
 							<fo:table-cell border="0.018cm solid #000000">
-								<fo:block font-size="9pt">
+								<fo:block font-size="8pt">
 									<xsl:value-of select="resultat" />
 								</fo:block>
 							</fo:table-cell>
