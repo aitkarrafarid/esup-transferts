@@ -799,7 +799,8 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("getDomainServiceScolarite().getAuthEtu(ine, dateNaissanceApogee)--->"+authEtuScol);
 
-		IndOpi etu = getDomainService().getPresenceEtudiantOPiByIneAndAnnee(ine, getSessionController().getCurrentAnnee());
+		//IndOpi etu = getDomainService().getPresenceEtudiantOPiByIneAndAnnee(ine, getSessionController().getCurrentAnnee());
+		IndOpi etu = null;
 
 		if(etu==null)
 		{
