@@ -562,7 +562,9 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			trResultatVdiVetDTO.setEtapes(listResultatEtape);
 
 		} catch (Exception e) {
-			return null;
+			//renvoi un résultat vide
+			trResultatVdiVetDTO = new TrResultatVdiVetDTO();
+			trResultatVdiVetDTO.setEtapes(new ArrayList<ResultatEtape>());
 		}
 
 		return trResultatVdiVetDTO;
