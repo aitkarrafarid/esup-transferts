@@ -86,8 +86,9 @@
 				Fiche d'accueil
 			</fo:block>
 			<fo:block padding-top="0.2cm" text-align="center" font-size="8pt">
-				<xsl:text>Vous souhaitez vous inscrire à l'</xsl:text>
-				<xsl:value-of select="EtudiantRefImp/universiteAccueil/libEtb" />
+				<xsl:text>Vous souhaitez vous inscrire à </xsl:text>
+<!-- 				<xsl:value-of select="EtudiantRefImp/universiteAccueil/libEtb" /> -->
+				<xsl:value-of select="EtudiantRefImp/universiteAccueil/libOffEtb" />
 			</fo:block>
 		</fo:block>
 
@@ -391,7 +392,7 @@
 			</fo:table>
 		</fo:block>
 
-		<fo:block padding-top="5pt">
+		<fo:block padding-top="-5pt">
 			<fo:table padding="3pt">
 				<fo:table-column />
 				<fo:table-body>
@@ -408,7 +409,7 @@
 			</fo:table>
 		</fo:block>
 
-		<fo:block padding-top="5pt">
+		<fo:block padding-top="-5pt">
 			<fo:table padding="3pt">
 				<fo:table-column />
 				<fo:table-body>
@@ -438,7 +439,7 @@
 <!-- 			</fo:table> -->
 <!-- 		</fo:block> -->
 
-		<fo:block padding-top="5pt">
+		<fo:block padding-top="-5pt">
 			<fo:table padding="3pt">
 				<fo:table-column />
 				<fo:table-body>
@@ -453,7 +454,7 @@
 			</fo:table>
 		</fo:block>
 
-		<fo:block padding-top="5pt">
+		<fo:block padding-top="-5pt">
 			<fo:table padding="3pt">
 				<fo:table-column />
 				<fo:table-body>
