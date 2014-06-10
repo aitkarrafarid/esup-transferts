@@ -1416,6 +1416,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 							else
 								libNiveau=codeNiveau+"ème année";
 
+							String codComp = ve.getComposante().getCodComposante();
+							String libComp = ve.getComposante().getLibComposante();
+							
 							for(int i=0;i<le.getListComposanteCentreGestion().length;i++)
 							{
 								odfs.add(new OffreDeFormationsDTO(rne,
@@ -1428,8 +1431,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 										ve.getCodVrsVet().toString(),
 										lvd.getLibWebVdi(),
 										ve.getLibWebVet(),
-										le.getListComposanteCentreGestion()[i].getCodComposante(),
-										le.getListComposanteCentreGestion()[i].getLibComposante(),
+										codComp,
+										libComp,
 										le.getListComposanteCentreGestion()[i].getCodCentreGestion(),
 										le.getListComposanteCentreGestion()[i].getLibCentreGestion(),
 										//1,"tout niveau")
@@ -1438,6 +1441,29 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 										"oui",
 										"oui"));
 							}
+							
+//							for(int i=0;i<le.getListComposanteCentreGestion().length;i++)
+//							{
+//								odfs.add(new OffreDeFormationsDTO(rne,
+//										annee,
+//										ld.getTypeDiplome().getCodTypDip(),
+//										ld.getTypeDiplome().getLibTypDip(),
+//										ld.getCodDip(), 
+//										lvd.getCodVrsVdi(), 
+//										le.getCodEtp(), 
+//										ve.getCodVrsVet().toString(),
+//										lvd.getLibWebVdi(),
+//										ve.getLibWebVet(),
+//										le.getListComposanteCentreGestion()[i].getCodComposante(),
+//										le.getListComposanteCentreGestion()[i].getLibComposante(),
+//										le.getListComposanteCentreGestion()[i].getCodCentreGestion(),
+//										le.getListComposanteCentreGestion()[i].getLibCentreGestion(),
+//										//1,"tout niveau")
+//										codeNiveau,
+//										libNiveau,
+//										"oui",
+//										"oui"));
+//							}
 						}
 					}
 				}
