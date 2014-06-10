@@ -1801,7 +1801,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			return null;
 		}
 	}	
-
+	
 	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String source, Integer annee)
 	{
 		ReferentielMetierServiceInterface referentielMetierService = new ReferentielMetierServiceInterfaceProxy();

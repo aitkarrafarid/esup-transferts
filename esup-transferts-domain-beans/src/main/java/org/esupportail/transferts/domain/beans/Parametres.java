@@ -50,7 +50,7 @@ public class Parametres implements Serializable {
 	/**
 	 * Commentaire
 	 */
-	@Column(name = "commentaire")
+	@Column(name = "commentaire", length = 2000)
 	private String commentaire;		
 	
 
