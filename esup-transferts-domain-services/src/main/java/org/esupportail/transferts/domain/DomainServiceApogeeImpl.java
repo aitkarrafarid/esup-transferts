@@ -74,6 +74,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -1401,70 +1402,81 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					}
 					EtapeDTO2[] etapeDTO2 = lvd.getOffreFormation().getListEtape();
 					for(EtapeDTO2 le : etapeDTO2)
-					{
-						VersionEtapeDTO2[] versionEtapeDTO21=le.getListVersionEtape();
-						for(VersionEtapeDTO2 ve : versionEtapeDTO21)
+					{					
+						ComposanteCentreGestionDTO[] ccgOri = le.getListComposanteCentreGestion();
+
+
+
+						// Tableau initial
+						String[] values = new String[ccgOri.length];
+
+						HashSet<String> noDoublons = new HashSet<String>();						
+
+						//						for(int i=0;i<ccgOri.length;i++)
+						//						{
+						//							if (! noDoublons.contains(ccgOri[i].getCodCentreGestion()))
+						//							{
+						//								
+						//								noDoublons.add(ccgOri[i].getCodCentreGestion());
+						//							}
+						//						}
+
+						for(int i=0;i<ccgOri.length;i++)
 						{
-							if (logger.isDebugEnabled())
-								logger.debug("ve.getLibWebVet() --> "+ve.getLibWebVet());								
-
-							Integer codeNiveau = ve.getCodSisDaaMin();
-							String libNiveau;
-
-							if(codeNiveau==1)
-								libNiveau=codeNiveau+"er année";
-							else
-								libNiveau=codeNiveau+"ème année";
-
-							String codComp = ve.getComposante().getCodComposante();
-							String libComp = ve.getComposante().getLibComposante();
-							
-							for(int i=0;i<le.getListComposanteCentreGestion().length;i++)
+							if (! noDoublons.contains(ccgOri[i].getCodCentreGestion()))
 							{
-								odfs.add(new OffreDeFormationsDTO(rne,
-										annee,
-										ld.getTypeDiplome().getCodTypDip(),
-										ld.getTypeDiplome().getLibTypDip(),
-										ld.getCodDip(), 
-										lvd.getCodVrsVdi(), 
-										le.getCodEtp(), 
-										ve.getCodVrsVet().toString(),
-										lvd.getLibWebVdi(),
-										ve.getLibWebVet(),
-										codComp,
-										libComp,
-										le.getListComposanteCentreGestion()[i].getCodCentreGestion(),
-										le.getListComposanteCentreGestion()[i].getLibCentreGestion(),
-										//1,"tout niveau")
-										codeNiveau,
-										libNiveau,
-										"oui",
-										"oui"));
+								logger.debug("###################################################### DEBUT #####################################################################################");
+								logger.debug("Alban --> le.getListComposanteCentreGestion()[i].getCodCentreGestion()-->"+ccgOri[i].getCodCentreGestion());
+								logger.debug("Alban --> ccgOri[i].getLibCentreGestion()-->"+ccgOri[i].getLibCentreGestion());
+
+								noDoublons.add(ccgOri[i].getCodCentreGestion());
+								VersionEtapeDTO2[] versionEtapeDTO21=le.getListVersionEtape();
+								
+								for(VersionEtapeDTO2 ve : versionEtapeDTO21)
+								{
+									if (logger.isDebugEnabled())
+										logger.debug("ve.getLibWebVet() --> "+ve.getLibWebVet());								
+
+									Integer codeNiveau = ve.getCodSisDaaMin();
+									String libNiveau;
+
+									if(codeNiveau==1)
+										libNiveau=codeNiveau+"er année";
+									else
+										libNiveau=codeNiveau+"ème année";
+
+									String codComp = ve.getComposante().getCodComposante();
+									String libComp = ve.getComposante().getLibComposante();
+
+									logger.debug("Alban --> codComp-->"+codComp);
+									logger.debug("Alban --> libComp-->"+libComp);
+									
+											odfs.add(new OffreDeFormationsDTO(rne,
+													annee,
+													ld.getTypeDiplome().getCodTypDip(),
+													ld.getTypeDiplome().getLibTypDip(),
+													ld.getCodDip(), 
+													lvd.getCodVrsVdi(), 
+													le.getCodEtp(), 
+													ve.getCodVrsVet().toString(),
+													lvd.getLibWebVdi(),
+													ve.getLibWebVet(),
+													codComp,
+													libComp,
+													ccgOri[i].getCodCentreGestion(),
+													ccgOri[i].getLibCentreGestion(),
+													//1,"tout niveau")
+													codeNiveau,
+													libNiveau,
+													"oui",
+													"oui"));
+
+								}								
 							}
-							
-//							for(int i=0;i<le.getListComposanteCentreGestion().length;i++)
-//							{
-//								odfs.add(new OffreDeFormationsDTO(rne,
-//										annee,
-//										ld.getTypeDiplome().getCodTypDip(),
-//										ld.getTypeDiplome().getLibTypDip(),
-//										ld.getCodDip(), 
-//										lvd.getCodVrsVdi(), 
-//										le.getCodEtp(), 
-//										ve.getCodVrsVet().toString(),
-//										lvd.getLibWebVdi(),
-//										ve.getLibWebVet(),
-//										le.getListComposanteCentreGestion()[i].getCodComposante(),
-//										le.getListComposanteCentreGestion()[i].getLibComposante(),
-//										le.getListComposanteCentreGestion()[i].getCodCentreGestion(),
-//										le.getListComposanteCentreGestion()[i].getLibCentreGestion(),
-//										//1,"tout niveau")
-//										codeNiveau,
-//										libNiveau,
-//										"oui",
-//										"oui"));
-//							}
 						}
+						logger.debug("################################################################# FIN ##########################################################################");
+						
+
 					}
 				}
 			}		
@@ -1827,7 +1839,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			return null;
 		}
 	}	
-	
+
 	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String source, Integer annee)
 	{
 		ReferentielMetierServiceInterface referentielMetierService = new ReferentielMetierServiceInterfaceProxy();
