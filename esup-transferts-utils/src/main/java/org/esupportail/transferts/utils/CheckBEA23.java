@@ -45,7 +45,8 @@ public class CheckBEA23 {
 			logger.debug("############### numero.length() ############ --> "+ numero.length());
 			logger.debug("############### lettreCle ############ --> "+ lettreCle);
 			logger.debug("############### extract_bea ############ --> "+ extract_bea);
-			logger.debug("############### Integer.parseInt(extract_bea) ############ --> "+ Integer.parseInt(extract_bea));
+//			logger.debug("############### Integer.parseInt(extract_bea) ############ --> "+ Integer.parseInt(extract_bea));
+			logger.debug("############### Integer.parseInt(extract_bea) ############ --> "+ Long.parseLong(extract_bea));
 			logger.debug("############### modulo_bea ############ --> "+ modulo_bea);
 			logger.debug("############### cleCalc ############ --> "+ cleCalc);
 			logger.debug("############### lettreCle ############ --> "+ lettreCle);

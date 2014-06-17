@@ -27,19 +27,19 @@
 				</fo:flow>
 			</fo:page-sequence>
 
-<!-- 			<fo:page-sequence master-reference="all"> -->
-<!-- 				<fo:static-content flow-name="xsl-region-before"> -->
-<!-- 					<xsl:call-template name="entete" /> -->
-<!-- 				</fo:static-content> -->
-<!-- 				<fo:flow flow-name="xsl-region-body"> -->
-<!-- 					<fo:block> -->
-<!-- 						<xsl:call-template name="miseEnPage" /> -->
-<!-- 					</fo:block> -->
-<!-- 					<fo:block> -->
-<!-- 						<xsl:call-template name="exemplaireUA" /> -->
-<!-- 					</fo:block> -->
-<!-- 				</fo:flow> -->
-<!-- 			</fo:page-sequence> -->
+			<!-- <fo:page-sequence master-reference="all"> -->
+			<!-- <fo:static-content flow-name="xsl-region-before"> -->
+			<!-- <xsl:call-template name="entete" /> -->
+			<!-- </fo:static-content> -->
+			<!-- <fo:flow flow-name="xsl-region-body"> -->
+			<!-- <fo:block> -->
+			<!-- <xsl:call-template name="miseEnPage" /> -->
+			<!-- </fo:block> -->
+			<!-- <fo:block> -->
+			<!-- <xsl:call-template name="exemplaireUA" /> -->
+			<!-- </fo:block> -->
+			<!-- </fo:flow> -->
+			<!-- </fo:page-sequence> -->
 
 			<fo:page-sequence master-reference="all">
 				<fo:static-content flow-name="xsl-region-before">
@@ -87,7 +87,7 @@
 			</fo:block>
 			<fo:block padding-top="0.2cm" text-align="center" font-size="8pt">
 				<xsl:text>Vous souhaitez vous inscrire à </xsl:text>
-<!-- 				<xsl:value-of select="EtudiantRefImp/universiteAccueil/libEtb" /> -->
+				<!-- <xsl:value-of select="EtudiantRefImp/universiteAccueil/libEtb" /> -->
 				<xsl:value-of select="EtudiantRefImp/universiteAccueil/libOffEtb" />
 			</fo:block>
 		</fo:block>
@@ -117,7 +117,7 @@
 	</xsl:template>
 
 	<xsl:template match="EtudiantRefImp">
-<!-- 		<xsl:param name="avis" select="accueilDecision/avis" /> -->
+		<!-- <xsl:param name="avis" select="accueilDecision/avis" /> -->
 		<xsl:param name="avis" select="codeDecision" />
 		<fo:block padding-top="60pt">
 			<fo:table border="0.018cm solid #000000" padding="3pt">
@@ -247,8 +247,7 @@
 								<xsl:text> - </xsl:text>
 								<xsl:value-of select="universiteDepart/libAd1Etb" />
 								<xsl:text> - </xsl:text>
-								<xsl:value-of
-									select="universiteDepart/codPosAdrEtb" />
+								<xsl:value-of select="universiteDepart/codPosAdrEtb" />
 								<xsl:text> - </xsl:text>
 								<xsl:value-of select="universiteDepart/libAch" />
 								<!-- <xsl:text> - </xsl:text> -->
@@ -267,8 +266,7 @@
 								<xsl:text> - </xsl:text>
 								<xsl:value-of select="universiteAccueil/libAd1Etb" />
 								<xsl:text> - </xsl:text>
-								<xsl:value-of
-									select="universiteAccueil/codPosAdrEtb" />
+								<xsl:value-of select="universiteAccueil/codPosAdrEtb" />
 								<xsl:text> - </xsl:text>
 								<xsl:value-of select="universiteAccueil/libAch" />
 								<!-- <xsl:text> - </xsl:text> -->
@@ -424,20 +422,21 @@
 			</fo:table>
 		</fo:block>
 
-<!-- 		<fo:block padding-top="5pt"> -->
-<!-- 			<fo:table padding="3pt"> -->
-<!-- 				<fo:table-column /> -->
-<!-- 				<fo:table-body> -->
-<!-- 					<fo:table-row> -->
-<!-- 						<fo:table-cell border="1"> -->
-<!-- 							<fo:block font-size="9pt"> -->
-<!-- 								<xsl:text>- Cette demande de transfert nécessite-t-elle une déroogation pour une année supplémentaire ? ....................................</xsl:text> -->
-<!-- 							</fo:block> -->
-<!-- 						</fo:table-cell> -->
-<!-- 					</fo:table-row> -->
-<!-- 				</fo:table-body> -->
-<!-- 			</fo:table> -->
-<!-- 		</fo:block> -->
+		<!-- <fo:block padding-top="5pt"> -->
+		<!-- <fo:table padding="3pt"> -->
+		<!-- <fo:table-column /> -->
+		<!-- <fo:table-body> -->
+		<!-- <fo:table-row> -->
+		<!-- <fo:table-cell border="1"> -->
+		<!-- <fo:block font-size="9pt"> -->
+		<!-- <xsl:text>- Cette demande de transfert nécessite-t-elle une déroogation 
+			pour une année supplémentaire ? ....................................</xsl:text> -->
+		<!-- </fo:block> -->
+		<!-- </fo:table-cell> -->
+		<!-- </fo:table-row> -->
+		<!-- </fo:table-body> -->
+		<!-- </fo:table> -->
+		<!-- </fo:block> -->
 
 		<fo:block padding-top="-5pt">
 			<fo:table padding="3pt">
@@ -521,10 +520,10 @@
 								</fo:block>
 								<fo:block font-size="9pt">
 									<xsl:text>&#160;</xsl:text>
-								</fo:block>								
+								</fo:block>
 								<fo:block font-size="9pt">
 									<xsl:value-of select="/EtudiantRefImp/decision" />
-								</fo:block>								
+								</fo:block>
 							</xsl:if>
 							<xsl:if test="$avis=(.='')">
 								<fo:block font-size="9pt">
@@ -537,13 +536,13 @@
 									<xsl:text>&#160;[&#160;] : Avis défavorable</xsl:text>
 									<xsl:text>&#160;Motif : </xsl:text>
 								</fo:block>
-							</xsl:if>							
+							</xsl:if>
 							<fo:block font-size="9pt">
 								<xsl:text>&#160;</xsl:text>
 							</fo:block>
 							<fo:block font-size="9pt">
 								<xsl:text>&#160;du(de la) Président(e) de l'université d'accueil</xsl:text>
-<!-- 								<xsl:value-of select="accueilDecision/avis" /> -->
+								<!-- <xsl:value-of select="accueilDecision/avis" /> -->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="0.018cm solid #000000">
@@ -574,14 +573,16 @@
 								<xsl:value-of select="substring(dateDuJour,0,5)" />
 							</fo:block>
 							<fo:block margin-left="0.2cm" text-align="center">
-							<xsl:if test="$avis=(.!='')">
-								<fo:external-graphic content-width="1cm"
-									content-height="1cm" height="70px" width="120px">
-									<xsl:attribute name="src">
+								<xsl:if test="/EtudiantRefImp/transferts/temoinTransfertValide=2">
+									<xsl:if test="$avis=(.!='')">
+										<fo:external-graphic content-width="1cm"
+											content-height="1cm" height="70px" width="120px">
+											<xsl:attribute name="src">
 										<xsl:value-of select="/EtudiantRefImp/transferts/fichier/chemin" />
 									</xsl:attribute>
-								</fo:external-graphic>
-							</xsl:if>
+										</fo:external-graphic>
+									</xsl:if>
+								</xsl:if>
 								<!-- <xsl:value-of select="transferts/fichier/nom" /> -->
 							</fo:block>
 						</fo:table-cell>

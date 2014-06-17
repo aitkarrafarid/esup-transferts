@@ -194,33 +194,34 @@ public class UserController extends AbstractContextAwareController {
 				logger.debug("this.currentEtudiant.toString()-->"+this.currentEtudiant.toString());			
 
 			Fichier file=null;
-			if(this.currentEtudiant.getTransferts().getFichier()!=null)
+			
+			if(this.currentEtudiant.getTransferts()!=null && this.currentEtudiant.getTransferts().getFichier()!=null)
 				file = getDomainService().getFichierByIdAndAnneeAndFrom(this.currentEtudiant.getTransferts().getFichier().getMd5(),getSessionController().getCurrentAnnee(), this.currentEtudiant.getSource());
+			
 			if (logger.isDebugEnabled())
-				logger.debug("file-->"+file);	
-			if(file==null)
-				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentEtudiant.getSource());
+				logger.debug("file-->"+file);			
+			
+			if(file==null || (file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE")))
+				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentEtudiant.getSource());		
+			
+//			if(file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE"))
+//				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentEtudiant.getSource());
+			
+			String nom = this.getTempPath() + "" + file.getMd5();
 
-			String nom="";
-			if(file!=null)
-			{			
-				nom = this.getTempPath() + "" + file.getMd5();
-
-				File fichierExiste = new File(nom);
-
-				if (!fichierExiste.exists()) {
-					if (logger.isDebugEnabled())
-						logger.debug("L'image n'existe pas");
-					byte[] data = file.getImg();
-					this.genererImage(nom, data);
-				}
-				else 
-				{
-					if (logger.isDebugEnabled())
-						logger.debug("L'image existe deja");
-				}
+			File fichierExiste = new File(nom);
+			if (!fichierExiste.exists()) {
+				if (logger.isDebugEnabled())
+					logger.debug("L'image n'existe pas");
+				byte[] data = file.getImg();
+				this.genererImage(nom, data);
 			}
-
+			else 
+			{
+				if (logger.isDebugEnabled())
+					logger.debug("L'image existe deja");
+			}			
+			
 			this.initialiseNomenclatures();
 			EtudiantRefImp etudiantRefImp = new EtudiantRefImp();
 			etudiantRefImp.setNumeroEtudiant(this.currentEtudiant.getNumeroEtudiant());
@@ -234,11 +235,8 @@ public class UserController extends AbstractContextAwareController {
 			etudiantRefImp.setAdresse(this.currentEtudiant.getAdresse());
 			etudiantRefImp.setTransferts(this.currentEtudiant.getTransferts());
 			etudiantRefImp.getTransferts().setFichier(file);
-			if(file!=null)
-			{				
-				this.currentEtudiant.getTransferts().getFichier().setChemin(nom);
-				this.currentEtudiant.getTransferts().getFichier().setImg(new byte[0]);
-			}
+			this.currentEtudiant.getTransferts().getFichier().setChemin(nom);
+			this.currentEtudiant.getTransferts().getFichier().setImg(new byte[0]);
 			etudiantRefImp.setTrBac(getDomainServiceScolarite().recupererBacOuEquWS(this.currentEtudiant.getAccueil().getCodeBac()).get(0));
 			etudiantRefImp.getTrBac().setAnneeObtentionBac(this.currentEtudiant.getAccueil().getAnneeBac());
 			etudiantRefImp.setUniversiteDepart(getDomainServiceScolarite().getEtablissementByRne(this.currentEtudiant.getAccueil().getCodeRneUnivDepart()));
