@@ -25,7 +25,8 @@ public enum EtudiantAccueilColonneEnum {
 	col11("EXPORT.EXCEL.COLONNE.ANNEE_BAC", "anneeBac"),
 	col12("EXPORT.EXCEL.COLONNE.VALIDATION", "validation"),
 	col13("EXPORT.EXCEL.COLONNE.FROM_SOURCE", "from_source"),
-	col14("EXPORT.EXCEL.COLONNE.DECISION_DE", "decisionDE");
+	col14("EXPORT.EXCEL.COLONNE.DECISION_DE", "decisionDE"),
+	col15("EXPORT.EXCEL.COLONNE.CANDIDATURE", "dataExterneNiveau2");
 	/*
 	 ******************* PROPERTIES ******************* */
 	

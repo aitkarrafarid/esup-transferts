@@ -558,6 +558,20 @@ public class AdministrationController extends AbstractContextAwareController {
 			adresse.setLibAd1(etu.getAdresse().getLibAd1());
 			adresse.setCodeCommune(etu.getAdresse().getCodeCommune());
 			EtudiantRefExcel excel = new EtudiantRefExcel();
+			
+			/*Debut d'initialisation de la colonne candidature à partir des donnees de la table dataExterne (niveau 2)*/
+			String txtDataExterneNiveau2 = "";
+			List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(etu.getNumeroIne(), 2);
+			
+			for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
+				txtDataExterneNiveau2 += " - "+lInterditNiveau2.getLibInterdit();
+			
+			if (logger.isDebugEnabled())
+				logger.debug("Liste des interdits de niveau 2-->"+txtDataExterneNiveau2);			
+			
+			excel.setDataExterneNiveau2(txtDataExterneNiveau2);
+			/*Fin d'initialisation de la colonne candidature à partir des donnees de la table dataExterne (niveau 2)*/
+			
 			DateFormat dfl = DateFormat.getDateTimeInstance(DateFormat.SHORT , DateFormat.SHORT);
 			excel.setDateDeLaDemandeTransfert(dfl.format(etu.getTransferts().getDateDemandeTransfert()).toString());
 			//			excel.setDateDeLaDemandeTransfert(etu.getTransferts().getDateDemandeTransfert().toString());

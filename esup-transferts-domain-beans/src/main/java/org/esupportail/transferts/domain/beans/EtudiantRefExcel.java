@@ -65,6 +65,8 @@ public class EtudiantRefExcel implements Serializable{
 	private String from_source;
 	
 	private String decisionDE;
+	
+	private String dataExterneNiveau2;
 
 	/**
 	 * Constructeur
@@ -89,7 +91,8 @@ public class EtudiantRefExcel implements Serializable{
 				+ libelleVET + ", derniereFormation=" + derniereFormation
 				+ ", codeBac=" + codeBac + ", anneeBac=" + anneeBac
 				+ ", validation=" + validation + ", from_source=" + from_source
-				+ ", decisionDE=" + decisionDE + "]";
+				+ ", decisionDE=" + decisionDE + ", dataExterneNiveau2="
+				+ dataExterneNiveau2 + "]";
 	}
 
 	public void setNumeroEtudiant(String numeroEtudiant) {
@@ -298,5 +301,13 @@ public class EtudiantRefExcel implements Serializable{
 
 	public void setDecisionDE(String decisionDE) {
 		this.decisionDE = decisionDE;
+	}
+
+	public String getDataExterneNiveau2() {
+		return dataExterneNiveau2;
+	}
+
+	public void setDataExterneNiveau2(String dataExterneNiveau2) {
+		this.dataExterneNiveau2 = dataExterneNiveau2;
 	}
 }
