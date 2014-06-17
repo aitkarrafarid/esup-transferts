@@ -179,8 +179,10 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				logger.debug("adresseFixe -->"+adresseFixe.toString());		
 
 			CommuneDTO communeDTO = adresseFixe.getCommune();
-			if (logger.isDebugEnabled())
+			if (logger.isDebugEnabled() && communeDTO!=null)
 				logger.debug("communeDTO -->"+communeDTO.toString());	
+			else if(logger.isDebugEnabled() && communeDTO==null)
+				logger.debug("communeDTO --> la commune est null");
 
 			PaysDTO paysDTO = adresseFixe.getPays();
 			if (logger.isDebugEnabled())
