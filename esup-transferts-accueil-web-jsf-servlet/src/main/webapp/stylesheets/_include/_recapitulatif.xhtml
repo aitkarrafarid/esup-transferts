@@ -15,7 +15,7 @@
 	<p:panel id="voeux" header="Récapitulatif">
 
 		<h:panelGrid columns="1"
-			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision}">
+			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}">
 			<p:commandButton value="Imprimer" update="voeux,msgs,msgsBas,growl"
 				action="#{userController.imprimerDemandeTransfert}" />
 		</h:panelGrid>
@@ -334,7 +334,7 @@
 		<!-- 		<h:selectOneRadio value="test" /> -->
 
 		<h:panelGrid columns="1"
-			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision}">
+			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}">
 			<p:commandButton value="Imprimer" update="voeux,msgs,msgsBas,growl"
 				action="#{userController.imprimerDemandeTransfert}" />
 		</h:panelGrid>
