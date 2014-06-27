@@ -256,7 +256,8 @@ public class UserController extends AbstractContextAwareController {
 					resultat = su.getResultat().getLibelle();
 				else
 					resultat = su.getLibAccueilResultat();				
-				lTrSU.add(new TrSituationUniversitaire(su.getId(), su.getAnnee().getLibelle(), su.getLibelle(), su.getResultat().getLibelle()));
+				//lTrSU.add(new TrSituationUniversitaire(su.getId(), su.getAnnee().getLibelle(), su.getLibelle(), su.getResultat().getLibelle()));
+				lTrSU.add(new TrSituationUniversitaire(su.getId(), annee, su.getLibelle(), resultat));
 			}
 			etudiantRefImp.setSituationUniversitaire(lTrSU);
 			etudiantRefImp.setDateDuJour(new Date());
