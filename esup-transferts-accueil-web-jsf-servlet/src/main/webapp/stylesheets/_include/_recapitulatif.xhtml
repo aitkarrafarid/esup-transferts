@@ -225,9 +225,10 @@
 
 			<p:spacer height="10px" />
 
-			<p:dataList value="#{userController.sudm}" var="situationUniv"
+<!-- 			<p:dataList value="#{userController.sudm}" var="situationUniv" -->
+			<p:dataList value="#{userController.lTrSituationUniversitaire}" var="situationUniv"
 				type="definition">  
-    #{situationUniv.annee.libelle}, #{situationUniv.libelle}, résultat : #{situationUniv.resultat.libelle}   
+    #{situationUniv.annee}, #{situationUniv.libelle}, résultat : #{situationUniv.resultat}   
     <f:facet name="description">
 					<p:spacer height="5px" />
 				</f:facet>

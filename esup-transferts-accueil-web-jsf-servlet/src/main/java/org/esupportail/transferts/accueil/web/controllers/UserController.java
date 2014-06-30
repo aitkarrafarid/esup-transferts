@@ -126,6 +126,7 @@ public class UserController extends AbstractContextAwareController {
 	private List<AccueilDecision> listeAccueilDecision = null;
 	private Parametres parametreAppliInfosAccueil;
 	private String aideTypeTransfert;
+	private List<TrSituationUniversitaire> lTrSituationUniversitaire;
 	/*
 	 ******************* INIT ******************** */
 
@@ -1977,5 +1978,32 @@ public class UserController extends AbstractContextAwareController {
 
 	public void setAideTypeTransfert(String aideTypeTransfert) {
 		this.aideTypeTransfert = aideTypeTransfert;
+	}
+
+	public List<TrSituationUniversitaire> getlTrSituationUniversitaire() 
+	{
+		List<TrSituationUniversitaire> lTrSU = new ArrayList<TrSituationUniversitaire>();
+		for(SituationUniversitaire su : this.currentEtudiant.getAccueil().getSituationUniversitaire())
+		{
+			String annee = "";
+			String resultat = "";
+			if(su.getAnnee().getIdAccueilAnnee()!=0)
+				annee = su.getAnnee().getLibelle();
+			else
+				annee = su.getLibAccueilAnnee();
+			if(su.getResultat().getIdAccueilResultat()!=0)
+				resultat = su.getResultat().getLibelle();
+			else
+				resultat = su.getLibAccueilResultat();				
+			//lTrSU.add(new TrSituationUniversitaire(su.getId(), su.getAnnee().getLibelle(), su.getLibelle(), su.getResultat().getLibelle()));
+			lTrSU.add(new TrSituationUniversitaire(su.getId(), annee, su.getLibelle(), resultat));
+		}
+		//etudiantRefImp.setSituationUniversitaire(lTrSU);
+		return lTrSU;
+	}
+
+	public void setlTrSituationUniversitaire(List<TrSituationUniversitaire> lTrSituationUniversitaire) 
+	{
+		this.lTrSituationUniversitaire = lTrSituationUniversitaire;
 	}
 }
