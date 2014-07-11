@@ -1795,6 +1795,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				System.err.println("Java Exception levee de type " + _ex);
 				_ex.printStackTrace();
 			}
+			//technical.data.toomanyrows.indopi
 		}
 		return listeErreurs;
 	}

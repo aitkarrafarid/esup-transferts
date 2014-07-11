@@ -7,9 +7,28 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+
+<h:form id="idle">
+	<p:dialog id="idleDialog"
+		header="Votre session a expiré, veuillez vous réidentifier en cliquant sur l'image"
+		widgetVar="idleDialog" modal="true" fixedCenter="true"
+		closable="false" draggable="false" resizable="false"
+		appendToBody="true" height="100" width="400">
+		<h:outputText value="" />
+		<center>
+			<p:commandLink id="nonAjax" actionListener="go_exception"
+				ajax="false">
+				<h:graphicImage alt="avisSaisie" title="Session expirée" width="100" height="100"
+					value="/media/images/identification.gif" />
+			</p:commandLink>
+		</center>
+	</p:dialog>
+</h:form>
+
 <h:form id="header">
-	<p:ajaxStatus onstart="statusDialog.show();" oncomplete="true"
-		rendered="#{!managerController.use}" onsuccess="statusDialog.hide();" />
+	<p:ajaxStatus onstart="statusDialog.show();" oncomplete="true" 
+		onerror="idleDialog.show()" rendered="#{!managerController.use}"
+		onsuccess="statusDialog.hide();" />
 	<p:dialog modal="false" widgetVar="statusDialog" header="Chargement..."
 		draggable="false" closable="false">
 		<p:graphicImage value="/media/images/ajaxloadingbar.gif" />
@@ -74,7 +93,8 @@
 					<p:submenu label="Transferts accueil">
 						<p:menuitem value="Liste des demandes"
 							action="#{administrationController.goToTransfertsAccueil}" />
-						<p:menuitem value="Validation en masse" rendered="#{!sessionController.transfertsAccueil}"
+						<p:menuitem value="Validation en masse"
+							rendered="#{!sessionController.transfertsAccueil}"
 							action="#{administrationController.goToValideMasseTransfertsAccueil}" />
 						<p:menuitem value="Exporter les demandes (XSL)"
 							action="#{administrationController.exportDemandeTransfertsAccueil}" />
@@ -189,6 +209,9 @@
 				rendered="#{!sessionController.currentUser.admin}" />
 		</p:megaMenu>
 	</center>
+
+<!-- 	<h:commandButton value="Florian" action="go_exception" /> -->
+
 </h:form>
 <p:spacer height="30px" />
 </html>

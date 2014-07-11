@@ -7,6 +7,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>An Blank Application to start your project</description>
+
+
 	<repositories>
 		<repository>
 			<id>esup-snapshots</id>

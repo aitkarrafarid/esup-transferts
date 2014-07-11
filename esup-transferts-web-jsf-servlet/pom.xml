@@ -7,6 +7,7 @@
 		<groupId>org.esupportail.transferts</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
 	<groupId>org.esupportail.transferts</groupId>
 	<artifactId>esup-transferts-web-jsf-servlet</artifactId>
 	<packaging>war</packaging>
@@ -57,8 +58,9 @@
 			<artifactId>primefaces</artifactId>
 			<version>4.0</version>
 		</dependency>
-		<!-- Début thème université d'Artois  
-		Commentez la dependency lié au thème Artois et décommentez celle en dessous si vous souhaitez utiliser un autre thème : http://www.primefaces.org/themes -->
+		<!-- Début thème université d'Artois Commentez la dependency lié au thème 
+			Artois et décommentez celle en dessous si vous souhaitez utiliser un autre 
+			thème : http://www.primefaces.org/themes -->
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>artois</artifactId>
@@ -67,12 +69,17 @@
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/artois.jar
 			</systemPath>
 		</dependency>
-		<!-- Fin thème université d'Artois  -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.primefaces.themes</groupId> -->
-<!-- 			<artifactId>all-themes</artifactId> -->
-<!-- 			<version>1.0.10</version> -->
-<!-- 		</dependency> -->
+		<!-- Fin thème université d'Artois -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.primefaces.themes</groupId> -->
+		<!-- <artifactId>all-themes</artifactId> -->
+		<!-- <version>1.0.10</version> -->
+		<!-- </dependency> -->
+		<dependency>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>primefaces-extensions</artifactId>
+			<version>1.2.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-commons2-jsf2-exception</artifactId>

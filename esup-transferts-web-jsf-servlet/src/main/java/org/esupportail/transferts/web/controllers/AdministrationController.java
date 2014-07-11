@@ -196,10 +196,14 @@ public class AdministrationController extends AbstractContextAwareController {
 	private Integer totalAccueil;
 	private Integer totalOpi;
 	private PersonnelComposante droitPC;
-	private String aideTypeTransfert;	
+	private String aideTypeTransfert;
+	//Candidature
 	private boolean interditNiveau2;
+	//OPI POSTBAC
+	private boolean interditNiveau3;
 	//DatasExterne datasEterneVap;
 	private String texteInterditNiveau2;
+	private String texteInterditNiveau3;
 	private IndOpi[] selectedOpis;
 	private boolean existCodeBac;
 	private boolean multiple;
@@ -558,20 +562,20 @@ public class AdministrationController extends AbstractContextAwareController {
 			adresse.setLibAd1(etu.getAdresse().getLibAd1());
 			adresse.setCodeCommune(etu.getAdresse().getCodeCommune());
 			EtudiantRefExcel excel = new EtudiantRefExcel();
-			
+
 			/*Debut d'initialisation de la colonne candidature à partir des donnees de la table dataExterne (niveau 2)*/
 			String txtDataExterneNiveau2 = "";
 			List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(etu.getNumeroIne(), 2);
-			
+
 			for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
 				txtDataExterneNiveau2 += " - "+lInterditNiveau2.getLibInterdit();
-			
+
 			if (logger.isDebugEnabled())
 				logger.debug("Liste des interdits de niveau 2-->"+txtDataExterneNiveau2);			
-			
+
 			excel.setDataExterneNiveau2(txtDataExterneNiveau2);
 			/*Fin d'initialisation de la colonne candidature à partir des donnees de la table dataExterne (niveau 2)*/
-			
+
 			DateFormat dfl = DateFormat.getDateTimeInstance(DateFormat.SHORT , DateFormat.SHORT);
 			excel.setDateDeLaDemandeTransfert(dfl.format(etu.getTransferts().getDateDemandeTransfert()).toString());
 			//			excel.setDateDeLaDemandeTransfert(etu.getTransferts().getDateDemandeTransfert().toString());
@@ -956,30 +960,96 @@ public class AdministrationController extends AbstractContextAwareController {
 						logger.debug("opi.getVoeux().getCodEtp() --> "+opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi()+" - "+opi.getLibNomPatIndOpi()+" - "+opi.getLibPr1IndOpi());
 						logger.debug("#######################################################################################################################");				
 					}	
-					opi.setSynchro(1);
-					getDomainService().updateIndOpi(opi);
+//					setTexteInterditNiveau2("");
+					setTexteInterditNiveau3("");
+					List<DatasExterne> listeDatasEterneNiveau3 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi(), 3);
 
-					String decision="";
-					if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
-						decision="Favorable";
-					else
-						decision="Défavorable";
+					for(DatasExterne lInterditNiveau3 : listeDatasEterneNiveau3)
+						this.texteInterditNiveau3 = lInterditNiveau3.getLibInterdit();
 
-					String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
-					String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
-							opi.getLibPr1IndOpi(),
-							decision,
-							opi.getNumeroOpi());
-					try {
-						getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
-					} 
-					catch (AddressException e) 
+					if (logger.isDebugEnabled())
+						logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
+					
+					if(listeDatasEterneNiveau3!=null && !listeDatasEterneNiveau3.isEmpty())
 					{
-						String summary = getString("ERREUR.ENVOI_MAIL");
-						String detail = getString("ERREUR.ENVOI_MAIL");
-						Severity severity = FacesMessage.SEVERITY_INFO;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						opi.setSynchro(4);
+						getDomainService().updateIndOpi(opi);	
+						
+						String decision="";
+						if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
+							decision="Favorable";
+						else
+							decision="Défavorable";
+
+						String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
+						String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
+								opi.getLibPr1IndOpi(),
+								decision,
+								this.texteInterditNiveau3);
+						try {
+							getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							String summary = getString("ERREUR.ENVOI_MAIL");
+							String detail = getString("ERREUR.ENVOI_MAIL");
+							Severity severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}							
+					}
+					else
+					{
+						opi.setSynchro(1);
+						getDomainService().updateIndOpi(opi);
+
+						String decision="";
+						if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
+							decision="Favorable";
+						else
+							decision="Défavorable";
+
+						String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
+						String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
+								opi.getLibPr1IndOpi(),
+								decision,
+								opi.getNumeroOpi());
+						try {
+							getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
+						} 
+						catch (AddressException e) 
+						{
+							String summary = getString("ERREUR.ENVOI_MAIL");
+							String detail = getString("ERREUR.ENVOI_MAIL");
+							Severity severity = FacesMessage.SEVERITY_INFO;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						}							
 					}					
+					
+					
+//					opi.setSynchro(1);
+//					getDomainService().updateIndOpi(opi);
+//
+//					String decision="";
+//					if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
+//						decision="Favorable";
+//					else
+//						decision="Défavorable";
+//
+//					String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
+//					String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
+//							opi.getLibPr1IndOpi(),
+//							decision,
+//							opi.getNumeroOpi());
+//					try {
+//						getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
+//					} 
+//					catch (AddressException e) 
+//					{
+//						String summary = getString("ERREUR.ENVOI_MAIL");
+//						String detail = getString("ERREUR.ENVOI_MAIL");
+//						Severity severity = FacesMessage.SEVERITY_INFO;
+//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//					}					
 				}				
 				String summary = getString("SYNCHRO.OPI_OK");
 				String detail = getString("SYNCHRO.OPI_OK");
@@ -995,6 +1065,8 @@ public class AdministrationController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled()) {
 					logger.debug("##################################### !!! Réinscription !!! #################################################");
 					logger.debug("opi.getVoeux().getCodEtp() --> "+opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi()+" - "+opi.getLibNomPatIndOpi()+" - "+opi.getLibPr1IndOpi());
+					logger.debug("reinscription.size() --> "+reinscription.size());
+					logger.debug("listeErreursReinscription.size() --> "+listeErreursReinscription.size());
 					logger.debug("#######################################################################################################################");				
 				}	
 
@@ -1043,8 +1115,10 @@ public class AdministrationController extends AbstractContextAwareController {
 						logger.debug("##################################### !!! ERREUR OPI APOGEE - SYNCHRO.OPI_PARTIELLE !!! #################################################");
 						logger.debug("opi.getVoeux().getCodEtp() --> "+opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi()+" - "+opi.getLibNomPatIndOpi()+" - "+opi.getLibPr1IndOpi());
 						logger.debug("#######################################################################################################################");				
-					}	
+					}
+
 					opi.setSynchro(1);
+
 					getDomainService().updateIndOpi(opi);	
 
 					String decision="";
@@ -1343,21 +1417,35 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("goToCurrentDemandeTransfertsAccueil");
 
 		setTexteInterditNiveau2("");
-		
+		setTexteInterditNiveau3("");
+
 		if (this.currentDemandeTransferts != null) 
 		{
 			List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 2);
-			
+
 			for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
 				this.texteInterditNiveau2 += "<BR /> - "+lInterditNiveau2.getLibInterdit();
-			
+
 			if (logger.isDebugEnabled())
 				logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
-			
+
 			if(listeDatasEterneNiveau2!=null && !listeDatasEterneNiveau2.isEmpty())
 				setInterditNiveau2(true);			
 			else
 				setInterditNiveau2(false);			
+
+			List<DatasExterne> listeDatasEterneNiveau3 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 3);
+
+			for(DatasExterne lInterditNiveau3 : listeDatasEterneNiveau3)
+				this.texteInterditNiveau3 += lInterditNiveau3.getLibInterdit();
+
+			if (logger.isDebugEnabled())
+				logger.debug("Liste des interdits de niveau 3-->"+this.texteInterditNiveau3);
+
+			if(listeDatasEterneNiveau3!=null && !listeDatasEterneNiveau3.isEmpty())
+				setInterditNiveau3(true);			
+			else
+				setInterditNiveau3(false);						
 
 			droitPC = getDomainService().getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(getCurrentUserLogin(),
 					getSource(), 
@@ -1454,32 +1542,32 @@ public class AdministrationController extends AbstractContextAwareController {
 			for(int i=0;i<tableau.length;i++)
 				logger.debug("---------- tableau["+i+"] ------------>"+tableau[i]);				
 
-			Integer anneeVerifRepriseEtudes = getSessionController().getCurrentAnnee()-getSessionController().getRegleGestionTE02();
+		Integer anneeVerifRepriseEtudes = getSessionController().getCurrentAnnee()-getSessionController().getRegleGestionTE02();
+		if (logger.isDebugEnabled()) 
+		{
+			logger.debug("---------- getSessionController().getCurrentAnnee() ------------>"+getSessionController().getCurrentAnnee());
+			logger.debug("---------- tableau.length-1 ------------>"+tableau[tableau.length-1]);				
+			logger.debug("---------- getSessionController().getRegleGestionTE02() ------------>"+getSessionController().getRegleGestionTE02());
+			logger.debug("---------- anneeVerifRepriseEtudes ------------>"+anneeVerifRepriseEtudes);
+		}	
+		setRepriseEtudes(true);
+		for(int i=0;i<tableau.length;i++)
+		{
 			if (logger.isDebugEnabled()) 
-			{
-				logger.debug("---------- getSessionController().getCurrentAnnee() ------------>"+getSessionController().getCurrentAnnee());
-				logger.debug("---------- tableau.length-1 ------------>"+tableau[tableau.length-1]);				
-				logger.debug("---------- getSessionController().getRegleGestionTE02() ------------>"+getSessionController().getRegleGestionTE02());
-				logger.debug("---------- anneeVerifRepriseEtudes ------------>"+anneeVerifRepriseEtudes);
-			}	
-			setRepriseEtudes(true);
-			for(int i=0;i<tableau.length;i++)
+				logger.debug("---------- Boucle tableau["+i+"] ------------>"+tableau[i]);
+			if(tableau[i].equals(anneeVerifRepriseEtudes))
 			{
 				if (logger.isDebugEnabled()) 
-					logger.debug("---------- Boucle tableau["+i+"] ------------>"+tableau[i]);
-				if(tableau[i].equals(anneeVerifRepriseEtudes))
-				{
-					if (logger.isDebugEnabled()) 
-						logger.debug("---------- if(tableau[i].equals(anneeVerifRepriseEtudes)) ------------>"+tableau[i]);
-					setRepriseEtudes(false);
-					break;
-				}
+					logger.debug("---------- if(tableau[i].equals(anneeVerifRepriseEtudes)) ------------>"+tableau[i]);
+				setRepriseEtudes(false);
+				break;
 			}
-			if (logger.isDebugEnabled()) 
-				if(this.isRepriseEtudes())
-					logger.debug("---------- Reprise d'études ------------>"+this.isRepriseEtudes());
-				else
-					logger.debug("---------- Pas de reprise d'étude ------------>"+this.isRepriseEtudes());
+		}
+		if (logger.isDebugEnabled()) 
+			if(this.isRepriseEtudes())
+				logger.debug("---------- Reprise d'études ------------>"+this.isRepriseEtudes());
+			else
+				logger.debug("---------- Pas de reprise d'étude ------------>"+this.isRepriseEtudes());
 	}
 
 	public String goToCurrentDemandeTransferts() {
@@ -2490,6 +2578,13 @@ public class AdministrationController extends AbstractContextAwareController {
 			this.currentDemandeTransferts.getTransferts().getFichier().setImg(new byte[0]);
 			etudiantRefImp.setUniversiteDepart(getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()));
 			etudiantRefImp.setUniversiteAccueil(getDomainServiceScolarite().getEtablissementByRne(this.currentDemandeTransferts.getTransferts().getRne()));
+
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("etudiantRefImp.getUniversiteDepart().toString()-->"+etudiantRefImp.getUniversiteDepart().toString());	
+				logger.debug("etudiantRefImp.getUniversiteAccueil().toString()-->"+etudiantRefImp.getUniversiteAccueil().toString());	
+			}
+
 			etudiantRefImp.setTrBac(getDomainServiceScolarite().getBaccalaureat(this.currentDemandeTransferts.getNumeroEtudiant()));
 			etudiantRefImp.setTrResultatVdiVetDTO(trResultatVdiVetDTO);
 			//			etudiantRefImp.getUniversiteDepart().setAdresseEtablissement(getDomainService().getAdresseEtablissementByRne(getSessionController().getRne()));
@@ -4906,21 +5001,21 @@ public class AdministrationController extends AbstractContextAwareController {
 		this.aideTypeTransfert = aideTypeTransfert;
 	}
 
-//	public boolean isVap() {
-//		return vap;
-//	}
-//
-//	public void setVap(boolean vap) {
-//		this.vap = vap;
-//	}
+	//	public boolean isVap() {
+	//		return vap;
+	//	}
+	//
+	//	public void setVap(boolean vap) {
+	//		this.vap = vap;
+	//	}
 
-//	public DatasExterne getDatasEterneVap() {
-//		return datasEterneVap;
-//	}
-//
-//	public void setDatasEterneVap(DatasExterne datasEterneVap) {
-//		this.datasEterneVap = datasEterneVap;
-//	}
+	//	public DatasExterne getDatasEterneVap() {
+	//		return datasEterneVap;
+	//	}
+	//
+	//	public void setDatasEterneVap(DatasExterne datasEterneVap) {
+	//		this.datasEterneVap = datasEterneVap;
+	//	}
 
 	public IndOpi[] getSelectedOpis() {
 		return selectedOpis;
@@ -4993,5 +5088,21 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void setInterditNiveau2(boolean interditNiveau2) {
 		this.interditNiveau2 = interditNiveau2;
+	}
+
+	public boolean isInterditNiveau3() {
+		return interditNiveau3;
+	}
+
+	public void setInterditNiveau3(boolean interditNiveau3) {
+		this.interditNiveau3 = interditNiveau3;
+	}
+
+	public String getTexteInterditNiveau3() {
+		return texteInterditNiveau3;
+	}
+
+	public void setTexteInterditNiveau3(String texteInterditNiveau3) {
+		this.texteInterditNiveau3 = texteInterditNiveau3;
 	}
 }

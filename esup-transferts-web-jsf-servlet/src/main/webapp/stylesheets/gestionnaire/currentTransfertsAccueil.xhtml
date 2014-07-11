@@ -93,6 +93,15 @@
 									escape="false"
 									rendered="#{administrationController.interditNiveau2}" />
 
+								<h:graphicImage alt="Post Bac" title="PostBac"
+									value="/media/images/warning_40px.png"
+									rendered="#{administrationController.interditNiveau3}" />
+								<h:outputText
+									value="Admission PostBac (#{administrationController.texteInterditNiveau3})"
+									escape="false"
+									rendered="#{administrationController.interditNiveau3}" />
+
+
 								<h:outputText value="Numéro étudiant : " />
 								<h:outputText
 									value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />

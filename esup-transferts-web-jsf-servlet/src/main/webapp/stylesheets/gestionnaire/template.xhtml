@@ -11,14 +11,15 @@
 	<h:head>
 		<meta http-equiv="pragma" content="no-cache" />
 		<meta http-equiv="cache-control" content="no-cache" />
-		<meta http-equiv="expires" content="0" />	
+		<meta http-equiv="expires" content="0" />
 		<style type="text/css">
-			/* @import url("/media/style/esup-transferts.css"); */
-			@import	url("#{sessionController.htmlCssStyle}media/style/esup-transfertsgest.css");
-		</style>
-		
-		<title><h:outputText value="#{applicationService.name}" />
-		</title>
+/* @import url("/media/style/esup-transferts.css"); */
+@import
+	url("#{sessionController.htmlCssStyle}media/style/esup-transfertsgest.css")
+	;
+</style>
+
+		<title><h:outputText value="#{applicationService.name}" /></title>
 		<ui:repeat value="#{tagsConfigurator.stylesheets}" var="path">
 			<t:stylesheet path="#{path}" />
 		</ui:repeat>
@@ -30,6 +31,8 @@
 	<h:body>
 		<div id="body">
 			<div class="app-body">
+				<!-- Default ajaxErrorHandler -->
+				
 				<ui:insert name="navigation" />
 				<p:spacer height="20px" />
 				<ui:insert name="corps" />

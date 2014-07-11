@@ -65,12 +65,13 @@ public class ExceptionHandlerFactory extends javax.faces.context.ExceptionHandle
 		}
 		if (parent != null) {
 			ExceptionHandler result = parent.getExceptionHandler();
-//			if (log.isDebugEnabled()) {
-//				log.debug("parent --> "+parent);
-//				log.debug("result --> "+result);
-//			}	
-//			result = new EsupExceptionHandler(result);
-			result = new ViewExpiredExceptionExceptionHandler(result);
+			if (log.isDebugEnabled()) {
+				log.debug("parent --> "+parent);
+				log.debug("result --> "+result);
+			}	
+			result = new EsupExceptionHandler(result);
+//			result = new ViewExpiredExceptionExceptionHandler(result);
+//			result = new PrimeFacesExtenssionExceptionHandler(result);
 
 			return result;
 

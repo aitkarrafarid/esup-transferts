@@ -22,7 +22,7 @@
 		<property name="exceptionViews" >
 			<map>
 				<entry key="java.lang.Exception" value="go_exception" />
-				<entry key="javax.faces.application.ViewExpiredException" value="go_viewExpired_exception" /> 
+<!-- 				<entry key="javax.faces.application.ViewExpiredException" value="go_viewExpired_exception" />  -->
 			</map>
 		</property>
 		<property name="logLevel" value="${exceptionHandling.logLevel}" />
