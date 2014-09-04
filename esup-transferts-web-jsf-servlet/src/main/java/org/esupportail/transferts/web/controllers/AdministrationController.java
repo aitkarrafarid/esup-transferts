@@ -208,6 +208,9 @@ public class AdministrationController extends AbstractContextAwareController {
 	private boolean existCodeBac;
 	private boolean multiple;
 	private boolean repriseEtudes;
+	private IndOpi selectedOpiForDelete;
+	private String aideChoixVoeuParComposante;
+	private String variablesEnvironnement;
 
 	@Override
 	public void afterPropertiesSetInternal()
@@ -224,6 +227,21 @@ public class AdministrationController extends AbstractContextAwareController {
 		this.isDefaultCodeSizeAnnee();	
 	}	
 
+	@PostConstruct
+    public void init() {
+        String userHome = System.getProperty("user.home");
+        String userDir = System.getProperty("user.dir");
+        String javaClassPath = System.getProperty("java.class.path");
+        String javaVendorUrl = System.getProperty("java.vendor.url");
+        setVariablesEnvironnement("user.home="+userHome+"-----user.dir="+userDir+"-----java.class.path="+javaClassPath+"-----java.vendor.url="+javaVendorUrl);
+        java.util.Enumeration liste = System.getProperties().propertyNames();
+        String cle;
+        while( liste.hasMoreElements() ) {
+                cle = (String)liste.nextElement();
+                System.out.println( "-->"+cle + " = " + System.getProperty(cle) );
+        } 
+    }	
+	
 	public void showMessageInterditNiveau2() {
 		if (logger.isDebugEnabled())
 			logger.debug("public void showMessageInterditNiveau2()");
@@ -242,6 +260,13 @@ public class AdministrationController extends AbstractContextAwareController {
 	//        FacesContext.getCurrentInstance().addMessage(null, msg);
 	//    }	
 
+	public String goToAdministration()
+	{
+		if (logger.isDebugEnabled())
+			logger.debug("public String goToAdministration()");
+		return "goToAdministration"; 		
+	}
+	
 	public String goToValidationTransfertsDepart()
 	{
 		if (logger.isDebugEnabled())
@@ -256,6 +281,16 @@ public class AdministrationController extends AbstractContextAwareController {
 		return "goToStats";
 	}
 
+	public void deleteSelectedOpi()
+	{
+		getDomainService().deleteSelectedOpi(getSelectedOpiForDelete());
+		setTransfertDataModelOpi(null);
+		String summary = getString("SUPPRESSION.OPI");
+		String detail = getString("SUPPRESSION.OPI");
+		Severity severity = FacesMessage.SEVERITY_INFO;
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));		
+	}
+	
 	public List<SelectItem> getListeFichiers() {
 		if (logger.isDebugEnabled()) {
 			logger.debug("public List<SelectItem> getListeFichiers()");
@@ -1227,6 +1262,22 @@ public class AdministrationController extends AbstractContextAwareController {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 	}	
 
+	@SuppressWarnings("unused")
+	public void updateConfiguration()
+	{
+		Parametres param = getDomainService().getParametreByCode("choixDuVoeuParComposante");
+		param.setBool(getSessionController().isChoixDuVoeuParComposante());
+		param = getDomainService().updateConfiguration(param);
+		if(param!=null)
+			getSessionController().setChoixDuVoeuParComposante(param.isBool());
+		else
+			getSessionController().setChoixDuVoeuParComposante(true);
+		String summary = getString("ENREGISTREMENT.CONFIGURATION");
+		String detail = getString("ENREGISTREMENT.CONFIGURATION");
+		Severity severity = FacesMessage.SEVERITY_INFO;
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+	}
+	
 	public String goToInformationAppliDepart() 
 	{
 		if (logger.isDebugEnabled())
@@ -1592,10 +1643,19 @@ public class AdministrationController extends AbstractContextAwareController {
 			if(currentDemandeTransferts.getTransferts().getOdf()!=null)
 			{
 				setCodTypDip(currentDemandeTransferts.getTransferts().getOdf().getCodTypDip());
-				setCodeNiveau(currentDemandeTransferts.getTransferts().getOdf().getCodeNiveau());		
-				setCodeDiplome(currentDemandeTransferts.getTransferts().getOdf().getCodeDiplome());
+				setCodeNiveau(currentDemandeTransferts.getTransferts().getOdf().getCodeNiveau());
+				if(getSessionController().isChoixDuVoeuParComposante())
+				{
+					setCodeComposante(currentDemandeTransferts.getTransferts().getOdf().getCodeComposante());
+					setListeLibellesEtape(getListeLibellesEtapeByCodeComposante());
+				}
+				else
+				{
+					setCodeDiplome(currentDemandeTransferts.getTransferts().getOdf().getCodeDiplome());
+					setListeLibellesEtape(getListeLibellesEtape());
+				}
 				currentOdf=currentDemandeTransferts.getTransferts().getOdf();
-				setListeLibellesEtape(getListeLibellesEtape());
+				
 			}
 			this.initialiseTransientEtudiantRef();
 
@@ -2098,7 +2158,15 @@ public class AdministrationController extends AbstractContextAwareController {
 	}		
 
 	public boolean isDefaultCodeSizeAnnee() {
+		if (logger.isDebugEnabled())
+			logger.debug("isDefaultCodeSizeAnnee----->SoSo");		
 		this.defaultCodeSize = getDomainService().getCodeSizeDefaut();
+		Parametres param = getDomainService().getParametreByCode("choixDuVoeuParComposante");
+		if(param!=null)
+			getSessionController().setChoixDuVoeuParComposante(param.isBool());
+		else
+			getSessionController().setChoixDuVoeuParComposante(true);
+		
 		if (this.defaultCodeSize != null)
 		{
 			this.setDefaultCodeSizeAnnee(true);
@@ -2263,18 +2331,12 @@ public class AdministrationController extends AbstractContextAwareController {
 	public List<OffreDeFormationsDTO> getListeLibellesEtapeByCodeComposante() {
 		if (logger.isDebugEnabled())
 			logger.debug("public List<OffreDeFormationsDTO> getListeLibellesEtapeByCodeComposante()");
-		//		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDipAndAtifOuPas(currentDemandeTransferts.getTransferts().getRne(), 
-		//				getSessionController().getCurrentAnnee(), 
-		//				getCodTypDip(), 
-		//				getCodeNiveau(), 
-		//				getCodeDiplome());	
-
-		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(currentDemandeTransferts.getTransferts().getRne(), 
+		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(currentDemandeTransferts.getTransferts().getRne(), 
 				getSessionController().getCurrentAnnee(), 
 				getCodTypDip(),  
 				getCodeNiveau(), 
 				getCodeComposante(), 
-				"A");
+				getSource());
 
 	}		
 
@@ -2380,8 +2442,11 @@ public class AdministrationController extends AbstractContextAwareController {
 		else
 		{
 			currentDemandeTransferts.getTransferts().setLibelleTypeDiplome(null);
-			setLibelleEtapeVide(true);	
-			setLibelleDiplomeVide(true);
+			setLibelleEtapeVide(true);
+			if(getSessionController().isChoixDuVoeuParComposante())
+				setComposanteVide(true);
+			else
+				setLibelleDiplomeVide(true);
 			setTypesDiplomeVide(true);
 			setTypesDiplomeAutreVide(false);
 			listeTypesDiplome=null;
@@ -4810,7 +4875,11 @@ public class AdministrationController extends AbstractContextAwareController {
 		listeComposantes = new ArrayList<SelectItem>();
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		Map<String, String> listeComposantesDTO=null;
+//		if(getSessionController().isChoixDuVeuParComposante())
+			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+//		else
+//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled()) {
@@ -5104,5 +5173,30 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void setTexteInterditNiveau3(String texteInterditNiveau3) {
 		this.texteInterditNiveau3 = texteInterditNiveau3;
+	}
+
+	public IndOpi getSelectedOpiForDelete() {
+		return selectedOpiForDelete;
+	}
+
+	public void setSelectedOpiForDelete(IndOpi selectedOpiForDelete) {
+		this.selectedOpiForDelete = selectedOpiForDelete;
+	}
+
+	public String getAideChoixVoeuParComposante() {
+		aideChoixVoeuParComposante = getString("AIDE.CHOIX_VOEU_PAR_COMPOSANTE");
+		return aideChoixVoeuParComposante;
+	}
+
+	public void setAideChoixVoeuParComposante(String aideChoixVoeuParComposante) {
+		this.aideChoixVoeuParComposante = aideChoixVoeuParComposante;
+	}
+
+	public String getVariablesEnvironnement() {
+		return variablesEnvironnement;
+	}
+
+	public void setVariablesEnvironnement(String variablesEnvironnement) {
+		this.variablesEnvironnement = variablesEnvironnement;
 	}
 }

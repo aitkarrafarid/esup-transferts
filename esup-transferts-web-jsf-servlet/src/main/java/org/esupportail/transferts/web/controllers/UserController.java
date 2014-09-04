@@ -107,6 +107,7 @@ public class UserController extends AbstractContextAwareController {
 	private boolean libelleDiplomeVide = true;
 	private boolean libelleEtapeVide = true;	
 	private boolean AnneeEtudeVide = true;
+	private boolean composanteVide = true;
 	private String codTypDip;
 	private Integer codeNiveau;		
 	private String codeDiplome;
@@ -118,6 +119,8 @@ public class UserController extends AbstractContextAwareController {
 	private DomainServiceOpi domainServiceWSOpiExt;	
 	private Parametres parametreAppliInfosDepart;	
 	private String aideTypeTransfert;	
+	private String codeComposante;
+	private List<SelectItem> listeComposantes;
 
 	@Override
 	public void afterPropertiesSetInternal() {
@@ -197,7 +200,10 @@ public class UserController extends AbstractContextAwareController {
 			setCodeNiveau(null);
 			setLibelleEtapeVide(true);
 			setAnneeEtudeVide(false);
-			setLibelleDiplomeVide(true);
+			if(getSessionController().isChoixDuVoeuParComposante())
+				setComposanteVide(true);
+			else
+				setLibelleDiplomeVide(true);
 			this.getListeAnneesEtude();  
 		}
 		else
@@ -210,6 +216,20 @@ public class UserController extends AbstractContextAwareController {
 			this.setListeLibellesEtape(null);
 		}
 	}	
+
+	public void resetComposante()
+	{
+		if (logger.isDebugEnabled())
+			logger.debug("public void resetComposante()");
+
+		setTypesDiplomeVide(false);
+		setAnneeEtudeVide(false);
+		setCodeDiplome(null);
+		setLibelleEtapeVide(true);	
+		setComposanteVide(false);
+		setCodeComposante(null);
+		setLibelleDiplomeVide(true); 
+	}
 
 	public void resetLibelleDiplome()
 	{
@@ -234,22 +254,46 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetLibelleEtape()
 	{
-		setTypesDiplomeAutreVide(true);
-		if(getCodeDiplome() !=null && !getCodeDiplome().equals(""))  
+		if(getSessionController().isChoixDuVoeuParComposante())
 		{
-			setDeptVide(false);
-			setTypesDiplomeVide(false);
-			setAnneeEtudeVide(false);
-			setLibelleDiplomeVide(false);
-			setLibelleEtapeVide(false);
-			odfDataModel=null;
-			currentOdf=new OffreDeFormationsDTO();
-			setListeLibellesEtape(this.getListeLibellesEtape());
+			if(getCodeComposante() !=null && !getCodeComposante().equals(""))  
+			{
+				setComposanteVide(false);
+				setTypesDiplomeAutreVide(true);
+				setTypesDiplomeVide(false);				
+				setDeptVide(false);
+				setAnneeEtudeVide(false);
+				setLibelleDiplomeVide(false);
+				setLibelleEtapeVide(false);
+				odfDataModel=null;
+				currentOdf=new OffreDeFormationsDTO();
+				setListeLibellesEtape(this.getListeLibellesEtape());
+			}
+			else
+			{
+				setLibelleEtapeVide(true);
+				this.listeLibellesEtape=null;
+			}			
 		}
 		else
 		{
-			setLibelleEtapeVide(true);
-			this.listeLibellesEtape=null;
+			if(getCodeDiplome() !=null && !getCodeDiplome().equals(""))  
+			{
+				setTypesDiplomeAutreVide(true);
+				setTypesDiplomeVide(false);				
+				setDeptVide(false);
+				setAnneeEtudeVide(false);
+				setLibelleDiplomeVide(false);
+				setLibelleEtapeVide(false);
+				odfDataModel=null;
+				currentOdf=new OffreDeFormationsDTO();
+				setListeLibellesEtape(this.getListeLibellesEtape());
+			}
+			else
+			{
+				setLibelleEtapeVide(true);
+				this.listeLibellesEtape=null;
+			}			
 		}
 	}		
 
@@ -1514,17 +1558,22 @@ public class UserController extends AbstractContextAwareController {
 	}		
 
 	public List<SelectItem> getListeLibellesDiplome() {
-		if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled())
 			logger.debug("public List<SelectItem> getListeLibellesDiplome()");
-			logger.debug("getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(),etu.getTransferts().getCodTypDip(), etu.getTransferts().getCodeNiveau());");
-		}
 		listeLibellesDiplome = new ArrayList<SelectItem>();
-		Map<String, String> listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, "D");
+		Map<String, String> listeLibellesDiplomeDTO = null;
+		if (logger.isDebugEnabled())
+		{
+			logger.debug("listeLibellesDiplomeDTO par diplome");
+			logger.debug("getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, D);");
+			System.out.println("###################################### --> "+currentEtudiant.getTransferts().getRne()+"-----"+getSessionController().getCurrentAnnee()+"-----"+getCodTypDip()+"-----"+getCodeNiveau()+"-----"+true+"-----D");								
+		}
+		listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, "D");
+
 		if(listeLibellesDiplomeDTO!=null && !listeLibellesDiplomeDTO.isEmpty())
 		{
-			if (logger.isDebugEnabled()) {
+			if (logger.isDebugEnabled())
 				logger.debug("listeLibellesDiplomeDTO : "+listeLibellesDiplomeDTO);
-			}
 			for(String mapKey : listeLibellesDiplomeDTO.keySet())
 			{
 				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
@@ -1534,17 +1583,35 @@ public class UserController extends AbstractContextAwareController {
 			return listeLibellesDiplome;
 		}
 		else
+		{
+			if (logger.isDebugEnabled())
+				logger.debug("listeLibellesDiplomeDTO = null !!!");	
 			return null;
+		}
+
 	}			
 
 	public List<OffreDeFormationsDTO> getListeLibellesEtape() {
-		if (logger.isDebugEnabled())
+		if(getSessionController().isChoixDuVoeuParComposante())
 		{
-			logger.debug("public List<SelectItem> getListeLibellesEtape()");
-			logger.debug("(etu.getTransferts() --> "+currentEtudiant.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome());
-			logger.debug("(getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip --> "+getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(),"D").size());
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("public List<SelectItem> getListeLibellesEtape()");
+				logger.debug("(etu.getTransferts() --> "+currentEtudiant.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeComposante()+"-----D");
+				logger.debug("(getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeComposante(), D)");			
+			}
+			return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeComposante(), "D");			
 		}
-		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(),"D");
+		else
+		{
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("public List<SelectItem> getListeLibellesEtape()");
+				logger.debug("(etu.getTransferts() --> "+currentEtudiant.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome()+"-----D");
+				logger.debug("(getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip --> "+getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(),"D").size());
+			}
+			return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(),"D");
+		}
 	}	
 
 	/**
@@ -2082,5 +2149,50 @@ public class UserController extends AbstractContextAwareController {
 
 	public void setAideTypeTransfert(String aideTypeTransfert) {
 		this.aideTypeTransfert = aideTypeTransfert;
+	}
+
+	public boolean isComposanteVide() {
+		return composanteVide;
+	}
+
+	public void setComposanteVide(boolean composanteVide) {
+		this.composanteVide = composanteVide;
+	}
+
+	public String getCodeComposante() {
+		return codeComposante;
+	}
+
+	public void setCodeComposante(String codeComposante) {
+		this.codeComposante = codeComposante;
+	}
+
+	public List<SelectItem> getListeComposantes() {
+		if (logger.isDebugEnabled())
+			logger.debug("getListeComposantes");
+
+		listeComposantes = new ArrayList<SelectItem>();
+		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
+		{
+			if (logger.isDebugEnabled()) {
+				logger.debug("listeComposantesDTO : "+listeComposantesDTO);
+			}
+			for(String mapKey : listeComposantesDTO.keySet())
+			{
+				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
+				listeComposantes.add(option);
+			}			
+			Collections.sort(listeComposantes,new ComparatorSelectItem());
+			return listeComposantes;
+		}
+		else
+			return null;
+	}	
+
+	public void setListeComposantes(List<SelectItem> listeComposantes) {
+		this.listeComposantes = listeComposantes;
 	}
 }

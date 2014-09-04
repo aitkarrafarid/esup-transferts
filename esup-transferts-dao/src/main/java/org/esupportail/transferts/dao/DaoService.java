@@ -263,4 +263,12 @@ public interface DaoService extends Serializable {
 	List<AccueilAnnee> getAccueilAnneeSansNull();
 
 	List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeComposante, String source);
+
+	List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(
+			String rne, Integer currentAnnee, String codTypDip,
+			Integer codeNiveau, String codeComposante, String source);
+
+	Parametres updateConfiguration(Parametres param);
+
+	void deleteSelectedOpi(IndOpi selectedOpiForDelete);
 }

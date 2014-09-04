@@ -18,15 +18,15 @@
 		<center>
 			<p:commandLink id="nonAjax" actionListener="go_exception"
 				ajax="false">
-				<h:graphicImage alt="avisSaisie" title="Session expirée" width="100" height="100"
-					value="/media/images/identification.gif" />
+				<h:graphicImage alt="avisSaisie" title="Session expirée" width="100"
+					height="100" value="/media/images/identification.gif" />
 			</p:commandLink>
 		</center>
 	</p:dialog>
 </h:form>
 
 <h:form id="header">
-	<p:ajaxStatus onstart="statusDialog.show();" oncomplete="true" 
+	<p:ajaxStatus onstart="statusDialog.show();" oncomplete="true"
 		onerror="idleDialog.show()" rendered="#{!managerController.use}"
 		onsuccess="statusDialog.hide();" />
 	<p:dialog modal="false" widgetVar="statusDialog" header="Chargement..."
@@ -156,6 +156,14 @@
 							action="#{partenaireController.goToPartenaires}" />
 					</p:submenu>
 				</p:column>
+				<p:column>
+					<p:submenu rendered="#{sessionController.currentUser.admin}"
+						label="Préférences" icon="ui-icon-help">
+						<p:menuitem value="Liste des paramètres"
+							rendered="#{sessionController.currentUser.admin}"
+							action="#{administrationController.goToAdministration}" />
+					</p:submenu>
+				</p:column>
 			</p:submenu>
 
 			<p:submenu label="Statistiques" icon="ui-icon-calculator"
@@ -210,7 +218,7 @@
 		</p:megaMenu>
 	</center>
 
-<!-- 	<h:commandButton value="Florian" action="go_exception" /> -->
+	<!-- 	<h:commandButton value="Florian" action="go_exception" /> -->
 
 </h:form>
 <p:spacer height="30px" />

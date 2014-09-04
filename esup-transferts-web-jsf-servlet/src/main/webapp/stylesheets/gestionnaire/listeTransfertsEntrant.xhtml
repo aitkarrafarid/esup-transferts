@@ -118,6 +118,13 @@
             </f:facet>
 					<h:outputText value="#{opi.voeux.libEtp}" />
 				</p:column>
+				
+        <p:column style="width:32px;text-align: center">
+             <p:commandButton icon="ui-icon-trash" title="View" onclick="confirmationSuppression.show()">
+                <f:setPropertyActionListener value="#{opi}" target="#{administrationController.selectedOpiForDelete}" />
+            </p:commandButton>
+        </p:column>				
+				
 				<f:facet name="footer">
 					<p:commandButton value="Visualisation" title="Visualisation"
 						icon="ui-icon-search" update=":form:display"
@@ -170,6 +177,16 @@
 					</h:panelGrid>					
 				</p:panel>
 			</center>
+
+			<p:confirmDialog
+				message="Êtes-vous sur de vouloir supprimer les informations OPI"
+				header="Confirmation de la supression" severity="alert" widgetVar="confirmationSuppression">
+				<p:commandButton value="Oui" update="form,growl"
+					oncomplete="confirmationSuppression.hide()"
+					action="#{administrationController.deleteSelectedOpi}" />
+				<p:commandButton value="Non" onclick="confirmationSuppression.hide()"
+					type="button" />
+			</p:confirmDialog>
 
 			<p:confirmDialog
 				message="Êtes-vous sur de vouloir envoyer les informations OPI dans votre outils de scolarité. Attention, 

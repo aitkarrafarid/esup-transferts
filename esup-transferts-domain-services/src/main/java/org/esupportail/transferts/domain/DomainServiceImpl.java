@@ -650,4 +650,24 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		return getDaoService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(rne, annee, codTypDip, codeNiveau, codeComposante, source);
 	}
 
+	@Override
+	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(
+			String rne, Integer currentAnnee, String codTypDip,
+			Integer codeNiveau, String codeComposante, String source) {
+		// TODO Auto-generated method stub
+		return getDaoService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(
+				rne, currentAnnee, codTypDip,
+				codeNiveau, codeComposante, source);
+	}
+
+	@Override
+	public Parametres updateConfiguration(Parametres param) {
+		return getDaoService().updateConfiguration(param);
+	}
+
+	@Override
+	public void deleteSelectedOpi(IndOpi selectedOpiForDelete) {
+		getDaoService().deleteSelectedOpi(selectedOpiForDelete);		
+	}
+
 }

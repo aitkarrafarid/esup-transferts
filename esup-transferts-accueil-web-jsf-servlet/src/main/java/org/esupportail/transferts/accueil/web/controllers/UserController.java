@@ -569,30 +569,30 @@ public class UserController extends AbstractContextAwareController {
 		setComposanteVide(false);
 		setCodeComposante(null);
 		setLibelleDiplomeVide(true);
-		this.getListeLibellesDiplome(); 
+		//this.getListeLibellesDiplome(); 
 	}
 
-	public void resetLibelleDiplome()
-	{
-		if (logger.isDebugEnabled())
-			logger.debug("public void resetLibelleDiplome()");
-
-		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))  
-		{
-			setTypesDiplomeVide(false);
-			setAnneeEtudeVide(false);
-			setCodeDiplome(null);
-			setLibelleEtapeVide(true);	
-			setLibelleDiplomeVide(false);
-			this.getListeLibellesDiplome(); 
-		}
-		else
-		{
-			setLibelleDiplomeVide(true);
-			this.listeLibellesDiplome=null;
-			this.listeLibellesEtape=null;
-		}
-	}
+//	public void resetLibelleDiplome()
+//	{
+//		if (logger.isDebugEnabled())
+//			logger.debug("public void resetLibelleDiplome()");
+//
+//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))  
+//		{
+//			setTypesDiplomeVide(false);
+//			setAnneeEtudeVide(false);
+//			setCodeDiplome(null);
+//			setLibelleEtapeVide(true);	
+//			setLibelleDiplomeVide(false);
+//			this.getListeLibellesDiplome(); 
+//		}
+//		else
+//		{
+//			setLibelleDiplomeVide(true);
+//			this.listeLibellesDiplome=null;
+//			this.listeLibellesEtape=null;
+//		}
+//	}
 
 	public void resetLibelleEtape()
 	{

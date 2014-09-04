@@ -232,6 +232,12 @@
 				<h:outputText
 					value="#{userController.currentEtudiant.transferts.libRne} (#{userController.currentEtudiant.transferts.rne})" />
 
+				<h:outputText value="Composante : "
+					rendered="#{userController.currentEtudiant.transferts.odf != null}" />
+				<h:outputText
+					rendered="#{userController.currentEtudiant.transferts.odf != null}"
+					value="#{userController.currentEtudiant.transferts.odf.libComposante}" />
+
 				<h:outputText value="Type de diplôme : "
 					rendered="#{userController.currentEtudiant.transferts.odf != null}" />
 				<h:outputText

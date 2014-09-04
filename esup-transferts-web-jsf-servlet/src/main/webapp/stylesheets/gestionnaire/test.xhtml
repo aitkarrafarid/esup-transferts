@@ -15,14 +15,18 @@
 	</ui:define>
 
 	<ui:define name="corps">
-		<p:panel rendered="#{!administrationController.personnel || (administrationController.source eq 'D' and !administrationController.droitsDepart and !sessionController.currentUser.admin) || (administrationController.source eq 'A' and !administrationController.droitsArrivee and !sessionController.currentUser.admin)}">
-		<h:outputText value="Droits départ ==> #{administrationController.droitsDepart}-----" />
-		<h:outputText value="Droits arrivée ==> #{administrationController.droitsArrivee}-----" />
-		<h:outputText value="Source ==> #{administrationController.source}" />
+		<p:panel
+			rendered="#{!administrationController.personnel || (administrationController.source eq 'D' and !administrationController.droitsDepart and !sessionController.currentUser.admin) || (administrationController.source eq 'A' and !administrationController.droitsArrivee and !sessionController.currentUser.admin)}">
+			<h:outputText
+				value="Droits départ ==> #{administrationController.droitsDepart}-----" />
+			<h:outputText
+				value="Droits arrivée ==> #{administrationController.droitsArrivee}-----" />
+			<h:outputText value="Source ==> #{administrationController.source}" />
 			<ui:include
 				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
 		</p:panel>
-		<h:form id="test" rendered="#{administrationController.personnel and (administrationController.source eq 'D' and administrationController.droitsDepart || sessionController.currentUser.admin) || (administrationController.source eq 'A' and administrationController.droitsArrivee || sessionController.currentUser.admin)}">
+		<h:form id="test"
+			rendered="#{administrationController.personnel and (administrationController.source eq 'D' and administrationController.droitsDepart || sessionController.currentUser.admin) || (administrationController.source eq 'A' and administrationController.droitsArrivee || sessionController.currentUser.admin)}">
 			<p:messages id="msgs" showDetail="false" />
 			<p:growl id="growl" showDetail="false" sticky="true" />
 
@@ -88,35 +92,91 @@
 							<h:outputText value=" "
 								rendered="#{!testController.typesDiplomeAutreVide}" />
 
+							<!-- 							<h:outputText value="* Niveau : " -->
+							<!-- 								rendered="#{!testController.anneeEtudeVide}" /> -->
+							<!-- 							<p:selectOneMenu id="niveau" -->
+							<!-- 								disabled="#{testController.etu.transferts.temoinTransfertValide==2}" -->
+							<!-- 								rendered="#{!testController.anneeEtudeVide}" -->
+							<!-- 								value="#{testController.codeNiveau}" required="true" -->
+							<!-- 								requiredMessage="#{msgs['ERREUR.NIVEAU']}"> -->
+							<!-- 								<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
+							<!-- 								<f:selectItems value="#{testController.listeAnneesEtude}" /> -->
+							<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
+							<!-- 									listener="#{testController.resetLibelleDiplome}" /> -->
+							<!-- 							</p:selectOneMenu> -->
+							<!-- 							<h:outputText value=" " -->
+							<!-- 								rendered="#{!testController.anneeEtudeVide}" /> -->
+
 							<h:outputText value="* Niveau : "
 								rendered="#{!testController.anneeEtudeVide}" />
-							<p:selectOneMenu id="niveau"
-								disabled="#{testController.etu.transferts.temoinTransfertValide==2}"
-								rendered="#{!testController.anneeEtudeVide}"
+							<p:selectOneMenu id="niveauDiplome"
+								rendered="#{!testController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}"
 								value="#{testController.codeNiveau}" required="true"
 								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
 								<f:selectItem itemLabel="== Choix ==" itemValue="" />
 								<f:selectItems value="#{testController.listeAnneesEtude}" />
+<!-- 												<f:ajax event="change" render="vo" -->
+<!-- 													listener="#{testController.resetLibelleDiplome}" /> -->
 								<p:ajax event="change" update="vo,msgs,msgs2,growl"
 									listener="#{testController.resetLibelleDiplome}" />
+							</p:selectOneMenu>
+							<p:selectOneMenu id="niveauComposante"
+								rendered="#{!testController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}"
+								value="#{testController.codeNiveau}" required="true"
+								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
+								<f:selectItem itemLabel="== Choix ==" itemValue="" />
+								<f:selectItems value="#{testController.listeAnneesEtude}" />
+<!-- 												<f:ajax event="change" render="vo" -->
+<!-- 													listener="#{testController.resetLibelleDiplome}" /> -->
+								<p:ajax event="change" update="vo,msgs,msgs2,growl"
+									listener="#{testController.resetComposante}" />
 							</p:selectOneMenu>
 							<h:outputText value=" "
 								rendered="#{!testController.anneeEtudeVide}" />
 
+							<!-- 							<h:outputText value="* Diplôme : " -->
+							<!-- 								rendered="#{!testController.libelleDiplomeVide}" /> -->
+							<!-- 							<p:selectOneMenu id="diplomes" -->
+							<!-- 								disabled="#{testController.etu.transferts.temoinTransfertValide==2}" -->
+							<!-- 								rendered="#{!testController.libelleDiplomeVide}" -->
+							<!-- 								value="#{testController.codeDiplome}" required="true" -->
+							<!-- 								requiredMessage="#{msgs['ERREUR.DIPLOME']}"> -->
+							<!-- 								<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
+							<!-- 								<f:selectItems value="#{testController.listeLibellesDiplome}" /> -->
+							<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
+							<!-- 									listener="#{testController.resetLibelleEtape}" /> -->
+							<!-- 							</p:selectOneMenu> -->
+							<!-- 							<h:outputText value=" " -->
+							<!-- 								rendered="#{!testController.libelleDiplomeVide}" /> -->
+
 							<h:outputText value="* Diplôme : "
-								rendered="#{!testController.libelleDiplomeVide}" />
+								rendered="#{!testController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
 							<p:selectOneMenu id="diplomes"
-								disabled="#{testController.etu.transferts.temoinTransfertValide==2}"
-								rendered="#{!testController.libelleDiplomeVide}"
+								rendered="#{!testController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}"
 								value="#{testController.codeDiplome}" required="true"
 								requiredMessage="#{msgs['ERREUR.DIPLOME']}">
 								<f:selectItem itemLabel="== Choix ==" itemValue="" />
 								<f:selectItems value="#{testController.listeLibellesDiplome}" />
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
+								<p:ajax event="change" update="vo"
 									listener="#{testController.resetLibelleEtape}" />
 							</p:selectOneMenu>
 							<h:outputText value=" "
-								rendered="#{!testController.libelleDiplomeVide}" />
+								rendered="#{!testController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
+
+							<h:outputText value="* Composante : "
+								rendered="#{!testController.composanteVide and sessionController.choixDuVoeuParComposante}" />
+							<p:selectOneMenu id="composante"
+								rendered="#{!testController.composanteVide and sessionController.choixDuVoeuParComposante}"
+								value="#{testController.codeComposante}" required="true"
+								requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
+								<f:selectItem itemLabel="== Choix ==" itemValue="" />
+								<f:selectItems value="#{testController.listeComposantes}" />
+								<p:ajax event="change" update="vo"
+									listener="#{testController.resetLibelleEtape}" />
+							</p:selectOneMenu>
+							<h:outputText value=" "
+								rendered="#{!testController.composanteVide and sessionController.choixDuVoeuParComposante}" />
+
 
 							<h:outputText value="* Parcours : "
 								rendered="#{!testController.libelleEtapeVide}" />

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/stylesheets/gestionnaire/template.xhtml">
+	<ui:define name="navigation">
+		<ui:include src="/stylesheets/gestionnaire/_include/_header.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="corps">
+		<center>
+			<h:form id="configuration"
+				rendered="#{administrationController.personnel}" styleClass="panel"
+				style="text-align:center;width:80%;">
+				<p:growl id="messages" showDetail="true" />
+				<p:messages id="msgs" />
+				<p:panel id="pnl"
+					header="Esup-transferts #{msgs['ABOUT.VERSION']} #{applicationService.version}"
+					toggleable="true" closable="false" toggleSpeed="500"
+					closeSpeed="2000" widgetVar="panel">
+					<h:panelGrid columns="1" id="p1">
+						<h:outputText
+							value="- Liste des paramètres de l'application transferts." />
+					</h:panelGrid>
+				</p:panel>
+
+				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+					<h:outputText value="Choix de l'affichage du voeu par composante :" />
+					<p:selectBooleanButton
+						value="#{sessionController.choixDuVoeuParComposante}"
+						onLabel="Inactive" offLabel="Active" />
+					<p:commandButton id="modalDialogButton"
+						onclick="choixVoeuParComposante.show();" type="button"
+						icon="ui-icon-help" />
+				</h:panelGrid>
+
+				<p:commandButton value="Modifier"
+					update=":configuration,:configuration:messages,:configuration:msgs,:configuration:msgs2"
+					action="#{administrationController.updateConfiguration}" />
+
+				<p:messages id="msgs2" />
+
+
+				<p:dialog id="modalDialog" header="Choix du voeu par composante"
+					widgetVar="choixVoeuParComposante" modal="true" height="640"
+					width="850">
+					<center>
+<!-- 						<h:panelGrid columns="1" columnClasses="column" cellpadding="5"> -->
+							<!-- 						<h:outputText escape="false" -->
+							<!-- 							value="#{administrationController.aideChoixVoeuParComposante}"  /> -->
+							<p:galleria panelWidth="700" panelHeight="500" showCaption="true">
+								<p:graphicImage
+									value="/media/images/aide/choixvoeucomposante.jpg" width="700"
+									height="300" alt="Choix du voeu par composante"
+									title="#{image}" />
+								<p:graphicImage value="/media/images/aide/choixvoeudiplome.jpg"
+									width="700" height="300" alt="Choix du voeu par diplôme"
+									title="#{image}" />
+							</p:galleria>
+
+<!-- 						</h:panelGrid> -->
+					</center>
+					<!-- 					<p:co -->
+
+
+
+				</p:dialog>
+
+
+			</h:form>
+		</center>
+	</ui:define>
+
+	<!-- 	<ui:define name="content"> -->
+	<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
+	<!-- 	</ui:define> -->
+
+</ui:composition>
+</html>

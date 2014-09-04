@@ -227,6 +227,11 @@
 			<from-outcome>goToValideMasseTransfertsAccueil</from-outcome>
 			<to-view-id>/stylesheets/gestionnaire/listeTransfertsAccueilSelectionMultiple.xhtml</to-view-id>
 			<redirect />
-		</navigation-case>				
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goToAdministration</from-outcome>
+			<to-view-id>/stylesheets/gestionnaire/administration.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
 	</navigation-rule>
 </faces-config>

@@ -31,6 +31,7 @@
 		<property name="superGestionnaire" value="${init.superGestionnaire}" />
 		<property name="validationAutomatique" value="${validation.automatique}" />
 		<property name="regleGestionTE02" value="${regle.gestion.TE02}" />
+<!-- 		<property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}" /> -->
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"
@@ -62,7 +63,7 @@
 		<property name="mailInformation" value="${mail.information}" />
 		<property name="ineToUpperCase" value="${ine.toUpperCase}" />
         <property name="studentAffiliation" value="${ldap.student.affiliation}" />
-		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />        
+		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />      
 	</bean>
 	
 	<bean id="administrationController"

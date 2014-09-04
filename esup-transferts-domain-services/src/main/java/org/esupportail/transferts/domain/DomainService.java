@@ -268,4 +268,12 @@ public interface DomainService extends Serializable {
 	public List<AccueilAnnee> getAccueilAnneeSansNull();
 	
 	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeComposante, String source);
+
+	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(
+			String rne, Integer currentAnnee, String codTypDip,
+			Integer codeNiveau, String codeComposante, String source);
+
+	public Parametres updateConfiguration(Parametres param);
+
+	public void deleteSelectedOpi(IndOpi selectedOpiForDelete);
 }

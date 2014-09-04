@@ -40,6 +40,7 @@
 		<class>org.esupportail.transferts.domain.beans.InfosAccueil</class>
 		<class>org.esupportail.transferts.domain.beans.AccueilDecision</class>
 		<class>org.esupportail.transferts.domain.beans.Test</class>
+		<class>org.esupportail.transferts.domain.beans.Versions</class>
 		<properties>
 			<property name="hibernate.ejb.naming_strategy" value="org.esupportail.transferts.dao.NamingStrategy"/>
 		</properties>

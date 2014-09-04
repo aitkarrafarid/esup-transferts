@@ -62,6 +62,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	private List<String> listSuperGestionnaire = new ArrayList<String>();	
 	private String validationAutomatique;
 	private Integer regleGestionTE02;
+	private boolean choixDuVoeuParComposante;
 	private Logger logger = new LoggerImpl(getClass());
 	
 	/*
@@ -98,7 +99,9 @@ public class SessionController extends AbstractDomainAwareBean {
 				this.listSuperGestionnaire.add(tokens[i]);
 		}
 		else
-			this.listSuperGestionnaire.add(this.superGestionnaire);				
+			this.listSuperGestionnaire.add(this.superGestionnaire);		
+//		Assert.notNull(this.choixDuVeuParComposante, "property choixDuVeuParComposante of class " 
+//				+ this.getClass().getName() + " can not be null");	
 	}
 
 
@@ -361,5 +364,13 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setRegleGestionTE02(Integer regleGestionTE02) {
 		this.regleGestionTE02 = regleGestionTE02;
+	}
+
+	public boolean isChoixDuVoeuParComposante() {
+		return choixDuVoeuParComposante;
+	}
+
+	public void setChoixDuVoeuParComposante(boolean choixDuVoeuParComposante) {
+		this.choixDuVoeuParComposante = choixDuVoeuParComposante;
 	}
 }

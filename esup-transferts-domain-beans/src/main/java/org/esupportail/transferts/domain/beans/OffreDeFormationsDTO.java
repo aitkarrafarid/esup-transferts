@@ -104,6 +104,16 @@ import javax.persistence.TemporalType;
 			)	
 	,	
 	@NamedQuery(
+			name="getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndDepartAndAtifOuPas",
+			query="SELECT odf FROM OffreDeFormationsDTO odf WHERE odf.rne =:rne AND odf.annee =:annee AND codTypDip =:codTypDip AND odf.codeNiveau = :codeNiveau AND odf.codeComposante=:codeComposante AND odf.depart = 'oui'"
+			)	
+	,		
+	@NamedQuery(
+			name="getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndArriveeAndAtifOuPas",
+			query="SELECT odf FROM OffreDeFormationsDTO odf WHERE odf.rne =:rne AND odf.annee =:annee AND codTypDip =:codTypDip AND odf.codeNiveau = :codeNiveau AND odf.codeComposante=:codeComposante AND odf.arrivee = 'oui'"
+			)	
+	,		
+	@NamedQuery(
 			name="getOdfByPK",
 			query="SELECT odf FROM OffreDeFormationsDTO odf"
 			)	

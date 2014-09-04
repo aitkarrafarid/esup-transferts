@@ -84,7 +84,7 @@
 								<h:outputText value="Nunméro I.N.E : " />
 								<h:outputText
 									value="#{administrationController.currentDemandeTransferts.numeroIne}" />
-								
+
 								<h:outputText value="Centre de gestion : " />
 								<h:outputText
 									value="#{administrationController.currentDemandeTransferts.libCge} (#{administrationController.currentDemandeTransferts.codCge})" />
@@ -284,11 +284,26 @@
 							<h:outputText value=" "
 								rendered="#{!administrationController.typesDiplomeAutreVide}" />
 
+							<!-- 							<h:outputText value="* Niveau : " -->
+							<!-- 								rendered="#{!administrationController.anneeEtudeVide}" /> -->
+							<!-- 							<p:selectOneMenu id="niveau" -->
+							<!-- 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
+							<!-- 								rendered="#{!administrationController.anneeEtudeVide}" -->
+							<!-- 								value="#{administrationController.codeNiveau}" required="true" -->
+							<!-- 								requiredMessage="#{msgs['ERREUR.NIVEAU']}"> -->
+							<!-- 								<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
+							<!-- 								<f:selectItems -->
+							<!-- 									value="#{administrationController.listeAnneesEtude}" /> -->
+							<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
+							<!-- 									listener="#{administrationController.resetLibelleDiplome}" /> -->
+							<!-- 							</p:selectOneMenu> -->
+							<!-- 							<h:outputText value=" " -->
+							<!-- 								rendered="#{!administrationController.anneeEtudeVide}" /> -->
+
 							<h:outputText value="* Niveau : "
 								rendered="#{!administrationController.anneeEtudeVide}" />
-							<p:selectOneMenu id="niveau"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								rendered="#{!administrationController.anneeEtudeVide}"
+							<p:selectOneMenu id="niveauDiplome"
+								rendered="#{!administrationController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}"
 								value="#{administrationController.codeNiveau}" required="true"
 								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
 								<f:selectItem itemLabel="== Choix ==" itemValue="" />
@@ -297,14 +312,24 @@
 								<p:ajax event="change" update="vo,msgs,msgs2,growl"
 									listener="#{administrationController.resetLibelleDiplome}" />
 							</p:selectOneMenu>
+							<p:selectOneMenu id="niveauComposante"
+								rendered="#{!administrationController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}"
+								value="#{administrationController.codeNiveau}" required="true"
+								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
+								<f:selectItem itemLabel="== Choix ==" itemValue="" />
+								<f:selectItems
+									value="#{administrationController.listeAnneesEtude}" />
+								<p:ajax event="change" update="vo,msgs,msgs2,growl"
+									listener="#{administrationController.resetComposante}" />
+							</p:selectOneMenu>
 							<h:outputText value=" "
 								rendered="#{!administrationController.anneeEtudeVide}" />
 
 							<h:outputText value="* Diplôme : "
-								rendered="#{!administrationController.libelleDiplomeVide}" />
+								rendered="#{!administrationController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
 							<p:selectOneMenu id="diplomes"
 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								rendered="#{!administrationController.libelleDiplomeVide}"
+								rendered="#{!administrationController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}"
 								value="#{administrationController.codeDiplome}" required="true"
 								requiredMessage="#{msgs['ERREUR.DIPLOME']}">
 								<f:selectItem itemLabel="== Choix ==" itemValue="" />
@@ -314,7 +339,24 @@
 									listener="#{administrationController.resetLibelleEtape}" />
 							</p:selectOneMenu>
 							<h:outputText value=" "
-								rendered="#{!administrationController.libelleDiplomeVide}" />
+								rendered="#{!administrationController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
+
+							<h:outputText value="* Composante : "
+								rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}" />
+							<p:selectOneMenu id="composante"
+								rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}"
+								value="#{administrationController.codeComposante}"
+								required="true" requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
+								<f:selectItem itemLabel="== Choix ==" itemValue="" />
+								<f:selectItems
+									value="#{administrationController.listeComposantes}" />
+<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
+<!-- 									listener="#{administrationController.resetLibelleEtape}" /> -->
+								<p:ajax event="change" update="vo,msgs,msgs2,growl"
+									listener="#{administrationController.resetLibelleEtapeSansCodeDiplome}" />
+							</p:selectOneMenu>
+							<h:outputText value=" "
+								rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}" />
 
 							<h:outputText value="* Parcours : "
 								rendered="#{!administrationController.libelleEtapeVide}" />

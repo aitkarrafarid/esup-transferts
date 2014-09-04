@@ -1957,6 +1957,54 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		catch(NoResultException e){
 			return null;
 		}
+	}
+
+	@Override
+	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(
+			String rne, Integer currentAnnee, String codTypDip,
+			Integer codeNiveau, String codeComposante, String source) {
+		if (logger.isDebugEnabled())
+			logger.debug("public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeComposante, String source)");
+		try{
+			Query q;
+			if(source.equals("D"))
+				q = entityManager.createNamedQuery("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndDepartAndAtifOuPas");
+			else
+				q = entityManager.createNamedQuery("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndArriveeAndAtifOuPas");
+			q.setParameter("annee", currentAnnee);
+			q.setParameter("rne", rne);
+			q.setParameter("codTypDip", codTypDip);
+			q.setParameter("codeNiveau", codeNiveau);
+			q.setParameter("codeComposante", codeComposante);
+			@SuppressWarnings("unchecked")
+			List<OffreDeFormationsDTO> ret = q.getResultList();
+			return ret;
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Parametres updateConfiguration(Parametres param) {
+		if (logger.isDebugEnabled()){
+			logger.debug("addParametre(Parametres param)");
+			logger.debug("param --> "+param);
+		}
+		Parametres p = entityManager.merge(param);	
+		return p;
+	}
+
+	@Override
+	public void deleteSelectedOpi(IndOpi selectedOpiForDelete) 
+	{
+		if (logger.isDebugEnabled())
+			logger.debug("public void deleteSelectedOpi(IndOpi selectedOpiForDelete)-->"+ selectedOpiForDelete);
+		IndOpi opi = entityManager.find(IndOpi.class, selectedOpiForDelete.getNumeroOpi());
+		if (logger.isDebugEnabled())
+			logger.debug("opi-->"+ opi);		
+		entityManager.remove(opi);
 	}	
 
 }
