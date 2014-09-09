@@ -276,4 +276,7 @@ public interface DomainService extends Serializable {
 	public Parametres updateConfiguration(Parametres param);
 
 	public void deleteSelectedOpi(IndOpi selectedOpiForDelete);
+
+	public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(
+			String rne, Integer currentAnnee, String codTypDip, String source);
 }

@@ -670,4 +670,10 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		getDaoService().deleteSelectedOpi(selectedOpiForDelete);		
 	}
 
+	@Override
+	public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip, String source) {
+		// TODO Auto-generated method stub
+		return getDaoService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(rne, currentAnnee, codTypDip, source);
+	}
+
 }

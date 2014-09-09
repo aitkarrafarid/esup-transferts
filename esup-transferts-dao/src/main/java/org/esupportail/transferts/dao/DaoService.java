@@ -271,4 +271,7 @@ public interface DaoService extends Serializable {
 	Parametres updateConfiguration(Parametres param);
 
 	void deleteSelectedOpi(IndOpi selectedOpiForDelete);
+
+	Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(
+			String rne, Integer currentAnnee, String codTypDip, String source);
 }

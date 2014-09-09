@@ -302,7 +302,7 @@
 
 							<h:outputText value="* Niveau : "
 								rendered="#{!administrationController.anneeEtudeVide}" />
-							<p:selectOneMenu id="niveauDiplome"
+							<p:selectOneMenu id="niveauDiplome" disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								rendered="#{!administrationController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}"
 								value="#{administrationController.codeNiveau}" required="true"
 								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
@@ -312,7 +312,7 @@
 								<p:ajax event="change" update="vo,msgs,msgs2,growl"
 									listener="#{administrationController.resetLibelleDiplome}" />
 							</p:selectOneMenu>
-							<p:selectOneMenu id="niveauComposante"
+							<p:selectOneMenu id="niveauComposante" disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								rendered="#{!administrationController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}"
 								value="#{administrationController.codeNiveau}" required="true"
 								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
@@ -343,7 +343,7 @@
 
 							<h:outputText value="* Composante : "
 								rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}" />
-							<p:selectOneMenu id="composante"
+							<p:selectOneMenu id="composante" disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}"
 								value="#{administrationController.codeComposante}"
 								required="true" requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
