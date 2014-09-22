@@ -2040,6 +2040,37 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip) {
+		if (logger.isDebugEnabled())
+			logger.debug("public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip) -->"+rne+"-----"+currentAnnee+"-----"+codTypDip);
+		try{
+			Query q = entityManager.createNamedQuery("getOdfComposanteByRneAndAnneeAndCodTypDip");
+			q.setParameter("rne", rne);
+			q.setParameter("annee", currentAnnee);
+			q.setParameter("codTypDip", codTypDip);
+			Map<String, String> map = new HashMap<String, String>();
+			@SuppressWarnings("unchecked")
+			List<Object[]> result1 = q.getResultList();
+			for (Object[] resultElement : result1) 
+			{
+				String codeComposante = (String)resultElement[0];
+				String libComposante = (String)resultElement[1];
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("################### codeComposante --> " + codeComposante);
+					logger.debug("################### libComposante --> " + libComposante);
+				}
+				map.put(codeComposante, libComposante);
+			}
+			return map;
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+			return null;
+		}
 	}	
 
 }

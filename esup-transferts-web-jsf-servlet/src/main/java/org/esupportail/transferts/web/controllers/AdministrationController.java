@@ -4878,7 +4878,8 @@ public class AdministrationController extends AbstractContextAwareController {
 		Map<String, String> listeComposantesDTO=null;
 //		if(getSessionController().isChoixDuVeuParComposante())
 //			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
-			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getSource());
+//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getSource());
+			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 //		else
 //			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())

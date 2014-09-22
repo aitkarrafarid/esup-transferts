@@ -155,12 +155,12 @@ import javax.persistence.TemporalType;
 	,		
 	@NamedQuery(
 			name="getOdfComposanteByRneAndAnneeAndDepartAndCodTypDip",
-			query="SELECT DISTINCT(odf.codeComposante) , odf.libComposante FROM OffreDeFormationsDTO odf WHERE odf.rne = :rne AND odf.annee = :annee AND codTypDip = :codTypDip AND odf.depart = 'oui'"
+			query="SELECT DISTINCT(odf.codeComposante) , odf.libComposante FROM OffreDeFormationsDTO odf WHERE odf.rne = :rne AND odf.annee = :annee AND odf.codTypDip = :codTypDip AND odf.depart = 'oui'"
 			)	
 	,		
 	@NamedQuery(
 			name="getOdfComposanteByRneAndAnneeAndArriveeAndCodTypDip",
-			query="SELECT DISTINCT(odf.codeComposante) , odf.libComposante FROM OffreDeFormationsDTO odf WHERE odf.rne = :rne AND odf.annee = :annee AND codTypDip = :codTypDip AND odf.arrivee = 'oui'"
+			query="SELECT DISTINCT(odf.codeComposante) , odf.libComposante FROM OffreDeFormationsDTO odf WHERE odf.rne = :rne AND odf.annee = :annee AND odf.codTypDip = :codTypDip AND odf.arrivee = 'oui'"
 			)	
 	,			
 	@NamedQuery(
@@ -171,7 +171,11 @@ import javax.persistence.TemporalType;
 	@NamedQuery(
 			name="getAllLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante",
 			query="SELECT DISTINCT(odf.codeDiplome) , odf.libDiplome FROM OffreDeFormationsDTO odf WHERE odf.rne = :rne AND odf.annee = :annee AND codTypDip = :codTypDip AND odf.codeNiveau = :codeNiveau AND odf.codeComposante=:codeComposante"
-			)	
+			)	,
+	@NamedQuery(
+			name="getOdfComposanteByRneAndAnneeAndCodTypDip",
+			query="SELECT DISTINCT(odf.codeComposante) , odf.libComposante FROM OffreDeFormationsDTO odf WHERE odf.rne = :rne AND odf.annee = :annee AND odf.codTypDip = :codTypDip"
+			)				
 })
 
 @IdClass(OffreDeFormationPK.class)
@@ -224,7 +228,7 @@ public class OffreDeFormationsDTO implements Serializable {
 	 */
 	@Id
 	private String codeCentreGestion;		
-	
+
 	/**
 	 * Libelle version Diplome
 	 */
@@ -287,10 +291,10 @@ public class OffreDeFormationsDTO implements Serializable {
 
 	@Column(name = "DEPART", nullable=false, length=3)
 	private String depart;		
-	
+
 	@Column(name = "ARRIVEE", nullable=false, length=3)
 	private String arrivee;	
-	
+
 	/**
 	 * Bean constructor.
 	 */

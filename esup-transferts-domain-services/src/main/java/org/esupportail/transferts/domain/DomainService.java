@@ -279,4 +279,6 @@ public interface DomainService extends Serializable {
 
 	public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(
 			String rne, Integer currentAnnee, String codTypDip, String source);
+
+	public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip);
 }

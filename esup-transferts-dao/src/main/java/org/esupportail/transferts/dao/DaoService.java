@@ -274,4 +274,7 @@ public interface DaoService extends Serializable {
 
 	Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(
 			String rne, Integer currentAnnee, String codTypDip, String source);
+
+	Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne,
+			Integer currentAnnee, String codTypDip);
 }

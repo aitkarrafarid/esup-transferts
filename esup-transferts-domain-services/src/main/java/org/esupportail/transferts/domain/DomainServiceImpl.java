@@ -676,4 +676,9 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		return getDaoService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(rne, currentAnnee, codTypDip, source);
 	}
 
+	@Override
+	public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip) {
+		return getDaoService().getOdfComposanteByRneAndAnneeAndCodTypDip(rne, currentAnnee, codTypDip);
+	}
+
 }

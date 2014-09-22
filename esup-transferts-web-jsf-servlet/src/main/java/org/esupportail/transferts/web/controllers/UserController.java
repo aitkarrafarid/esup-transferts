@@ -2174,7 +2174,8 @@ public class UserController extends AbstractContextAwareController {
 		listeComposantes = new ArrayList<SelectItem>();
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(this.currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getSource());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled()) {

@@ -621,6 +621,31 @@ public class TestController extends AbstractContextAwareController {
 		this.codeComposante = codeComposante;
 	}
 
+//	public List<SelectItem> getListeComposantes() {
+//		if (logger.isDebugEnabled())
+//			logger.debug("getListeComposantes");
+//
+//		listeComposantes = new ArrayList<SelectItem>();
+//		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+//		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+//		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
+//		{
+//			if (logger.isDebugEnabled()) {
+//				logger.debug("listeComposantesDTO : "+listeComposantesDTO);
+//			}
+//			for(String mapKey : listeComposantesDTO.keySet())
+//			{
+//				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
+//				listeComposantes.add(option);
+//			}			
+//			Collections.sort(listeComposantes,new ComparatorSelectItem());
+//			return listeComposantes;
+//		}
+//		else
+//			return null;
+//	}
+
 	public List<SelectItem> getListeComposantes() {
 		if (logger.isDebugEnabled())
 			logger.debug("getListeComposantes");
@@ -628,7 +653,12 @@ public class TestController extends AbstractContextAwareController {
 		listeComposantes = new ArrayList<SelectItem>();
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		Map<String, String> listeComposantesDTO=null;
+//		if(getSessionController().isChoixDuVeuParComposante())
+//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getSource());
+//		else
+//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled()) {
@@ -644,8 +674,8 @@ public class TestController extends AbstractContextAwareController {
 		}
 		else
 			return null;
-	}
-
+	}	
+	
 	public void setListeComposantes(List<SelectItem> listeComposantes) {
 		this.listeComposantes = listeComposantes;
 	}
