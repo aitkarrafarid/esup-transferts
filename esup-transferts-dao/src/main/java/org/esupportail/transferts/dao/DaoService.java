@@ -234,8 +234,8 @@ public interface DaoService extends Serializable {
 	PersonnelComposante getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(
 			String login, String source, Integer currentAnnee, String composante);
 
-	Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArrivee(
-			String rne, Integer currentAnnee);
+//	Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArrivee(
+//			String rne, Integer currentAnnee);
 
 	List<DatasExterne> getAllDatasExterneByIdentifiant(String identifiant);
 
@@ -243,8 +243,8 @@ public interface DaoService extends Serializable {
 
 	List<DatasExterne> getAllDatasExterneByIdentifiantAndNiveau(String identifiant, Integer niveau);
 
-	Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(
-			String rne, Integer annee, String codTypDip);
+//	Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(
+//			String rne, Integer annee, String codTypDip);
 
 	DatasExterne getDataExterneByIdentifiantAndCode(String identifiant, String code);
 
@@ -272,8 +272,8 @@ public interface DaoService extends Serializable {
 
 	void deleteSelectedOpi(IndOpi selectedOpiForDelete);
 
-	Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(
-			String rne, Integer currentAnnee, String codTypDip, String source);
+//	Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(
+//			String rne, Integer currentAnnee, String codTypDip, String source);
 
 	Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne,
 			Integer currentAnnee, String codTypDip);

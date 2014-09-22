@@ -574,10 +574,10 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		return getDaoService().getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(login, source, currentAnnee, composante);
 	}
 
-	@Override
-	public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArrivee(String rne, Integer currentAnnee) {
-		return getDaoService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(rne, currentAnnee);
-	}
+//	@Override
+//	public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArrivee(String rne, Integer currentAnnee) {
+//		return getDaoService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(rne, currentAnnee);
+//	}
 
 	@Override
 	public List<DatasExterne> getAllDatasExterneByIdentifiant(String identifiant) {
@@ -594,11 +594,11 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		return getDaoService().getAllDatasExterneByIdentifiantAndNiveau(identifiant, niveau);
 	}
 
-	@Override
-	public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(String rne, Integer annee, String codTypDip) 
-	{
-		return getDaoService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(rne, annee, codTypDip);
-	}
+//	@Override
+//	public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(String rne, Integer annee, String codTypDip) 
+//	{
+//		return getDaoService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(rne, annee, codTypDip);
+//	}
 
 	@Override
 	public DatasExterne getDataExterneByIdentifiantAndCode(String identifiant, String code) {
@@ -670,11 +670,11 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		getDaoService().deleteSelectedOpi(selectedOpiForDelete);		
 	}
 
-	@Override
-	public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip, String source) {
-		// TODO Auto-generated method stub
-		return getDaoService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(rne, currentAnnee, codTypDip, source);
-	}
+//	@Override
+//	public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip, String source) {
+//		// TODO Auto-generated method stub
+//		return getDaoService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(rne, currentAnnee, codTypDip, source);
+//	}
 
 	@Override
 	public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip) {

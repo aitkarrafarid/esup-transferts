@@ -1714,7 +1714,7 @@ public class UserController extends AbstractContextAwareController {
 		listeComposantes = new ArrayList<SelectItem>();
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled()) {
