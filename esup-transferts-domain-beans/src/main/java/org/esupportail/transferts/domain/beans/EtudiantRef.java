@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @IdClass(EtudiantRefPK.class)
 @NamedQueries({
 //		@NamedQuery(name = "allDemandesTransferts", query = "SELECT etu FROM EtudiantRef etu ORDER BY etu.transferts.temoinTransfertValide ASC"),
-		@NamedQuery(name = "allDemandesTransfertsByAnnee", query = "SELECT etu FROM EtudiantRef etu WHERE etu.annee = :annee AND etu.source = :source ORDER BY etu.transferts.temoinTransfertValide ASC"),
-		@NamedQuery(name = "allDemandesTransfertsByAnneeAndNonTraite", query = "SELECT etu FROM EtudiantRef etu WHERE etu.annee = :annee AND etu.source = :source AND (etu.transferts.temoinTransfertValide = 0 OR etu.transferts.temoinTransfertValide = 1 OR etu.transferts.temoinOPIWs = 2)"),
+		@NamedQuery(name = "allDemandesTransfertsByAnnee", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.transferts.fichier LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source ORDER BY etu.transferts.temoinTransfertValide ASC"),
+		@NamedQuery(name = "allDemandesTransfertsByAnneeAndNonTraite", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.transferts.fichier LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source AND (etu.transferts.temoinTransfertValide = 0 OR etu.transferts.temoinTransfertValide = 1 OR etu.transferts.temoinOPIWs = 2)"),
 		@NamedQuery(name = "getDemandeTransfert", query = "SELECT etu FROM EtudiantRef etu WHERE etu.numeroEtudiant = :numeroEtudiant"),
 		@NamedQuery(name = "getListeAnnees", query = "SELECT DISTINCT etu.annee FROM EtudiantRef etu"),
 		@NamedQuery(name = "getDemandesTransfertsByEnCoursAndAnnee", query = "SELECT etu FROM EtudiantRef etu WHERE etu.transferts.temoinTransfertValide = 0 AND etu.annee = :annee AND etu.source = :source"),

@@ -104,29 +104,29 @@
 			<!-- 				<p:commandButton icon="ui-icon-disk" title="Export Excel"  -->
 			<!-- 					action="#{administrationController.exportDemandeTransferts}" /> -->
 		</h:form>
-		<center>
-			<p:panel header="Légende" toggleable="true" style="width:80%;"
-				collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
-				widgetVar="panel"
-				rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
-				<h:panelGrid columns="3" cellpadding="10">
-					<h:panelGrid columns="6" cellpadding="10">
-						<p:graphicImage value="/media/images/player_pause.png" />
-						<h:outputText value="Non traité" />
-						<p:graphicImage value="/media/images/tick.png" />
-						<h:outputText value="En cours de traitement" />
-						<p:graphicImage value="/media/images/lock.png" />
-						<h:outputText value="Traité" />
-					</h:panelGrid>
-					<h:outputText value="Etablissements partenaires" styleClass="highlightTableRow" />
-					<p:pieChart id="custom"
-						value="#{statistiqueController.pieModelAccueil}"
-						legendPosition="e" fill="false" showDataLabels="true"
-						title="Transferts Accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}"
-						style="width:400px;height:300px" sliceMargin="5" diameter="150" />
-				</h:panelGrid>
-			</p:panel>
-		</center>
+<!-- 		<center> -->
+<!-- 			<p:panel header="Légende" toggleable="true" style="width:80%;" -->
+<!-- 				collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500" -->
+<!-- 				widgetVar="panel" -->
+<!-- 				rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}"> -->
+<!-- 				<h:panelGrid columns="3" cellpadding="10"> -->
+<!-- 					<h:panelGrid columns="6" cellpadding="10"> -->
+<!-- 						<p:graphicImage value="/media/images/player_pause.png" /> -->
+<!-- 						<h:outputText value="Non traité" /> -->
+<!-- 						<p:graphicImage value="/media/images/tick.png" /> -->
+<!-- 						<h:outputText value="En cours de traitement" /> -->
+<!-- 						<p:graphicImage value="/media/images/lock.png" /> -->
+<!-- 						<h:outputText value="Traité" /> -->
+<!-- 					</h:panelGrid> -->
+<!-- 					<h:outputText value="Etablissements partenaires" styleClass="highlightTableRow" /> -->
+<!-- 					<p:pieChart id="custom" -->
+<!-- 						value="#{statistiqueController.pieModelAccueil}" -->
+<!-- 						legendPosition="e" fill="false" showDataLabels="true" -->
+<!-- 						title="Transferts Accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" -->
+<!-- 						style="width:400px;height:300px" sliceMargin="5" diameter="150" /> -->
+<!-- 				</h:panelGrid> -->
+<!-- 			</p:panel> -->
+<!-- 		</center> -->
 	</ui:define>
 
 	<!-- 	<ui:define name="content"> -->

@@ -28,8 +28,8 @@ import javax.persistence.Transient;
  */
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "allIndOpiNonSynchroAndSource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee AND indOpi.synchro=0 AND indOpi.source = :source"),
-		@NamedQuery(name = "allIndOpiBySynchroAndSource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee AND indOpi.synchro= :synchro AND indOpi.source= :source"),
+		@NamedQuery(name = "allIndOpiNonSynchroAndSource", query = "SELECT indOpi FROM IndOpi indOpi LEFT JOIN FETCH indOpi.voeux WHERE indOpi.annee = :annee AND indOpi.synchro=0 AND indOpi.source = :source"),
+		@NamedQuery(name = "allIndOpiBySynchroAndSource", query = "SELECT indOpi FROM IndOpi indOpi LEFT JOIN FETCH indOpi.voeux  WHERE indOpi.annee = :annee AND indOpi.synchro= :synchro AND indOpi.source= :source"),
 		@NamedQuery(name = "allIndOpiBySynchroAndExcluAndSource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee AND indOpi.synchro!=0 AND indOpi.source= :source"),
 		@NamedQuery(name = "updateSynchroOpi", query = "UPDATE IndOpi i SET i.synchro=1 WHERE i.numeroOpi= :numeroOpi"),	
 		@NamedQuery(name = "allIndOpiBySource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee AND indOpi.source = :source"),
@@ -127,7 +127,8 @@ public class IndOpi implements Serializable {
 	/**
 	 * Libelle etablissement de depart
 	 */
-	@Transient
+//	@Transient
+	@Column(name = "LIB_ETAB_DEPART", length = 255)
 	private String libEtabDepart;
 
 	/**
