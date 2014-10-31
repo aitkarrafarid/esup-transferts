@@ -4598,12 +4598,13 @@ public class AdministrationController extends AbstractContextAwareController {
 			for (IndOpi t : transfertDataModelOpi) 
 			{
 //				t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
-				if (t.getLibEtabDepart() == null || t.getLibEtabDepart().equals("")) 
-				{
-					System.out.println("aaaaa");
-					t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
-					getDomainService().updateLibelleVersionEtapeLocal(t);
-				}				
+				t.setLibEtabDepart(t.getEtabDepart());
+//				if (t.getLibEtabDepart() == null || t.getLibEtabDepart().equals("")) 
+//				{
+//					System.out.println("aaaaa");
+//					t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
+//					getDomainService().updateLibelleVersionEtapeLocal(t);
+//				}				
 
 				if (t.getVoeux().getLibelleVersionEtape() != null
 						&& !t.getVoeux().getLibelleVersionEtape().equals("")) 

@@ -127,8 +127,7 @@ public class IndOpi implements Serializable {
 	/**
 	 * Libelle etablissement de depart
 	 */
-//	@Transient
-	@Column(name = "LIB_ETAB_DEPART", length = 255)
+	@Transient
 	private String libEtabDepart;
 
 	/**
