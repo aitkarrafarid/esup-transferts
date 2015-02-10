@@ -25,24 +25,27 @@
 	</p:commandButton>
 	<!-- 	<p:spacer height="20px" /> -->
 
-	<p:ajaxStatus onstart="statusDialog.show();"
-		onsuccess="statusDialog.hide();" />
+<!-- 	<p:ajaxStatus onstart="statusDialog.show();" -->
+<!-- 		onsuccess="statusDialog.hide();" /> -->
 
-	<p:dialog modal="true" widgetVar="statusDialog" header="Chargement..."
-		draggable="false" closable="false">
+<!-- 	<p:dialog modal="true" widgetVar="statusDialog" header="Chargement..." -->
+<!-- 		draggable="false" closable="false"> -->
+<!-- 		<p:graphicImage value="/media/images/ajaxloadingbar.gif" /> -->
+<!-- 	</p:dialog> -->
+
+	<p:ajaxStatus>
+		<f:facet name="start">
+<!-- 			<p:graphicImage value="/media/images/ajaxloadingbar.gif" />  -->
+		</f:facet>
+	</p:ajaxStatus>
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		rendered="#{!managerController.use}" closable="false"
+		resizable="false" showHeader="false">
 		<p:graphicImage value="/media/images/ajaxloadingbar.gif" />
 	</p:dialog>
 
-	<!-- 	<p:ajaxStatus -->
-	<!-- 		style="width:64px;height:64px;position:fixed;right:5px;bottom:5px"> -->
-	<!-- 		<f:facet name="start"> -->
-	<!-- 			<p:graphicImage value="/media/images/loading.gif" /> -->
-	<!-- 		</f:facet> -->
-
-	<!-- 		<f:facet name="complete"> -->
-	<!-- 			<h:outputText value="" /> -->
-	<!-- 		</f:facet> -->
-	<!-- 	</p:ajaxStatus> -->
 
 </h:form>
 

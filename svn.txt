@@ -1,0 +1,8 @@
+- Passage des composants primeFaces 4.0 --> 5.1
+- Changement de version de JAVA 6 --> JAVA 7
+- Changement du drivers JDBC Oracle pour la version 10G
+- Changement du client JAR du WS Apogée pour la version "apo-webservicesclient460la.jar"
+- Modification du composante "p:ajaxStatus"
+- Changement du numéro de version de 2.1.1 --> 2.2.0
+
+

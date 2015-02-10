@@ -70,31 +70,31 @@
 						rendered="#{transferts.transferts.temoinOPIWs==2}" />
 				</p:column>
 
-				<p:column headerText="Composante actuelle" filterBy="composante"
-					style="text-align:left;" sortBy="composante"
+				<p:column headerText="Composante actuelle" filterBy="#{transferts.composante}"
+					style="text-align:left;" sortBy="#{transferts.composante}"
 					filterMatchMode="contains">
             #{transferts.composante}  
         </p:column>
 
-				<p:column headerText="Dernière IA" filterBy="libEtapePremiereLocal"
-					style="text-align:left;" sortBy="libEtapePremiereLocal"
+				<p:column headerText="Dernière IA" filterBy="#{transferts.libEtapePremiereLocal} "
+					style="text-align:left;" sortBy="#{transferts.libEtapePremiereLocal} "
 					id="derniereIA">  
             #{transferts.libEtapePremiereLocal}  
         </p:column>
 
-				<p:column headerText="Numéro étudiant" filterBy="numeroEtudiant"
-					sortBy="numeroEtudiant">
+				<p:column headerText="Numéro étudiant" filterBy="#{transferts.numeroEtudiant}"
+					sortBy="#{transferts.numeroEtudiant}">
             #{transferts.numeroEtudiant}  
         </p:column>
 
-				<p:column headerText="Numéro I.N.E" filterBy="numeroIne"
-					sortBy="numeroIne">
+				<p:column headerText="Numéro I.N.E" filterBy="#{transferts.numeroIne}"
+					sortBy="#{transferts.numeroIne}">
             #{transferts.numeroIne}  
         </p:column>
 
-				<p:column headerText="Nom" filterBy="nomPatronymique"
+				<p:column headerText="Nom" filterBy="#{transferts.nomPatronymique}"
 					id="nomPatronymique" style="text-align:left;"
-					sortBy="nomPatronymique">  
+					sortBy="#{transferts.nomPatronymique}">  
             #{transferts.nomPatronymique}  
         </p:column>
 
@@ -135,34 +135,34 @@
 			<!-- 					action="#{administrationController.exportDemandeTransferts}" /> -->
 
 		</h:form>
-		<center>
-			<p:panel header="Légende" toggleable="true" style="width:80%;"
-				collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
-				widgetVar="panel"
-				rendered="#{administrationController.personnel and (administrationController.droitsDepart || sessionController.currentUser.admin)}">
-				<h:panelGrid columns="6" cellpadding="10">
-					<h:panelGrid columns="6" cellpadding="10">
-						<p:graphicImage value="/media/images/player_pause.png" />
-						<h:outputText value="Non traité" />
-						<p:graphicImage value="/media/images/tick.png" />
-						<h:outputText value="En cours de traitement" />
-						<p:graphicImage value="/media/images/lock.png" />
-						<h:outputText value="Traité" />
-						<p:graphicImage value="/media/images/metacontact_away.png" />
-						<h:outputText value="Problème de transfert OPI" />
-						<p:graphicImage value="/media/images/messagebox_info.png" />
-						<h:outputText value="Etablissement non partenaire" />
-						<p:graphicImage value="/media/images/mail_foward.png" />
-						<h:outputText value="Infos OPI transmises" />
-					</h:panelGrid>
-					<p:pieChart id="custom"
-						value="#{statistiqueController.pieModelDepart}" legendPosition="e"
-						fill="false" showDataLabels="true"
-						title="Transferts départ #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}"
-						style="width:400px;height:300px" sliceMargin="5" diameter="150" />
-				</h:panelGrid>
-			</p:panel>
-		</center>
+<!-- 		<center> -->
+<!-- 			<p:panel header="Légende" toggleable="true" style="width:80%;" -->
+<!-- 				collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500" -->
+<!-- 				widgetVar="panel" -->
+<!-- 				rendered="#{administrationController.personnel and (administrationController.droitsDepart || sessionController.currentUser.admin)}"> -->
+<!-- 				<h:panelGrid columns="6" cellpadding="10"> -->
+<!-- 					<h:panelGrid columns="6" cellpadding="10"> -->
+<!-- 						<p:graphicImage value="/media/images/player_pause.png" /> -->
+<!-- 						<h:outputText value="Non traité" /> -->
+<!-- 						<p:graphicImage value="/media/images/tick.png" /> -->
+<!-- 						<h:outputText value="En cours de traitement" /> -->
+<!-- 						<p:graphicImage value="/media/images/lock.png" /> -->
+<!-- 						<h:outputText value="Traité" /> -->
+<!-- 						<p:graphicImage value="/media/images/metacontact_away.png" /> -->
+<!-- 						<h:outputText value="Problème de transfert OPI" /> -->
+<!-- 						<p:graphicImage value="/media/images/messagebox_info.png" /> -->
+<!-- 						<h:outputText value="Etablissement non partenaire" /> -->
+<!-- 						<p:graphicImage value="/media/images/mail_foward.png" /> -->
+<!-- 						<h:outputText value="Infos OPI transmises" /> -->
+<!-- 					</h:panelGrid> -->
+<!-- 					<p:pieChart id="custom" -->
+<!-- 						value="#{statistiqueController.pieModelDepart}" legendPosition="e" -->
+<!-- 						fill="false" showDataLabels="true" -->
+<!-- 						title="Transferts départ #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" -->
+<!-- 						style="width:400px;height:300px" sliceMargin="5" diameter="150" /> -->
+<!-- 				</h:panelGrid> -->
+<!-- 			</p:panel> -->
+<!-- 		</center> -->
 	</ui:define>
 	<!-- 	<ui:define name="content"> -->
 	<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->

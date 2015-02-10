@@ -26,11 +26,24 @@
 </h:form>
 
 <h:form id="header">
-	<p:ajaxStatus onstart="statusDialog.show();" oncomplete="true"
-		onerror="idleDialog.show()" rendered="#{!managerController.use}"
-		onsuccess="statusDialog.hide();" />
-	<p:dialog modal="false" widgetVar="statusDialog" header="Chargement..."
-		draggable="false" closable="false">
+<!-- 	<p:ajaxStatus onstart="statusDialog.show();" oncomplete="true" -->
+<!-- 		onerror="idleDialog.show()" rendered="#{!managerController.use}" -->
+<!-- 		onsuccess="statusDialog.hide();" /> -->
+<!-- 	<p:dialog modal="false" widgetVar="statusDialog" header="Chargement..." -->
+<!-- 		draggable="false" closable="false"> -->
+<!-- 		<p:graphicImage value="/media/images/ajaxloadingbar.gif" /> -->
+<!-- 	</p:dialog> -->
+
+	<p:ajaxStatus>
+		<f:facet name="start">
+<!-- 			<p:graphicImage value="/media/images/ajaxloadingbar.gif" /> -->
+		</f:facet>
+	</p:ajaxStatus>
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		rendered="#{!managerController.use}" closable="false"
+		resizable="false" showHeader="false">
 		<p:graphicImage value="/media/images/ajaxloadingbar.gif" />
 	</p:dialog>
 
