@@ -129,7 +129,7 @@ public class StatistiqueController extends AbstractContextAwareController implem
 			for (String mapKey : listeStatistiquesEtabArrive.keySet()) 
 				statArrive.set(s, listeStatistiquesEtabArrive.get(s));	
 		}
-		
+
 		for(String s : union)
 		{
 			if (logger.isDebugEnabled())
@@ -139,7 +139,7 @@ public class StatistiqueController extends AbstractContextAwareController implem
 				statDepart.set(s, 0);
 			else
 				statDepart.set(s, listeStatistiquesEtabDepart.get(s));	
-			
+
 			if(listeStatistiquesEtabArrive.get(s)==null)
 				statArrive.set(s, 0);
 			else
@@ -164,12 +164,12 @@ public class StatistiqueController extends AbstractContextAwareController implem
 		totalDepart.setLabel("Depart");
 		totalAccueil.setLabel("Accueil");
 		totalOPI.setLabel("OPI");
-		
+
 		Long nbDepart = getDomainService().getStatistiquesNombreTotalTransfertDepart(getSessionController().getCurrentAnnee());
 		Long nbAccueil = getDomainService().getStatistiquesNombreTotalTransfertAccueil(getSessionController().getCurrentAnnee());
 		Long nbOPI = getDomainService().getStatistiquesNombreTotalTransfertOPI(getSessionController().getCurrentAnnee());
-//		Long AccueilPlusOPI = nbAccueil+nbOPI;
-		
+		//		Long AccueilPlusOPI = nbAccueil+nbOPI;
+
 		totalDepart.set("", nbDepart);  
 		totalAccueil.set("", nbAccueil);  
 		totalOPI.set("", nbOPI);  
@@ -187,32 +187,35 @@ public class StatistiqueController extends AbstractContextAwareController implem
 	private void createPieModelDepart() {  
 		pieModelDepart = new PieChartModel();  
 
-		//		int demandesTransfertsByEnCoursAndAnnee = getDomainService().getDemandesTransfertsByEnCoursAndAnnee(getSessionController().getCurrentAnnee(), "D").intValue();
-		//		int demandesTransfertsByAvisSaisieAndAnnee = getDomainService().getDemandesTransfertsByAvisSaisieAndAnnee(getSessionController().getCurrentAnnee(), "D").intValue();
-		//		int demandesTransfertsByTerminerAndAnnee = getDomainService().getDemandesTransfertsByTerminerAndAnnee(getSessionController().getCurrentAnnee(), "D").intValue();
+		int demandesTransfertsByEnCoursAndAnnee = getDomainService().getDemandesTransfertsByEnCoursAndAnnee(getSessionController().getCurrentAnnee(), "D").intValue();
+		int demandesTransfertsByAvisSaisieAndAnnee = getDomainService().getDemandesTransfertsByAvisSaisieAndAnnee(getSessionController().getCurrentAnnee(), "D").intValue();
+		int demandesTransfertsByTerminerAndAnnee = getDomainService().getDemandesTransfertsByTerminerAndAnnee(getSessionController().getCurrentAnnee(), "D").intValue();
 
-		int demandesTransfertsByEnCoursAndAnnee = 0;
-		int demandesTransfertsByAvisSaisieAndAnnee = 1;
-		int demandesTransfertsByTerminerAndAnnee = 112;		
+		//		int demandesTransfertsByEnCoursAndAnnee = 0;
+		//		int demandesTransfertsByAvisSaisieAndAnnee = 1;
+		//		int demandesTransfertsByTerminerAndAnnee = 112;		
 
-		if(demandesTransfertsByEnCoursAndAnnee==0)
-			pieModelDepart.set("Non traite", 1);  
-		else
-			pieModelDepart.set("Non traite", demandesTransfertsByEnCoursAndAnnee);
+		//		if(demandesTransfertsByEnCoursAndAnnee==0)
+		//			pieModelDepart.set("Non traite", 1);  
+		//		else
+		pieModelDepart.set("Non traite", demandesTransfertsByEnCoursAndAnnee);
 
-		if(demandesTransfertsByAvisSaisieAndAnnee==0)
-			pieModelDepart.set("En cours de traitement", 1);  
-		else
-			pieModelDepart.set("En cours de traitement", demandesTransfertsByAvisSaisieAndAnnee);
+		//		if(demandesTransfertsByAvisSaisieAndAnnee==0)
+		//			pieModelDepart.set("En cours de traitement", 1);  
+		//		else
+		pieModelDepart.set("En cours de traitement", demandesTransfertsByAvisSaisieAndAnnee);
 
-		if(demandesTransfertsByTerminerAndAnnee==0)
-			pieModelDepart.set("Traite", 1);
-		else
-			pieModelDepart.set("Traite", demandesTransfertsByTerminerAndAnnee);
+		//		if(demandesTransfertsByTerminerAndAnnee==0)
+		//			pieModelDepart.set("Traite", 1);
+		//		else
+		pieModelDepart.set("Traite", demandesTransfertsByTerminerAndAnnee);
 
 		//				pieModel.set("Probleme de transfert OPI", getDomainService().getDemandesTransfertsByPbOpiAndAnnee(getSessionController().getCurrentAnnee()).intValue());
 		//				pieModel.set("Etablissement non partenaire", getDomainService().getDemandesTransfertsByEtabNonPartenaireAndAnnee(getSessionController().getCurrentAnnee()).intValue());	
 		//				pieModel.set("Infos OPI transmises", getDomainService().getDemandesTransfertsByOpiOkAndAnnee(getSessionController().getCurrentAnnee()).intValue());			
+
+		pieModelDepart.setTitle("Transferts départ"+getSessionController().getCurrentAnnee()+"/"+getSessionController().getCurrentAnnee()+1);
+		pieModelDepart.setLegendPosition("w");
 
 	}
 

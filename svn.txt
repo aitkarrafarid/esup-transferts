@@ -4,5 +4,6 @@
 - Changement du client JAR du WS Apogée pour la version "apo-webservicesclient460la.jar"
 - Modification du composante "p:ajaxStatus"
 - Changement du numéro de version de 2.1.1 --> 2.2.0
-
-
+#############################################################################################################
+- Modification du composant "p:dialog" lors de la suppression d'une demande de transferts départ
+- Modification du composant "p:pieChart" au profit du '"p:chart type="pie"' (Attention supprimé de la liste des demandes de transferts départ au profit de la partie statistique)

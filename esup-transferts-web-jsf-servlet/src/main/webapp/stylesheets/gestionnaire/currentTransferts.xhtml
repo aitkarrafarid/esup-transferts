@@ -302,7 +302,8 @@
 
 							<h:outputText value="* Niveau : "
 								rendered="#{!administrationController.anneeEtudeVide}" />
-							<p:selectOneMenu id="niveauDiplome" disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+							<p:selectOneMenu id="niveauDiplome"
+								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								rendered="#{!administrationController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}"
 								value="#{administrationController.codeNiveau}" required="true"
 								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
@@ -312,7 +313,8 @@
 								<p:ajax event="change" update="vo,msgs,msgs2,growl"
 									listener="#{administrationController.resetLibelleDiplome}" />
 							</p:selectOneMenu>
-							<p:selectOneMenu id="niveauComposante" disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+							<p:selectOneMenu id="niveauComposante"
+								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								rendered="#{!administrationController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}"
 								value="#{administrationController.codeNiveau}" required="true"
 								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
@@ -343,15 +345,16 @@
 
 							<h:outputText value="* Composante : "
 								rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}" />
-							<p:selectOneMenu id="composante" disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+							<p:selectOneMenu id="composante"
+								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 								rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}"
 								value="#{administrationController.codeComposante}"
 								required="true" requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
 								<f:selectItem itemLabel="== Choix ==" itemValue="" />
 								<f:selectItems
 									value="#{administrationController.listeComposantes}" />
-<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
-<!-- 									listener="#{administrationController.resetLibelleEtape}" /> -->
+								<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
+								<!-- 									listener="#{administrationController.resetLibelleEtape}" /> -->
 								<p:ajax event="change" update="vo,msgs,msgs2,growl"
 									listener="#{administrationController.resetLibelleEtapeSansCodeDiplome}" />
 							</p:selectOneMenu>
@@ -435,21 +438,45 @@
 					rendered="#{(administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2 and sessionController.currentUser.admin) || (administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2 and administrationController.droitPC!=null and administrationController.droitPC.droitDeverrouiller=='oui')}"
 					update="msgs,msgs2,growl,currentTransferts"
 					action="#{administrationController.deverouillerDemandeTransfert}" />
+				<!-- 				<p:menuitem value="Supprimer" icon="/media/images/xapp.png" -->
+				<!-- 					onclick="confirmation.show()" -->
+				<!-- 					rendered="#{(sessionController.currentUser.admin and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2) || (administrationController.droitPC!=null and administrationController.droitPC.droitSuppression=='oui' and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2)}" /> -->
 				<p:menuitem value="Supprimer" icon="/media/images/xapp.png"
-					onclick="confirmation.show()"
+					onclick="PF('dlg1').show();"
 					rendered="#{(sessionController.currentUser.admin and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2) || (administrationController.droitPC!=null and administrationController.droitPC.droitSuppression=='oui' and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2)}" />
 			</p:stack>
-			<p:confirmDialog
-				message="Êtes-vous sur de vouloir supprimer cette demande de transfert"
-				header="Confirmation" severity="alert" widgetVar="confirmation">
-				<p:commandButton value="Oui"
-					update="msgs,msgs2,growl,currentTransferts"
-					oncomplete="confirmation.hide()"
-					action="#{administrationController.deleteDemandeTransfert}" />
-				<p:commandButton value="Non" onclick="confirmation.hide()"
-					actionListener="#{administrationController.destroyWorld}"
-					type="button" />
-			</p:confirmDialog>
+
+			<!-- <p:commandButton value="Basic" type="button" onclick="PF('dlg1').hide();" /> -->
+
+			<p:dialog header="Confirmation" widgetVar="dlg1" modal="true"
+				height="100">
+				<p:panel style="border: none !important;">
+					<h:outputText
+						value="Êtes-vous sur de vouloir supprimer cette demande de transfert" />
+					<!-- 				<p:spacer height="10" /> -->
+				</p:panel>
+				<p:panel style="border: none !important;">
+					<p:commandButton value="Oui"
+						update="msgs,msgs2,growl,currentTransferts"
+						oncomplete="PF('dlg1').hide()"
+						action="#{administrationController.deleteDemandeTransfert}" />
+					<p:commandButton value="Non" onclick="PF('dlg1').hide()"
+						actionListener="#{administrationController.destroyWorld}"
+						type="button" />
+				</p:panel>
+			</p:dialog>
+
+			<!-- 			<p:confirmDialog -->
+			<!-- 				message="Êtes-vous sur de vouloir supprimer cette demande de transfert" -->
+			<!-- 				header="Confirmation" severity="alert" widgetVar="confirmation"> -->
+			<!-- 				<p:commandButton value="Oui" -->
+			<!-- 					update="msgs,msgs2,growl,currentTransferts" -->
+			<!-- 					oncomplete="confirmation.hide()" -->
+			<!-- 					action="#{administrationController.deleteDemandeTransfert}" /> -->
+			<!-- 				<p:commandButton value="Non" onclick="confirmation.hide()" -->
+			<!-- 					actionListener="#{administrationController.destroyWorld}" -->
+			<!-- 					type="button" /> -->
+			<!-- 			</p:confirmDialog> -->
 		</h:form>
 
 		<p:dialog id="modalDialog" header="Type de transfert" widgetVar="dlg2"
