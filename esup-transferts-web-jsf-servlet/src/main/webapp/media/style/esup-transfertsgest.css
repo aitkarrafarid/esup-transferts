@@ -52,6 +52,21 @@
 .highlightTableRow {
 	/*    background-color: #E0EEEE !important; */
 	font-weight: bold;
-	background: #FAFABF !important;
+	background: #D8F6CE !important;
+	/*    color: yellow !important; */
+}
+
+.alertSilenceVautAccord {
+	/*    background-color: #E0EEEE !important; */
+	font-weight: bold;
+	background: #F3E2A9 !important;
+	/*    color: yellow !important; */
+}
+
+.alertDepassementSilenceVautAccord {
+	/*    background-color: #E0EEEE !important; */
+	font-weight: bold;
+/* 	background: #FAFABF !important; */
+	background: #F6CECE !important;
 	/*    color: yellow !important; */
 }

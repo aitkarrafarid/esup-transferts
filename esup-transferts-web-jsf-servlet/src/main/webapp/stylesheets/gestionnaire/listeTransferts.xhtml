@@ -31,11 +31,11 @@
 				paginator="true" selectionMode="single"
 				rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50"
 				emptyMessage="Auncune demande de transferts départ"
-				selection="#{administrationController.currentDemandeTransferts}">
-
-				<!--     <p:dataTable var="transferts" value="#{administrationController.allDemandesTransferts}" paginator="true" rows="10" styleClass="datatable" style="width:80%;"    -->
-				<!--                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"   -->
-				<!--                  rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{administrationController.currentDemandeTransferts}" id="test" lazy="true">   -->
+				selection="#{administrationController.currentDemandeTransferts}"
+				rowStyleClass="#{transferts.transferts.temoinTransfertValide == 2 ? 'default' : 
+				(administrationController.aujourdhui lt transferts.alertSilenceVautAccord) ? 'default' : 
+				((administrationController.aujourdhui gt transferts.alertSilenceVautAccord) and 
+				(administrationController.aujourdhui lt transferts.alertDepassementSilenceVautAccord)) ? 'alertSilenceVautAccord' : 'alertDepassementSilenceVautAccord'}">
 
 				<f:facet name="header">
 						Liste des demandes de transferts départ	#{sessionController.currentAnnee}/#{sessionController.currentAnnee+1} 
@@ -45,7 +45,7 @@
 					</f:facet>
 
 				<p:column headerText="Etat" style="width:7%;"
-					sortBy="transferts.temoinTransfertValide" id="nb">
+					sortBy="#{transferts.transferts.temoinTransfertValide}" id="nb">
 					<h:graphicImage alt="avisSaisie" title="En cours"
 						value="/media/images/player_pause.png"
 						rendered="#{transferts.transferts.temoinTransfertValide==0 || transferts.transferts.temoinTransfertValide==null}" />
@@ -58,7 +58,7 @@
 				</p:column>
 
 				<p:column headerText="Opi" style="width:7%;"
-					sortBy="transferts.temoinOPIWs">
+					sortBy="#{transferts.transferts.temoinOPIWs}">
 					<h:graphicImage alt="opiEnvoye" title="Non partenaire"
 						value="/media/images/messagebox_info.png"
 						rendered="#{transferts.transferts.temoinOPIWs==0}" />
@@ -68,6 +68,27 @@
 					<h:graphicImage alt="opiEnvoye" title="Problème d'envoi"
 						value="/media/images/metacontact_away.png"
 						rendered="#{transferts.transferts.temoinOPIWs==2}" />
+				</p:column>
+
+				<p:column headerText="Date de la demande"
+					filterBy="#{transferts.transferts.dateDemandeTransfert}"
+					style="text-align:left;"
+					sortBy="#{transferts.transferts.dateDemandeTransfert}"
+					filterMatchMode="contains">
+					<h:outputText value="#{transferts.transferts.dateDemandeTransfert}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+					</h:outputText>
+					<!-- 					<h:outputText>/</h:outputText> -->
+					<!-- 					<h:outputText value="#{transferts.alertSilenceVautAccord}"> -->
+					<!-- 						<f:convertDateTime pattern="dd/MM/yyyy" -->
+					<!-- 							timeZone="Europe/Paris" /> -->
+					<!-- 					</h:outputText> -->
+					<!-- 					<h:outputText>/</h:outputText> -->
+					<!-- 					<h:outputText -->
+					<!-- 						value="#{transferts.alertDepassementSilenceVautAccord}"> -->
+					<!-- 						<f:convertDateTime pattern="dd/MM/yyyy" -->
+					<!-- 							timeZone="Europe/Paris" /> -->
+					<!-- 					</h:outputText> -->
 				</p:column>
 
 				<p:column headerText="Composante actuelle"
@@ -150,12 +171,24 @@
 						<h:outputText value="Etablissement non partenaire" />
 						<p:graphicImage value="/media/images/mail_foward.png" />
 						<h:outputText value="Infos OPI transmises" />
+						
+						<h:outputText
+							value="Silence vaut accord : " />						
+						<h:outputText
+							value="le delai de #{sessionController.nbJourAvantAlertSilenceVautAccord/7} semaine(s) est écoulé"
+							styleClass="alertSilenceVautAccord">
+						<f:convertNumber pattern="#,0"/>	
+						</h:outputText>
+						<h:outputText
+							value="Le delai de #{sessionController.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord} mois est dépassé"
+							styleClass="alertDepassementSilenceVautAccord" />
 					</h:panelGrid>
-<!-- 					<p:chart type="pie" model="#{statistiqueController.pieModelDepart}"   -->
-<!-- 						style="width:400px;height:300px"> -->
-<!-- 						<p:ajax event="itemSelect" listener="#{chartView.itemSelect}" -->
-<!-- 							update=":display:msgs" /> -->
-<!-- 					</p:chart> -->
+
+					<!-- 					<p:chart type="pie" model="#{statistiqueController.pieModelDepart}"   -->
+					<!-- 						style="width:400px;height:300px"> -->
+					<!-- 						<p:ajax event="itemSelect" listener="#{chartView.itemSelect}" -->
+					<!-- 							update=":display:msgs" /> -->
+					<!-- 					</p:chart> -->
 				</h:panelGrid>
 			</p:panel>
 		</center>

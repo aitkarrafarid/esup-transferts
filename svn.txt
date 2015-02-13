@@ -7,3 +7,8 @@
 #############################################################################################################
 - Modification du composant "p:dialog" lors de la suppression d'une demande de transferts départ
 - Modification du composant "p:pieChart" au profit du '"p:chart type="pie"' (Attention supprimé de la liste des demandes de transferts départ au profit de la partie statistique)
+#############################################################################################################
+- Ajout de nouveaux paramètres dans le fichier config.properties suite à la nouvelle loi "Silence vaut accord" 
+- Ajout de différente coloration permettant d'identifier les demandes de transferts à traiter en priorité
+- Ajout d'une colonne supplémentaire dans la liste des demandes de transferts accueil afin d'identifier les demandes des établissements partenaires
+- Ajout d'une classe GestionDate dans le module utils de l'application

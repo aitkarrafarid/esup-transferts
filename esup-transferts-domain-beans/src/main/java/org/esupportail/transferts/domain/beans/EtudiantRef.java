@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 //		@NamedQuery(name = "allDemandesTransferts", query = "SELECT etu FROM EtudiantRef etu ORDER BY etu.transferts.temoinTransfertValide ASC"),
 		@NamedQuery(name = "allDemandesTransfertsByAnnee", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.transferts.fichier LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source ORDER BY etu.transferts.temoinTransfertValide ASC"),
-		@NamedQuery(name = "allDemandesTransfertsByAnneeAndNonTraite", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.transferts.fichier LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source AND (etu.transferts.temoinTransfertValide = 0 OR etu.transferts.temoinTransfertValide = 1 OR etu.transferts.temoinOPIWs = 2)"),
+		@NamedQuery(name = "allDemandesTransfertsByAnneeAndNonTraite", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.transferts.fichier LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source AND (etu.transferts.temoinTransfertValide = 0 OR etu.transferts.temoinTransfertValide = 1 OR etu.transferts.temoinOPIWs = 2) ORDER BY etu.transferts.dateDemandeTransfert ASC"),
 		@NamedQuery(name = "getDemandeTransfert", query = "SELECT etu FROM EtudiantRef etu WHERE etu.numeroEtudiant = :numeroEtudiant"),
 		@NamedQuery(name = "getListeAnnees", query = "SELECT DISTINCT etu.annee FROM EtudiantRef etu"),
 		@NamedQuery(name = "getDemandesTransfertsByEnCoursAndAnnee", query = "SELECT etu FROM EtudiantRef etu WHERE etu.transferts.temoinTransfertValide = 0 AND etu.annee = :annee AND etu.source = :source"),
@@ -149,6 +149,15 @@ public class EtudiantRef implements Serializable {
 	@Transient
 	private String libComposante;	
 	
+	@Transient
+	private long dateDeLaDemande;	
+	
+	@Transient
+	private Date alertSilenceVautAccord;		
+	
+	@Transient
+	private Date alertDepassementSilenceVautAccord;	
+	
 	/**
 	 * Constructeur
 	 */
@@ -171,7 +180,11 @@ public class EtudiantRef implements Serializable {
 				+ ", transferts=" + transferts + ", accueil=" + accueil
 				+ ", accueilDecision=" + accueilDecision + ", bddScol="
 				+ bddScol + ", codCge=" + codCge + ", libCge=" + libCge
-				+ ", libComposante=" + libComposante + "]";
+				+ ", libComposante=" + libComposante + ", dateDeLaDemande="
+				+ dateDeLaDemande + ", alertSilenceVautAccord="
+				+ alertSilenceVautAccord
+				+ ", alertDepassementSilenceVautAccord="
+				+ alertDepassementSilenceVautAccord + "]";
 	}
 
 	public void setNumeroEtudiant(String numeroEtudiant) {
@@ -280,6 +293,31 @@ public class EtudiantRef implements Serializable {
 
 	public void setAnnee(Integer annee) {
 		this.annee = annee;
+	}
+
+	public Date getAlertDepassementSilenceVautAccord() {
+		return alertDepassementSilenceVautAccord;
+	}
+
+	public void setAlertDepassementSilenceVautAccord(
+			Date alertDepassementSilenceVautAccord) {
+		this.alertDepassementSilenceVautAccord = alertDepassementSilenceVautAccord;
+	}
+
+	public Date getAlertSilenceVautAccord() {
+		return alertSilenceVautAccord;
+	}
+
+	public void setAlertSilenceVautAccord(Date alertSilenceVautAccord) {
+		this.alertSilenceVautAccord = alertSilenceVautAccord;
+	}
+
+	public long getDateDeLaDemande() {
+		return dateDeLaDemande;
+	}
+
+	public void setDateDeLaDemande(long dateDeLaDemande) {
+		this.dateDeLaDemande = dateDeLaDemande;
 	}
 
 	public Integer getAnnee() {

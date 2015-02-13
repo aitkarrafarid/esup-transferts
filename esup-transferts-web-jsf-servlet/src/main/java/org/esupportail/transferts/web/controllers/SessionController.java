@@ -63,6 +63,8 @@ public class SessionController extends AbstractDomainAwareBean {
 	private String validationAutomatique;
 	private Integer regleGestionTE02;
 	private boolean choixDuVoeuParComposante;
+	private Integer nbJourAvantAlertSilenceVautAccord;	
+	private Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
 	private Logger logger = new LoggerImpl(getClass());
 	
 	/*
@@ -100,8 +102,12 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		else
 			this.listSuperGestionnaire.add(this.superGestionnaire);		
-//		Assert.notNull(this.choixDuVeuParComposante, "property choixDuVeuParComposante of class " 
-//				+ this.getClass().getName() + " can not be null");	
+		
+		Assert.notNull(this.nbJourAvantAlertSilenceVautAccord, "property nbJourAvantAlertSilenceVautAccord of class " 
+				+ this.getClass().getName() + " can not be null");	
+		
+		Assert.notNull(this.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord, "property nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord of class " 
+				+ this.getClass().getName() + " can not be null");			
 	}
 
 
@@ -338,6 +344,15 @@ public class SessionController extends AbstractDomainAwareBean {
 		return listSuperGestionnaire;
 	}
 
+	public Integer getNbJourAvantAlertSilenceVautAccord() {
+		return nbJourAvantAlertSilenceVautAccord;
+	}
+
+	public void setNbJourAvantAlertSilenceVautAccord(
+			Integer nbJourAvantAlertSilenceVautAccord) {
+		this.nbJourAvantAlertSilenceVautAccord = nbJourAvantAlertSilenceVautAccord;
+	}
+
 	public void setListSuperGestionnaire(List<String> listSuperGestionnaire) {
 		this.listSuperGestionnaire = listSuperGestionnaire;
 	}
@@ -372,5 +387,14 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setChoixDuVoeuParComposante(boolean choixDuVoeuParComposante) {
 		this.choixDuVoeuParComposante = choixDuVoeuParComposante;
+	}
+
+	public Integer getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord() {
+		return nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
+	}
+
+	public void setNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord(
+			Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord) {
+		this.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord = nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
 	}
 }

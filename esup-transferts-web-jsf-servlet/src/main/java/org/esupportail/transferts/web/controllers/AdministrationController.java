@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -31,6 +33,7 @@ import javax.faces.model.SelectItem;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.persistence.Transient;
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -76,6 +79,7 @@ import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
 import org.esupportail.transferts.domain.beans.TrSituationUniversitaire;
 import org.esupportail.transferts.domain.beans.Transferts;
 import org.esupportail.transferts.domain.beans.WsPub;
+import org.esupportail.transferts.utils.GestionDate;
 import org.esupportail.transferts.utils.RneModuleBase36;
 import org.esupportail.transferts.web.dataModel.CodeSizeDataModel;
 //import org.esupportail.transferts.web.dataModel.LazyListeTransfertDepartDataModel;
@@ -211,6 +215,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private IndOpi selectedOpiForDelete;
 	private String aideChoixVoeuParComposante;
 	private String variablesEnvironnement;
+	private Date aujourdhui;
 
 	@Override
 	public void afterPropertiesSetInternal()
@@ -228,20 +233,21 @@ public class AdministrationController extends AbstractContextAwareController {
 	}	
 
 	@PostConstruct
-    public void init() {
-        String userHome = System.getProperty("user.home");
-        String userDir = System.getProperty("user.dir");
-        String javaClassPath = System.getProperty("java.class.path");
-        String javaVendorUrl = System.getProperty("java.vendor.url");
-        setVariablesEnvironnement("user.home="+userHome+"-----user.dir="+userDir+"-----java.class.path="+javaClassPath+"-----java.vendor.url="+javaVendorUrl);
-        java.util.Enumeration liste = System.getProperties().propertyNames();
-        String cle;
-        while( liste.hasMoreElements() ) {
-                cle = (String)liste.nextElement();
-                System.out.println( "-->"+cle + " = " + System.getProperty(cle) );
-        } 
-    }	
-	
+	public void init() {
+		setAujourdhui(new Date());
+		String userHome = System.getProperty("user.home");
+		String userDir = System.getProperty("user.dir");
+		String javaClassPath = System.getProperty("java.class.path");
+		String javaVendorUrl = System.getProperty("java.vendor.url");
+		setVariablesEnvironnement("user.home="+userHome+"-----user.dir="+userDir+"-----java.class.path="+javaClassPath+"-----java.vendor.url="+javaVendorUrl);
+		java.util.Enumeration liste = System.getProperties().propertyNames();
+		String cle;
+		while( liste.hasMoreElements() ) {
+			cle = (String)liste.nextElement();
+			System.out.println( "-->"+cle + " = " + System.getProperty(cle) );
+		} 
+	}	
+
 	public void showMessageInterditNiveau2() {
 		if (logger.isDebugEnabled())
 			logger.debug("public void showMessageInterditNiveau2()");
@@ -266,7 +272,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("public String goToAdministration()");
 		return "goToAdministration"; 		
 	}
-	
+
 	public String goToValidationTransfertsDepart()
 	{
 		if (logger.isDebugEnabled())
@@ -290,7 +296,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		Severity severity = FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));		
 	}
-	
+
 	public List<SelectItem> getListeFichiers() {
 		if (logger.isDebugEnabled()) {
 			logger.debug("public List<SelectItem> getListeFichiers()");
@@ -995,7 +1001,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						logger.debug("opi.getVoeux().getCodEtp() --> "+opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi()+" - "+opi.getLibNomPatIndOpi()+" - "+opi.getLibPr1IndOpi());
 						logger.debug("#######################################################################################################################");				
 					}	
-//					setTexteInterditNiveau2("");
+					//					setTexteInterditNiveau2("");
 					setTexteInterditNiveau3("");
 					List<DatasExterne> listeDatasEterneNiveau3 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi(), 3);
 
@@ -1004,12 +1010,12 @@ public class AdministrationController extends AbstractContextAwareController {
 
 					if (logger.isDebugEnabled())
 						logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
-					
+
 					if(listeDatasEterneNiveau3!=null && !listeDatasEterneNiveau3.isEmpty())
 					{
 						opi.setSynchro(4);
 						getDomainService().updateIndOpi(opi);	
-						
+
 						String decision="";
 						if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
 							decision="Favorable";
@@ -1059,32 +1065,32 @@ public class AdministrationController extends AbstractContextAwareController {
 							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 						}							
 					}					
-					
-					
-//					opi.setSynchro(1);
-//					getDomainService().updateIndOpi(opi);
-//
-//					String decision="";
-//					if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
-//						decision="Favorable";
-//					else
-//						decision="Défavorable";
-//
-//					String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
-//					String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
-//							opi.getLibPr1IndOpi(),
-//							decision,
-//							opi.getNumeroOpi());
-//					try {
-//						getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
-//					} 
-//					catch (AddressException e) 
-//					{
-//						String summary = getString("ERREUR.ENVOI_MAIL");
-//						String detail = getString("ERREUR.ENVOI_MAIL");
-//						Severity severity = FacesMessage.SEVERITY_INFO;
-//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-//					}					
+
+
+					//					opi.setSynchro(1);
+					//					getDomainService().updateIndOpi(opi);
+					//
+					//					String decision="";
+					//					if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
+					//						decision="Favorable";
+					//					else
+					//						decision="Défavorable";
+					//
+					//					String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
+					//					String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
+					//							opi.getLibPr1IndOpi(),
+					//							decision,
+					//							opi.getNumeroOpi());
+					//					try {
+					//						getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
+					//					} 
+					//					catch (AddressException e) 
+					//					{
+					//						String summary = getString("ERREUR.ENVOI_MAIL");
+					//						String detail = getString("ERREUR.ENVOI_MAIL");
+					//						Severity severity = FacesMessage.SEVERITY_INFO;
+					//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+					//					}					
 				}				
 				String summary = getString("SYNCHRO.OPI_OK");
 				String detail = getString("SYNCHRO.OPI_OK");
@@ -1277,7 +1283,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		Severity severity = FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 	}
-	
+
 	public String goToInformationAppliDepart() 
 	{
 		if (logger.isDebugEnabled())
@@ -1413,7 +1419,6 @@ public class AdministrationController extends AbstractContextAwareController {
 		setSource("D");
 		setFilteredEtudiantDepart(null);
 		setListeTransfertDepartDataModel(null);
-		//		setLazyListeTransfertDepartDataModel(null);
 		return "goToTransfertsDepart";
 	}	
 
@@ -1655,7 +1660,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					setListeLibellesEtape(getListeLibellesEtape());
 				}
 				currentOdf=currentDemandeTransferts.getTransferts().getOdf();
-				
+
 			}
 			this.initialiseTransientEtudiantRef();
 
@@ -1735,10 +1740,9 @@ public class AdministrationController extends AbstractContextAwareController {
 	}	
 
 	public ListeTransfertDepartDataModel getAllDemandesTransfertsAccueil() {
-		//	public LazyListeTransfertDepartDataModel getAllDemandesTransfertsAccueil() {
-		if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled()) 
 			logger.debug("ListeTransfertDepartDataModel getAllDemandesTransfertsAccueil()");
-		}
+
 		setSource("A");
 		List<PersonnelComposante> lPc=null;
 		String chaineComposante=null;
@@ -1755,11 +1759,23 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (switchTraiteNontraite) 
 		{
 			if (listeTransfertDepartDataModel == null)
-				//			if (lazyListeTransfertDepartDataModel == null) 	
 			{
+				System.out.println("aaaaa");
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(getSessionController().getCurrentAnnee(), getSource());
 				for (EtudiantRef etu : lEtu) 
 				{
+					
+					if (logger.isDebugEnabled())
+					{
+						logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+						logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
+						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
+						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
+					}
+
+					etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
+					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
+					
 					if(etu.getTransferts().getFichier()==null)
 					{
 						if (logger.isDebugEnabled()) {
@@ -1789,18 +1805,28 @@ public class AdministrationController extends AbstractContextAwareController {
 				}
 				setTotalAccueil(lEtu2.size());
 				listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
-				//				lazyListeTransfertDepartDataModel = new LazyListeTransfertDepartDataModel(lEtu2);
 			}
 			return listeTransfertDepartDataModel;
-			//			return lazyListeTransfertDepartDataModel;
 		}
 		else 
 		{
-			if (listeTransfertDepartDataModel == null) {
-				//			if (lazyListeTransfertDepartDataModel == null) {
+			if (listeTransfertDepartDataModel == null) 
+			{
+				System.out.println("bbbbb");
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnneeAndNonTraite(getSessionController().getCurrentAnnee(), getSource());
 				for (EtudiantRef etu : lEtu) 
 				{
+					if (logger.isDebugEnabled())
+					{
+						logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+						logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
+						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
+						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
+					}
+
+					etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
+					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
+					
 					if(etu.getTransferts().getFichier()==null)
 					{
 						if (logger.isDebugEnabled()) {
@@ -1830,15 +1856,12 @@ public class AdministrationController extends AbstractContextAwareController {
 				}
 				setTotalAccueil(lEtu2.size());
 				listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
-				//				lazyListeTransfertDepartDataModel = new LazyListeTransfertDepartDataModel(lEtu2);
 			}
 			return listeTransfertDepartDataModel;
-			//			return lazyListeTransfertDepartDataModel;
 		}
 	}		
 
 	public ListeTransfertDepartDataModel getAllDemandesTransferts() {
-		//	public LazyListeTransfertDepartDataModel getAllDemandesTransferts() {
 		if (logger.isDebugEnabled()) {
 			logger.debug("public TransfertDataModel getAllDemandesTransferts()");
 		}
@@ -1855,13 +1878,24 @@ public class AdministrationController extends AbstractContextAwareController {
 			e.printStackTrace();
 		}		
 		List<EtudiantRef> lEtu2 = new ArrayList<EtudiantRef>();
-		if (switchTraiteNontraite) {
+		if (switchTraiteNontraite)
+		{
 			if (listeTransfertDepartDataModel == null) 
-				//			if (lazyListeTransfertDepartDataModel == null)	
 			{
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(getSessionController().getCurrentAnnee(), getSource());
 				for (EtudiantRef etu : lEtu) 
 				{
+					if (logger.isDebugEnabled())
+					{
+						logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+						logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
+						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
+						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
+					}
+
+					etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
+					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
+					
 					if(etu.getTransferts().getFichier()==null)
 					{
 						if (logger.isDebugEnabled()) {
@@ -1887,7 +1921,6 @@ public class AdministrationController extends AbstractContextAwareController {
 						try {
 							logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					try {
@@ -1898,42 +1931,48 @@ public class AdministrationController extends AbstractContextAwareController {
 								) || getSessionController().getCurrentUser().isAdmin())
 							lEtu2.add(etu);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				setTotalDepart(lEtu2.size());
 				listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
-				//				lazyListeTransfertDepartDataModel = new LazyListeTransfertDepartDataModel(lEtu2);
 			}
 			return listeTransfertDepartDataModel;
-			//			return lazyListeTransfertDepartDataModel;
 		}
 		else 
 		{
-			if (listeTransfertDepartDataModel == null) {
-				//			if (lazyListeTransfertDepartDataModel == null) {
+			if (listeTransfertDepartDataModel == null) 
+			{
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnneeAndNonTraite(getSessionController().getCurrentAnnee(), getSource());
 				for (EtudiantRef etu : lEtu) 
 				{
+					if (logger.isDebugEnabled())
+					{
+						logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+						logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
+						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
+						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
+					}
+
+					etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
+					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
+
 					if(etu.getTransferts().getFichier()==null)
 					{
-						if (logger.isDebugEnabled()) {
+						if (logger.isDebugEnabled()) 
 							logger.debug("Pas de signature");
-						}
 						etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
 					}
 					else
 					{
-						if (logger.isDebugEnabled()) {
+						if (logger.isDebugEnabled()) 
 							logger.debug("Signature !!!");
-						}
 					}
 					if (etu.getLibEtapePremiereLocal() == null || etu.getLibEtapePremiereLocal().equals("Non disponible")) 
 					{
-						if (logger.isDebugEnabled()) {
+						if (logger.isDebugEnabled())
 							logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
-						}
+
 						this.initialiseTransientEtudiantRef();
 						getDomainService().addDemandeTransferts(etu);
 					}
@@ -1956,17 +1995,14 @@ public class AdministrationController extends AbstractContextAwareController {
 				}
 				setTotalDepart(lEtu2.size());
 				listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
-				//				lazyListeTransfertDepartDataModel = new LazyListeTransfertDepartDataModel(lEtu2);
 			}
 			return listeTransfertDepartDataModel;
-			//			return lazyListeTransfertDepartDataModel;
 		}
 	}	
 
-	public void addMessage() {
-
+	public void addMessage() 
+	{
 		this.listeTransfertDepartDataModel = null;
-		//		this.lazyListeTransfertDepartDataModel = null;
 		this.transfertDataModelOpi =null;
 		String summary;
 
@@ -2166,7 +2202,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			getSessionController().setChoixDuVoeuParComposante(param.isBool());
 		else
 			getSessionController().setChoixDuVoeuParComposante(true);
-		
+
 		if (this.defaultCodeSize != null)
 		{
 			this.setDefaultCodeSizeAnnee(true);
@@ -4597,14 +4633,14 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 			for (IndOpi t : transfertDataModelOpi) 
 			{
-//				t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
+				//				t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
 				t.setLibEtabDepart(t.getEtabDepart());
-//				if (t.getLibEtabDepart() == null || t.getLibEtabDepart().equals("")) 
-//				{
-//					System.out.println("aaaaa");
-//					t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
-//					getDomainService().updateLibelleVersionEtapeLocal(t);
-//				}				
+				//				if (t.getLibEtabDepart() == null || t.getLibEtabDepart().equals("")) 
+				//				{
+				//					System.out.println("aaaaa");
+				//					t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
+				//					getDomainService().updateLibelleVersionEtapeLocal(t);
+				//				}				
 
 				if (t.getVoeux().getLibelleVersionEtape() != null
 						&& !t.getVoeux().getLibelleVersionEtape().equals("")) 
@@ -4883,12 +4919,12 @@ public class AdministrationController extends AbstractContextAwareController {
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		Map<String, String> listeComposantesDTO=null;
-//		if(getSessionController().isChoixDuVeuParComposante())
-//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
-//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getSource());
-			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
-//		else
-//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		//		if(getSessionController().isChoixDuVeuParComposante())
+		//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getSource());
+		listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		//		else
+		//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled()) {
@@ -5208,4 +5244,13 @@ public class AdministrationController extends AbstractContextAwareController {
 	public void setVariablesEnvironnement(String variablesEnvironnement) {
 		this.variablesEnvironnement = variablesEnvironnement;
 	}
+
+	public Date getAujourdhui() {
+		return aujourdhui;
+	}
+
+	public void setAujourdhui(Date aujourdhui) {
+		this.aujourdhui = aujourdhui;
+	}
+
 }
