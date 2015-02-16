@@ -21,8 +21,6 @@ import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.commons.utils.strings.StringUtils;
 import org.esupportail.commons.web.controllers.ExceptionController;
 
-import artois.domain.DomainService;
-
 /**
  * A bean to memorize the context of the application.
  */

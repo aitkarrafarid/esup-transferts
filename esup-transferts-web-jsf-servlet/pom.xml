@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-<!-- 			<version>4.0</version> -->
+			<!-- <version>4.0</version> -->
 			<version>5.1</version>
 		</dependency>
 		<!-- Début thème université d'Artois Commentez la dependency lié au thème 
@@ -116,7 +116,7 @@
 			<artifactId>ojdbc6</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
-<!-- 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc6.jar</systemPath> -->
+			<!-- <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc6.jar</systemPath> -->
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/classes12.jar</systemPath>
 		</dependency>
 		<dependency>
@@ -150,6 +150,15 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/rennes1-core-0.2.4.jar
 			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local</groupId>
+			<!-- <groupId>internal</groupId> -->
+			<artifactId>apo-webservicesclient</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<!-- apo-webservicesclient450la.jar -->
+			<systemPath>${basedir}/../esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/apo-webservicesclient.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>local</groupId>
@@ -196,6 +205,13 @@
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<type>jar</type>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<properties>

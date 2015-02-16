@@ -12,3 +12,5 @@
 - Ajout de différente coloration permettant d'identifier les demandes de transferts à traiter en priorité
 - Ajout d'une colonne supplémentaire dans la liste des demandes de transferts accueil afin d'identifier les demandes des établissements partenaires
 - Ajout d'une classe GestionDate dans le module utils de l'application
+#############################################################################################################
+- Implémentation des tests unitaires avec junit, activation dans le pom.xml principal : "<skipTests>true</skipTests>"

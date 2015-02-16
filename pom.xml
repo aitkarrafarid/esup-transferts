@@ -53,6 +53,7 @@
 					<maxmemory>512m</maxmemory>
 					<goal>javadoc:javadoc</goal>
 					<reportOutputDirectory>docs/javadoc</reportOutputDirectory>
+					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 			<plugin>
