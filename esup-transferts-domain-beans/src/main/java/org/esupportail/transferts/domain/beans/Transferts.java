@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -105,7 +106,7 @@ public class Transferts implements Serializable {
 	/**
 	 * Fichier de signature de la demande de transferts
 	 */
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne(optional=false, fetch=FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumns({
 			@JoinColumn(name = "md5", referencedColumnName = "md5"),
 			@JoinColumn(name = "anneeSignature", referencedColumnName = "annee"),

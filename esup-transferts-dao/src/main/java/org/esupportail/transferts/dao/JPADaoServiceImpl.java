@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,6 +22,7 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.AccueilAnnee;
 import org.esupportail.transferts.domain.beans.AccueilDecision;
 import org.esupportail.transferts.domain.beans.AccueilResultat;
+import org.esupportail.transferts.domain.beans.AdresseRef;
 import org.esupportail.transferts.domain.beans.Avis;
 import org.esupportail.transferts.domain.beans.CGE;
 import org.esupportail.transferts.domain.beans.CGEPK;
@@ -47,7 +49,7 @@ import org.esupportail.transferts.domain.beans.Test;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.domain.beans.WsPubPK;
 /**
- * @author Farid AIT KARRA (Universite d'Artois) - 2014
+ * @author Farid AIT KARRA (Universite d'Artois) - 2015
  * 
  * The Hiberate implementation of the DAO service.
  */
@@ -2071,6 +2073,42 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			e.printStackTrace();
 			return null;
 		}
-	}	
+	}
 
+	@Override
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source) 
+	{
+		if (logger.isDebugEnabled())
+			logger.debug("public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source)===>"+numeroEtudiant+"-----"+annee+"-----"+source+"<===");
+		try{
+			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroEtudiantAndSource");
+			q.setParameter("numeroEtudiant", numeroEtudiant);
+			q.setParameter("annee", annee);
+			q.setParameter("source", source);
+			EtudiantRef etu = (EtudiantRef) q.getSingleResult();
+			return etu;
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+			return null;
+		}		
+	}
+
+	@Override
+	public Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 
+	{
+		if (logger.isDebugEnabled())
+			logger.debug("public Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee)===>"+numeroEtudiant+"-----"+annee);
+		try{
+			Query q = entityManager.createNamedQuery("getAccueilDecisionByNumeroEtudiantAndAnnee");
+			q.setParameter("numeroEtudiant", numeroEtudiant);
+			q.setParameter("annee", annee);
+			Set<AccueilDecision> lAd = (Set<AccueilDecision>) q.getResultList();
+			return lAd;
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+			return null;
+		}		
+	}	
 }

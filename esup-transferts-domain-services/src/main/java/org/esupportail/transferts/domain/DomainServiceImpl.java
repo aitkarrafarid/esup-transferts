@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.esupportail.transferts.dao.DaoService;
 import org.esupportail.transferts.domain.beans.AccueilAnnee;
@@ -681,4 +682,15 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		return getDaoService().getOdfComposanteByRneAndAnneeAndCodTypDip(rne, currentAnnee, codTypDip);
 	}
 
+	@Override
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source)
+	{
+		return getDaoService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(numeroEtudiant, annee, source);
+	}
+
+	@Override
+	public Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 
+	{
+		return getDaoService().getAccueilDecisionByNumeroEtudiantAndAnnee(numeroEtudiant, annee); 
+	}
 }

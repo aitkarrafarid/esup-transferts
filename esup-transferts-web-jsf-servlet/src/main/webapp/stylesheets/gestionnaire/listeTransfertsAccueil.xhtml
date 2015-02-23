@@ -43,7 +43,7 @@
         </f:facet>
 
 				<p:column headerText="Etat" style="width:5%;"
-					sortBy="transferts.temoinTransfertValide" id="nb">
+					sortBy="#{transferts.transferts.temoinTransfertValide}" id="nb">
 					<h:graphicImage alt="avisSaisie" title="En cours"
 						value="/media/images/player_pause.png"
 						rendered="#{transferts.transferts.temoinTransfertValide==0 || transferts.transferts.temoinTransfertValide==null}" />
@@ -125,6 +125,7 @@
 					<p:commandButton value="Voir la demande" icon="ui-icon-search"
 						update=":display:msgs"
 						action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" />
+<!-- 					<p:commandButton value="Voir la demande 2" />						 -->
 					<p:spacer width="20px" />
 					<p:selectBooleanButton
 						value="#{administrationController.switchTraiteNontraite}"

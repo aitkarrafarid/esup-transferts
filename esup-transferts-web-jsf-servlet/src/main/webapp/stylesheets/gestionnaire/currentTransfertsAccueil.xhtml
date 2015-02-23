@@ -29,7 +29,7 @@
 				style="color:#FFCC00;font-size:36px;" />
 		</p:notificationBar>
 
-		<h:form id="currentTransferts"
+		<h:form id="currentTransfertsAccueil"
 			rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
 			<p:messages id="msgs" showDetail="false" autoUpdate="true" />
 			<p:growl id="growl" showDetail="false" sticky="true"
@@ -349,7 +349,7 @@
 							<f:facet name="footer">
 								<p:commandButton
 									disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-									update=":currentTransferts:situationUniversitaire,:currentTransferts:msgs,:currentTransferts:msgs2,:currentTransferts:growl"
+									update=":currentTransfertsAccueil:situationUniversitaire,:currentTransfertsAccueil:msgs,:currentTransfertsAccueil:msgs2,:currentTransfertsAccueil:growl"
 									id="toto" value="Suppression" icon="ui-icon-close"
 									action="#{administrationController.deleteSelectedSituationUniv}" />
 							</f:facet>
@@ -520,28 +520,61 @@
 					<p:fieldset id="signature" legend="Signature" toggleable="true"
 						collapsed="false" toggleSpeed="200">
 						<p:spacer height="40px" />
-						<p:selectOneMenu id="signatureSelect"
-							disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-							rendered="#{administrationController.currentDemandeTransferts.transferts.fichier != null}"
-							value="#{administrationController.currentDemandeTransferts.transferts.fichier.md5}"
-							required="true" requiredMessage="#{msgs['ERREUR.SIGNATURE']}">
-							<f:selectItem itemLabel="== Choix ==" itemValue="" />
-							<f:selectItems value="#{administrationController.listeFichiers}" />
-						</p:selectOneMenu>
+						<!-- 						<p:selectOneMenu id="signatureSelect"  -->
+						<!-- 							disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
+						<!-- 							rendered="#{administrationController.currentDemandeTransferts.transferts.fichier != null}" -->
+						<!-- 							value="#{administrationController.currentDemandeTransferts.transferts.fichier.md5}" -->
+						<!-- 							required="true" requiredMessage="#{msgs['ERREUR.SIGNATURE']}"> -->
+						<!-- 							<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
+						<!-- 							<f:selectItems value="#{administrationController.listeFichiers}" /> -->
+						<!-- 						</p:selectOneMenu> -->
+
+												<p:selectOneMenu id="signatureSelect"
+													disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+													rendered="#{administrationController.listeFichiers != null}"
+													value="#{administrationController.selectedmd5}"
+													required="true"
+													requiredMessage="#{msgs['ERREUR.SIGNATURE_PAR_DEFAUT']}">
+													<f:selectItem itemLabel="== Choix ==" itemValue="" />
+													<f:selectItems value="#{administrationController.listeFichiers}" />
+												</p:selectOneMenu>
+
+												<h:outputText
+													value="Vous devez d'abord ajouter une signature par défaut"
+													rendered="#{administrationController.currentDemandeTransferts.transferts.fichier == null }" />
+
+
+<!-- 						<p:selectOneMenu id="advanced" -->
+<!-- 							value="#{administrationController.currentDemandeTransferts.transferts.fichier}" -->
+<!-- 							converter="#{FichierConverter}" panelStyle="width:180px" effect="fade" -->
+<!-- 							var="t" style="width:160px"> -->
+<!-- 							<f:selectItems value="#{administrationController.listeFichiers2}" -->
+<!-- 								var="theme" itemLabel="#{theme.nom}" itemValue="#{theme}" /> -->
+<!-- 							<p:column> -->
+<!-- 								<h:outputText value="#{t.nom}" /> -->
+<!-- 							</p:column> -->
+<!-- 						</p:selectOneMenu> -->
 
 						<h:outputText
 							value="Vous devez d'abord ajouter une signature par défaut"
-							rendered="#{administrationController.currentDemandeTransferts.transferts.fichier == null }" />
+							rendered="#{administrationController.listeFichiers == null}" />
 
 					</p:fieldset>
 					<p:spacer height="10" />
 					<center>
+						<!-- 						<h:panelGrid columns="1" -->
+						<!-- 							rendered="#{administrationController.listeFichiers != null}"> -->
+						<!-- 							<p:commandButton value="Modifier" -->
+						<!-- 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
+						<!-- 								action="#{administrationController.addDemandeTransferts}" -->
+						<!-- 								update="currentTransfertsAccueil,msgs,msgs2,growl,menuBasGauche" /> -->
+						<!-- 						</h:panelGrid> -->
+
 						<h:panelGrid columns="1"
-							rendered="#{administrationController.currentDemandeTransferts.transferts.fichier != null}">
-							<p:commandButton value="Modifier"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+							rendered="#{administrationController.listeFichiers != null}">
+							<p:commandButton value="Modifier Flo" id="b111"
 								action="#{administrationController.addDemandeTransferts}"
-								update="currentTransferts,msgs,msgs2,growl,menuBasGauche" />
+								update="growl" />
 						</h:panelGrid>
 					</center>
 				</p:panel>
@@ -549,7 +582,7 @@
 			<p:messages id="msgs2" showDetail="false" />
 
 			<p:stack icon="/media/images/stack.png" styleClass="panel"
-				rendered="#{administrationController.currentDemandeTransferts.transferts.fichier.md5 != null}"
+				rendered="#{administrationController.listeFichiers != null}"
 				id="menuBasGauche">
 				<p:menuitem value="Décision" icon="/media/images/kate.png"
 					update="msgs,msgs2,growl"
@@ -561,7 +594,7 @@
 					action="#{administrationController.imprimerDemandeTransfertAccueil}" />
 				<p:menuitem value="Déverrouiller" icon="/media/images/gpg.png"
 					rendered="#{(administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2 and sessionController.currentUser.admin) || (administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2 and administrationController.droitPC!=null and administrationController.droitPC.droitDeverrouiller=='oui')}"
-					update="msgs,msgs2,growl,currentTransferts"
+					update="msgs,msgs2,growl,currentTransfertsAccueil"
 					action="#{administrationController.deverouillerDemandeTransfert}" />
 				<p:menuitem value="Supprimer" icon="/media/images/xapp.png"
 					onclick="confirmation.show()"
@@ -571,7 +604,7 @@
 				message="Êtes-vous sur de vouloir supprimer cette demande de transfert"
 				header="Confirmation" severity="alert" widgetVar="confirmation">
 				<p:commandButton value="Oui"
-					update="msgs,msgs2,growl,currentTransferts"
+					update="msgs,msgs2,growl,currentTransfertsAccueil"
 					oncomplete="confirmation.hide()"
 					action="#{administrationController.deleteDemandeTransfert}" />
 				<p:commandButton value="Non" onclick="confirmation.hide()"

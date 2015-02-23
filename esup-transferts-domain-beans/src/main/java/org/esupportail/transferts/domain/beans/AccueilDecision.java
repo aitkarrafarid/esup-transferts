@@ -29,6 +29,11 @@ import javax.persistence.Transient;
  * The class that represent users.
  */
 @Entity
+
+@NamedQueries({
+	@NamedQuery(name = "getAccueilDecisionByNumeroEtudiantAndAnnee", query = "select accueilDecision from AccueilDecision accueilDecision WHERE accueilDecision.etudiant.numeroEtudiant = :numeroEtudiant and accueilDecision.etudiant.annee = :annee")
+	})
+
 @Table(name = "ACCUEIL_DECISION")
 public class AccueilDecision implements Serializable {
 

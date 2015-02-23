@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.esupportail.transferts.domain.beans.AccueilAnnee;
 import org.esupportail.transferts.domain.beans.AccueilDecision;
@@ -281,4 +282,8 @@ public interface DomainService extends Serializable {
 //			String rne, Integer currentAnnee, String codTypDip, String source);
 
 	public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip);
+
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source);
+
+	public Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
 }

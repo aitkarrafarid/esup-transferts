@@ -101,7 +101,7 @@ public class InfosAccueil implements Serializable{
 	@Column(name = "VALID_OU_CAND")
 	private Integer validationOuCandidature;		
 
-	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL })
+	@OneToMany(fetch=FetchType.LAZY, cascade={CascadeType.ALL })
 	@JoinColumns({
 		@JoinColumn(name = "numeroEtudiant", referencedColumnName = "numeroEtudiant"),
 		@JoinColumn(name = "annee", referencedColumnName = "annee") })	
