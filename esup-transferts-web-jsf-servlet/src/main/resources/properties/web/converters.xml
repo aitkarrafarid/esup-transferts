@@ -24,6 +24,6 @@
 	
 	<bean id="personnelComposanteConverter"
 		class="org.esupportail.transferts.web.converters.PersonnelComposanteConverter" scope="session">
-		<description>A bean convert File.</description>
+		<description>A bean convert String to PersonnelComposante.</description>
 	</bean>	
 </beans>

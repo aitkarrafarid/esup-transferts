@@ -29,6 +29,7 @@ import org.esupportail.transferts.domain.beans.LocalisationDossier;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.Parametres;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
+import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.Transferts;
 import org.esupportail.transferts.domain.beans.User;
 import org.esupportail.transferts.domain.beans.WsPub;
@@ -689,8 +690,14 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	}
 
 	@Override
-	public Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 
+	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source) 
 	{
-		return getDaoService().getAccueilDecisionByNumeroEtudiantAndAnnee(numeroEtudiant, annee); 
+		return getDaoService().getTestAllDemandesTransfertsByAnnee(annee, source); 
 	}
+
+//	@Override
+//	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 
+//	{
+//		return getDaoService().getSituationUniversitaireByNumeroEtudiantAndAnnee(numeroEtudiant, annee); 
+//	}
 }

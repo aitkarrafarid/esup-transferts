@@ -27,6 +27,7 @@ import org.esupportail.transferts.domain.beans.LocalisationDossier;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.Parametres;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
+import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.Test;
 import org.esupportail.transferts.domain.beans.WsPub;
 /**
@@ -281,6 +282,7 @@ public interface DaoService extends Serializable {
 
 	EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source);
 
-	Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(
-			String numeroEtudiant, Integer annee);
+	List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source);
+
+//	List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
 }

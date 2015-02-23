@@ -391,9 +391,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public List<EtudiantRef> getAllDemandesTransfertsByAnnee(Integer annee, String source) {
-		if (logger.isDebugEnabled()){
-			logger.debug("getAllDemandesTransfertsByAnnee(Integer annee, String source)");
-		}
+		if (logger.isDebugEnabled())
+			logger.debug("getAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("allDemandesTransfertsByAnnee");
 			q.setParameter("annee", annee);
@@ -2095,20 +2094,38 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	}
 
 	@Override
-	public Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 
+	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source) 
 	{
 		if (logger.isDebugEnabled())
-			logger.debug("public Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee)===>"+numeroEtudiant+"-----"+annee);
+			logger.debug("public List<SituationUniversitaire> getTestAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source);
 		try{
-			Query q = entityManager.createNamedQuery("getAccueilDecisionByNumeroEtudiantAndAnnee");
-			q.setParameter("numeroEtudiant", numeroEtudiant);
+			Query q = entityManager.createNamedQuery("getTestAllDemandesTransfertsByAnnee");
 			q.setParameter("annee", annee);
-			Set<AccueilDecision> lAd = (Set<AccueilDecision>) q.getResultList();
-			return lAd;
+			q.setParameter("source", source);
+			List<EtudiantRef> lEtu = q.getResultList();
+			return lEtu;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
 			return null;
-		}		
-	}	
+		}	
+	}
+
+//	@Override
+//	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 
+//	{
+//		if (logger.isDebugEnabled())
+//			logger.debug("public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) ===>"+numeroEtudiant+"-----"+annee);
+//		try{
+//			Query q = entityManager.createNamedQuery("getSituationUniversitaireByNumeroEtudiantAndAnnee");
+//			q.setParameter("numeroEtudiant", numeroEtudiant);
+//			q.setParameter("annee", annee);
+//			List<SituationUniversitaire> lSu = (List<SituationUniversitaire>) q.getResultList();
+//			return lSu;
+//		}
+//		catch(NoResultException e){
+//			e.printStackTrace();
+//			return null;
+//		}	
+//	}
 }

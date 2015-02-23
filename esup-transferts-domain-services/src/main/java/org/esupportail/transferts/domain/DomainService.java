@@ -29,6 +29,7 @@ import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.Parametres;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.PersonnelComposantePK;
+import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.User;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.hibernate.exception.ConstraintViolationException;
@@ -285,5 +286,7 @@ public interface DomainService extends Serializable {
 
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source);
 
-	public Set<AccueilDecision> getAccueilDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
+	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source);
+
+//	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
 }

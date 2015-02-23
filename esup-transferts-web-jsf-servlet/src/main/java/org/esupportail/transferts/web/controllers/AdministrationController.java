@@ -32,6 +32,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.servlet.http.HttpServletRequest;
@@ -566,6 +567,15 @@ public class AdministrationController extends AbstractContextAwareController {
 		getFileGeneratorService().opiFile(listeIndOpi, typeExport, fileName);
 	}	
 
+	public void exportDemandeTransfertsAccueil2()
+	{
+		if (logger.isDebugEnabled()) {
+			logger.debug("exportDemandeTransfertsAccueil()");
+		}
+		List<EtudiantRef> lEtu2 = getDomainService().getTestAllDemandesTransfertsByAnnee(this.getSessionController().getCurrentAnnee(), "A");
+		System.out.println("lEtu2.size()===>"+lEtu2.size()+"<===");
+	}
+
 	public void exportDemandeTransfertsAccueil()
 	{
 		if (logger.isDebugEnabled()) {
@@ -588,7 +598,9 @@ public class AdministrationController extends AbstractContextAwareController {
 			e.printStackTrace();
 		}	
 
-		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(this.getSessionController().getCurrentAnnee(), source);			
+//		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(this.getSessionController().getCurrentAnnee(), source);
+		List<EtudiantRef> lEtu2 = getDomainService().getTestAllDemandesTransfertsByAnnee(this.getSessionController().getCurrentAnnee(), "A");
+		
 		if(lEtu2!=null)
 		{
 			for(EtudiantRef etu : lEtu2)
@@ -606,8 +618,15 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 		}
 		List<EtudiantRefExcel> listeEtudiantRefExcel = new ArrayList<EtudiantRefExcel>();
+		List<AccueilAnnee> lAA = getDomainService().getListeAccueilAnnee();
+		
 		for (EtudiantRef etu : lEtu) 
 		{
+			if (logger.isDebugEnabled())
+				logger.debug("etu.getNumeroEtudiant()===>"+etu.getNumeroEtudiant()+"<===");	
+		
+//			etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(etu.getNumeroEtudiant(), etu.getAnnee(), etu.getSource());
+			
 			AdresseRef adresse = new AdresseRef();
 			adresse.setLibAd1(etu.getAdresse().getLibAd1());
 			adresse.setCodeCommune(etu.getAdresse().getCodeCommune());
@@ -642,6 +661,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			excel.setOdf(etu.getTransferts().getOdf());
 			excel.setUniversiteDepart(getDomainServiceScolarite().getEtablissementByRne(etu.getAccueil().getCodeRneUnivDepart()));
 			String fromSource = "";
+			
 			if(etu.getAccueil().getFrom_source().equals("P"))
 			{
 				fromSource="Partenaire";
@@ -652,10 +672,10 @@ public class AdministrationController extends AbstractContextAwareController {
 				fromSource="Autre";
 				excel.setFrom_source(fromSource);				
 			}
-			List<AccueilAnnee> lAA = getDomainService().getListeAccueilAnnee();
 
 			List<SituationUniversitaire> lSU =  etu.getAccueil().getSituationUniversitaire();
-
+//			List<SituationUniversitaire> lSU = getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(etu.getNumeroEtudiant(), etu.getAnnee());
+			
 			boolean continu = true;
 			for(AccueilAnnee aa : lAA)
 			{
@@ -688,6 +708,8 @@ public class AdministrationController extends AbstractContextAwareController {
 			if(etu.getTransferts().getTemoinTransfertValide()==2)
 			{
 				Set<AccueilDecision> lAd = etu.getAccueilDecision();
+//				Set<AccueilDecision> lAd = getDomainService().getAccueilDecisionByNumeroEtudiantAndAnnee(etu.getNumeroEtudiant(), etu.getAnnee());
+				
 				long tableau[] = new long[lAd.size()];
 				int i=0;
 				for(AccueilDecision ad : lAd)
@@ -714,8 +736,9 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		List<String> colonnesChoisies = new ArrayList<String>();
 		getFileGeneratorService().conventionFileAccueil(listeEtudiantRefExcel,	typeExport, fileName, colonnesChoisies);
-	}
-
+		
+	}	
+	
 	public void exportListeDroitsDepart()
 	{
 		if (logger.isDebugEnabled()) {

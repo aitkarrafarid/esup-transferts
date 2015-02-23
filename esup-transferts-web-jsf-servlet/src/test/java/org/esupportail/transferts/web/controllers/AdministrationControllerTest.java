@@ -67,31 +67,13 @@ public class AdministrationControllerTest  {
 	public void tearDown() throws Exception {
 	}
 
-	
-	//@Test
-	public void stringToByte() 
+	@Test
+	public void exportDemandeTransfertsAccueil()
 	{
-		this.etudiantAccueil.setNumeroEtudiant("0905061794V");
-		
-		System.out.println("===>getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.getEtudiantAccueil().getNumeroEtudiant(), this.getEtudiantAccueil().getAnnee(), this.getEtudiantAccueil().getSource());"
-				+this.getEtudiantAccueil().getNumeroEtudiant()+"-----"+this.getEtudiantAccueil().getAnnee()+"-----"+this.getEtudiantAccueil().getSource()+"<===");		
-		
-		this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.getEtudiantAccueil().getNumeroEtudiant(), this.getEtudiantAccueil().getAnnee(), this.getEtudiantAccueil().getSource());
-	    //String example = "This is an example";
-	    byte[] bytes = this.currentDemandeTransferts.getTransferts().getFichier().getImg();
-	    String test = bytes.toString();
-	    
-	    //System.out.println("Text : " + example);
-	    System.out.println("###################################################################################################################");
-	    System.out.println("Text [Byte Format] : " + bytes);
-	    System.out.println("###################################################################################################################");
-	    System.out.println("Text [Byte Format] : " + bytes.toString());
-	    String s = Arrays.toString(bytes);
-	    System.out.println("###################################################################################################################");
-	    System.out.println("Text Decryted : " + s);
-	    System.out.println("Text Decryted getBytes : " + s.getBytes());
-		
-	}
+		List<EtudiantRef> lEtu2 = getDomainService().getTestAllDemandesTransfertsByAnnee(2014, "A");
+		System.out.println("lEtu2.size()===>"+lEtu2.size()+"<===");
+	}	
+	
 	
 //	@Test
 	public void getAllDemandesTransfertsByAnnee() 
@@ -118,7 +100,7 @@ public class AdministrationControllerTest  {
 		}
 	}
 
-	@Test
+	//@Test
 	public void goToCurrentDemandeTransfertsAccueil() 
 	{
 		System.out.println("===>#######################################################################################################################################<===");
