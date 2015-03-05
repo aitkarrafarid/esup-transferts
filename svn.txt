@@ -14,3 +14,12 @@
 - Ajout d'une classe GestionDate dans le module utils de l'application
 #############################################################################################################
 - Implémentation des tests unitaires avec junit, activation dans le pom.xml principal : "<skipTests>true</skipTests>"
+- Correction des "sortBy" et "filterBy" dans le datatable des transferts accueil
+#############################################################################################################
+- Correction de certain composants suite à la migration technologique
+#############################################################################################################
+- Correction de l'export excel dfes transferts accueil
+#############################################################################################################
+- Modification du composant <p:confirmDialog> dans le choix du code sise par défaut
+- Correction d'un BUG lors de l'enregistrement de la demande de transfert accueil suite au mode Lazy du bean fichier
+ 

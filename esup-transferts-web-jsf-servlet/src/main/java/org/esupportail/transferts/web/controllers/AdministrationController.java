@@ -218,6 +218,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private String variablesEnvironnement;
 	private Date aujourdhui;
 	private String selectedmd5;
+	List<Fichier> listeFichiers;
 
 	@Override
 	public void afterPropertiesSetInternal()
@@ -305,7 +306,9 @@ public class AdministrationController extends AbstractContextAwareController {
 //			logger.debug("getDomainServiceWS().getFichiers();");
 		}
 		List<SelectItem> fichiers = new ArrayList<SelectItem>();
-		List<Fichier> listeFichiers = getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource());
+		
+		if(listeFichiers==null)
+			listeFichiers = getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource());
 
 		if(listeFichiers!=null)
 		{

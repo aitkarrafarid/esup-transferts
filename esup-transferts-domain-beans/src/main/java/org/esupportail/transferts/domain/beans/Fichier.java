@@ -9,6 +9,7 @@ import java.sql.Blob;
 import java.util.Arrays;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,6 +20,7 @@ import javax.persistence.IdClass;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -35,19 +37,19 @@ import org.hibernate.annotations.Type;
 	@NamedQuery(
 			name="getFichiersByAnneeAndFrom",
 			query="SELECT fichier FROM Fichier fichier WHERE fichier.annee= :annee AND fichier.from=:from AND fichier.md5!='ETABLISSEMENT_PARTENAIRE'"
-	),
-	@NamedQuery(
-			name="getFichierDefautByAnneeAndFrom",
-			query="SELECT fichier FROM Fichier fichier WHERE fichier.defaut=1 AND fichier.annee= :annee AND fichier.from=:from AND fichier.md5!='ETABLISSEMENT_PARTENAIRE'"
-	),
-	@NamedQuery(
-			name="getFichiersByIdAndAnneeAndFrom",
-			query="SELECT fichier FROM Fichier fichier WHERE fichier.md5= :md5 AND fichier.annee= :annee AND fichier.from=:from AND fichier.md5!='ETABLISSEMENT_PARTENAIRE'"
-	),		
-	@NamedQuery(
-			name="resetDefautFichierByAnneeAndFrom", 
-			query="UPDATE Fichier fichier SET fichier.defaut=0 WHERE fichier.annee= :annee AND fichier.from=:from AND fichier.md5!='ETABLISSEMENT_PARTENAIRE'"
-)
+			),
+			@NamedQuery(
+					name="getFichierDefautByAnneeAndFrom",
+					query="SELECT fichier FROM Fichier fichier WHERE fichier.defaut=1 AND fichier.annee= :annee AND fichier.from=:from AND fichier.md5!='ETABLISSEMENT_PARTENAIRE'"
+					),
+					@NamedQuery(
+							name="getFichiersByIdAndAnneeAndFrom",
+							query="SELECT fichier FROM Fichier fichier WHERE fichier.md5= :md5 AND fichier.annee= :annee AND fichier.from=:from AND fichier.md5!='ETABLISSEMENT_PARTENAIRE'"
+							),		
+							@NamedQuery(
+									name="resetDefautFichierByAnneeAndFrom", 
+									query="UPDATE Fichier fichier SET fichier.defaut=0 WHERE fichier.annee= :annee AND fichier.from=:from AND fichier.md5!='ETABLISSEMENT_PARTENAIRE'"
+									)
 })		    	    
 @Table(name = "Fichier")
 public class Fichier implements Serializable {
@@ -68,12 +70,12 @@ public class Fichier implements Serializable {
 
 	@Id
 	private String from;		
-	
+
 	/**
 	 * Nom du fichier
 	 */
 	@Column(name = "nom", nullable=false)
-//	@Column(name = "nom")
+	//	@Column(name = "nom")
 	private String nom;		
 
 	/**
@@ -81,7 +83,7 @@ public class Fichier implements Serializable {
 	 */
 	@Column(name = "nom_signataire", nullable=false)
 	private String nomSignataire;		
-	
+
 	/**
 	 * Taille du fichier
 	 */
@@ -99,7 +101,7 @@ public class Fichier implements Serializable {
 	 */
 	@Lob
 	private byte[] img;
-	
+
 	/**
 	 * Signature par défaut
 	 */
@@ -129,7 +131,7 @@ public class Fichier implements Serializable {
 	 */
 	@Column(name = "codepostal")
 	private String codePostal;		
-	
+
 	/**
 	 * Bean constructor.
 	 */
@@ -153,7 +155,7 @@ public class Fichier implements Serializable {
 	 */
 	public String toString2() {
 		return "Fichier#" + hashCode() + "md5=["
-		+ md5 +"],  nom=["+ nom +"], from=["+ from +"]";
+				+ md5 +"],  nom=["+ nom +"], from=["+ from +"]";
 	}
 
 	@Override

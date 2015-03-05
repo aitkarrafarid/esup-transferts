@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -23,6 +26,7 @@ import org.esupportail.transferts.domain.beans.AccueilResultat;
 import org.esupportail.transferts.domain.beans.DatasExterne;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.Fichier;
+import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.TrBac;
@@ -48,15 +52,15 @@ public class AdministrationControllerTest  {
 
 	private EtudiantRef etudiantDepart;
 	private EtudiantRef etudiantAccueil;
-	
+
 	EtudiantRef currentDemandeTransferts;
-	
+
 	List<EtudiantRef> listeEtudiants;
 
 	@Before
 	public void setUp() throws Exception {
 		this.etudiantDepart=new EtudiantRef();
-		
+
 		this.etudiantAccueil=new EtudiantRef();
 		etudiantAccueil.setNumeroEtudiant("2005030459J");
 		etudiantAccueil.setAnnee(2014);
@@ -67,36 +71,96 @@ public class AdministrationControllerTest  {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	//@Test
 	public void exportDemandeTransfertsAccueil()
 	{
 		List<EtudiantRef> lEtu2 = getDomainService().getTestAllDemandesTransfertsByAnnee(2014, "A");
 		System.out.println("lEtu2.size()===>"+lEtu2.size()+"<===");
 	}	
-	
-	
-//	@Test
+
+	@Test
+	public void addDemandeTransferts() throws Exception
+	{
+		System.out.println("===>#######################################################################################################################################<===");
+
+		EtudiantRef etu = this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.getEtudiantAccueil().getNumeroEtudiant(), this.getEtudiantAccueil().getAnnee(), this.getEtudiantAccueil().getSource());
+		
+		Date date = null;
+		String date1 = "28/03/1980";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		try {
+			date = simpleDateFormat.parse(date1);
+			System.out.println("date===>"+date+"<===");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+
+		System.out.println("===>#######################################################################################################################################<===");		
+
+		this.currentDemandeTransferts = getDomainServiceScolarite().getCurrentEtudiantIne("0997200153K", date);
+
+		if(this.currentDemandeTransferts!=null)
+			System.out.println("===>"+this.currentDemandeTransferts.getNumeroIne()+"<===");
+		else
+			System.out.println("===>this.currentDemandeTransferts.getNumeroIne()==null<===");
+
+
+
+		this.currentDemandeTransferts.setSource("A");
+
+		if(this.currentDemandeTransferts.getAdresse().getCodPay().equals("100"))
+			this.currentDemandeTransferts.getAdresse().setCodeVilleEtranger(null);
+		else
+		{
+			this.currentDemandeTransferts.getAdresse().setLibPay(getDomainServiceScolarite().getPaysByCodePays(this.currentDemandeTransferts.getAdresse().getCodPay()).getLibPay());
+			this.currentDemandeTransferts.getAdresse().setCodePostal(null);
+			this.currentDemandeTransferts.getAdresse().setCodeCommune(null);
+			this.currentDemandeTransferts.getAdresse().setNomCommune(null);
+		}
+		this.currentDemandeTransferts.setAnnee(2014);
+		this.currentDemandeTransferts.getAdresse().setAnnee(2014);
+		this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(0);
+		this.currentDemandeTransferts.getTransferts().setDateDemandeTransfert(new Date());
+		this.currentDemandeTransferts.getTransferts().setAnnee(2014);
+		this.currentDemandeTransferts.getTransferts().setFichier(null);
+		this.currentDemandeTransferts.getAccueil().setAnnee(2014);
+		this.currentDemandeTransferts.getAccueil().setNumeroEtudiant(this.currentDemandeTransferts.getNumeroEtudiant());
+		this.currentDemandeTransferts.getAccueil().setFrom_source("L");
+		
+//		System.out.println("===>#######################################################################################################################################<===");		
+//		System.out.println("etu.getTransferts().getOdf()===>"+etu.getTransferts().getOdf()+"<===");
+//		System.out.println("===>#######################################################################################################################################<===");		
+		
+		this.currentDemandeTransferts.getTransferts().setOdf(etu.getTransferts().getOdf());
+		
+//		getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
+//		getDomainService().deleteDemandeTransfert(this.currentDemandeTransferts, 2014);
+
+	}
+
+	//	@Test
 	public void getAllDemandesTransfertsByAnnee() 
 	{
 		System.out.println("===>#######################################################################################################################################<===");
 		System.out.println("===>public void getAllDemandesTransfertsByAnnee()<===");	
 
 		System.out.println("===>getDomainService().getAllDemandesTransfertsByAnnee(this.getEtudiantAccueil().getAnnee(), this.getEtudiantAccueil().getSource());"
-							+this.getEtudiantAccueil().getNumeroEtudiant()+"-----"+this.getEtudiantAccueil().getAnnee()+"-----"+this.getEtudiantAccueil().getSource()+"<===");
-		
+				+this.getEtudiantAccueil().getNumeroEtudiant()+"-----"+this.getEtudiantAccueil().getAnnee()+"-----"+this.getEtudiantAccueil().getSource()+"<===");
+
 		listeEtudiants = getDomainService().getAllDemandesTransfertsByAnnee(this.getEtudiantAccueil().getAnnee(), "A");
 
 		for(EtudiantRef etu : listeEtudiants)
 		{
-//			System.out.println("etu.getNomPatronymique()===>"+etu.getNomPatronymique()+"<===");
-//			System.out.println("etu.getAdresse()===>"+etu.getAdresse().toString()+"<===");
-//			System.out.println("etu.getAdresse().getEmail()===>"+etu.getAdresse().getEmail()+"<===");
-//			System.out.println("etu.getAccueil().getSituationUniversitaire()===>"+etu.getAccueil().getSituationUniversitaire()+"<===");
-//			if(etu.getTransferts().getFichier()!=null)
-//				System.out.println("etu.getTransferts().getFichier().getMd5()===>"+etu.getTransferts().getFichier().getMd5()+"<===");
-//			else
-//				System.out.println("etu.getTransferts().getFichier().getMd5()===>null<===");
-//			System.out.println("etu===>"+etu.toString()+"<===");			
+			//			System.out.println("etu.getNomPatronymique()===>"+etu.getNomPatronymique()+"<===");
+			//			System.out.println("etu.getAdresse()===>"+etu.getAdresse().toString()+"<===");
+			//			System.out.println("etu.getAdresse().getEmail()===>"+etu.getAdresse().getEmail()+"<===");
+			//			System.out.println("etu.getAccueil().getSituationUniversitaire()===>"+etu.getAccueil().getSituationUniversitaire()+"<===");
+			//			if(etu.getTransferts().getFichier()!=null)
+			//				System.out.println("etu.getTransferts().getFichier().getMd5()===>"+etu.getTransferts().getFichier().getMd5()+"<===");
+			//			else
+			//				System.out.println("etu.getTransferts().getFichier().getMd5()===>null<===");
+			//			System.out.println("etu===>"+etu.toString()+"<===");			
 		}
 	}
 
@@ -127,22 +191,22 @@ public class AdministrationControllerTest  {
 			//
 			if(this.currentDemandeTransferts.getTransferts().getFichier()!=null)
 				file = getDomainService().getFichierByIdAndAnneeAndFrom(this.currentDemandeTransferts.getTransferts().getFichier().getMd5(),this.getEtudiantAccueil().getAnnee(), this.currentDemandeTransferts.getSource());
-			
+
 			if(file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE"))
 			{
 				file = getDomainService().getFichierDefautByAnneeAndFrom(2014, "A");
 				this.currentDemandeTransferts.getTransferts().setFichier(file);
 			}
 
-		
-			
+
+
 
 			List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(this.currentDemandeTransferts.getAccueil().getCodeBac());
-			
+
 			System.out.println("file===>"+file+"<===");
-			
+
 			System.out.println("this.currentDemandeTransferts===>"+this.currentDemandeTransferts.toString()+"<===");
-			
+
 			System.out.println("this.currentDemandeTransferts===>"+this.currentDemandeTransferts.toString()+"<===");	
 		}
 	}		

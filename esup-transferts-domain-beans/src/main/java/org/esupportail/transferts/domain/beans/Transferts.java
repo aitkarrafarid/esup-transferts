@@ -106,7 +106,7 @@ public class Transferts implements Serializable {
 	/**
 	 * Fichier de signature de la demande de transferts
 	 */
-	@OneToOne(optional=false, fetch=FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne(optional=true, fetch=FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumns({
 			@JoinColumn(name = "md5", referencedColumnName = "md5"),
 			@JoinColumn(name = "anneeSignature", referencedColumnName = "annee"),
