@@ -24,4 +24,7 @@
 - Correction d'un BUG lors de l'enregistrement de la demande de transfert accueil suite au mode Lazy du bean fichier
 #############################################################################################################
 - Ajout du mail de l’étudiant lors de l’extraction Excel (départ et accueil)
- 
+ #############################################################################################################
+ - Ajouter un mail fonctionnel supplémentaire dans la liste des établissements partenaires afin de mieux distinguer le correspondant technique et fonctionnel
+#############################################################################################################
+ - Changer le nom des boutons « imprimer » dans le récapitulatif de la demande de transferts par « Imprimer les formulaires »

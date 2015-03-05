@@ -16,7 +16,7 @@
 
 		<h:panelGrid columns="1"
 			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}">
-			<p:commandButton value="Imprimer" update="voeux,msgs,msgsBas,growl"
+			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl"
 				action="#{userController.imprimerDemandeTransfert}" />
 		</h:panelGrid>
 
@@ -336,7 +336,7 @@
 
 		<h:panelGrid columns="1"
 			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}">
-			<p:commandButton value="Imprimer" update="voeux,msgs,msgsBas,growl"
+			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl"
 				action="#{userController.imprimerDemandeTransfert}" />
 		</h:panelGrid>
 	</p:panel>
