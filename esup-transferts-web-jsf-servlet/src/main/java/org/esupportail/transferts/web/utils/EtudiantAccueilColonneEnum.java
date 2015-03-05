@@ -18,15 +18,33 @@ public enum EtudiantAccueilColonneEnum {
 	col4("EXPORT.EXCEL.COLONNE.NUMERO_INE", "numeroIne"),
 	col5("EXPORT.EXCEL.COLONNE.NOM_PATRONYMIQUE", "nomPatronymique"),	
 	col6("EXPORT.EXCEL.COLONNE.PRENOM1", "prenom1"),
-	col7("EXPORT.EXCEL.COLONNE.DATE_DE_NAISSANCE", "dateNaissance"),
-	col8("EXPORT.EXCEL.COLONNE.ETABLISSEMENT_DEPART", "universiteDepart.libEtb"),
-	col9("EXPORT.EXCEL.COLONNE.DERNIERE_FORMATION", "derniereFormation"),
-	col10("EXPORT.EXCEL.COLONNE.CODE_BAC", "codeBac"),
-	col11("EXPORT.EXCEL.COLONNE.ANNEE_BAC", "anneeBac"),
-	col12("EXPORT.EXCEL.COLONNE.VALIDATION", "validation"),
-	col13("EXPORT.EXCEL.COLONNE.FROM_SOURCE", "from_source"),
-	col14("EXPORT.EXCEL.COLONNE.DECISION_DE", "decisionDE"),
-	col15("EXPORT.EXCEL.COLONNE.CANDIDATURE", "dataExterneNiveau2");
+	col7("EXPORT.EXCEL.COLONNE.ADRESSE.MAIL", "adresse.email"),
+	col8("EXPORT.EXCEL.COLONNE.DATE_DE_NAISSANCE", "dateNaissance"),
+	col9("EXPORT.EXCEL.COLONNE.ETABLISSEMENT_DEPART", "universiteDepart.libEtb"),
+	col10("EXPORT.EXCEL.COLONNE.DERNIERE_FORMATION", "derniereFormation"),
+	col11("EXPORT.EXCEL.COLONNE.CODE_BAC", "codeBac"),
+	col12("EXPORT.EXCEL.COLONNE.ANNEE_BAC", "anneeBac"),
+	col13("EXPORT.EXCEL.COLONNE.VALIDATION", "validation"),
+	col14("EXPORT.EXCEL.COLONNE.FROM_SOURCE", "from_source"),
+	col15("EXPORT.EXCEL.COLONNE.DECISION_DE", "decisionDE"),
+	col16("EXPORT.EXCEL.COLONNE.CANDIDATURE", "dataExterneNiveau2");
+
+//	col1("EXPORT.EXCEL.COLONNE.DATE_DEMANDE_TRANSFERT", "dateDeLaDemandeTransfert"),
+//	col2("EXPORT.EXCEL.COLONNE.UFR_ARRIVEE", "composante"),
+//	col3("EXPORT.EXCEL.COLONNE.FORMATION_SOUHAITEE", "odf.libVersionEtape"),
+//	col4("EXPORT.EXCEL.COLONNE.NUMERO_INE", "numeroIne"),
+//	col5("EXPORT.EXCEL.COLONNE.NOM_PATRONYMIQUE", "nomPatronymique"),	
+//	col6("EXPORT.EXCEL.COLONNE.PRENOM1", "prenom1"),
+//	col7("EXPORT.EXCEL.COLONNE.DATE_DE_NAISSANCE", "dateNaissance"),
+//	col8("EXPORT.EXCEL.COLONNE.ETABLISSEMENT_DEPART", "universiteDepart.libEtb"),
+//	col9("EXPORT.EXCEL.COLONNE.DERNIERE_FORMATION", "derniereFormation"),
+//	col10("EXPORT.EXCEL.COLONNE.CODE_BAC", "codeBac"),
+//	col11("EXPORT.EXCEL.COLONNE.ANNEE_BAC", "anneeBac"),
+//	col12("EXPORT.EXCEL.COLONNE.VALIDATION", "validation"),
+//	col13("EXPORT.EXCEL.COLONNE.FROM_SOURCE", "from_source"),
+//	col14("EXPORT.EXCEL.COLONNE.DECISION_DE", "decisionDE"),
+//	col15("EXPORT.EXCEL.COLONNE.CANDIDATURE", "dataExterneNiveau2");
+	
 	/*
 	 ******************* PROPERTIES ******************* */
 	

@@ -17,16 +17,17 @@ public enum EtudiantColonneEnum {
 	col3("EXPORT.EXCEL.COLONNE.NOM_PATRONYMIQUE", "nomPatronymique"),	
 	col4("EXPORT.EXCEL.COLONNE.PRENOM1", "prenom1"),
 	col5("EXPORT.EXCEL.COLONNE.NUMERO_INE", "numeroIne"),
-	col6("EXPORT.EXCEL.COLONNE.DATE_DE_NAISSANCE", "dateNaissance"),
-	col7("EXPORT.EXCEL.COLONNE.ADRESE.LIBAD1", "adresse.libAd1"),
+	col6("EXPORT.EXCEL.COLONNE.ADRESSE.MAIL", "adresse.email"),
+	col7("EXPORT.EXCEL.COLONNE.DATE_DE_NAISSANCE", "dateNaissance"),
+	col8("EXPORT.EXCEL.COLONNE.ADRESE.LIBAD1", "adresse.libAd1"),
 //	col8("EXPORT.EXCEL.COLONNE.ADRESE.CODECOMMUNE", "adresse.codeCommune"),	
 //	col9("EXPORT.EXCEL.COLONNE.ADRESE.NOMCOMUNE", "adresse.nomCommune"),		
-	col8("EXPORT.EXCEL.COLONNE.ETAT_DU_DOSSIER", "etatDuDossier"),
-	col9("EXPORT.EXCEL.COLONNE.COMPOSANTE_DE_DEPART", "composante"),
-	col10("EXPORT.EXCEL.COLONNE.DERNIERE_IA_UNIVERSITE_ORIGINE", "derniereIaInscription"),
-	col11("EXPORT.EXCEL.COLONNE.ETABLISSEMENT_ACCUEIL", "universiteAccueil.libEtb"),
-	col12("EXPORT.EXCEL.COLONNE.FORMATION_ACCUEIL", "libelleVET"),
-	col13("EXPORT.EXCEL.COLONNE.AVIS", "avis.libDecisionDossier");	
+	col9("EXPORT.EXCEL.COLONNE.ETAT_DU_DOSSIER", "etatDuDossier"),
+	col10("EXPORT.EXCEL.COLONNE.COMPOSANTE_DE_DEPART", "composante"),
+	col11("EXPORT.EXCEL.COLONNE.DERNIERE_IA_UNIVERSITE_ORIGINE", "derniereIaInscription"),
+	col12("EXPORT.EXCEL.COLONNE.ETABLISSEMENT_ACCUEIL", "universiteAccueil.libEtb"),
+	col13("EXPORT.EXCEL.COLONNE.FORMATION_ACCUEIL", "libelleVET"),
+	col14("EXPORT.EXCEL.COLONNE.AVIS", "avis.libDecisionDossier");	
 	
 	/*
 	 ******************* PROPERTIES ******************* */
