@@ -288,7 +288,7 @@ public class OdfController extends AbstractContextAwareController {
 					//						+ getString("TRANSFERT_MAIL_BODY2")
 					//						+ getString("TRANSFERT_MAIL_BODY3");
 
-					getSmtpService().send(new InternetAddress(part.getMail()), sujet, body, body);
+					getSmtpService().send(new InternetAddress(part.getMailCorrespondantFonctionnel()), sujet, body, body);
 				} 
 				catch (AddressException e) 
 				{

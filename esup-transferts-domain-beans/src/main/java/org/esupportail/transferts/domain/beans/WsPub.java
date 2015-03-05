@@ -78,10 +78,16 @@ public class WsPub implements Serializable {
 	private String password;			
 
 	/**
-	 * Email de la personne a prevenir lors de la mise a jour de l'ODF
+	 * Email du correspondant fonctionel à prevenir lors de la mise a jour de l'ODF
 	 */
 	@Column(name = "mail", nullable=false)
-	private String mail;		
+	private String mailCorrespondantFonctionnel;		
+	
+	/**
+	 * Email du correspondant technique 
+	 */
+	@Column(name = "mail_technique", nullable=false)
+	private String mailCorrespondantTechnique;	
 	
 	@Transient
 	private Integer online;
@@ -111,8 +117,10 @@ public class WsPub implements Serializable {
 	public String toString() {
 		return "WsPub [rne=" + rne + ", annee=" + annee + ", libEtab="
 				+ libEtab + ", url=" + url + ", identifiant=" + identifiant
-				+ ", password=" + password + ", mail=" + mail + ", online="
-				+ online + ", syncOdf=" + syncOdf + "]";
+				+ ", password=" + password + ", mailCorrespondantFonctionnel="
+				+ mailCorrespondantFonctionnel
+				+ ", mailCorrespondantTechnique=" + mailCorrespondantTechnique
+				+ ", online=" + online + ", syncOdf=" + syncOdf + "]";
 	}
 
 	public void setRne(String rne) {
@@ -179,12 +187,20 @@ public class WsPub implements Serializable {
 		this.annee = annee;
 	}
 
-	public String getMail() {
-		return mail;
+	public String getMailCorrespondantFonctionnel() {
+		return mailCorrespondantFonctionnel;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setMailCorrespondantFonctionnel(String mailCorrespondantFonctionnel) {
+		this.mailCorrespondantFonctionnel = mailCorrespondantFonctionnel;
+	}
+
+	public String getMailCorrespondantTechnique() {
+		return mailCorrespondantTechnique;
+	}
+
+	public void setMailCorrespondantTechnique(String mailCorrespondantTechnique) {
+		this.mailCorrespondantTechnique = mailCorrespondantTechnique;
 	}
 
 }

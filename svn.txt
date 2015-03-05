@@ -22,4 +22,6 @@
 #############################################################################################################
 - Modification du composant <p:confirmDialog> dans le choix du code sise par défaut
 - Correction d'un BUG lors de l'enregistrement de la demande de transfert accueil suite au mode Lazy du bean fichier
+#############################################################################################################
+- Ajout du mail de l’étudiant lors de l’extraction Excel (départ et accueil)
  
