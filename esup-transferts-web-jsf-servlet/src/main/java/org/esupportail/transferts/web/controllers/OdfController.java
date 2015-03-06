@@ -14,7 +14,9 @@ import javax.mail.internet.InternetAddress;
 import org.apache.commons.lang.ArrayUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.transferts.domain.beans.DatasExterne;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
+import org.esupportail.transferts.domain.beans.TrBlocageDTO;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.web.dataModel.OdfDataModel;
 import org.esupportail.transferts.web.utils.FileGeneratorService;
@@ -54,6 +56,42 @@ public class OdfController extends AbstractContextAwareController {
 		super.afterPropertiesSetInternal();
 	}
 
+	public void alertPartenaireMAJOdfs()
+	{
+		String sujet = getString("MAIL.ODF.MAJ.SUJET");
+//		List<WsPub> listePartenaires = getDomainService().getListeWsPub();
+		List<WsPub> listePartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
+		
+		String libEtab=null;
+		if(libEtab==null)
+			libEtab = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getLibOffEtb();
+		
+//		String tmp = "";
+		
+		for(WsPub part : listePartenaires)
+		{
+			if(!part.getRne().equals(getSessionController().getRne()))
+			{
+				try {
+					String body = getString("MAIL.ODF.MAJ.BODY", libEtab);
+					getSmtpService().send(new InternetAddress(part.getMailCorrespondantFonctionnel()), sujet, body, body);
+//					tmp += libEtab+" \n ";
+				} 
+				catch (AddressException e) 
+				{
+					String summary1 = getString("ERREUR.ENVOI_MAIL");
+					String detail1 = getString("ERREUR.ENVOI_MAIL");
+					Severity severity1 = FacesMessage.SEVERITY_ERROR;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity1, summary1, detail1));
+				}
+			}
+		}		
+		String summary = "Mail d'alerte envoyé aux partenaires";
+		String detail = "Mail d'alerte envoyé aux partenaires";
+		Severity severity=FacesMessage.SEVERITY_INFO;
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));	
+	}
+	
 	public  void exportXlsODF()
 	{
 		if (logger.isDebugEnabled()) {
@@ -268,37 +306,28 @@ public class OdfController extends AbstractContextAwareController {
 		String detail = getString("ENREGISTREMENT.ODF");
 		Severity severity=FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));			
-
-		String sujet = getString("MAIL.ODF.MAJ.SUJET");
-		//		String body = getString("MAIL.ODF.MAJ.BODY");
-		List<WsPub> listePartenaires = getDomainService().getListeWsPub();
-		String libEtab = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getLibOffEtb();
-
-		for(WsPub part : listePartenaires)
-		{
-			if(!part.getRne().equals(getSessionController().getRne()))
-			{
-				try {
-					// smtpService.send(to, subject, htmlBody, textBody)
-
-					String body = getString("MAIL.ODF.MAJ.BODY", libEtab);
-
-					//				body = getString("TRANSFERT_MAIL_BODY", "aaa",
-					//						"bbb") 
-					//						+ getString("TRANSFERT_MAIL_BODY2")
-					//						+ getString("TRANSFERT_MAIL_BODY3");
-
-					getSmtpService().send(new InternetAddress(part.getMailCorrespondantFonctionnel()), sujet, body, body);
-				} 
-				catch (AddressException e) 
-				{
-					summary = getString("ERREUR.ENVOI_MAIL");
-					detail = getString("ERREUR.ENVOI_MAIL");
-					severity = FacesMessage.SEVERITY_ERROR;
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-				}
-			}
-		}
+//
+//		String sujet = getString("MAIL.ODF.MAJ.SUJET");
+//		List<WsPub> listePartenaires = getDomainService().getListeWsPub();
+//		String libEtab = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getLibOffEtb();
+//
+//		for(WsPub part : listePartenaires)
+//		{
+//			if(!part.getRne().equals(getSessionController().getRne()))
+//			{
+//				try {
+//					String body = getString("MAIL.ODF.MAJ.BODY", libEtab);
+//					getSmtpService().send(new InternetAddress(part.getMailCorrespondantFonctionnel()), sujet, body, body);
+//				} 
+//				catch (AddressException e) 
+//				{
+//					summary = getString("ERREUR.ENVOI_MAIL");
+//					detail = getString("ERREUR.ENVOI_MAIL");
+//					severity = FacesMessage.SEVERITY_ERROR;
+//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//				}
+//			}
+//		}
 	}	
 
 	public String goToSynchroOdf() 

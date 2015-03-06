@@ -153,12 +153,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		if (logger.isDebugEnabled())
 			logger.debug("getWsPubByRneAndAnnee(String rne, Integer annee)");
 		try{
-			//			Query q = entityManager.createNamedQuery("getWsPubByRneAndAnnee");
-			//			q.setParameter("rne", rne);
-			//			q.setParameter("annee", annee);
 			WsPubPK cleWsPub = new WsPubPK(rne, annee);
 			WsPub ret = entityManager.find(WsPub.class, cleWsPub);				
-			//			WsPub ret = (WsPub)q.getSingleResult();
 			return ret;
 		}
 		catch(NoResultException e){

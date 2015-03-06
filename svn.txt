@@ -36,3 +36,6 @@
   #############################################################################################################
  - Dans la gestion des droits, en mode lecture seule, ajouter la possibilité de visualiser l’avis (départ) et la décision (accueil)
  - Ajout du nouvelle affichage de l'etat civil dans la saisie de l'avis et de la decision 
+ #############################################################################################################
+ - Ajouter un bouton supplémentaire, exemple : « Avertir les partenaires » lors  de la constitution de l’offre de formation à présenter au transfert. Ceci 
+ - Ajout d'un p:confirmDialog avant l'alert par mail

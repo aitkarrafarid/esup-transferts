@@ -20,9 +20,10 @@
 				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
 		</p:panel>
 		<h:form id="formOdf" rendered="#{sessionController.currentUser.admin}">
-			<p:growl id="msgs" showDetail="true" />
+			<p:growl id="msgs" showDetail="false" />
 			<center>
-				<p:dataTable id="multiOdf" var="odf" styleClass="datatableOdf" emptyMessage="Aucune formation"
+				<p:dataTable id="multiOdf" var="odf" styleClass="datatableOdf"
+					emptyMessage="Aucune formation"
 					filteredValue="#{odfController.filteredODF}" editable="true"
 					editMode="cell" rowSelectMode="add"
 					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50,100,200,300"
@@ -127,9 +128,24 @@
 				<p:spacer height="30px" />
 				<p:commandButton value="Enregistrer" icon="ui-icon-disk"
 					update="msgs" title="Enregistrer" action="#{odfController.addOdfs}" />
-				<p:commandButton value="Vérifier" icon="ui-icon-disk" update="msgs"
-					title="Vérifier" action="#{odfController.verifier}" />
+				<p:commandButton value="Vérifier" icon="ui-icon-transfer-e-w"
+					update="msgs" title="Vérifier" action="#{odfController.verifier}" />
+				<p:commandButton value="Alerter les partenaires"
+					icon="ui-icon-mail-open" update="msgs" title="Alerter"
+					action="#{odfController.alertPartenaireMAJOdfs}">
+					<p:confirm header="Confirmation"
+						message="Attention, vous alez envoyer un email aux établissements partenaires pour les alerter de la mise à jour de votre offre de formations"
+						icon="ui-icon-alert" />
+				</p:commandButton>
 			</center>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="Oui" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Non" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
 		</h:form>
 	</ui:define>
 
