@@ -521,9 +521,13 @@
 			<p:stack icon="/media/images/stack.png" styleClass="panel"
 				rendered="#{administrationController.listeFichiers != null}"
 				id="menuBasGauche">
+<!-- 				<p:menuitem value="Avis" icon="/media/images/avis.png" -->
+<!-- 					update="msgs,msgs2,growl" -->
+<!-- 					rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitAvis=='oui')}" -->
+<!-- 					action="#{administrationController.goToSaisirAvis}" /> -->
+
 				<p:menuitem value="Avis" icon="/media/images/avis.png"
 					update="msgs,msgs2,growl"
-					rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitAvis=='oui')}"
 					action="#{administrationController.goToSaisirAvis}" />
 				<p:menuitem value="Imprimer" icon="/media/images/pdf.png"
 					update="msgs,msgs2,growl"
@@ -537,9 +541,6 @@
 					rendered="#{(administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2 and sessionController.currentUser.admin) || (administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2 and administrationController.droitPC!=null and administrationController.droitPC.droitDeverrouiller=='oui')}"
 					update="msgs,msgs2,growl,currentTransferts"
 					action="#{administrationController.deverouillerDemandeTransfert}" />
-				<!-- 				<p:menuitem value="Supprimer" icon="/media/images/xapp.png" -->
-				<!-- 					onclick="confirmation.show()" -->
-				<!-- 					rendered="#{(sessionController.currentUser.admin and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2) || (administrationController.droitPC!=null and administrationController.droitPC.droitSuppression=='oui' and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2)}" /> -->
 				<p:menuitem value="Supprimer" icon="/media/images/xapp.png"
 					onclick="PF('dlg1').show();"
 					rendered="#{(sessionController.currentUser.admin and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2) || (administrationController.droitPC!=null and administrationController.droitPC.droitSuppression=='oui' and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2)}" />

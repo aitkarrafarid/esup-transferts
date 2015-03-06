@@ -43,54 +43,6 @@
 					style="width:80%;text-align:center;">
 
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
-						<!-- 						<h:panelGrid columns="2" columnClasses="column" cellpadding="5"> -->
-						<!-- 							<h:panelGrid columns="2" columnClasses="column" cellpadding="5" -->
-						<!-- 								style="text-align:left;"> -->
-						<!-- 								<h:outputText value="Nom de famille : " /> -->
-						<!-- 								<h:outputText -->
-						<!-- 									value="#{administrationController.currentDemandeTransferts.nomPatronymique}" /> -->
-
-						<!-- 								<h:outputText value="Nom d'usage : " /> -->
-						<!-- 								<h:outputText -->
-						<!-- 									value="#{administrationController.currentDemandeTransferts.nomUsuel}" /> -->
-
-						<!-- 								<h:outputText value="Prénom 1 : " /> -->
-						<!-- 								<h:outputText -->
-						<!-- 									value="#{administrationController.currentDemandeTransferts.prenom1}" /> -->
-
-						<!-- 								<h:outputText value="Prénom 2 : " /> -->
-						<!-- 								<h:outputText -->
-						<!-- 									value="#{administrationController.currentDemandeTransferts.prenom2}" /> -->
-
-
-						<!-- 							</h:panelGrid> -->
-						<!-- 							<h:panelGrid columns="2" columnClasses="column" cellpadding="5" -->
-						<!-- 								style="margin-left:30%;text-align:left !important;"> -->
-
-						<!-- 								<h:outputText value="Date de la demande : " /> -->
-						<!-- 								<h:outputText -->
-						<!-- 									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}"> -->
-						<!-- 									<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss" -->
-						<!-- 										timeZone="Europe/Paris" /> -->
-						<!-- 								</h:outputText> -->
-
-
-
-
-
-
-
-
-						<!-- 								<h:outputText value="Numéro étudiant : " /> -->
-						<!-- 								<h:outputText -->
-						<!-- 									value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" /> -->
-
-						<!-- 								<h:outputText value="Nunméro I.N.E : " /> -->
-						<!-- 								<h:outputText -->
-						<!-- 									value="#{administrationController.currentDemandeTransferts.numeroIne}" /> -->
-						<!-- 							</h:panelGrid> -->
-						<!-- 						</h:panelGrid> -->
-
 						<p:panelGrid
 							style="text-align:left;width:100%; border-style: hidden !important;">
 							<p:row>
@@ -171,7 +123,6 @@
 										rendered="#{administrationController.interditNiveau2}" />
 								</p:column>
 							</p:row>
-
 							<p:row>
 								<p:column style="width:50%">
 									<h:outputText value=" " />
@@ -189,9 +140,7 @@
 										rendered="#{administrationController.interditNiveau3}" />
 								</p:column>
 							</p:row>
-
 						</p:panelGrid>
-
 					</p:fieldset>
 					<p:spacer height="10px" />
 					<p:separator style="width:500px;height:10px" />
@@ -741,9 +690,12 @@
 			<p:stack icon="/media/images/stack.png" styleClass="panel"
 				rendered="#{administrationController.listeFichiers != null}"
 				id="menuBasGauche">
+<!-- 				<p:menuitem value="Décision" icon="/media/images/kate.png" -->
+<!-- 					update="msgs,msgs2,growl" -->
+<!-- 					rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}" -->
+<!-- 					action="#{administrationController.goToSaisirDecision}" /> -->
 				<p:menuitem value="Décision" icon="/media/images/kate.png"
 					update="msgs,msgs2,growl"
-					rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}"
 					action="#{administrationController.goToSaisirDecision}" />
 				<p:menuitem value="Imprimer" icon="/media/images/pdf.png"
 					update="msgs,msgs2,growl"

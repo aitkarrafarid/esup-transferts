@@ -42,7 +42,7 @@
 	<p:ajaxStatus onstart="PF('statusDialog').show()"
 		onsuccess="PF('statusDialog').hide()" />
 	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
-		rendered="#{!managerController.use}" closable="false"
+		 closable="false"
 		resizable="false" showHeader="false">
 		<p:graphicImage value="/media/images/ajaxloadingbar.gif" />
 	</p:dialog>

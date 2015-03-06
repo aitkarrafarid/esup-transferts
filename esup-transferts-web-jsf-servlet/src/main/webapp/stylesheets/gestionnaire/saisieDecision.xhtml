@@ -23,65 +23,104 @@
 					<p:messages id="msgs" showDetail="false" />
 					<p:growl id="growl" showDetail="false" sticky="true" />
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-								style="text-align:left;">
-								<h:outputText value="Nom de famille : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
-
-								<h:outputText value="Nom d'usage : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
-
-								<h:outputText value="Prénom 1 : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.prenom1}" />
-
-								<h:outputText value="Prénom 2 : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.prenom2}" />
-
-								<h:outputText value="Date de naissance : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.dateNaissance}">
-									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
-								</h:outputText>
-							</h:panelGrid>
-							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-								style="margin-left:30%;text-align:left !important;">
-
-								<h:outputText value="Date de la demande : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
-									<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-										timeZone="Europe/Paris" />
-								</h:outputText>
-
-								<h:graphicImage alt="Reprise d'étude" title="Reprise d'étude"
-									value="/media/images/warning_40px.png"
-									rendered="#{administrationController.repriseEtudes}" />
-								<h:outputText
-									value="Aucune inscription administratrive universitaire en #{sessionController.currentAnnee-sessionController.regleGestionTE02}/#{sessionController.currentAnnee-sessionController.regleGestionTE02+1}"
-									rendered="#{administrationController.repriseEtudes}" />
-
-								<h:graphicImage alt="Reprise d'étude" title="Reprise d'étude"
-									value="/media/images/warning_40px.png"
-									rendered="#{administrationController.interditNiveau2}" />
-								<h:outputText
-									value="#{administrationController.texteInterditNiveau2}"
-									escape="false"
-									rendered="#{administrationController.interditNiveau2}" />
-
-								<h:outputText value="Numéro étudiant : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
-
-								<h:outputText value="Nunméro I.N.E : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.numeroIne}" />
-							</h:panelGrid>
-						</h:panelGrid>
+						<p:panelGrid
+							style="text-align:left;width:100%; border-style: hidden !important;">
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Nom de famille : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Date de la demande : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
+										<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
+											timeZone="Europe/Paris" />
+									</h:outputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Nom d'usage : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Numéro étudiant : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Prénom 1 : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.prenom1}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Nunméro I.N.E : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.numeroIne}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Prénom 2 : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.prenom2}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:graphicImage alt="Reprise d'étude"
+										title="Aucune inscription administratrive universitaire"
+										value="/media/images/warning_40px.png" width="20px"
+										height="20px"
+										rendered="#{administrationController.repriseEtudes}" />
+									<p:spacer width="10px" />
+									<h:outputText
+										value="Aucune inscription administratrive universitaire en #{sessionController.currentAnnee-sessionController.regleGestionTE02}/#{sessionController.currentAnnee-sessionController.regleGestionTE02+1}"
+										rendered="#{administrationController.repriseEtudes}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Date de naissance : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.dateNaissance}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="Europe/Paris" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width:50%">
+									<h:graphicImage alt="Candidature" title="Candidature"
+										value="/media/images/warning_40px.png" width="20px"
+										height="20px"
+										rendered="#{administrationController.interditNiveau2}" />
+									<p:spacer width="10px" />
+									<h:outputText
+										value="#{administrationController.texteInterditNiveau2}"
+										escape="false"
+										rendered="#{administrationController.interditNiveau2}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value=" " />
+									<h:outputText value=" " />
+								</p:column>
+								<p:column style="width:50%">
+									<h:graphicImage alt="Post Bac" title="PostBac"
+										value="/media/images/warning_40px.png" width="20px"
+										height="20px"
+										rendered="#{administrationController.interditNiveau3}" />
+									<p:spacer width="10px" />
+									<h:outputText
+										value="Admission PostBac (#{administrationController.texteInterditNiveau3})"
+										escape="false"
+										rendered="#{administrationController.interditNiveau3}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
 					</p:fieldset>
 
 					<p:spacer height="10px" />
@@ -149,9 +188,9 @@
 					</p:fieldset>
 
 					<p:spacer height="10px" />
-					<p:separator style="width:500px;height:10px" />
+					<p:separator style="width:500px;height:10px" rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}" />
 
-					<p:fieldset id="decision" legend="Ajouter une Décision"
+					<p:fieldset id="decision" legend="Ajouter une Décision" rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}"
 						collapsed="true" toggleable="true" toggleSpeed="200">
 						<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
 							style="text-align:left;">
@@ -194,7 +233,7 @@
 						<h:panelGrid columns="4">
 							<p:commandButton value="Retour" immediate="true"
 								action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" />
-							<p:commandButton value="Envoyer à l'étudiant"
+							<p:commandButton value="Envoyer à l'étudiant" rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}"
 								actionListener="#{administrationController.addAccueilDecisionDefinitif}"
 								update="form_decision,msgs,msgs2,growl">
 								<p:confirm header="Confirmation"

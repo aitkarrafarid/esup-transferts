@@ -38,7 +38,6 @@
 				<f:facet name="header">  
 										            Details des droits
 										        </f:facet>
-
 				<p:column headerText="Nom">
 				            #{PCDetailsDroits.displayName}  
 				        </p:column>
@@ -59,8 +58,7 @@
 				            #{PCDetailsDroits.annee}  
 				        </p:column>
 
-				<p:column headerText="Suppression" style="width:10%"
-					sortBy="droitSuppression" filterBy="droitSuppression">
+				<p:column headerText="Suppression">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{PCDetailsDroits.droitSuppression}" />
@@ -75,8 +73,7 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Edition PDF" style="width:10%"
-					sortBy="droitEditionPdf" filterBy="droitEditionPdf">
+				<p:column headerText="Edition PDF">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{PCDetailsDroits.droitEditionPdf}" />
@@ -91,8 +88,7 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Déverrouiller" style="width:10%"
-					sortBy="droitDeverrouiller" filterBy="droitDeverrouiller">
+				<p:column headerText="Déverrouiller">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{PCDetailsDroits.droitDeverrouiller}" />
@@ -107,8 +103,7 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Avis" style="width:10%" rendered="#{managerController.from=='D'}"
-					sortBy="droitAvis" filterBy="droitAvis">
+				<p:column headerText="Avis" rendered="#{managerController.from=='D'}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{PCDetailsDroits.droitAvis}" />
@@ -123,8 +118,7 @@
 					</p:cellEditor>
 				</p:column>
 
-				<p:column headerText="Décision" style="width:10%" rendered="#{managerController.from=='A'}"
-					sortBy="droitDecision" filterBy="droitDecision">
+				<p:column headerText="Décision" rendered="#{managerController.from=='A'}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{PCDetailsDroits.droitDecision}" />
@@ -141,23 +135,18 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Précedent"
-						action="#{managerController.goToManagerChoixLicence}"
+						actionListener="#{managerController.goToManagerChoixLicence}"
 						immediate="true" />
 					<p:spacer width="20" />
 					<p:commandButton value="Enregistrer" icon="ui-icon-disk"
-						action="#{managerController.addPersonnelComposante}"
+						actionListener="#{managerController.addPersonnelComposante}"
 						update=":detailsDesDroits:growl,:detailsDesDroits:msgs,:detailsDesDroits:msgs2,:detailsDesDroits:detailsDroits" />					
-<!-- 					<p:commandButton value="Enregistrer" icon="ui-icon-disk" -->
-<!-- 						action="#{managerController.addPersonnelComposanteWithDetails}" -->
-<!-- 						update=":growl,:msgs,:msgs2,:detailsDesDroits:detailsDroits" /> -->
 				</f:facet>
 
 			</p:dataTable>
 			<p:spacer height="10px" />
 			<p:messages id="msgs2" showDetail="false" />
 		</h:form>
-		<!-- 			</p:panel> -->
-
 		
 	</ui:define>
 

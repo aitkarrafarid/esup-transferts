@@ -28,3 +28,11 @@
  - Ajouter un mail fonctionnel supplémentaire dans la liste des établissements partenaires afin de mieux distinguer le correspondant technique et fonctionnel
 #############################################################################################################
  - Changer le nom des boutons « imprimer » dans le récapitulatif de la demande de transferts par « Imprimer les formulaires »
+ #############################################################################################################
+ - Changement des <p:panelGrid> avec gestion des rows et clumns
+ - Modification de l'affectation de la signature par défaut coté transfert départ
+ - Mise en commentaire de la méthode "getTestAllDemandesTransfertsByAnnee"
+ - Suppression de ma méthode addDemandeTransferts2()
+  #############################################################################################################
+ - Dans la gestion des droits, en mode lecture seule, ajouter la possibilité de visualiser l’avis (départ) et la décision (accueil)
+ - Ajout du nouvelle affichage de l'etat civil dans la saisie de l'avis et de la decision 

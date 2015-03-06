@@ -24,63 +24,85 @@
 					style="width:80%;text-align:left;"
 					header="Demande de Transferts départ #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}">
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-								style="text-align:left;">
-								<h:outputText value="Nom de famille : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
-
-								<h:outputText value="Nom d'usage : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
-
-								<h:outputText value="Prénom 1 : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.prenom1}" />
-
-								<h:outputText value="Prénom 2 : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.prenom2}" />
-
-								<h:outputText value="Date de naissance : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.dateNaissance}">
-									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
-								</h:outputText>
-							</h:panelGrid>
-
-							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-								style="margin-left:30%;text-align:left !important;">
-
-								<h:outputText value="Date de la demande : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
-									<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-										timeZone="Europe/Paris" />
-								</h:outputText>
-
-								<h:outputText value="Numéro étudiant : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
-
-								<h:outputText value="Nunméro I.N.E : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.numeroIne}" />
-
-								<h:outputText value="Centre de gestion : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.libCge} (#{administrationController.currentDemandeTransferts.codCge})" />
-
-								<h:outputText value="Composante : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.libComposante} (#{administrationController.currentDemandeTransferts.composante})" />
-
-								<h:outputText value="Dernière I.A : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.libEtapePremiereLocal}" />
-							</h:panelGrid>
-						</h:panelGrid>
+						<p:panelGrid
+							style="text-align:left;width:100%; border-style: hidden !important;">
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Nom de famille : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Date de la demande : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
+										<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
+											timeZone="Europe/Paris" />
+									</h:outputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Nom d'usage : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Numéro étudiant : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Prénom 1 : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.prenom1}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Nunméro I.N.E : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.numeroIne}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Prénom 2 : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.prenom2}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Centre de gestion : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.libCge} (#{administrationController.currentDemandeTransferts.codCge})" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Date de naissance : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.dateNaissance}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="Europe/Paris" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Composante : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.libComposante} (#{administrationController.currentDemandeTransferts.composante})" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Dernière I.A : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.libEtapePremiereLocal}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
 					</p:fieldset>
 					<p:spacer height="10px" />
 					<p:separator style="width:500px;height:10px" />
@@ -272,41 +294,21 @@
 						<p:commandButton value="Retour" immediate="true"
 							action="#{administrationController.goToCurrentDemandeTransferts}" />
 						<p:commandButton value="Enregistrer l'avis"
-							rendered="#{administrationController.currentAvis.idDecisionDossier != 2 and administrationController.currentAvis.idDecisionDossier != 1 and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}"
+							rendered="#{((sessionController.currentUser.admin) or (administrationController.droitPC!=null and administrationController.droitPC.droitAvis=='oui')) and administrationController.currentAvis.idDecisionDossier != 2 and administrationController.currentAvis.idDecisionDossier != 1 and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}"
 							action="#{administrationController.addAvis}"
 							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" />
-						<!-- 						<p:commandButton -->
-						<!-- 							value="Enregistrer l'avis Favorable ou défavorable" -->
-						<!-- 							onclick="confirmation.show()" type="button" -->
-						<!-- 							rendered="#{(administrationController.currentAvis.idDecisionDossier == 2 or administrationController.currentAvis.idDecisionDossier == 1) and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}" -->
-						<!-- 							action="#{administrationController.addAvisFavorable}" -->
-						<!-- 							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" /> -->
-
 						<p:commandButton
 							value="Enregistrer l'avis Favorable ou défavorable"
-							rendered="#{(administrationController.currentAvis.idDecisionDossier == 2 or administrationController.currentAvis.idDecisionDossier == 1) and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}"
+							rendered="#{((sessionController.currentUser.admin) or (administrationController.droitPC!=null and administrationController.droitPC.droitAvis=='oui')) and (administrationController.currentAvis.idDecisionDossier == 2 or administrationController.currentAvis.idDecisionDossier == 1) and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2 }"
 							actionListener="#{administrationController.addAvisFavorable}"
 							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton">
 							<p:confirm header="Confirmation"
 								message="Attention, la saisie d'un avis favorable ou défavorable enverra un mél à l'étudiant et lui permettra d'imprimer sa demande de transferts"
 								icon="ui-icon-alert" />
 						</p:commandButton>
-
 					</h:panelGrid>
-
 				</p:panel>
 			</center>
-
-			<!-- 			<p:confirmDialog -->
-			<!-- 				message="Attention, la saisie d'un avis favorable ou défavorable enverra un mél à l'étudiant et lui permettra d'imprimer sa demande de transferts" -->
-			<!-- 				header="Confirmation" severity="alert" widgetVar="confirmation"> -->
-			<!-- 				<p:commandButton value="Oui" -->
-			<!-- 					update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" -->
-			<!-- 					oncomplete="confirmation.hide()" -->
-			<!-- 					action="#{administrationController.addAvisFavorable}" /> -->
-			<!-- 				<p:commandButton value="Non" onclick="confirmation.hide()" -->
-			<!-- 					actionListener="#{administrationController.destroyWorld}" type="button" /> -->
-			<!-- 			</p:confirmDialog> -->
 
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
 				<p:commandButton value="Oui" type="button"
