@@ -153,18 +153,6 @@
 
 					<p:fieldset id="decision" legend="Ajouter une Décision"
 						collapsed="true" toggleable="true" toggleSpeed="200">
-						<!-- 						<h:panelGrid columns="2" columnClasses="column" cellpadding="5" -->
-						<!-- 							style="text-align:left;"> -->
-						<!-- 							<h:outputText value="Auteur : " /> -->
-						<!-- 							<h:outputText -->
-						<!-- 								value="#{administrationController.currentDemandeTransferts.accueilDecision.auteur}" /> -->
-						<!-- 							<h:outputText value="Décision saisie le : " /> -->
-						<!-- 							<h:outputText -->
-						<!-- 								value="#{administrationController.currentDemandeTransferts.accueilDecision.dateSaisie}"> -->
-						<!-- 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" -->
-						<!-- 									timeZone="Europe/Paris" /> -->
-						<!-- 							</h:outputText> -->
-						<!-- 						</h:panelGrid> -->
 						<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
 							style="text-align:left;">
 							<h:selectOneRadio id="voeux"
@@ -203,27 +191,9 @@
 					<p:separator style="width:500px;height:10px" />
 
 					<center>
-						<!-- 						<h:panelGrid columns="2" -->
-						<!-- 							rendered="#{!sessionController.currentUser.admin and administrationController.typePersonnel!=1}"> -->
-						<!-- 							<p:commandButton value="Retour" immediate="true" -->
-						<!-- 								action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" /> -->
-						<!-- 							<p:commandButton value="Valider" -->
-						<!-- 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
-						<!-- 								update="form_decision,msgs,msgs2,growl" -->
-						<!-- 								action="#{administrationController.addAccueilDecision}" /> -->
-						<!-- 							<p:spacer width="50" /> -->
-						<!-- 						</h:panelGrid> -->
-
 						<h:panelGrid columns="4">
 							<p:commandButton value="Retour" immediate="true"
 								action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" />
-<!-- 							<p:commandButton value="Envoyer à l'étudiant" type="button" -->
-<!-- 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
-<!-- 								onclick="confirmation.show()" -->
-<!-- 								rendered="#{not empty administrationController.currentDemandeTransferts.accueilDecision and (sessionController.currentUser.admin or administrationController.typePersonnel==1)}" -->
-<!-- 								update="form_decision,msgs,msgs2,growl" -->
-<!-- 								action="#{administrationController.addAccueilDecisionDefinitif}" /> -->
-
 							<p:commandButton value="Envoyer à l'étudiant"
 								actionListener="#{administrationController.addAccueilDecisionDefinitif}"
 								update="form_decision,msgs,msgs2,growl">
@@ -231,25 +201,11 @@
 									message="Attention, la saisie d'un avis favorable ou défavorable enverra un mél à l'étudiant et lui permettra d'imprimer sa demande de transferts"
 									icon="ui-icon-alert" />
 							</p:commandButton>
-
 						</h:panelGrid>
 					</center>
 					<p:messages id="msgs2" showDetail="false" />
 				</p:panel>
 			</center>
-
-
-			<!-- 			<p:confirmDialog -->
-			<!-- 				message="Attention, la saisie d'un avis favorable ou défavorable enverra un mél à l'étudiant et lui permettra d'imprimer sa demande de transferts" -->
-			<!-- 				header="Confirmation" severity="alert" widgetVar="confirmation"> -->
-			<!-- 				<p:commandButton value="Oui" -->
-			<!-- 					update=":form_decision,:form_decision:msgs,:form_decision:msgs2,:form_decision:growl" -->
-			<!-- 					oncomplete="confirmation.hide()" -->
-			<!-- 					action="#{administrationController.addAccueilDecisionDefinitif}" /> -->
-			<!-- 				<p:commandButton value="Non" onclick="confirmation.hide()" -->
-			<!-- 					actionListener="#{administrationController.destroyWorld}" -->
-			<!-- 					type="button" /> -->
-			<!-- 			</p:confirmDialog> -->
 
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
 				<p:commandButton value="Oui" type="button"

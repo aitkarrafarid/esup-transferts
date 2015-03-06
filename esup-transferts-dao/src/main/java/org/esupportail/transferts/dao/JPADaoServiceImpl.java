@@ -2093,23 +2093,23 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}		
 	}
 
-	@Override
-	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source) 
-	{
-		if (logger.isDebugEnabled())
-			logger.debug("public List<SituationUniversitaire> getTestAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source);
-		try{
-			Query q = entityManager.createNamedQuery("getTestAllDemandesTransfertsByAnnee");
-			q.setParameter("annee", annee);
-			q.setParameter("source", source);
-			List<EtudiantRef> lEtu = q.getResultList();
-			return lEtu;
-		}
-		catch(NoResultException e){
-			e.printStackTrace();
-			return null;
-		}	
-	}
+//	@Override
+//	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source) 
+//	{
+//		if (logger.isDebugEnabled())
+//			logger.debug("public List<SituationUniversitaire> getTestAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source);
+//		try{
+//			Query q = entityManager.createNamedQuery("getTestAllDemandesTransfertsByAnnee");
+//			q.setParameter("annee", annee);
+//			q.setParameter("source", source);
+//			List<EtudiantRef> lEtu = q.getResultList();
+//			return lEtu;
+//		}
+//		catch(NoResultException e){
+//			e.printStackTrace();
+//			return null;
+//		}	
+//	}
 
 //	@Override
 //	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 

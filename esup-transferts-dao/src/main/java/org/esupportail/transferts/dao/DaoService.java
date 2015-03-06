@@ -282,7 +282,7 @@ public interface DaoService extends Serializable {
 
 	EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source);
 
-	List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source);
+//	List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source);
 
 //	List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
 }

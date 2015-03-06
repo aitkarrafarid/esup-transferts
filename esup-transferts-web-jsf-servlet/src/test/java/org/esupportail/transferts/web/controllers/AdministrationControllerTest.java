@@ -74,7 +74,7 @@ public class AdministrationControllerTest  {
 	//@Test
 	public void exportDemandeTransfertsAccueil()
 	{
-		List<EtudiantRef> lEtu2 = getDomainService().getTestAllDemandesTransfertsByAnnee(2014, "A");
+		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(2014, "A");
 		System.out.println("lEtu2.size()===>"+lEtu2.size()+"<===");
 	}	
 

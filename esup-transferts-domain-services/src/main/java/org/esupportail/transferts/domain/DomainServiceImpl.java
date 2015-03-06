@@ -689,11 +689,11 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		return getDaoService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(numeroEtudiant, annee, source);
 	}
 
-	@Override
-	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source) 
-	{
-		return getDaoService().getTestAllDemandesTransfertsByAnnee(annee, source); 
-	}
+//	@Override
+//	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source) 
+//	{
+//		return getDaoService().getTestAllDemandesTransfertsByAnnee(annee, source); 
+//	}
 
 //	@Override
 //	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 

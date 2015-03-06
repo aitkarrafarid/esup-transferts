@@ -43,175 +43,297 @@
 					style="width:80%;text-align:center;">
 
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-								style="text-align:left;">
-								<h:outputText value="Nom de famille : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
+						<!-- 						<h:panelGrid columns="2" columnClasses="column" cellpadding="5"> -->
+						<!-- 							<h:panelGrid columns="2" columnClasses="column" cellpadding="5" -->
+						<!-- 								style="text-align:left;"> -->
+						<!-- 								<h:outputText value="Nom de famille : " /> -->
+						<!-- 								<h:outputText -->
+						<!-- 									value="#{administrationController.currentDemandeTransferts.nomPatronymique}" /> -->
 
-								<h:outputText value="Nom d'usage : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
+						<!-- 								<h:outputText value="Nom d'usage : " /> -->
+						<!-- 								<h:outputText -->
+						<!-- 									value="#{administrationController.currentDemandeTransferts.nomUsuel}" /> -->
 
-								<h:outputText value="Prénom 1 : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.prenom1}" />
+						<!-- 								<h:outputText value="Prénom 1 : " /> -->
+						<!-- 								<h:outputText -->
+						<!-- 									value="#{administrationController.currentDemandeTransferts.prenom1}" /> -->
 
-								<h:outputText value="Prénom 2 : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.prenom2}" />
-
-								<h:outputText value="Date de naissance : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.dateNaissance}">
-									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
-								</h:outputText>
-							</h:panelGrid>
-							<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-								style="margin-left:30%;text-align:left !important;">
-
-								<h:outputText value="Date de la demande : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
-									<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-										timeZone="Europe/Paris" />
-								</h:outputText>
-
-								<h:graphicImage alt="Reprise d'étude" title="Reprise d'étude"
-									value="/media/images/warning_40px.png"
-									rendered="#{administrationController.repriseEtudes}" />
-								<h:outputText
-									value="Aucune inscription administratrive universitaire en #{sessionController.currentAnnee-sessionController.regleGestionTE02}/#{sessionController.currentAnnee-sessionController.regleGestionTE02+1}"
-									rendered="#{administrationController.repriseEtudes}" />
-
-								<h:graphicImage alt="Reprise d'étude" title="Reprise d'étude"
-									value="/media/images/warning_40px.png"
-									rendered="#{administrationController.interditNiveau2}" />
-								<h:outputText
-									value="#{administrationController.texteInterditNiveau2}"
-									escape="false"
-									rendered="#{administrationController.interditNiveau2}" />
-
-								<h:graphicImage alt="Post Bac" title="PostBac"
-									value="/media/images/warning_40px.png"
-									rendered="#{administrationController.interditNiveau3}" />
-								<h:outputText
-									value="Admission PostBac (#{administrationController.texteInterditNiveau3})"
-									escape="false"
-									rendered="#{administrationController.interditNiveau3}" />
+						<!-- 								<h:outputText value="Prénom 2 : " /> -->
+						<!-- 								<h:outputText -->
+						<!-- 									value="#{administrationController.currentDemandeTransferts.prenom2}" /> -->
 
 
-								<h:outputText value="Numéro étudiant : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
+						<!-- 							</h:panelGrid> -->
+						<!-- 							<h:panelGrid columns="2" columnClasses="column" cellpadding="5" -->
+						<!-- 								style="margin-left:30%;text-align:left !important;"> -->
 
-								<h:outputText value="Nunméro I.N.E : " />
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.numeroIne}" />
-							</h:panelGrid>
-						</h:panelGrid>
+						<!-- 								<h:outputText value="Date de la demande : " /> -->
+						<!-- 								<h:outputText -->
+						<!-- 									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}"> -->
+						<!-- 									<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss" -->
+						<!-- 										timeZone="Europe/Paris" /> -->
+						<!-- 								</h:outputText> -->
+
+
+
+
+
+
+
+
+						<!-- 								<h:outputText value="Numéro étudiant : " /> -->
+						<!-- 								<h:outputText -->
+						<!-- 									value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" /> -->
+
+						<!-- 								<h:outputText value="Nunméro I.N.E : " /> -->
+						<!-- 								<h:outputText -->
+						<!-- 									value="#{administrationController.currentDemandeTransferts.numeroIne}" /> -->
+						<!-- 							</h:panelGrid> -->
+						<!-- 						</h:panelGrid> -->
+
+						<p:panelGrid
+							style="text-align:left;width:100%; border-style: hidden !important;">
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Nom de famille : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Date de la demande : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
+										<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
+											timeZone="Europe/Paris" />
+									</h:outputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Nom d'usage : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.nomUsuel}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Numéro étudiant : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.numeroEtudiant}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Prénom 1 : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.prenom1}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Nunméro I.N.E : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.numeroIne}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Prénom 2 : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.prenom2}" />
+								</p:column>
+								<p:column style="width:50%">
+									<h:graphicImage alt="Reprise d'étude"
+										title="Aucune inscription administratrive universitaire"
+										value="/media/images/warning_40px.png" width="20px"
+										height="20px"
+										rendered="#{administrationController.repriseEtudes}" />
+									<p:spacer width="10px" />
+									<h:outputText
+										value="Aucune inscription administratrive universitaire en #{sessionController.currentAnnee-sessionController.regleGestionTE02}/#{sessionController.currentAnnee-sessionController.regleGestionTE02+1}"
+										rendered="#{administrationController.repriseEtudes}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value="Date de naissance : " />
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.dateNaissance}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="Europe/Paris" />
+									</h:outputText>
+								</p:column>
+								<p:column style="width:50%">
+									<h:graphicImage alt="Candidature" title="Candidature"
+										value="/media/images/warning_40px.png" width="20px"
+										height="20px"
+										rendered="#{administrationController.interditNiveau2}" />
+									<p:spacer width="10px" />
+									<h:outputText
+										value="#{administrationController.texteInterditNiveau2}"
+										escape="false"
+										rendered="#{administrationController.interditNiveau2}" />
+								</p:column>
+							</p:row>
+
+							<p:row>
+								<p:column style="width:50%">
+									<h:outputText value=" " />
+									<h:outputText value=" " />
+								</p:column>
+								<p:column style="width:50%">
+									<h:graphicImage alt="Post Bac" title="PostBac"
+										value="/media/images/warning_40px.png" width="20px"
+										height="20px"
+										rendered="#{administrationController.interditNiveau3}" />
+									<p:spacer width="10px" />
+									<h:outputText
+										value="Admission PostBac (#{administrationController.texteInterditNiveau3})"
+										escape="false"
+										rendered="#{administrationController.interditNiveau3}" />
+								</p:column>
+							</p:row>
+
+						</p:panelGrid>
+
 					</p:fieldset>
 					<p:spacer height="10px" />
 					<p:separator style="width:500px;height:10px" />
 					<p:fieldset legend="Adresse" toggleable="true" toggleSpeed="200"
 						collapsed="false">
-						<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-							style="width:100%; text-align:left;">
-
-							<h:outputText value="* Adresse ligne 1 : " />
-							<p:inputText id="adresse1" required="true" size="40"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								requiredMessage="#{msgs['ERREUR.LIBAD1']}" maxlength="32"
-								value="#{administrationController.currentDemandeTransferts.adresse.libAd1}" />
-
-							<h:outputText value="Adresse ligne 2 : " />
-							<p:inputText id="adresse2" size="40"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.adresse.libAd2}"
-								maxlength="32" />
-
-							<h:outputText value="Adresse ligne 3 : " />
-							<p:inputText id="adresse3" size="40"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.adresse.libAd3}"
-								maxlength="32" />
-
-							<p:selectOneRadio id="sor" title="Selectionner"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.codePaysItems}"
-								layout="pageDirection">
-								<f:selectItem id="france" itemLabel="France" itemValue="100" />itemValueCodePay
+						<p:panelGrid
+							style="text-align:left;width:100%; border-style: hidden !important;">
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="* Adresse ligne 1 : " />
+								</p:column>
+								<p:column style="width:70%">
+									<p:inputText id="adresse1" required="true" size="40"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										requiredMessage="#{msgs['ERREUR.LIBAD1']}" maxlength="32"
+										value="#{administrationController.currentDemandeTransferts.adresse.libAd1}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="Adresse ligne 2 : " />
+								</p:column>
+								<p:column style="width:70%">
+									<p:inputText id="adresse2" size="40"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.adresse.libAd2}"
+										maxlength="32" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="Adresse ligne 3 : " />
+								</p:column>
+								<p:column style="width:70%">
+									<p:inputText id="adresse3" size="40"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.adresse.libAd3}"
+										maxlength="32" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<p:selectOneRadio id="sor" title="Selectionner"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.codePaysItems}"
+										layout="pageDirection">
+										<f:selectItem id="france" itemLabel="France" itemValue="100" />itemValueCodePay
 								<f:selectItem id="etranger" itemLabel="Etranger" itemValue="99" />
-								<p:ajax event="change" update="test,msgs,msgs2,growl" />
-							</p:selectOneRadio>
-
-							<p:panel id="test">
-								<p:panel id="fr"
-									rendered="#{administrationController.codePaysItems == '100'}">
-									<h:panelGrid columns="2">
-										<h:outputText value="* Code postal : " />
-										<p:inputText id="input_france" required="true" size="5"
-											disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-											requiredMessage="#{msgs['ERREUR.CODE_POSTAL']}" maxlength="5"
-											value="#{administrationController.currentDemandeTransferts.adresse.codePostal}">
-											<p:ajax event="blur" update="commune,msgs,msgs2,growl" />
-										</p:inputText>
-										<h:outputText value="* Commune : " />
-										<p:selectOneMenu id="commune"
-											disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-											value="#{administrationController.currentDemandeTransferts.adresse.codeCommune}"
-											required="true"
-											requiredMessage="#{msgs['ERREUR.NOM_COMMUNE']}">
-											<f:selectItem itemLabel="== Choix ==" itemValue="" />
-											<f:selectItems
-												value="#{administrationController.listeCommunes}" />
-										</p:selectOneMenu>
-									</h:panelGrid>
-								</p:panel>
-								<p:panel id="et"
-									rendered="#{administrationController.codePaysItems!='100'}">
-									<h:panelGrid columns="2">
-										<h:outputText value="* Code et Ville à l'étranger : " />
-										<p:inputText id="input_etranger" required="true"
-											disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-											requiredMessage="#{msgs['ERREUR.CODE_VILLE_ETRANGER']}"
-											size="40" maxlength="32"
-											value="#{administrationController.currentDemandeTransferts.adresse.codeVilleEtranger}" />
-										<h:outputText value="* Pays : " />
-										<p:selectOneMenu id="pays" required="true" filter="true"
-											disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-											requiredMessage="#{msgs['ERREUR.CODE_PAYS']}"
-											value="#{administrationController.currentDemandeTransferts.adresse.codPay}">
-											<f:selectItem itemLabel="== Choix ==" />
-											<f:selectItems value="#{administrationController.listePays}" />
-										</p:selectOneMenu>
-									</h:panelGrid>
-								</p:panel>
-							</p:panel>
-							<h:outputText value=" Informations complémentaires" />
-							<p:separator style="width:500px;height:20px" />
-
-							<h:outputText value="Téléphone : " />
-							<p:inputMask id="telephone" size="15" maxlength="15"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.adresse.numTel}"
-								mask="99.99.99.99.99" />
-
-							<h:outputText value="Portable : " />
-							<p:inputMask id="portable" size="15" maxlength="15"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.adresse.numTelPortable}"
-								mask="99.99.99.99.99" />
-
-							<h:outputText value="* Courriel personnel : " />
-							<!-- 							<p:outputLabel for="email" value="Courriel personnel" />   -->
-							<p:inputText id="email" size="40" maxlength="200"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.adresse.email}">
-								<f:validator binding="#{mailValidator}" />
-							</p:inputText>
-						</h:panelGrid>
+										<p:ajax event="change" update="test,msgs,msgs2,growl" />
+									</p:selectOneRadio>
+								</p:column>
+								<p:column style="width:70%">
+									<p:panel id="test">
+										<p:panel id="fr"
+											rendered="#{administrationController.codePaysItems == '100'}">
+											<h:panelGrid columns="2">
+												<h:outputText value="* Code postal : " />
+												<p:inputText id="input_france" required="true" size="5"
+													disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+													requiredMessage="#{msgs['ERREUR.CODE_POSTAL']}"
+													maxlength="5"
+													value="#{administrationController.currentDemandeTransferts.adresse.codePostal}">
+													<p:ajax event="blur" update="commune,msgs,msgs2,growl" />
+												</p:inputText>
+												<h:outputText value="* Commune : " />
+												<p:selectOneMenu id="commune"
+													disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+													value="#{administrationController.currentDemandeTransferts.adresse.codeCommune}"
+													required="true"
+													requiredMessage="#{msgs['ERREUR.NOM_COMMUNE']}">
+													<f:selectItem itemLabel="== Choix ==" itemValue="" />
+													<f:selectItems
+														value="#{administrationController.listeCommunes}" />
+												</p:selectOneMenu>
+											</h:panelGrid>
+										</p:panel>
+										<p:panel id="et"
+											rendered="#{administrationController.codePaysItems!='100'}">
+											<h:panelGrid columns="2">
+												<h:outputText value="* Code et Ville à l'étranger : " />
+												<p:inputText id="input_etranger" required="true"
+													disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+													requiredMessage="#{msgs['ERREUR.CODE_VILLE_ETRANGER']}"
+													size="40" maxlength="32"
+													value="#{administrationController.currentDemandeTransferts.adresse.codeVilleEtranger}" />
+												<h:outputText value="* Pays : " />
+												<p:selectOneMenu id="pays" required="true" filter="true"
+													disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+													requiredMessage="#{msgs['ERREUR.CODE_PAYS']}"
+													value="#{administrationController.currentDemandeTransferts.adresse.codPay}">
+													<f:selectItem itemLabel="== Choix ==" />
+													<f:selectItems
+														value="#{administrationController.listePays}" />
+												</p:selectOneMenu>
+											</h:panelGrid>
+										</p:panel>
+									</p:panel>
+								</p:column>
+							</p:row>
+							<p:row>
+								<!-- 								<p:column style="width:30%"> -->
+								<!-- 									<h:outputText value=" Informations complémentaires" /> -->
+								<!-- 								</p:column> -->
+								<p:column style="width:100%" colspan="2">
+									<p:separator style="width:500px;height:10px" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="Téléphone : " />
+								</p:column>
+								<p:column style="width:70%">
+									<p:inputMask id="telephone" size="15" maxlength="15"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.adresse.numTel}"
+										mask="99.99.99.99.99" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="Portable : " />
+								</p:column>
+								<p:column style="width:70%">
+									<p:inputMask id="portable" size="15" maxlength="15"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.adresse.numTelPortable}"
+										mask="99.99.99.99.99" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="* Courriel personnel : " />
+								</p:column>
+								<p:column style="width:70%">
+									<p:inputText id="email" size="40" maxlength="200"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.adresse.email}">
+										<f:validator binding="#{mailValidator}" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
 					</p:fieldset>
 
 					<p:spacer height="10px" />
@@ -220,89 +342,145 @@
 					<p:fieldset id="situationUniversitaire"
 						legend="Situation Universitaire" toggleable="true"
 						style="text-align:left" collapsed="false" toggleSpeed="200">
-						<h:panelGrid columns="3" columnClasses="column" cellpadding="5">
+						<p:panelGrid
+							style="text-align:left;width:100%; border-style: hidden !important;">
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="* Nationalité : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="nationalite" filter="true"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.accueil.codePaysNat}"
+										required="true"
+										requiredMessage="#{msgs['ERREUR.NATIONALITE']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeNationalite}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value="" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="* Année du Baccalauréat : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:inputText id="annee_bac" size="4" maxlength="4"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										required="true" requiredMessage="#{msgs['ERREUR.ANNEE_BAC']}"
+										value="#{administrationController.currentDemandeTransferts.accueil.anneeBac}" />
+								</p:column>
+								<p:column style="width:5%">
+									<p:commandButton id="modalDialogButton5" onclick="dlg5.show();"
+										type="button" icon="ui-icon-help" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="* Série du baccalauréat : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="serieBac" filter="true"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.accueil.codeBac}"
+										required="true" requiredMessage="#{msgs['ERREUR.SERIE_BAC']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeBacOuEqu}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%"
+									rendered="#{administrationController.existCodeBac}">
+									<h:outputText value=" " />
+								</p:column>
+								<p:column style="width:5%"
+									rendered="#{!administrationController.existCodeBac}">
+									<h:outputText style="color:red;"
+										value="Code bac (#{administrationController.currentDemandeTransferts.accueil.codeBac}) inconnu" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText
+										value="* Département de l'université de départ : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="departements" filter="true"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.accueil.codeDepUnivDepart}"
+										required="true"
+										requiredMessage="#{msgs['ERREUR.DEPARTEMENT']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeDepartements}" />
+										<p:ajax event="change"
+											update="etablissements,msgs,msgs2,growl"
+											listener="#{administrationController.resetGeneralAccueil}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<p:commandButton id="modalDialogButton6" onclick="dlg6.show();"
+										type="button" icon="ui-icon-help" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="* Nom de l'université de départ : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="etablissements"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.accueil.codeRneUnivDepart}"
+										required="true"
+										requiredMessage="#{msgs['ERREUR.ETABLISSEMENT']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeEtablissementsAccueil}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText
+										value="* Avez-vous effectué une validation d'étude ou une demande de candidature ? " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="validationOuCandidature"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentDemandeTransferts.accueil.validationOuCandidature}"
+										required="true"
+										requiredMessage="#{msgs['ERREUR.VALIDATION_OU_CANDIDATURE']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItem itemLabel="Non spécifié" itemValue="0" />
+										<f:selectItem itemLabel="Oui" itemValue="1" />
+										<f:selectItem itemLabel="Non" itemValue="2" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<p:commandButton id="modalDialogButton4" onclick="dlg4.show();"
+										type="button" icon="ui-icon-help" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value=" SITUATION UNIVERSITAIRE ANTERIEURE" />
+								</p:column>
+								<p:column style="width:65%">
+									<p:separator style="width:100%;height:10px" />
+								</p:column>
+								<p:column style="width:5%">
+									<p:commandButton id="modalDialogButton3" onclick="dlg3.show();"
+										type="button" icon="ui-icon-help" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
 
-							<h:outputText value="* Nationalité : " />
-							<p:selectOneMenu id="nationalite" filter="true"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.accueil.codePaysNat}"
-								required="true" requiredMessage="#{msgs['ERREUR.NATIONALITE']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems
-									value="#{administrationController.listeNationalite}" />
-							</p:selectOneMenu>
-							<h:outputText value="" />
-
-							<h:outputText value="* Année du Baccalauréat : " />
-							<p:inputText id="annee_bac" size="4" maxlength="4"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								required="true" requiredMessage="#{msgs['ERREUR.ANNEE_BAC']}"
-								value="#{administrationController.currentDemandeTransferts.accueil.anneeBac}" />
-							<p:commandButton id="modalDialogButton5" onclick="dlg5.show();"
-								type="button" icon="ui-icon-help" />
-
-							<h:outputText value="* Série du baccalauréat : " />
-							<p:selectOneMenu id="serieBac" filter="true"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.accueil.codeBac}"
-								required="true" requiredMessage="#{msgs['ERREUR.SERIE_BAC']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{administrationController.listeBacOuEqu}" />
-							</p:selectOneMenu>
-							<h:outputText value=" "
-								rendered="#{administrationController.existCodeBac}" />
-							<!-- 							<h:outputText styleClass="noBordersVap" value="Code bac (#{administrationController.currentDemandeTransferts.accueil.codeBac}) inconnu" rendered="#{!administrationController.existCodeBac}"/> -->
-							<h:outputText style="color:red;"
-								value="Code bac (#{administrationController.currentDemandeTransferts.accueil.codeBac}) inconnu"
-								rendered="#{!administrationController.existCodeBac}" />
-
-							<h:outputText value="* Département de l'université de départ : " />
-							<p:selectOneMenu id="departements" filter="true"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.accueil.codeDepUnivDepart}"
-								required="true" requiredMessage="#{msgs['ERREUR.DEPARTEMENT']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems
-									value="#{administrationController.listeDepartements}" />
-								<p:ajax event="change" update="etablissements,msgs,msgs2,growl"
-									listener="#{administrationController.resetGeneralAccueil}" />
-							</p:selectOneMenu>
-							<p:commandButton id="modalDialogButton6" onclick="dlg6.show();"
-								type="button" icon="ui-icon-help" />
-
-							<h:outputText value="* Nom de l'université de départ : " />
-							<p:selectOneMenu id="etablissements"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.accueil.codeRneUnivDepart}"
-								required="true"
-								requiredMessage="#{msgs['ERREUR.ETABLISSEMENT']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems
-									value="#{administrationController.listeEtablissementsAccueil}" />
-							</p:selectOneMenu>
-							<h:outputText value=" " />
-
-							<h:outputText
-								value="* Avez-vous effectué une validation d'étude ou une demande de candidature ? " />
-							<p:selectOneMenu id="validationOuCandidature"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentDemandeTransferts.accueil.validationOuCandidature}"
-								required="true"
-								requiredMessage="#{msgs['ERREUR.VALIDATION_OU_CANDIDATURE']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItem itemLabel="Non spécifié" itemValue="0" />
-								<f:selectItem itemLabel="Oui" itemValue="1" />
-								<f:selectItem itemLabel="Non" itemValue="2" />
-							</p:selectOneMenu>
-
-							<p:commandButton id="modalDialogButton4" onclick="dlg4.show();"
-								type="button" icon="ui-icon-help" />
-
-							<h:outputText value=" SITUATION UNIVERSITAIRE ANTERIEURE" />
-							<p:separator style="width:100%;height:20px" />
-							<p:commandButton id="modalDialogButton3" onclick="dlg3.show();"
-								type="button" icon="ui-icon-help" />
-						</h:panelGrid>
 
 						<p:panelGrid columns="2" styleClass="noBordersVap"
 							rendered="#{administrationController.interditNiveau2}">
@@ -390,8 +568,6 @@
 								update="situationUniversitaire,msgs,msgs2,growl"
 								rendered="#{!administrationController.maxSU}"
 								action="#{administrationController.ajouterSituationUniv}" />
-
-
 						</h:panelGrid>
 
 					</p:fieldset>
@@ -401,117 +577,129 @@
 
 					<p:fieldset id="vo" legend="Voeux d'orientation" toggleable="true"
 						collapsed="false" toggleSpeed="200">
-						<h:panelGrid columns="3" columnClasses="column" cellpadding="5"
-							style="text-align:left;">
-
-							<h:outputText value="* Type de transfert :" />
-							<p:selectOneMenu id="typeTransfert" required="true"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								requiredMessage="#{msgs['ERREUR.TYPE_TRANSFERT']}"
-								value="#{administrationController.currentDemandeTransferts.transferts.typeTransfert}">
-								<f:selectItem id="choix" itemLabel="== Choix ==" itemValue="" />
-								<f:selectItem id="p" itemLabel="Transfert partiel" itemValue="P" />
-								<f:selectItem id="t" itemLabel="Transfert total" itemValue="T" />
-								<p:ajax event="change" update="vo,msgs,msgs2,growl" />
-							</p:selectOneMenu>
-							<p:commandButton id="modalDialogButton" onclick="dlg2.show();"
-								type="button" icon="ui-icon-help" />
-
-							<h:outputText value="* Type de diplôme : "
-								rendered="#{!administrationController.typesDiplomeVide}" />
-							<p:selectOneMenu id="typesDiplome"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								rendered="#{!administrationController.typesDiplomeVide}"
-								value="#{administrationController.codTypDip}" required="true"
-								requiredMessage="#{msgs['ERREUR.TYPE_DIPLOME']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems
-									value="#{administrationController.listeTypesDiplome}" />
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
-									listener="#{administrationController.resetAnneeEtude}" />
-							</p:selectOneMenu>
-							<h:outputText value=" "
-								rendered="#{!administrationController.typesDiplomeVide}" />
-
-							<h:outputText value="* Type de diplôme : "
-								rendered="#{!administrationController.typesDiplomeAutreVide}" />
-							<p:inputText id="typesDiplomeAutre" required="true"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								requiredMessage="#{msgs['ERREUR.TYPE_DIPLOME_AUTRE']}"
-								rendered="#{!administrationController.typesDiplomeAutreVide}"
-								value="#{administrationController.currentDemandeTransferts.transferts.libelleTypeDiplome}" />
-							<h:outputText value=" "
-								rendered="#{!administrationController.typesDiplomeAutreVide}" />
-
-							<h:outputText value="* Niveau : "
-								rendered="#{!administrationController.anneeEtudeVide}" />
-							<p:selectOneMenu id="niveau"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								rendered="#{!administrationController.anneeEtudeVide}"
-								value="#{administrationController.codeNiveau}" required="true"
-								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems
-									value="#{administrationController.listeAnneesEtude}" />
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
-									listener="#{administrationController.resetComposante}" />
-							</p:selectOneMenu>
-							<h:outputText value=" "
-								rendered="#{!administrationController.anneeEtudeVide}" />
-
-							<h:outputText value="* Composante : "
-								rendered="#{!administrationController.composanteVide}" />
-							<p:selectOneMenu id="composante"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								rendered="#{!administrationController.composanteVide}"
-								value="#{administrationController.codeComposante}"
-								required="true" requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems
-									value="#{administrationController.listeComposantes}" />
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
-									listener="#{administrationController.resetLibelleEtapeSansCodeDiplome}" />
-							</p:selectOneMenu>
-							<h:outputText value=" "
-								rendered="#{!administrationController.composanteVide}" />
-
-							<!-- 							<h:outputText value="* Diplôme : " -->
-							<!-- 								rendered="#{!administrationController.libelleDiplomeVide}" /> -->
-							<!-- 							<p:selectOneMenu id="diplomes" -->
-							<!-- 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
-							<!-- 								rendered="#{!administrationController.libelleDiplomeVide}" -->
-							<!-- 								value="#{administrationController.codeDiplome}" required="true" -->
-							<!-- 								requiredMessage="#{msgs['ERREUR.DIPLOME']}"> -->
-							<!-- 								<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
-							<!-- 								<f:selectItems -->
-							<!-- 									value="#{administrationController.listeLibellesDiplome}" /> -->
-							<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
-							<!-- 									listener="#{administrationController.resetLibelleEtape}" /> -->
-							<!-- 							</p:selectOneMenu> -->
-							<!-- 							<h:outputText value=" " -->
-							<!-- 								rendered="#{!administrationController.libelleDiplomeVide}" /> -->
-
-							<h:outputText value="* Parcours : "
-								rendered="#{!administrationController.libelleEtapeVide}" />
-							<p:dataTable var="vet"
-								rendered="#{!administrationController.libelleEtapeVide}"
-								emptyMessage="Aucun parcours"
-								selection="#{administrationController.currentOdf}"
-								selectionMode="single"
-								value="#{administrationController.odfDataModel}">
-								<p:column>
-									<f:facet name="header">  
+						<p:panelGrid
+							style="text-align:left;width:100%; border-style: hidden !important;">
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="* Type de transfert :" />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="typeTransfert" required="true"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										requiredMessage="#{msgs['ERREUR.TYPE_TRANSFERT']}"
+										value="#{administrationController.currentDemandeTransferts.transferts.typeTransfert}">
+										<f:selectItem id="choix" itemLabel="== Choix ==" itemValue="" />
+										<f:selectItem id="p" itemLabel="Transfert partiel"
+											itemValue="P" />
+										<f:selectItem id="t" itemLabel="Transfert total" itemValue="T" />
+										<p:ajax event="change" update="vo,msgs,msgs2,growl" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<p:commandButton id="modalDialogButton" onclick="dlg2.show();"
+										type="button" icon="ui-icon-help" />
+								</p:column>
+							</p:row>
+							<p:row rendered="#{!administrationController.typesDiplomeVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Type de diplôme : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="typesDiplome"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.codTypDip}" required="true"
+										requiredMessage="#{msgs['ERREUR.TYPE_DIPLOME']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeTypesDiplome}" />
+										<p:ajax event="change" update="vo,msgs,msgs2,growl"
+											listener="#{administrationController.resetAnneeEtude}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
+							<p:row
+								rendered="#{!administrationController.typesDiplomeAutreVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Type de diplôme : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:inputText id="typesDiplomeAutre" required="true"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										requiredMessage="#{msgs['ERREUR.TYPE_DIPLOME_AUTRE']}"
+										value="#{administrationController.currentDemandeTransferts.transferts.libelleTypeDiplome}" />
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value="" />
+								</p:column>
+							</p:row>
+							<p:row rendered="#{!administrationController.anneeEtudeVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Niveau : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="niveau"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.codeNiveau}" required="true"
+										requiredMessage="#{msgs['ERREUR.NIVEAU']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeAnneesEtude}" />
+										<p:ajax event="change" update="vo,msgs,msgs2,growl"
+											listener="#{administrationController.resetComposante}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value="" />
+								</p:column>
+							</p:row>
+							<p:row rendered="#{!administrationController.composanteVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Composante : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="composante"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.codeComposante}"
+										required="true" requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeComposantes}" />
+										<p:ajax event="change" update="vo,msgs,msgs2,growl"
+											listener="#{administrationController.resetLibelleEtapeSansCodeDiplome}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value="" />
+								</p:column>
+							</p:row>
+							<p:row rendered="#{!administrationController.libelleEtapeVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Parcours : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:dataTable var="vet" emptyMessage="Aucun parcours"
+										selection="#{administrationController.currentOdf}"
+										selectionMode="single"
+										value="#{administrationController.odfDataModel}">
+										<p:column>
+											<f:facet name="header">  
 						                   				Sélectionnez la formation 
 				        			    			</f:facet>
-									<h:outputText value="#{vet.libVersionEtape}" />
-									<h:outputText value=" - parcours désactivé"
-										style="color:red;font-style:italic;"
-										rendered="#{!administrationController.libelleEtapeVide and vet.actif==0}" />
+											<h:outputText value="#{vet.libVersionEtape}" />
+											<h:outputText value=" - parcours désactivé"
+												style="color:red;font-style:italic;"
+												rendered="#{!administrationController.libelleEtapeVide and vet.actif==0}" />
+										</p:column>
+									</p:dataTable>
 								</p:column>
-							</p:dataTable>
-							<h:outputText value=" "
-								rendered="#{!administrationController.libelleEtapeVide}" />
-						</h:panelGrid>
+								<p:column style="width:5%">
+									<h:outputText value="" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
 					</p:fieldset>
 
 					<p:spacer height="10px" />
@@ -520,41 +708,18 @@
 					<p:fieldset id="signature" legend="Signature" toggleable="true"
 						collapsed="false" toggleSpeed="200">
 						<p:spacer height="40px" />
-						<!-- 						<p:selectOneMenu id="signatureSelect"  -->
-						<!-- 							disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
-						<!-- 							rendered="#{administrationController.currentDemandeTransferts.transferts.fichier != null}" -->
-						<!-- 							value="#{administrationController.currentDemandeTransferts.transferts.fichier.md5}" -->
-						<!-- 							required="true" requiredMessage="#{msgs['ERREUR.SIGNATURE']}"> -->
-						<!-- 							<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
-						<!-- 							<f:selectItems value="#{administrationController.listeFichiers}" /> -->
-						<!-- 						</p:selectOneMenu> -->
+						<p:selectOneMenu id="signatureSelect"
+							disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+							rendered="#{administrationController.listeFichiers != null}"
+							value="#{administrationController.selectedmd5}" required="true"
+							requiredMessage="#{msgs['ERREUR.SIGNATURE_PAR_DEFAUT']}">
+							<f:selectItem itemLabel="== Choix ==" itemValue="" />
+							<f:selectItems value="#{administrationController.listeFichiers}" />
+						</p:selectOneMenu>
 
-												<p:selectOneMenu id="signatureSelect"
-													disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-													rendered="#{administrationController.listeFichiers != null}"
-													value="#{administrationController.selectedmd5}"
-													required="true"
-													requiredMessage="#{msgs['ERREUR.SIGNATURE_PAR_DEFAUT']}">
-													<f:selectItem itemLabel="== Choix ==" itemValue="" />
-													<f:selectItems value="#{administrationController.listeFichiers}" />
-												</p:selectOneMenu>
-
-												<h:outputText
-													value="Vous devez d'abord ajouter une signature par défaut"
-													rendered="#{administrationController.currentDemandeTransferts.transferts.fichier == null }" />
-
-
-<!-- 						<p:selectOneMenu id="advanced" -->
-<!-- 							value="#{administrationController.currentDemandeTransferts.transferts.fichier}" -->
-<!-- 							converter="#{FichierConverter}" panelStyle="width:180px" effect="fade" -->
-<!-- 							var="t" style="width:160px"> -->
-<!-- 							<f:selectItems value="#{administrationController.listeFichiers2}" -->
-<!-- 								var="theme" itemLabel="#{theme.nom}" itemValue="#{theme}" /> -->
-<!-- 							<p:column> -->
-<!-- 								<h:outputText value="#{t.nom}" /> -->
-<!-- 							</p:column> -->
-<!-- 						</p:selectOneMenu> -->
-
+						<h:outputText
+							value="Vous devez d'abord ajouter une signature par défaut"
+							rendered="#{administrationController.listeFichiers == null }" />
 						<h:outputText
 							value="Vous devez d'abord ajouter une signature par défaut"
 							rendered="#{administrationController.listeFichiers == null}" />
@@ -562,17 +727,9 @@
 					</p:fieldset>
 					<p:spacer height="10" />
 					<center>
-						<!-- 						<h:panelGrid columns="1" -->
-						<!-- 							rendered="#{administrationController.listeFichiers != null}"> -->
-						<!-- 							<p:commandButton value="Modifier" -->
-						<!-- 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
-						<!-- 								action="#{administrationController.addDemandeTransferts}" -->
-						<!-- 								update="currentTransfertsAccueil,msgs,msgs2,growl,menuBasGauche" /> -->
-						<!-- 						</h:panelGrid> -->
-
 						<h:panelGrid columns="1"
 							rendered="#{administrationController.listeFichiers != null}">
-							<p:commandButton value="Modifier Flo" id="b111"
+							<p:commandButton value="Modifier" id="b111"
 								action="#{administrationController.addDemandeTransferts}"
 								update="growl" />
 						</h:panelGrid>

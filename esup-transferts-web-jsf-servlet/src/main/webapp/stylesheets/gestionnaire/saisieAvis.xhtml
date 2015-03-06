@@ -20,7 +20,8 @@
 			<p:growl id="growl" showDetail="false" sticky="true" />
 
 			<center>
-				<p:panel id="adresse" styleClass="panel" style="width:80%;text-align:left;" 
+				<p:panel id="adresse" styleClass="panel"
+					style="width:80%;text-align:left;"
 					header="Demande de Transferts départ #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}">
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
 						<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
@@ -66,7 +67,7 @@
 								<h:outputText value="Nunméro I.N.E : " />
 								<h:outputText
 									value="#{administrationController.currentDemandeTransferts.numeroIne}" />
-								
+
 								<h:outputText value="Centre de gestion : " />
 								<h:outputText
 									value="#{administrationController.currentDemandeTransferts.libCge} (#{administrationController.currentDemandeTransferts.codCge})" />
@@ -84,9 +85,9 @@
 					<p:spacer height="10px" />
 					<p:separator style="width:500px;height:10px" />
 
-					<p:fieldset id="listeAvisDetails" legend="liste des avis" styleClass="panel"
-						collapsed="true" toggleable="true" style="width:700px;"
-						toggleSpeed="200">
+					<p:fieldset id="listeAvisDetails" legend="liste des avis"
+						styleClass="panel" collapsed="true" toggleable="true"
+						style="width:700px;" toggleSpeed="200">
 						<p:dataList emptyMessage="Aucun avis"
 							value="#{administrationController.listeAvisByNumeroEtudiantAndAnnee}"
 							var="avis2" paginator="true" rows="5" effectSpeed="fast"
@@ -99,7 +100,7 @@
 
 							<p:column>
 								<p:commandLink update=":infos:avisDetail"
-									oncomplete="avisDialog.show()" title="View Detail">
+									oncomplete="PF('avisDialog').show()" title="View Detail">
 									<p:graphicImage value="/media/images/search.png" />
 									<f:setPropertyActionListener value="#{avis2}"
 										target="#{administrationController.selectedAvis}" />
@@ -111,15 +112,15 @@
 
 								<h:outputText value="#{avis2.dateSaisie}"
 									style="margin-left:10px">
-<!-- 									<f:converter -->
-<!-- 										converterId="XMLGregorianCalendarConverterDateTime" /> -->
+									<!-- 									<f:converter -->
+									<!-- 										converterId="XMLGregorianCalendarConverterDateTime" /> -->
 								</h:outputText>
 
 							</p:column>
 						</p:dataList>
 
-						<p:dialog header="Détail de l'avis" widgetVar="avisDialog" modal="true"
-							showEffect="fade">
+						<p:dialog header="Détail de l'avis" widgetVar="avisDialog"
+							modal="true" showEffect="fade">
 							<p:outputPanel id="avisDetail">
 
 								<p:graphicImage value="/media/images/search.png" />
@@ -132,8 +133,8 @@
 									<h:outputLabel for="dateSaisie" value="Date de saisie : " />
 									<h:outputText id="dateSaisie"
 										value="#{administrationController.selectedAvis.dateSaisie}">
-<!-- 										<f:converter -->
-<!-- 											converterId="XMLGregorianCalendarConverterDateTime" /> -->
+										<!-- 										<f:converter -->
+										<!-- 											converterId="XMLGregorianCalendarConverterDateTime" /> -->
 									</h:outputText>
 
 									<h:outputLabel for="idEtatDossier" value="Etat du dossier : " />
@@ -177,59 +178,93 @@
 					style="width:80%; text-align:center;">
 					<p:fieldset id="avis" legend="Avis" toggleable="true"
 						toggleSpeed="200">
-						<h:panelGrid columns="4" columnClasses="column" cellpadding="5"
-							style="text-align:left;">
+						<!-- 						<h:panelGrid columns="4" columnClasses="column" cellpadding="5" -->
+						<!-- 							style="text-align:left;"> -->
+						<p:panelGrid
+							style="text-align:left;width:100%; border-style: hidden !important;">
+							<p:row>
+								<p:column style="width:20%">
+									<h:outputText value="Date du jour : " />
+								</p:column>
+								<p:column style="width:80%" colspan="2">
+									<h:outputText id="dateDuJour"
+										value="#{administrationController.dateDuJour}" />
+								</p:column>
+								<!-- 								<p:column style="width:40%"></p:column> -->
+							</p:row>
 
-							<h:outputText value="Date du jour : " />
-							<h:outputText id="dateDuJour"
-								value="#{administrationController.dateDuJour}" />
-							<p:spacer />
-							<p:spacer />
+							<p:row>
+								<p:column style="width:20%">
+									<h:outputText value="Etat du dossier : " />
+								</p:column>
+								<p:column style="width:30%">
+									<p:selectOneMenu id="etatDossier"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentAvis.idEtatDossier}"
+										required="true"
+										requiredMessage="#{msgs['ERREUR.ETAT_DOSSIER']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeEtatsDossier}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Motif : " />
+									<p:inputText id="motifEtatDossier" size="50"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentAvis.motifEtatDossier}" />
+								</p:column>
+							</p:row>
 
-							<h:outputText value="Etat du dossier : " />
-							<p:selectOneMenu id="etatDossier"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentAvis.idEtatDossier}"
-								required="true" requiredMessage="#{msgs['ERREUR.ETAT_DOSSIER']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{administrationController.listeEtatsDossier}" />
-							</p:selectOneMenu>
-							<h:outputText value="Motif : " />
-							<p:inputText id="motifEtatDossier" size="50"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentAvis.motifEtatDossier}" />
+							<p:row>
+								<p:column style="width:20%">
+									<h:outputText value="Localisation du dossier : " />
+								</p:column>
+								<p:column style="width:30%">
+									<p:selectOneMenu id="localisationDossier"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentAvis.idLocalisationDossier}"
+										required="true"
+										requiredMessage="#{msgs['ERREUR.LOCALISATION_DOSSIER']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeLocalisationDossier}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Motif : " />
+									<p:inputText id="motifLocalisationDossier" size="50"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentAvis.motifLocalisationDossier}" />
+								</p:column>
+							</p:row>
 
-							<h:outputText value="Localisation du dossier : " />
-							<p:selectOneMenu id="localisationDossier"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentAvis.idLocalisationDossier}"
-								required="true"
-								requiredMessage="#{msgs['ERREUR.LOCALISATION_DOSSIER']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems
-									value="#{administrationController.listeLocalisationDossier}" />
-							</p:selectOneMenu>
-							<h:outputText value="Motif : " />
-							<p:inputText id="motifLocalisationDossier" size="50"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentAvis.motifLocalisationDossier}" />
+							<p:row>
+								<p:column style="width:20%">
+									<h:outputText value="Décision : " />
+								</p:column>
+								<p:column style="width:30%">
+									<p:selectOneMenu id="decisionDossier"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentAvis.idDecisionDossier}"
+										required="true"
+										requiredMessage="#{msgs['ERREUR.DECISION_DOSSIER']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems
+											value="#{administrationController.listeDecisionsDossier}" />
+										<!-- 						<p:ajax event="blur" update="commune,msgs,msgs2,growl"  /> -->
+										<p:ajax event="change" update=":currentAvis:bouton" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:50%">
+									<h:outputText value="Motif : " />
+									<p:inputText id="motifDecisionDossier" size="50"
+										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
+										value="#{administrationController.currentAvis.motifDecisionDossier}" />
+								</p:column>
+							</p:row>
 
-							<h:outputText value="Décision : " />
-							<p:selectOneMenu id="decisionDossier"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentAvis.idDecisionDossier}"
-								required="true"
-								requiredMessage="#{msgs['ERREUR.DECISION_DOSSIER']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{administrationController.listeDecisionsDossier}" />
-								<!-- 						<p:ajax event="blur" update="commune,msgs,msgs2,growl"  /> -->
-								<p:ajax event="change" update=":currentAvis:bouton" />
-							</p:selectOneMenu>
-							<h:outputText value="Motif : " />
-							<p:inputText id="motifDecisionDossier" size="50"
-								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-								value="#{administrationController.currentAvis.motifDecisionDossier}" />
-						</h:panelGrid>
+						</p:panelGrid>
 					</p:fieldset>
 
 					<p:spacer height="20px" />
@@ -240,25 +275,44 @@
 							rendered="#{administrationController.currentAvis.idDecisionDossier != 2 and administrationController.currentAvis.idDecisionDossier != 1 and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}"
 							action="#{administrationController.addAvis}"
 							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" />
+						<!-- 						<p:commandButton -->
+						<!-- 							value="Enregistrer l'avis Favorable ou défavorable" -->
+						<!-- 							onclick="confirmation.show()" type="button" -->
+						<!-- 							rendered="#{(administrationController.currentAvis.idDecisionDossier == 2 or administrationController.currentAvis.idDecisionDossier == 1) and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}" -->
+						<!-- 							action="#{administrationController.addAvisFavorable}" -->
+						<!-- 							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" /> -->
+
 						<p:commandButton
 							value="Enregistrer l'avis Favorable ou défavorable"
-							onclick="confirmation.show()" type="button"
 							rendered="#{(administrationController.currentAvis.idDecisionDossier == 2 or administrationController.currentAvis.idDecisionDossier == 1) and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}"
-							action="#{administrationController.addAvisFavorable}"
-							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" />
+							actionListener="#{administrationController.addAvisFavorable}"
+							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton">
+							<p:confirm header="Confirmation"
+								message="Attention, la saisie d'un avis favorable ou défavorable enverra un mél à l'étudiant et lui permettra d'imprimer sa demande de transferts"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+
 					</h:panelGrid>
 
 				</p:panel>
 			</center>
-			<p:confirmDialog
-				message="Attention, la saisie d'un avis favorable ou défavorable enverra un mél à l'étudiant et lui permettra d'imprimer sa demande de transferts"
-				header="Confirmation" severity="alert" widgetVar="confirmation">
-				<p:commandButton value="Oui"
-					update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton"
-					oncomplete="confirmation.hide()"
-					action="#{administrationController.addAvisFavorable}" />
-				<p:commandButton value="Non" onclick="confirmation.hide()"
-					actionListener="#{administrationController.destroyWorld}" type="button" />
+
+			<!-- 			<p:confirmDialog -->
+			<!-- 				message="Attention, la saisie d'un avis favorable ou défavorable enverra un mél à l'étudiant et lui permettra d'imprimer sa demande de transferts" -->
+			<!-- 				header="Confirmation" severity="alert" widgetVar="confirmation"> -->
+			<!-- 				<p:commandButton value="Oui" -->
+			<!-- 					update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" -->
+			<!-- 					oncomplete="confirmation.hide()" -->
+			<!-- 					action="#{administrationController.addAvisFavorable}" /> -->
+			<!-- 				<p:commandButton value="Non" onclick="confirmation.hide()" -->
+			<!-- 					actionListener="#{administrationController.destroyWorld}" type="button" /> -->
+			<!-- 			</p:confirmDialog> -->
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="Oui" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Non" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
 
 			<p:messages id="msgs2" showDetail="false" />
