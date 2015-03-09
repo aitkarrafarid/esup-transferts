@@ -188,9 +188,11 @@
 					</p:fieldset>
 
 					<p:spacer height="10px" />
-					<p:separator style="width:500px;height:10px" rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}" />
+					<p:separator style="width:500px;height:10px"
+						rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}" />
 
-					<p:fieldset id="decision" legend="Ajouter une Décision" rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}"
+					<p:fieldset id="decision" legend="Ajouter une Décision"
+						rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}"
 						collapsed="true" toggleable="true" toggleSpeed="200">
 						<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
 							style="text-align:left;">
@@ -203,6 +205,8 @@
 									itemValue="A" />
 								<f:selectItem id="B" itemLabel="#{msgs['DECISION.DEFAVORABLE']}"
 									itemValue="B" />
+								<f:selectItem id="C" itemLabel="Autres"
+									itemValue="C" />
 								<f:ajax immediate="true" event="change"
 									render="textareaDecision" />
 							</h:selectOneRadio>
@@ -233,7 +237,8 @@
 						<h:panelGrid columns="4">
 							<p:commandButton value="Retour" immediate="true"
 								action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" />
-							<p:commandButton value="Envoyer à l'étudiant" rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}"
+							<p:commandButton value="Envoyer à l'étudiant"
+								rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}"
 								actionListener="#{administrationController.addAccueilDecisionDefinitif}"
 								update="form_decision,msgs,msgs2,growl">
 								<p:confirm header="Confirmation"

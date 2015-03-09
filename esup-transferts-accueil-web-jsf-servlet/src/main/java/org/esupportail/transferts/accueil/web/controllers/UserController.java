@@ -831,6 +831,7 @@ public class UserController extends AbstractContextAwareController {
 					{
 						if (logger.isDebugEnabled())
 							logger.debug("goToRecapitulatifApogee");
+						this.currentEtudiant = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentEtudiant.getNumeroEtudiant(), this.currentEtudiant.getAnnee(), this.currentEtudiant.getSource());
 						this.initialiseNomenclatures();
 						return "goToRecapitulatifApogee";
 					}
