@@ -53,15 +53,13 @@
 					<maxmemory>512m</maxmemory>
 					<goal>javadoc:javadoc</goal>
 					<reportOutputDirectory>docs/javadoc</reportOutputDirectory>
-					<!-- <skipTests>true</skipTests> -->
-					<!-- <skip>true</skip> -->
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<skipTests>false</skipTests>
+					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 			<plugin>
