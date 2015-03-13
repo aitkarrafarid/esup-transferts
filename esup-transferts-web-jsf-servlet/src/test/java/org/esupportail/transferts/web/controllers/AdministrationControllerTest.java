@@ -36,6 +36,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -71,14 +73,19 @@ public class AdministrationControllerTest  {
 	public void tearDown() throws Exception {
 	}
 
-	//@Test
+	@Test
 	public void exportDemandeTransfertsAccueil()
 	{
 		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(2014, "A");
 		System.out.println("lEtu2.size()===>"+lEtu2.size()+"<===");
 	}	
 
-	@Test
+//	public void execute(JobExecutionContext context) throws JobExecutionException {
+//	    // Say Hello to the World and display the date/time
+//	   System.out.println("Hello World! - " + new Date());
+//	}
+	
+	//@Test
 	public void addDemandeTransferts() throws Exception
 	{
 		System.out.println("===>#######################################################################################################################################<===");

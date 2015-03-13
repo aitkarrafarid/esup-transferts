@@ -25,15 +25,17 @@
 			<description>The authenticator service.</description>
 		</property>
 		<property name="rne" value="${etab.rne}" />
-		<property name="htmlCssStyle" value="${html_css_style}" />	
+		<property name="htmlCssStyle" value="${html_css_style}" />
 		<property name="boutonDeconnexion" value="${bouton.deconnexion}" />
 		<property name="transfertsAccueil" value="${transferts.accueil}" />
 		<property name="superGestionnaire" value="${init.superGestionnaire}" />
 		<property name="validationAutomatique" value="${validation.automatique}" />
 		<property name="regleGestionTE02" value="${regle.gestion.TE02}" />
 		<property name="nbJourAvantAlertSilenceVautAccord" value="${nb.jour.avant.alert.silence.vaut.accord}" />
-		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord" value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
-<!-- 		<property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}" /> -->
+		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"
+			value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
+		<!-- <property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}" 
+			/> -->
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"
@@ -64,22 +66,22 @@
 		<property name="numeroEtudiant" value="${ldap.numeroEtudiant}" />
 		<property name="mailInformation" value="${mail.information}" />
 		<property name="ineToUpperCase" value="${ine.toUpperCase}" />
-        <property name="studentAffiliation" value="${ldap.student.affiliation}" />
-		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />      
+		<property name="studentAffiliation" value="${ldap.student.affiliation}" />
+		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />
 	</bean>
-	
+
 	<bean id="administrationController"
 		class="org.esupportail.transferts.web.controllers.AdministrationController"
 		parent="abstractContextAwareController" scope="session">
-        <property name="employeeAffiliation" value="${ldap.employee.affiliation}" />
-        <property name="superGestionnaire" value="${init.superGestionnaire}" />
-		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />        
-		<property name="modeSynchro" value="${mode.synchro}" />		
-		<property name="exclueEtpOpi" value="${exclue.etp.opi}" />    
-		<property name="exclueBacOpi" value="${exclue.bac.opi}" />            
-		<property name="timeOutConnexionWsOpiScolarite" value="${time.out.synchro.opi.ws.scolarite}" />		
-		<property name="fileGeneratorService" ref="fileGeneratorServiceImpl" />		
-	</bean>	
+		<property name="employeeAffiliation" value="${ldap.employee.affiliation}" />
+		<property name="superGestionnaire" value="${init.superGestionnaire}" />
+		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />
+		<property name="modeSynchro" value="${mode.synchro}" />
+		<property name="exclueEtpOpi" value="${exclue.etp.opi}" />
+		<property name="exclueBacOpi" value="${exclue.bac.opi}" />
+		<property name="timeOutConnexionWsOpiScolarite" value="${time.out.synchro.opi.ws.scolarite}" />
+		<property name="fileGeneratorService" ref="fileGeneratorServiceImpl" />
+	</bean>
 
 	<bean id="managerController"
 		class="org.esupportail.transferts.web.controllers.ManagerController"
@@ -88,46 +90,46 @@
 		<property name="employeeAffiliation" value="${ldap.employee.affiliation}" />
 		<property name="ldapAffiliation" value="${ldap.affiliation}" />
 		<property name="listeComposantesFerme" value="${liste.composantes.ferme}" />
-	</bean>		
-	
+	</bean>
+
 	<bean id="fileGeneratorServiceImpl"
 		class="org.esupportail.transferts.web.utils.FileGeneratorServiceImpl">
 		<description>Export excel</description>
-	</bean>		
+	</bean>
 
-	<bean id="exportXLSService" class="fr.univ.rennes1.cri.services.export.XlsServiceImpl" />	
-		
+	<bean id="exportXLSService" class="fr.univ.rennes1.cri.services.export.XlsServiceImpl" />
+
 	<bean id="dashboardController"
 		class="org.esupportail.transferts.web.utils.DashboardController">
-	</bean>	
-	
+	</bean>
+
 	<bean id="statistiqueController"
 		class="org.esupportail.transferts.web.controllers.StatistiqueController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage statistique.</description>
-	</bean>	
-	
+	</bean>
+
 	<bean id="fileUploadController"
 		class="org.esupportail.transferts.web.controllers.FileUploadController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage file upload.</description>
 	</bean>
-	
+
 	<bean id="odfController"
 		class="org.esupportail.transferts.web.controllers.OdfController"
 		parent="abstractContextAwareController" scope="session">
-		<property name="fileGeneratorService" ref="fileGeneratorServiceImpl" />	
+		<property name="fileGeneratorService" ref="fileGeneratorServiceImpl" />
 	</bean>
 
 	<bean id="partenaireController"
 		class="org.esupportail.transferts.web.controllers.PartenaireController"
 		parent="abstractContextAwareController" scope="session">
-		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />     
-	</bean>	
-		
+		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />
+	</bean>
+
 	<bean id="testController"
 		class="org.esupportail.transferts.web.controllers.TestController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage ODF.</description>
-	</bean>			
+	</bean>
 </beans>

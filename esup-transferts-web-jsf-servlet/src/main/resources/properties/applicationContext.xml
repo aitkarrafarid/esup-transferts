@@ -20,7 +20,8 @@
 		class="org.esupportail.commons.context.ApplicationContextHolder" />
 
 	<import resource="classpath*:META-INF/esup-transferts-domain-services-auth.xml" />
-	<import resource="classpath*:META-INF/esup-transferts-domain-services-domain.xml" />
+	<import
+		resource="classpath*:META-INF/esup-transferts-domain-services-domain.xml" />
 	<import resource="classpath*:META-INF/esup-transferts-domain-services-ldap.xml" />
 
 	<import resource="exceptionHandling/exceptionHandling.xml" />
@@ -33,4 +34,5 @@
 	<import resource="web/controllers.xml" />
 	<import resource="web/converters.xml" />
 	<import resource="web/validators.xml" />
+	<import resource="scheduler/Spring-Quartz.xml" />
 </beans>
