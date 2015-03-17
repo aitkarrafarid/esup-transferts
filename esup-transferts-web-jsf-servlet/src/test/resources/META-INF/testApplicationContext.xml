@@ -21,7 +21,7 @@
 
 	<bean id="administrationControllerTest"
 		class="org.esupportail.transferts.web.controllers.AdministrationControllerTest"
-		scope="session">
+		scope="request">
 	</bean>
 
 </beans>

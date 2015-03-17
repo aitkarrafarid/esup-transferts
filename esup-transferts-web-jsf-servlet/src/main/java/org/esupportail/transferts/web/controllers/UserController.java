@@ -305,8 +305,11 @@ public class UserController extends AbstractContextAwareController {
 		return "goToAuthApogee";
 	}
 
-	public void addDemandeTransferts() throws Exception
+	public void addDemandeTransferts()
 	{
+		if (logger.isDebugEnabled())
+			logger.debug("===>public void addDemandeTransferts()<===");
+		
 		setSource("D");
 		this.currentEtudiant.setAccueil(null);
 		this.currentEtudiant.setSource(getSource());
@@ -327,7 +330,7 @@ public class UserController extends AbstractContextAwareController {
 		this.currentEtudiant.getTransferts().setFichier(null);
 
 		if (logger.isDebugEnabled())
-			logger.debug("getSessionController().getValidationAutomatique()-->"+getSessionController().getValidationAutomatique());
+			logger.debug("getSessionController().getValidationAutomatique()===>"+getSessionController().getValidationAutomatique()+"<===");
 
 		if(!getSessionController().getValidationAutomatique().equals("") && getSessionController().getValidationAutomatique().equals("composante"))
 		{
@@ -393,14 +396,22 @@ public class UserController extends AbstractContextAwareController {
 		else
 		{
 			if (logger.isDebugEnabled())
-				logger.debug("this.addDemandeTransfertsSansValidationAuto()==''-->"+getSessionController().getValidationAutomatique());
+				logger.debug("===>this.addDemandeTransfertsSansValidationAuto()==''<===");
 			this.addDemandeTransfertsSansValidationAuto();
 		}
 	}
 
-	public void addDemandeTransfertsSansValidationAuto() throws Exception
+	public void addDemandeTransfertsSansValidationAuto() 
 	{
+		if(logger.isDebugEnabled())
+			logger.debug("===>public void addDemandeTransfertsSansValidationAuto()<===");
+		
+//		getDomainService().addDemandeTransferts(new EtudiantRef());
 		getDomainService().addDemandeTransferts(this.getCurrentEtudiant());
+		
+		if(logger.isDebugEnabled())
+			logger.debug("getDomainService().addDemandeTransferts(this.getCurrentEtudiant());===>OK<===");
+		
 		this.presentBdd=true;
 		String sujet2 = getString("MAIL.ETUDIANT.SUJET");
 		String body2 = getString("MAIL.ETUDIANT.BODY");

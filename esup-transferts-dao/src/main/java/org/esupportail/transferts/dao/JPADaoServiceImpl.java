@@ -114,9 +114,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public void addDemandeTransferts(EtudiantRef currentEtudiant) {
 		if (logger.isDebugEnabled()){
-			logger.debug("currentEtudiant --> "+currentEtudiant);
+			logger.debug("public void addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
 		}
-		entityManager.merge(currentEtudiant);	
+		entityManager.merge(currentEtudiant);
+//		entityManager.persist(currentEtudiant);	
 	}
 
 	//	@Override
@@ -346,7 +347,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public Fichier getFichierDefautByAnneeAndFrom(Integer annee, String from) {
 		if (logger.isDebugEnabled()){
-			logger.debug("getFichierDefaut");
+			logger.debug("getFichierDefautByAnneeAndFrom");
 		}
 		try{
 			Query q = entityManager.createNamedQuery("getFichierDefautByAnneeAndFrom");

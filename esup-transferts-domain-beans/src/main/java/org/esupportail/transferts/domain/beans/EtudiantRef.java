@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "allDemandesTransfertsByAnnee", query = "SELECT DISTINCT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueil.situationUniversitaire LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source ORDER BY etu.transferts.temoinTransfertValide ASC"),
 		@NamedQuery(name = "allDemandesTransfertsByAnneeAndNonTraite", query = "SELECT DISTINCT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueil.situationUniversitaire LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source AND (etu.transferts.temoinTransfertValide = 0 OR etu.transferts.temoinTransfertValide = 1 OR etu.transferts.temoinOPIWs = 2) ORDER BY etu.transferts.dateDemandeTransfert ASC"),
 		@NamedQuery(name = "getDemandeTransfert", query = "SELECT etu FROM EtudiantRef etu WHERE etu.numeroEtudiant = :numeroEtudiant"),
+//		@NamedQuery(name = "getDemandeTransfertByAnneeAndNumeroEtudiantAndSource", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.transferts.odf LEFT JOIN FETCH etu.transferts.fichier WHERE etu.numeroEtudiant = :numeroEtudiant AND etu.annee = :annee AND etu.source = :source"),
 		@NamedQuery(name = "getDemandeTransfertByAnneeAndNumeroEtudiantAndSource", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueil.situationUniversitaire LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf LEFT JOIN FETCH etu.transferts.fichier WHERE etu.numeroEtudiant = :numeroEtudiant AND etu.annee = :annee AND etu.source = :source"),
 		@NamedQuery(name = "getListeAnnees", query = "SELECT DISTINCT etu.annee FROM EtudiantRef etu"),
 		@NamedQuery(name = "getDemandesTransfertsByEnCoursAndAnnee", query = "SELECT etu FROM EtudiantRef etu WHERE etu.transferts.temoinTransfertValide = 0 AND etu.annee = :annee AND etu.source = :source"),
@@ -125,7 +126,7 @@ public class EtudiantRef implements Serializable {
 	private Transferts transferts = new Transferts();
 
 //	@OneToOne(cascade = { CascadeType.ALL })
-	@OneToOne(optional=false, fetch=FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToOne(optional=true, fetch=FetchType.LAZY, cascade = { CascadeType.ALL })
 	@JoinColumns({
 			@JoinColumn(name = "numeroEtudiant", referencedColumnName = "numeroEtudiant"),
 			@JoinColumn(name = "annee", referencedColumnName = "annee") })

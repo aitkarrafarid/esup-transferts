@@ -26,10 +26,12 @@ import org.esupportail.transferts.domain.beans.AccueilResultat;
 import org.esupportail.transferts.domain.beans.DatasExterne;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.Fichier;
+import org.esupportail.transferts.domain.beans.InfosAccueil;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.TrBac;
+import org.esupportail.transferts.domain.beans.Transferts;
 import org.esupportail.transferts.domain.beans.User;
 import org.esupportail.transferts.services.auth.Authenticator;
 import org.junit.After;
@@ -73,6 +75,107 @@ public class AdministrationControllerTest  {
 	public void tearDown() throws Exception {
 	}
 
+	//@Test
+	public void  getDemandeTransfertByAnneeAndNumeroEtudiantAndSource()
+	{
+		System.out.println("===>public void  getDemandeTransfertByAnneeAndNumeroEtudiantAndSource()<===");
+		EtudiantRef etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource("20054890", 2015, "D");
+		String test = etu.getTransferts().getFichier().getMd5();	
+		System.out.println("etu===>"+etu+"<==="); 
+	}
+	
+	//@Test
+	public void addDemandeTransfertsDepart()
+	{
+		System.out.println("===>public void addDemandeTransferts()<===");
+
+		EtudiantRef etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource("20054890", 2015, "D");
+		if(etu!=null)
+		{
+			System.out.println("===>getDomainService().deleteDemandeTransfert(etu, 2015);<===");
+			getDomainService().deleteDemandeTransfert(etu, 2015);
+		}
+		Date date = null;
+		String date1 = "31/08/1990";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		try {
+			date = simpleDateFormat.parse(date1);
+			System.out.println("date===>"+date+"<===");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+
+		System.out.println("===>#######################################################################################################################################<===");		
+
+		this.currentDemandeTransferts = getDomainServiceScolarite().getCurrentEtudiantIne("0DDG5F00RQ0", date);
+		
+		this.currentDemandeTransferts.setAnnee(2015);
+		this.currentDemandeTransferts.setSource("D");
+		this.currentDemandeTransferts.getAdresse().setCodeCommune("59128");
+		this.currentDemandeTransferts.getAdresse().setNomCommune("CAPINGHEM");
+		
+		this.currentDemandeTransferts.getAdresse().setAnnee(2015);
+		this.currentDemandeTransferts.getAdresse().setNumeroEtudiant("20054890");
+		
+		Transferts t = new Transferts();
+		t.setNumeroEtudiant("20054890");
+		t.setAnnee(2015);
+		t.setRne("0593561A");
+		t.setLibRne("Université Lille 3 Charles de Gaulle");
+		t.setDept("059");
+		t.setLibDept("NORD");
+		t.setLibelleTypeDiplome(null);
+		t.setDateDemandeTransfert(new Date());
+		t.setTypeTransfert("T");
+		t.setLibTypeTransfert("Total");
+		t.setTemoinTransfertValide(0);
+		t.setTemoinOPIWs(null);
+		t.setFichier(null);
+		
+		OffreDeFormationsDTO o = new OffreDeFormationsDTO();
+		o.setRne("0593561A");
+		o.setAnnee(2015);
+		o.setCodeDiplome("CL2LEAB");
+		o.setCodeVersionDiplome(150);
+		o.setCodeEtape("1ILEAB");
+		o.setCodeVersionEtape("150");
+		o.setCodeCentreGestion("GAR");
+		o.setLibDiplome("LEA anglais / arabe, libVersionEtape=L1 LEA Anglais Arabe");
+		o.setCodeComposante("CLA");
+		o.setLibComposante("Langues");
+		o.setLibCentreGestion("Pôle d Arras");
+		o.setCodeNiveau(1);
+		o.setLibNiveau("1er année");
+		o.setActif(1);
+		o.setCodTypDip("81");
+		o.setLibTypDip("Licence");
+		o.setDateMaj(new Date());
+		o.setDepart("oui");
+		o.setArrivee("oui");
+		
+		InfosAccueil ia = new InfosAccueil();
+		ia.setAnnee(2015);
+		ia.setNumeroEtudiant("20054890");
+		
+		this.currentDemandeTransferts.setTransferts(t);
+		this.currentDemandeTransferts.getTransferts().setOdf(o);
+//		this.currentDemandeTransferts.setAccueil(ia);
+		this.currentDemandeTransferts.setAccueil(null);
+			
+		System.out.println("this.currentDemandeTransferts===>"+this.currentDemandeTransferts+"<===");
+		
+//		getDomainService().addDemandeTransferts(new EtudiantRef());
+		getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
+		
+		EtudiantRef etu2 = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource("20054890", 2015, "D");
+		if(etu2!=null)
+		{
+			System.out.println("===>getDomainService().deleteDemandeTransfert(etu, 2015);<===");
+			getDomainService().deleteDemandeTransfert(etu2, 2015);
+		}
+	}
+	
 	@Test
 	public void exportDemandeTransfertsAccueil()
 	{
@@ -86,7 +189,7 @@ public class AdministrationControllerTest  {
 //	}
 	
 	//@Test
-	public void addDemandeTransferts() throws Exception
+	public void addDemandeTransfertsAccueil() throws Exception
 	{
 		System.out.println("===>#######################################################################################################################################<===");
 

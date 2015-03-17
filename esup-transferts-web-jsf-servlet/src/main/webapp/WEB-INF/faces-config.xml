@@ -21,9 +21,9 @@
 
 	</application>
 
-<!-- 	<factory> -->
-<!-- 		<exception-handler-factory>org.esupportail.commons.exceptions.ExceptionHandlerFactory</exception-handler-factory> -->
-<!-- 	</factory> -->
+	<factory>
+		<exception-handler-factory>org.esupportail.commons.exceptions.ExceptionHandlerFactory</exception-handler-factory>
+	</factory>
 
 	<!-- <factory> -->
 	<!-- <exception-handler-factory>org.esupportail.transferts.web.exceptions.ExceptionHandler</exception-handler-factory> -->

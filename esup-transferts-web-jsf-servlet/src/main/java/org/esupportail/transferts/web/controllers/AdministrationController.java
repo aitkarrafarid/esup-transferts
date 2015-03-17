@@ -1663,12 +1663,30 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("goToCurrentDemandeTransferts");
 
+		System.out.println("aaaaa");
+		
 		this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource());
 		
-		if(this.currentDemandeTransferts.getTransferts().getFichier()==null || (this.currentDemandeTransferts.getTransferts().getFichier()!=null && this.currentDemandeTransferts.getTransferts().getFichier().getNom().equals("ETABLISSEMENT_PARTENAIRE")))
-			this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
+		System.out.println("bbbbb");
 		
-		setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());	
+		if(this.currentDemandeTransferts.getTransferts().getFichier()==null || (this.currentDemandeTransferts.getTransferts().getFichier()!=null && this.currentDemandeTransferts.getTransferts().getFichier().getNom().equals("ETABLISSEMENT_PARTENAIRE")))
+		{
+			System.out.println("ccccc");
+			if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource())!=null)
+			{
+				this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
+				setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());
+			}
+			else
+			{
+				this.currentDemandeTransferts.getTransferts().setFichier(null);
+				setSelectedmd5(null);
+//				this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
+			}
+//			this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
+			System.out.println("ddddd===>"+this.currentDemandeTransferts.getTransferts().getFichier());
+		}
+		System.out.println("eeeee");
 		
 		if (this.currentDemandeTransferts != null) 
 		{

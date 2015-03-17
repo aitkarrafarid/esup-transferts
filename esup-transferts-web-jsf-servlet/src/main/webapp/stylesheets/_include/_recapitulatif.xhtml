@@ -16,7 +16,8 @@
 
 		<h:panelGrid columns="1"
 			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2}">
-			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl"
+			<p:commandButton value="Imprimer les formulaires"
+				update="voeux,msgs,msgsBas,growl"
 				action="#{userController.imprimerDemandeTransfert}" />
 		</h:panelGrid>
 
@@ -109,50 +110,50 @@
 
 		<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
 			<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-			<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-				style="text-align:left !important;">
-				<h:outputText value="Nom de famille : " />
-				<h:outputText
-					value="#{userController.currentEtudiant.nomPatronymique}" />
+				<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
+					style="text-align:left !important;">
+					<h:outputText value="Nom de famille : " />
+					<h:outputText
+						value="#{userController.currentEtudiant.nomPatronymique}" />
 
-				<h:outputText value="Nom d'usage : " />
-				<h:outputText value="#{userController.currentEtudiant.nomUsuel}" />
+					<h:outputText value="Nom d'usage : " />
+					<h:outputText value="#{userController.currentEtudiant.nomUsuel}" />
 
-				<h:outputText value="Prénom 1 : " />
-				<h:outputText value="#{userController.currentEtudiant.prenom1}" />
+					<h:outputText value="Prénom 1 : " />
+					<h:outputText value="#{userController.currentEtudiant.prenom1}" />
 
-				<h:outputText value="Prénom 2 : " />
-				<h:outputText value="#{userController.currentEtudiant.prenom2}" />
+					<h:outputText value="Prénom 2 : " />
+					<h:outputText value="#{userController.currentEtudiant.prenom2}" />
 
-				<h:outputText value="Date de naissance : " />
-				<h:outputText
-					value="#{userController.currentEtudiant.dateNaissance}">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
-				</h:outputText>
-			</h:panelGrid>
-			
-			<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-				style="margin-left:30%;text-align:left;">
-				<h:outputText value="Centre de gestion : " />
-				<h:outputText
-					value="#{userController.currentEtudiant.libCge} (#{userController.currentEtudiant.codCge})" />
+					<h:outputText value="Date de naissance : " />
+					<h:outputText
+						value="#{userController.currentEtudiant.dateNaissance}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+					</h:outputText>
+				</h:panelGrid>
 
-				<h:outputText value="Composante : " />
-				<h:outputText
-					value="#{userController.currentEtudiant.libComposante} (#{userController.currentEtudiant.composante})" />
+				<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
+					style="margin-left:30%;text-align:left;">
+					<h:outputText value="Centre de gestion : " />
+					<h:outputText
+						value="#{userController.currentEtudiant.libCge} (#{userController.currentEtudiant.codCge})" />
 
-				<h:outputText value="Dernière I.A : " />
-				<h:outputText
-					value="#{userController.currentEtudiant.libEtapePremiereLocal}" />
+					<h:outputText value="Composante : " />
+					<h:outputText
+						value="#{userController.currentEtudiant.libComposante} (#{userController.currentEtudiant.composante})" />
 
-				<h:outputText value="Numéro étudiant : " />
-				<h:outputText
-					value="#{userController.currentEtudiant.numeroEtudiant}" />
+					<h:outputText value="Dernière I.A : " />
+					<h:outputText
+						value="#{userController.currentEtudiant.libEtapePremiereLocal}" />
 
-				<h:outputText value="Numéro I.N.E : " />
-				<h:outputText value="#{userController.currentEtudiant.numeroIne}" />
+					<h:outputText value="Numéro étudiant : " />
+					<h:outputText
+						value="#{userController.currentEtudiant.numeroEtudiant}" />
 
-			</h:panelGrid>			
+					<h:outputText value="Numéro I.N.E : " />
+					<h:outputText value="#{userController.currentEtudiant.numeroIne}" />
+
+				</h:panelGrid>
 			</h:panelGrid>
 		</p:fieldset>
 		<p:spacer height="10px" />
@@ -281,9 +282,11 @@
 				rendered="#{userController.verifDateNaisApogee}"
 				action="#{userController.goToVoeuxOrientationApogee}"
 				immediate="true" />
-			<p:commandButton value="Enregistrer la demande"
-				update=":formVoeux:voeux,:formVoeux:msgs,:formVoeux:msgsBas,:formVoeux:growl"
-				action="#{userController.addDemandeTransferts}" />
+						<p:commandButton value="Enregistrer la demande"
+							update=":formVoeux:voeux,:formVoeux:msgs,:formVoeux:msgsBas,:formVoeux:growl"
+							actionListener="#{userController.addDemandeTransferts}" />
+<!-- 			<p:commandButton value="Enregistrer la demande" -->
+<!-- 				actionListener="#{userController.addDemandeTransferts}" /> -->
 		</h:panelGrid>
 		<p:spacer height="20px" />
 
@@ -302,7 +305,8 @@
 
 		<h:panelGrid columns="1"
 			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2}">
-			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl"
+			<p:commandButton value="Imprimer les formulaires"
+				update="voeux,msgs,msgsBas,growl"
 				action="#{userController.imprimerDemandeTransfert}" />
 		</h:panelGrid>
 	</p:panel>
