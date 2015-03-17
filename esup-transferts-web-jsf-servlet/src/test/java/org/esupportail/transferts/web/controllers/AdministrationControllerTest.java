@@ -196,7 +196,7 @@ public class AdministrationControllerTest  {
 		}
 	}
 
-	//@Test
+	@Test
 	public void exportDemandeTransfertsAccueil()
 	{
 		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(2014, "A");
@@ -341,14 +341,14 @@ public class AdministrationControllerTest  {
 		}
 	}		
 
-	@Test
+	//@Test
 	public void addTransfertOpiToListeTransfertsAccueil()
 	{
 		System.out.println("addtransfertOpiToListeTransfertAccueil");
 		String cod_etu="20054890";
 
-//		WsPub p = getDomainService().getWsPubByRneAndAnnee("0593561A", getCurrentAnnee());
-		WsPub p = getDomainService().getWsPubByRneAndAnnee("0623957P", getCurrentAnnee());
+		WsPub p = getDomainService().getWsPubByRneAndAnnee("0593561A", getCurrentAnnee());
+//		WsPub p = getDomainService().getWsPubByRneAndAnnee("0623957P", getCurrentAnnee());
 
 		// Appel du WebService de l'universite d'accueil
 		if (p != null) 
