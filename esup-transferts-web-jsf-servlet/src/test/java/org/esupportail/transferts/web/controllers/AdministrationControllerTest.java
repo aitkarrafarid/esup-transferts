@@ -196,7 +196,7 @@ public class AdministrationControllerTest  {
 		}
 	}
 
-	@Test
+	//@Test
 	public void exportDemandeTransfertsAccueil()
 	{
 		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(2014, "A");
@@ -341,7 +341,7 @@ public class AdministrationControllerTest  {
 		}
 	}		
 
-	//@Test
+	@Test
 	public void addTransfertOpiToListeTransfertsAccueil()
 	{
 		System.out.println("addtransfertOpiToListeTransfertAccueil");
@@ -367,6 +367,7 @@ public class AdministrationControllerTest  {
 
 					if(this.currentDemandeTransferts!=null)
 					{		
+						this.currentDemandeTransferts.setNomPatronymique("AITKARRA");
 						this.currentDemandeTransferts.setNumeroEtudiant(this.currentDemandeTransferts.getNumeroIne());
 						this.currentDemandeTransferts.getAdresse().setNumeroEtudiant(this.currentDemandeTransferts.getNumeroIne());
 						this.currentDemandeTransferts.getTransferts().setNumeroEtudiant(this.currentDemandeTransferts.getNumeroIne());						
@@ -471,7 +472,7 @@ public class AdministrationControllerTest  {
 						System.out.println("this.currentDemandeTransferts===>" +this.currentDemandeTransferts+"<===");						
 
 //						getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
-						monService.addTransfertOpiToListeTransfertsAccueil(this.currentDemandeTransferts);
+//						monService.addTransfertOpiToListeTransfertsAccueil(this.currentDemandeTransferts);
 
 						this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
 						this.currentDemandeTransferts.getTransferts().setTemoinOPIWs(1);
