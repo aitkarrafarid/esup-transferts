@@ -301,17 +301,18 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public List<SelectItem> getListeFichiers() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("public List<SelectItem> getListeFichiers()");
-//			logger.debug("getDomainServiceWS().getFichiers();");
-		}
+		if (logger.isDebugEnabled()) 
+			logger.debug("public List<SelectItem> getListeFichiers()===>"+listeFichiers+"<===");
+
 		List<SelectItem> fichiers = new ArrayList<SelectItem>();
-		
+	
 		if(listeFichiers==null)
 			listeFichiers = getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource());
 
 		if(listeFichiers!=null)
 		{
+			if (logger.isDebugEnabled()) 
+				logger.debug("if(listeFichiers!=null)===>"+listeFichiers+"<===");
 			for(Fichier f : listeFichiers)
 			{				
 				SelectItem option = new SelectItem(f.getMd5(),f.getNomSignataire()+" - "+f.getNom());
@@ -326,18 +327,20 @@ public class AdministrationController extends AbstractContextAwareController {
 		else
 		{
 //			SelectItem option = new SelectItem("", "");
-//			fichiers.add(option);		
+//			fichiers.add(option);	
+			if (logger.isDebugEnabled())
+				logger.debug("public List<SelectItem> getListeFichiers()===>null<===");
 			fichiers = null;
 		}
 		return fichiers;
 	}	
 
-	public List<Fichier> getListeFichiers2() {
-		if (logger.isDebugEnabled())
-			logger.debug("public List<SelectItem> getListeFichiers2()");
-		List<Fichier> listeFichiers = getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource());
-		return listeFichiers;
-	}		
+//	public List<Fichier> getListeFichiers2() {
+//		if (logger.isDebugEnabled())
+//			logger.debug("public List<SelectItem> getListeFichiers2()");
+//		List<Fichier> listeFichiers = getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource());
+//		return listeFichiers;
+//	}		
 	
 	public void decisionChange(ValueChangeEvent vce)
 	{  
@@ -1570,11 +1573,27 @@ public class AdministrationController extends AbstractContextAwareController {
 			currentAccueilResultat = new AccueilResultat();			
 			currentSituationUniv = new SituationUniversitaire();
 
-			if(this.currentDemandeTransferts.getTransferts().getFichier()==null || (this.currentDemandeTransferts.getTransferts().getFichier()!=null && this.currentDemandeTransferts.getTransferts().getFichier().getNom().equals("ETABLISSEMENT_PARTENAIRE")))
-				this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
-			
-			setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());			
+//			if(this.currentDemandeTransferts.getTransferts().getFichier()==null || (this.currentDemandeTransferts.getTransferts().getFichier()!=null && this.currentDemandeTransferts.getTransferts().getFichier().getNom().equals("ETABLISSEMENT_PARTENAIRE")))
+//				this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
+//			
+//			setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());			
 
+			if(this.currentDemandeTransferts.getTransferts().getFichier()==null || (this.currentDemandeTransferts.getTransferts().getFichier()!=null && this.currentDemandeTransferts.getTransferts().getFichier().getNom().equals("ETABLISSEMENT_PARTENAIRE")))
+			{
+				System.out.println("ccccc");
+				if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource())!=null)
+				{
+					this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
+					setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());
+				}
+				else
+				{
+					this.currentDemandeTransferts.getTransferts().setFichier(null);
+					setSelectedmd5(null);
+//					this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
+				}
+			}
+			
 			List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(this.currentDemandeTransferts.getAccueil().getCodeBac());
 			if (logger.isDebugEnabled())
 				logger.debug("existCodeBac---listeBacDTO-->"+listeBacDTO);	
@@ -3720,7 +3739,9 @@ public class AdministrationController extends AbstractContextAwareController {
 					if (logger.isDebugEnabled()) 
 						logger.debug("monService-->"+monService);
 
-					EtudiantRef etu = getDomainService().getEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
+//					EtudiantRef etu = getDomainService().getEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
+					EtudiantRef etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
+					
 					if(etu!=null)
 					{		
 						etu.setNumeroEtudiant(etu.getNumeroIne());
@@ -3835,6 +3856,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						f.setNom("ETABLISSEMENT_PARTENAIRE");
 						f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
 						f.setTaille(12345);
+//						etu.getTransferts().setFichier(f);
 						etu.getTransferts().setFichier(f);
 						etu.getTransferts().setRne(p.getRne());
 						etu.getTransferts().setTemoinTransfertValide(0);

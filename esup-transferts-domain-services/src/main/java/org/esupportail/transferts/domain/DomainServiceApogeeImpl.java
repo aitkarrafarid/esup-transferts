@@ -1012,8 +1012,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	{
 		if (logger.isDebugEnabled())
 		{
-			logger.debug("getSessionsResultats ----- supannEtuId -----> " + supannEtuId);
-			logger.debug("getSessionsResultats ----- source -----> " + source);
+			logger.debug("getSessionsResultats ----- supannEtuId===>" + supannEtuId+"<===");
+			logger.debug("getSessionsResultats ----- source===>" + source+"<===");
 		}
 
 		int max=MAX_SESSIONS_RESULTAT_DEPART;
@@ -1036,7 +1036,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				{
 					int compteur=max-1;
 					int diff=contratPedagogiqueResultatVdiVetDTO.length-max;
-					System.out.println("##################### ----->"+diff);
+//					System.out.println("##################### ----->"+diff);
 					for(int i=contratPedagogiqueResultatVdiVetDTO.length-1;i>=0;i--)
 					{
 						if(diff<=i)

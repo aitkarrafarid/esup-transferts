@@ -242,7 +242,10 @@ public class FileUploadController extends AbstractContextAwareController impleme
 //	}	
 
 	public SignatureDataModel getListeFichiers2() {
-		return new SignatureDataModel(getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
+		if(getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource())!=null)
+			return new SignatureDataModel(getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
+		else
+			return null;
 	}
 
 	public void setWsdl(String wsdl) {

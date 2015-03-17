@@ -48,6 +48,7 @@ import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.Test;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.domain.beans.WsPubPK;
+import org.springframework.dao.EmptyResultDataAccessException;
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2015
  * 
@@ -316,18 +317,22 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<Fichier> getFichiersByAnneeAndFrom(Integer annee, String from) {
 		if (logger.isDebugEnabled()){
-			logger.debug("getFichiersByAnnee()");
+			logger.debug("getFichiersByAnneeAndFrom()===>"+annee+"---"+from+"<===");
 		}
 		try{
 			Query q = entityManager.createNamedQuery("getFichiersByAnneeAndFrom");
 			q.setParameter("annee", annee);
 			q.setParameter("from", from);
-			@SuppressWarnings("unchecked")
-			List<Fichier> ret = q.getResultList();
-			return ret;
+			List<Fichier> ret = (List<Fichier>) q.getResultList();
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
-			return new ArrayList<Fichier>();
+//			return new ArrayList<Fichier>();
+			e.printStackTrace();
+			return null;
 		}
 	}
 
