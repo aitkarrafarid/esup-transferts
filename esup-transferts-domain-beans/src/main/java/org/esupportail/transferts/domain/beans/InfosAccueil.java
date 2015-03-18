@@ -13,14 +13,9 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.IndexColumn;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author Farid AIT KARRA : farid.aitkarra@univ-artois.fr
@@ -43,7 +38,7 @@ public class InfosAccueil implements Serializable{
 	@Id
 	@Column(name = "annee", length = 4, nullable=true)
 	private Integer annee;		
-
+	
 	/**
 	 * Code departement de l'universite de depart
 	 */
@@ -100,7 +95,7 @@ public class InfosAccueil implements Serializable{
 	 */
 	@Column(name = "VALID_OU_CAND")
 	private Integer validationOuCandidature;		
-
+	
 	@OneToMany(fetch=FetchType.LAZY, cascade={CascadeType.ALL })
 	@JoinColumns({
 		@JoinColumn(name = "numeroEtudiant", referencedColumnName = "numeroEtudiant"),

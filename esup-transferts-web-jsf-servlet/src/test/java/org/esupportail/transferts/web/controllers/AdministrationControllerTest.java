@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -93,6 +94,15 @@ public class AdministrationControllerTest  {
 
 	@After
 	public void tearDown() throws Exception {
+	}
+
+	public String rand(int nb) {
+		String chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+		StringBuilder res = new StringBuilder();
+		for(int i = 0; i < nb; i++) {
+			res.append(chars.charAt(new Random().nextInt(chars.length())));
+		}
+		return res.toString();
 	}
 
 	//@Test
@@ -212,8 +222,9 @@ public class AdministrationControllerTest  {
 	public void addDemandeTransfertsAccueil() throws Exception
 	{
 		System.out.println("===>#######################################################################################################################################<===");
+		String cod_etu="20054890";
 
-		EtudiantRef etu = this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.getEtudiantAccueil().getNumeroEtudiant(), this.getEtudiantAccueil().getAnnee(), this.getEtudiantAccueil().getSource());
+		EtudiantRef etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(cod_etu, getCurrentAnnee(), "D");
 
 		Date date = null;
 		String date1 = "28/03/1980";
@@ -248,13 +259,13 @@ public class AdministrationControllerTest  {
 			this.currentDemandeTransferts.getAdresse().setCodeCommune(null);
 			this.currentDemandeTransferts.getAdresse().setNomCommune(null);
 		}
-		this.currentDemandeTransferts.setAnnee(2014);
-		this.currentDemandeTransferts.getAdresse().setAnnee(2014);
+		this.currentDemandeTransferts.setAnnee(getCurrentAnnee());
+		this.currentDemandeTransferts.getAdresse().setAnnee(getCurrentAnnee());
 		this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(0);
 		this.currentDemandeTransferts.getTransferts().setDateDemandeTransfert(new Date());
-		this.currentDemandeTransferts.getTransferts().setAnnee(2014);
+		this.currentDemandeTransferts.getTransferts().setAnnee(getCurrentAnnee());
 		this.currentDemandeTransferts.getTransferts().setFichier(null);
-		this.currentDemandeTransferts.getAccueil().setAnnee(2014);
+		this.currentDemandeTransferts.getAccueil().setAnnee(getCurrentAnnee());
 		this.currentDemandeTransferts.getAccueil().setNumeroEtudiant(this.currentDemandeTransferts.getNumeroEtudiant());
 		this.currentDemandeTransferts.getAccueil().setFrom_source("L");
 
@@ -264,8 +275,8 @@ public class AdministrationControllerTest  {
 
 		this.currentDemandeTransferts.getTransferts().setOdf(etu.getTransferts().getOdf());
 
-		//		getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
-		//		getDomainService().deleteDemandeTransfert(this.currentDemandeTransferts, 2014);
+		getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
+		//		getDomainService().deleteDemandeTransfert(this.currentDemandeTransferts, 2015);
 
 	}
 
@@ -328,9 +339,6 @@ public class AdministrationControllerTest  {
 				this.currentDemandeTransferts.getTransferts().setFichier(file);
 			}
 
-
-
-
 			List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(this.currentDemandeTransferts.getAccueil().getCodeBac());
 
 			System.out.println("file===>"+file+"<===");
@@ -347,8 +355,8 @@ public class AdministrationControllerTest  {
 		System.out.println("addtransfertOpiToListeTransfertAccueil");
 		String cod_etu="20054890";
 
-		WsPub p = getDomainService().getWsPubByRneAndAnnee("0593561A", getCurrentAnnee());
-//		WsPub p = getDomainService().getWsPubByRneAndAnnee("0623957P", getCurrentAnnee());
+//		WsPub p = getDomainService().getWsPubByRneAndAnnee("0593561A", getCurrentAnnee());
+				WsPub p = getDomainService().getWsPubByRneAndAnnee("0623957P", getCurrentAnnee());
 
 		// Appel du WebService de l'universite d'accueil
 		if (p != null) 
@@ -364,65 +372,58 @@ public class AdministrationControllerTest  {
 					DomainServiceOpi monService = (DomainServiceOpi) factoryBean.create();
 
 					this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(cod_etu, getCurrentAnnee(), "D");
+					EtudiantRef etu = new EtudiantRef();
+					//					etu = this.currentDemandeTransferts;
+					//
+					//					if(etu!=null)
+					//					{		
+					//						this.currentDemandeTransferts.setNumeroIne("12345678910");
+					etu.setNumeroIne(rand(11));
+					etu.setAnnee(getCurrentAnnee());
 
-					if(this.currentDemandeTransferts!=null)
-					{		
-						this.currentDemandeTransferts.setNomPatronymique("AITKARRA");
-						this.currentDemandeTransferts.setNumeroEtudiant(this.currentDemandeTransferts.getNumeroIne());
-						this.currentDemandeTransferts.getAdresse().setNumeroEtudiant(this.currentDemandeTransferts.getNumeroIne());
-						this.currentDemandeTransferts.getTransferts().setNumeroEtudiant(this.currentDemandeTransferts.getNumeroIne());						
-						InfosAccueil ia = new InfosAccueil();
+					etu.setNomPatronymique("AITKARRA");
+					etu.setPrenom1("Farid");
+					etu.setNumeroEtudiant(etu.getNumeroIne());
+					etu.getAdresse().setNumeroEtudiant(etu.getNumeroIne());
+					etu.getAdresse().setAnnee(getCurrentAnnee());
 
-						ia.setNumeroEtudiant(this.currentDemandeTransferts.getNumeroIne());
-						ia.setAnnee(getCurrentAnnee());
+					etu.getTransferts().setNumeroEtudiant(etu.getNumeroIne());
+					etu.getTransferts().setAnnee(getCurrentAnnee());
 
-						TrResultatVdiVetDTO sessionsResultats = getDomainServiceScolarite().getSessionsResultats(cod_etu, "A");
-						TrBac bac = getDomainServiceScolarite().getBaccalaureat(cod_etu);
-						TrInfosAdmEtu trInfosAdmEtu = getDomainServiceScolarite().getInfosAdmEtu(cod_etu);
-						TrEtablissementDTO trEtablissementDTO = getDomainServiceScolarite().getEtablissementByRne("0593561A");
+					InfosAccueil ia = new InfosAccueil();
 
-						List<SituationUniversitaire> listeSituationUniversitaire = new ArrayList<SituationUniversitaire>();
-						if(!sessionsResultats.getEtapes().isEmpty())
+					ia.setNumeroEtudiant(etu.getNumeroIne());
+					ia.setAnnee(getCurrentAnnee());
+
+					TrResultatVdiVetDTO sessionsResultats = getDomainServiceScolarite().getSessionsResultats(cod_etu, "A");
+					TrBac bac = getDomainServiceScolarite().getBaccalaureat(cod_etu);
+					TrInfosAdmEtu trInfosAdmEtu = getDomainServiceScolarite().getInfosAdmEtu(cod_etu);
+					TrEtablissementDTO trEtablissementDTO = getDomainServiceScolarite().getEtablissementByRne("0593561A");
+
+					List<SituationUniversitaire> listeSituationUniversitaire = new ArrayList<SituationUniversitaire>();
+					if(!sessionsResultats.getEtapes().isEmpty())
+					{
+						int i=0;
+						for(ResultatEtape re :  sessionsResultats.getEtapes())
 						{
-							int i=0;
-							for(ResultatEtape re :  sessionsResultats.getEtapes())
+							System.out.println("re.getLibEtape() : " + re.getLibEtape());
+							boolean test=true;
+
+							for(ResultatSession rs : re.getSession())
 							{
-								System.out.println("re.getLibEtape() : " + re.getLibEtape());
-								boolean test=true;
+								System.out.println("re.getSession().size() : " + re.getSession().size());
+								System.out.println("re.getSession() : " + re.getSession());
 
-								for(ResultatSession rs : re.getSession())
+								if(rs.getResultat()!=null && !rs.getResultat().equals(""))
 								{
-									System.out.println("re.getSession().size() : " + re.getSession().size());
-									System.out.println("re.getSession() : " + re.getSession());
-
-									if(rs.getResultat()!=null && !rs.getResultat().equals(""))
-									{
-										test=false;
-										SituationUniversitaire su = new SituationUniversitaire();
-										String timestamp = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
-										su.setId(this.currentDemandeTransferts.getNumeroIne()+"_"+timestamp+"_P"+i);	
-										i++;
-										su.setLibAccueilAnnee(re.getAnnee());
-										su.setLibelle(re.getLibEtape());									
-										su.setLibAccueilResultat(rs.getLibSession()+" - "+rs.getResultat());	
-										Integer idAccueilAnnee=0;
-										AccueilAnnee aa = getDomainService().getAccueilAnneeByIdAccueilAnnee(idAccueilAnnee);
-										Integer idAccueilResultat=0;
-										AccueilResultat ar = getDomainService().getAccueilResultatByIdAccueilResultat(idAccueilResultat);
-										su.setAnnee(aa);
-										su.setResultat(ar);
-										listeSituationUniversitaire.add(su);
-									}
-								}
-								if(test)
-								{
+									test=false;
 									SituationUniversitaire su = new SituationUniversitaire();
 									String timestamp = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
-									su.setId(this.currentDemandeTransferts.getNumeroIne()+"_"+timestamp+"_P"+i);	
+									su.setId(etu.getNumeroIne()+"_"+timestamp+"_P"+i);	
 									i++;
 									su.setLibAccueilAnnee(re.getAnnee());
 									su.setLibelle(re.getLibEtape());									
-									su.setLibAccueilResultat("");	
+									su.setLibAccueilResultat(rs.getLibSession()+" - "+rs.getResultat());	
 									Integer idAccueilAnnee=0;
 									AccueilAnnee aa = getDomainService().getAccueilAnneeByIdAccueilAnnee(idAccueilAnnee);
 									Integer idAccueilResultat=0;
@@ -432,56 +433,84 @@ public class AdministrationControllerTest  {
 									listeSituationUniversitaire.add(su);
 								}
 							}
+							if(test)
+							{
+								SituationUniversitaire su = new SituationUniversitaire();
+								String timestamp = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
+								su.setId(etu.getNumeroIne()+"_"+timestamp+"_P"+i);	
+								i++;
+								su.setLibAccueilAnnee(re.getAnnee());
+								su.setLibelle(re.getLibEtape());									
+								su.setLibAccueilResultat("");	
+								Integer idAccueilAnnee=0;
+								AccueilAnnee aa = getDomainService().getAccueilAnneeByIdAccueilAnnee(idAccueilAnnee);
+								Integer idAccueilResultat=0;
+								AccueilResultat ar = getDomainService().getAccueilResultatByIdAccueilResultat(idAccueilResultat);
+								su.setAnnee(aa);
+								su.setResultat(ar);
+								listeSituationUniversitaire.add(su);
+							}
 						}
-						ia.setSituationUniversitaire(listeSituationUniversitaire);
-						ia.setFrom_source("P");
-						if(bac!=null)
-						{
-							ia.setAnneeBac(bac.getAnneeObtentionBac());
-							ia.setCodeBac(bac.getCodeBac());
-						}
+					}
+					ia.setSituationUniversitaire(listeSituationUniversitaire);
+					ia.setFrom_source("P");
+					if(bac!=null)
+					{
+						ia.setAnneeBac(bac.getAnneeObtentionBac());
+						ia.setCodeBac(bac.getCodeBac());
+					}
 
-						if(trInfosAdmEtu!=null)
-							ia.setCodePaysNat(trInfosAdmEtu.getCodPayNat());
+					if(trInfosAdmEtu!=null)
+						ia.setCodePaysNat(trInfosAdmEtu.getCodPayNat());
 
-						ia.setCodeRneUnivDepart(trEtablissementDTO.getCodeEtb());
-						ia.setCodeDepUnivDepart(trEtablissementDTO.getCodeDep());	
+					ia.setCodeRneUnivDepart(trEtablissementDTO.getCodeEtb());
+					ia.setCodeDepUnivDepart(trEtablissementDTO.getCodeDep());	
 
-						ia.setValidationOuCandidature(0);
+					ia.setValidationOuCandidature(0);
 
-						this.currentDemandeTransferts.setAccueil(ia);
-						this.currentDemandeTransferts.setSource("A");
+					//						etu.setAccueil(ia);
+					etu.setAccueil(null);
 
-						Fichier f = new Fichier();
-						f.setFrom("A");
-						f.setMd5("ETABLISSEMENT_PARTENAIRE");
-						f.setAnnee(this.currentDemandeTransferts.getAnnee());
-						f.setNom("ETABLISSEMENT_PARTENAIRE");
-						f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
-						f.setTaille(12345);
-						//						this.currentDemandeTransferts.getTransferts().setFichier(null);
-						this.currentDemandeTransferts.getTransferts().setFichier(f);
+					etu.setSource("A");
 
-						this.currentDemandeTransferts.getTransferts().setRne(getCurrentRne());
-						this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(0);
-						this.currentDemandeTransferts.getTransferts().setTemoinOPIWs(null);
-						this.currentDemandeTransferts.getTransferts().getOdf().setRne("0593561A");
+					Fichier f = new Fichier();
+					f.setFrom("A");
+					f.setMd5("ETABLISSEMENT_PARTENAIRE");
+					f.setAnnee(getCurrentAnnee());
+					f.setNom("ETABLISSEMENT_PARTENAIRE");
+					f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
+					f.setTaille(12345);
+					//						this.currentDemandeTransferts.getTransferts().setFichier(null);
+					etu.getTransferts().setFichier(f);
 
-						System.out.println("this.currentDemandeTransferts.getAccueil()===>" +this.currentDemandeTransferts.getAccueil().getNumeroEtudiant()+"---"+this.currentDemandeTransferts.getAccueil().getAnnee()+"<===");			
-						System.out.println("this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size()===>" +this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size()+"<===");
-						System.out.println("this.currentDemandeTransferts===>" +this.currentDemandeTransferts+"<===");						
+					etu.getTransferts().setRne(getCurrentRne());
+					etu.getTransferts().setTemoinTransfertValide(0);
+					etu.getTransferts().setTemoinOPIWs(null);
+					etu.getTransferts().setOdf(this.currentDemandeTransferts.getTransferts().getOdf());
+					etu.getTransferts().getOdf().setRne("0593561A");
 
-//						getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
-//						monService.addTransfertOpiToListeTransfertsAccueil(this.currentDemandeTransferts);
-
-						this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
-						this.currentDemandeTransferts.getTransferts().setTemoinOPIWs(1);
-
+					if(etu.getAccueil()!=null)
+					{
+						System.out.println("etu.getAccueil()===>" +etu.getAccueil().getNumeroEtudiant()+"---"+etu.getAccueil().getAnnee()+"<===");
+						System.out.println("etu.getAccueil().getSituationUniversitaire().size()===>" +etu.getAccueil().getSituationUniversitaire().size()+"<===");
 					}
 					else
-					{
-						System.out.println("Aucun etudiant corresondant a l'INE suivant : "+this.currentDemandeTransferts.getNumeroIne());						
-					}					
+						System.out.println("etu.getAccueil()===>null<===");
+
+					
+					System.out.println("etu===>" +etu+"<===");						
+
+//											getDomainService().addDemandeTransferts(etu);
+					monService.addTransfertOpiToListeTransfertsAccueil(etu);
+
+					etu.getTransferts().setTemoinTransfertValide(2);
+					etu.getTransferts().setTemoinOPIWs(1);
+
+					//					}
+					//					else
+					//					{
+					//						System.out.println("Aucun etudiant corresondant a l'INE suivant : "+etu.getNumeroIne());						
+					//					}					
 				} 
 				catch (Exception e) 
 				{
@@ -490,7 +519,7 @@ public class AdministrationControllerTest  {
 				}
 			}
 		}
-//		getDomainService().deleteDemandeTransfert(this.currentDemandeTransferts,getCurrentAnnee());
+		//				getDomainService().deleteDemandeTransfert(this.currentDemandeTransferts,getCurrentAnnee());
 	}
 
 	private boolean testUrl(String host) {

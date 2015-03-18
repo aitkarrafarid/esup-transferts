@@ -406,7 +406,11 @@ public class UserController extends AbstractContextAwareController {
 		if(logger.isDebugEnabled())
 			logger.debug("===>public void addDemandeTransfertsSansValidationAuto()<===");
 		
-//		getDomainService().addDemandeTransferts(new EtudiantRef());
+//		InfosAccueil ia = new InfosAccueil();
+//		ia.setNumeroEtudiant(this.getCurrentEtudiant().getNumeroEtudiant());
+//		ia.setAnnee(this.getCurrentEtudiant().getAnnee());
+//		this.getCurrentEtudiant().setAccueil(ia);
+		
 		getDomainService().addDemandeTransferts(this.getCurrentEtudiant());
 		
 		if(logger.isDebugEnabled())

@@ -125,7 +125,6 @@ public class EtudiantRef implements Serializable {
 			@JoinColumn(name = "annee", referencedColumnName = "annee") })
 	private Transferts transferts = new Transferts();
 
-//	@OneToOne(cascade = { CascadeType.ALL })
 	@OneToOne(optional=false, fetch=FetchType.LAZY, cascade = { CascadeType.ALL })
 	@JoinColumns({
 			@JoinColumn(name = "numeroEtudiant", referencedColumnName = "numeroEtudiant"),
