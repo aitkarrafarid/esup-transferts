@@ -83,4 +83,6 @@ public interface DomainServiceScolarite extends Serializable {
 	public IdentifiantEtudiant getIdentifiantEtudiantByIne(String codNneIndOpi, String codCleNneIndOpi);
 
 	TrInfosAdmEtu getInfosAdmEtu(String supannEtuId);
+
+	public List<EtudiantRef> recupererListeEtudiants(String myAnnee, String codeDiplome, String versionDiplome, String codeEtape, String versionEtape);
 }

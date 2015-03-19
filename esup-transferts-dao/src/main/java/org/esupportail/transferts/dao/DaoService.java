@@ -43,7 +43,7 @@ public interface DaoService extends Serializable {
 	 */
 	EtudiantRef getEtudiantRef(String numeroEtudiant, Integer annee);
 
-	void addDemandeTransferts(EtudiantRef currentEtudiant);
+	EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant);
 
 //	List<EtudiantRef> getAllDemandesTransferts();
 
@@ -274,15 +274,8 @@ public interface DaoService extends Serializable {
 
 	void deleteSelectedOpi(IndOpi selectedOpiForDelete);
 
-//	Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(
-//			String rne, Integer currentAnnee, String codTypDip, String source);
-
 	Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne,
 			Integer currentAnnee, String codTypDip);
 
 	EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source);
-
-//	List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source);
-
-//	List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
 }

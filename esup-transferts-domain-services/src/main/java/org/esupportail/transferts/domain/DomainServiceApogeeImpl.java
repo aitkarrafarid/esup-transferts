@@ -29,6 +29,9 @@ import gouv.education.apogee.commun.transverse.dto.etudiant.AdresseDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.BlocageDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.CommuneDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.CoordonneesDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantCritereDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantCritereListeDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantDTO2;
 import gouv.education.apogee.commun.transverse.dto.etudiant.IdentifiantsEtudiantDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.IndBacDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.InfoAdmEtuDTO;
@@ -1036,7 +1039,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				{
 					int compteur=max-1;
 					int diff=contratPedagogiqueResultatVdiVetDTO.length-max;
-//					System.out.println("##################### ----->"+diff);
+					//					System.out.println("##################### ----->"+diff);
 					for(int i=contratPedagogiqueResultatVdiVetDTO.length-1;i>=0;i--)
 					{
 						if(diff<=i)
@@ -1947,6 +1950,61 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		else
 			return null;
-	}	
+	}
 
+	@Override
+	public List<EtudiantRef> recupererListeEtudiants(String myAnnee, String codeDiplome, String versionDiplome, String codeEtape, String versionEtape) 
+	{
+		if (logger.isDebugEnabled())
+		{
+			logger.debug("===>Je suis dans le WS AMUE<===");
+			logger.debug("public EtudiantRef recupererListeEtudiants(String myAnnee, String codeDiplome, String versionDiplome, String codeEtape, String versionEtape)===>"+myAnnee+"---"+codeDiplome+"---"+versionDiplome+"---"+codeEtape+"---"+versionEtape+"<===");
+		}
+
+		List<EtudiantRef> listeEtu = new ArrayList<EtudiantRef>();
+
+		try{
+			EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+
+			EtudiantCritereDTO etuCritere  = new EtudiantCritereDTO();
+			etuCritere.setAnnee(myAnnee);
+						
+			EtudiantCritereListeDTO[] etuCritereListeDiplome = new EtudiantCritereListeDTO[1];
+			EtudiantCritereListeDTO[] etuCritereListeEtape = new EtudiantCritereListeDTO[1];
+			
+			EtudiantCritereListeDTO diplome = new EtudiantCritereListeDTO();
+			diplome.setCode(codeDiplome);
+			diplome.setListVersion(new String[]{versionDiplome});
+
+			EtudiantCritereListeDTO etape = new EtudiantCritereListeDTO();
+			etape.setCode(codeEtape);
+			etape.setListVersion(new String[]{versionEtape});			
+			
+			etuCritereListeDiplome[0]=diplome;
+			etuCritereListeEtape[0]=etape;
+			
+			etuCritere.setListDiplomes(etuCritereListeDiplome);
+			etuCritere.setListEtapes(etuCritereListeEtape);
+
+			EtudiantDTO2[] listeEtuDto2 = etudiantMetierService.recupererListeEtudiants(etuCritere);
+
+			for(EtudiantDTO2 etuDto2 : listeEtuDto2)
+			{
+				EtudiantRef etu = new EtudiantRef();
+				etu.setNumeroEtudiant(etuDto2.getCodEtu());
+				listeEtu.add(etu);
+			}
+
+		}catch (WebBaseException w) 
+		{
+			w.printStackTrace();
+			return null;
+		}		
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return null;
+		}	
+		return listeEtu;
+	}
 }

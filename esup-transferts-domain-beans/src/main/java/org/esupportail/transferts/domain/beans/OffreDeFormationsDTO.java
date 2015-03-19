@@ -175,7 +175,7 @@ import javax.persistence.TemporalType;
 	@NamedQuery(
 			name="getOdfComposanteByRneAndAnneeAndCodTypDip",
 			query="SELECT DISTINCT(odf.codeComposante) , odf.libComposante FROM OffreDeFormationsDTO odf WHERE odf.rne = :rne AND odf.annee = :annee AND odf.codTypDip = :codTypDip"
-			)				
+			)
 })
 
 @IdClass(OffreDeFormationPK.class)

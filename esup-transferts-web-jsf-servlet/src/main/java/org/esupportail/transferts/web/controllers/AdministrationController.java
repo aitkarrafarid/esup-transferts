@@ -1739,7 +1739,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				currentOdf=currentDemandeTransferts.getTransferts().getOdf();
 
 			}
-			this.initialiseTransientEtudiantRef();
+			currentDemandeTransferts=this.initialiseTransientEtudiantRef(currentDemandeTransferts);
 
 			listeDepartements=null;
 			setDeptVide(false);
@@ -1994,7 +1994,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						if (logger.isDebugEnabled()) {
 							logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
 						}	
-						this.initialiseTransientEtudiantRef();
+						etu=this.initialiseTransientEtudiantRef(etu);
 						getDomainService().addDemandeTransferts(etu);
 					}
 					if (logger.isDebugEnabled())
@@ -2053,7 +2053,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						if (logger.isDebugEnabled())
 							logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
 
-						this.initialiseTransientEtudiantRef();
+						etu=this.initialiseTransientEtudiantRef(etu);
 						getDomainService().addDemandeTransferts(etu);
 					}
 					if (logger.isDebugEnabled())
@@ -2984,7 +2984,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		this.currentDemandeTransferts.getTransferts().setLibRne(getDomainServiceScolarite().getEtablissementByRne(this.currentDemandeTransferts.getTransferts().getRne()).getLibEtb());
 	}	
 
-	public void initialiseTransientEtudiantRef()
+	public EtudiantRef initialiseTransientEtudiantRef(EtudiantRef etu)
 	{
 		/*
 		 * map.put("libWebVet", insAdmEtpDTO[i].getEtape().getLibWebVet());
@@ -2994,19 +2994,23 @@ public class AdministrationController extends AbstractContextAwareController {
 		 * map.put("libComposante", insAdmEtpDTO[i].getComposante().getCodComposante());
 		 * 
 		 * */			
-		Map<String, String> map = getDomainServiceScolarite().getEtapePremiereAndCodeCgeAndLibCge(currentDemandeTransferts.getNumeroEtudiant()); 
+		
+		etu.getNumeroEtudiant();
+		
+		Map<String, String> map = getDomainServiceScolarite().getEtapePremiereAndCodeCgeAndLibCge(etu.getNumeroEtudiant()); 
 		for (String mapKey : map.keySet()) {
 			if(mapKey.equals("libWebVet"))
-				currentDemandeTransferts.setLibEtapePremiereLocal(map.get(mapKey));
+				etu.setLibEtapePremiereLocal(map.get(mapKey));
 			if(mapKey.equals("codeCGE"))
-				currentDemandeTransferts.setCodCge(map.get(mapKey));		
+				etu.setCodCge(map.get(mapKey));		
 			if(mapKey.equals("libCGE"))
-				currentDemandeTransferts.setLibCge(map.get(mapKey));		
+				etu.setLibCge(map.get(mapKey));		
 			if(mapKey.equals("codeComposante"))
-				currentDemandeTransferts.setComposante(map.get(mapKey));				
+				etu.setComposante(map.get(mapKey));				
 			if(mapKey.equals("libComposante"))
-				currentDemandeTransferts.setLibComposante(map.get(mapKey));				
+				etu.setLibComposante(map.get(mapKey));				
 		}
+		return etu;
 	}
 
 	public String goToSaisirAvis() {

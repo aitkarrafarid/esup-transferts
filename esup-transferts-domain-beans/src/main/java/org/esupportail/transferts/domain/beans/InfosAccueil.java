@@ -32,11 +32,11 @@ public class InfosAccueil implements Serializable{
 	private static final long serialVersionUID = 123126789L;
 
 	@Id
-	@Column(name = "numeroEtudiant", nullable=true)
+	@Column(name = "numeroEtudiant")
 	private String numeroEtudiant;	
 
 	@Id
-	@Column(name = "annee", length = 4, nullable=true)
+	@Column(name = "annee", length = 4)
 	private Integer annee;		
 	
 	/**

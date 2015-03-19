@@ -113,11 +113,11 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	}
 
 	@Override
-	public void addDemandeTransferts(EtudiantRef currentEtudiant) {
+	public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant) {
 		if (logger.isDebugEnabled()){
 			logger.debug("public void addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
 		}
-		entityManager.merge(currentEtudiant);
+		return entityManager.merge(currentEtudiant);
 //		entityManager.persist(currentEtudiant);	
 	}
 
@@ -2010,41 +2010,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		entityManager.remove(opi);
 	}
 
-//	@Override
-//	public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip, String source) {
-//		if (logger.isDebugEnabled())
-//			logger.debug("public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip, String source)-->"+rne+"-----"+currentAnnee+"-----"+codTypDip+"-----"+source);
-//		try{
-//			Query q;
-//			if(source.equals("D"))
-//				q = entityManager.createNamedQuery("getOdfComposanteByRneAndAnneeAndDepartAndCodTypDip");
-//			else
-//				q = entityManager.createNamedQuery("getOdfComposanteByRneAndAnneeAndArriveeAndCodTypDip");
-//			q.setParameter("rne", rne);
-//			q.setParameter("annee", currentAnnee);
-//			q.setParameter("codTypDip", codTypDip);
-//			Map<String, String> map = new HashMap<String, String>();
-//			@SuppressWarnings("unchecked")
-//			List<Object[]> result1 = q.getResultList();
-//			for (Object[] resultElement : result1) 
-//			{
-//				String codeComposante = (String)resultElement[0];
-//				String libComposante = (String)resultElement[1];
-//				if (logger.isDebugEnabled())
-//				{
-//					logger.debug("################### codeComposante --> " + codeComposante);
-//					logger.debug("################### libComposante --> " + libComposante);
-//				}
-//				map.put(codeComposante, libComposante);
-//			}
-//			return map;
-//		}
-//		catch(NoResultException e){
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
-
 	@Override
 	public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip) {
 		if (logger.isDebugEnabled())
@@ -2094,40 +2059,4 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return null;
 		}		
 	}
-
-//	@Override
-//	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source) 
-//	{
-//		if (logger.isDebugEnabled())
-//			logger.debug("public List<SituationUniversitaire> getTestAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source);
-//		try{
-//			Query q = entityManager.createNamedQuery("getTestAllDemandesTransfertsByAnnee");
-//			q.setParameter("annee", annee);
-//			q.setParameter("source", source);
-//			List<EtudiantRef> lEtu = q.getResultList();
-//			return lEtu;
-//		}
-//		catch(NoResultException e){
-//			e.printStackTrace();
-//			return null;
-//		}	
-//	}
-
-//	@Override
-//	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 
-//	{
-//		if (logger.isDebugEnabled())
-//			logger.debug("public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) ===>"+numeroEtudiant+"-----"+annee);
-//		try{
-//			Query q = entityManager.createNamedQuery("getSituationUniversitaireByNumeroEtudiantAndAnnee");
-//			q.setParameter("numeroEtudiant", numeroEtudiant);
-//			q.setParameter("annee", annee);
-//			List<SituationUniversitaire> lSu = (List<SituationUniversitaire>) q.getResultList();
-//			return lSu;
-//		}
-//		catch(NoResultException e){
-//			e.printStackTrace();
-//			return null;
-//		}	
-//	}
 }

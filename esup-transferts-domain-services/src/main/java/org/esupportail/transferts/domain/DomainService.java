@@ -52,7 +52,7 @@ public interface DomainService extends Serializable {
 	 */
 	public List<IndOpi> getAllIndOpiBySource(Integer annee, String source);	
 	
-	public void addDemandeTransferts(EtudiantRef currentEtudiant);
+	public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant);
 
 //	public List<EtudiantRef> getAllDemandesTransferts();
 	
@@ -238,17 +238,12 @@ public interface DomainService extends Serializable {
 
 	public PersonnelComposante getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(
 			String login, String source, Integer currentAnnee, String composante);
-
-//	public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArrivee(String rne, Integer currentAnnee);
 	
 	List<DatasExterne> getAllDatasExterneByIdentifiant(String identifiant);
 
 	DatasExterne getAllDatasExterneByCodeInterditAndNumeroEtudiant(String identifiant, String code);
 	
 	List<DatasExterne> getAllDatasExterneByIdentifiantAndNiveau(String identifiant, Integer niveau);
-	
-//	Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(
-//			String rne, Integer annee, String codTypDip);
 
 	public DatasExterne getDataExterneByIdentifiantAndCode(String identifiant,String code);
 
@@ -279,14 +274,7 @@ public interface DomainService extends Serializable {
 
 	public void deleteSelectedOpi(IndOpi selectedOpiForDelete);
 
-//	public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(
-//			String rne, Integer currentAnnee, String codTypDip, String source);
-
 	public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip);
 
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source);
-
-//	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source);
-
-//	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
 }

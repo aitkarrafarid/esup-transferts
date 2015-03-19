@@ -40,7 +40,7 @@ import org.springframework.beans.factory.InitializingBean;
 import com.googlecode.ehcache.annotations.Cacheable;
 
 /**
- * @author Farid AIT KARRA (Universite d'Artois) - 2014
+ * @author Farid AIT KARRA (Universite d'Artois) - 2015
  * 
  */
 public class DomainServiceImpl implements DomainService, InitializingBean {
@@ -107,8 +107,8 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	}
 
 	@Override
-	public void addDemandeTransferts(EtudiantRef currentEtudiant) {
-		getDaoService().addDemandeTransferts(currentEtudiant);
+	public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant) {
+		return getDaoService().addDemandeTransferts(currentEtudiant);
 	}
 	
 	public Transferts getTransfert() {
@@ -656,7 +656,6 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(
 			String rne, Integer currentAnnee, String codTypDip,
 			Integer codeNiveau, String codeComposante, String source) {
-		// TODO Auto-generated method stub
 		return getDaoService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(
 				rne, currentAnnee, codTypDip,
 				codeNiveau, codeComposante, source);
@@ -672,12 +671,6 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		getDaoService().deleteSelectedOpi(selectedOpiForDelete);		
 	}
 
-//	@Override
-//	public Map<String, String> getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip, String source) {
-//		// TODO Auto-generated method stub
-//		return getDaoService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(rne, currentAnnee, codTypDip, source);
-//	}
-
 	@Override
 	public Map<String, String> getOdfComposanteByRneAndAnneeAndCodTypDip(String rne, Integer currentAnnee, String codTypDip) {
 		return getDaoService().getOdfComposanteByRneAndAnneeAndCodTypDip(rne, currentAnnee, codTypDip);
@@ -688,16 +681,4 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	{
 		return getDaoService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(numeroEtudiant, annee, source);
 	}
-
-//	@Override
-//	public List<EtudiantRef> getTestAllDemandesTransfertsByAnnee(Integer annee, String source) 
-//	{
-//		return getDaoService().getTestAllDemandesTransfertsByAnnee(annee, source); 
-//	}
-
-//	@Override
-//	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) 
-//	{
-//		return getDaoService().getSituationUniversitaireByNumeroEtudiantAndAnnee(numeroEtudiant, annee); 
-//	}
 }

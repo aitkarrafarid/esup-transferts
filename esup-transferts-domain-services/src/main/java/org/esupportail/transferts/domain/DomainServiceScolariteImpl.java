@@ -213,6 +213,12 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 	}	
 
 	@Override
+	public List<EtudiantRef> recupererListeEtudiants(String myAnnee, String codeDiplome, String versionDiplome, String codeEtape, String versionEtape) 
+	{
+		return dss.recupererListeEtudiants(myAnnee, codeDiplome, versionDiplome, codeEtape, versionEtape); 
+	}	
+	
+	@Override
 	public TrInfosAdmEtu getInfosAdmEtu(String supannEtuId) {
 		return dss.getInfosAdmEtu(supannEtuId);
 	}	

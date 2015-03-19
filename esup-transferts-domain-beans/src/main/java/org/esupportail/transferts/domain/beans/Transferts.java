@@ -111,7 +111,7 @@ public class Transferts implements Serializable {
 			@JoinColumn(name = "md5", referencedColumnName = "md5"),
 			@JoinColumn(name = "anneeSignature", referencedColumnName = "annee"),
 			@JoinColumn(name = "from_source", referencedColumnName = "FROM_SOURCE") })
-	private Fichier fichier = new Fichier();
+	private Fichier fichier;
 
 	/**
 	 * Formation

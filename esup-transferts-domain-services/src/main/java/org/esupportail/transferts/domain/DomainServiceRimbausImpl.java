@@ -1024,4 +1024,10 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			return null;
 		}
 	}
+
+	@Override
+	public List<EtudiantRef> recupererListeEtudiants(String myAnnee, String codeDiplome, String versionDiplome, String codeEtape, String versionEtape)
+	{
+		return null;
+	}
 }
