@@ -1573,12 +1573,9 @@ public class AdministrationController extends AbstractContextAwareController {
 			currentAccueilResultat = new AccueilResultat();			
 			currentSituationUniv = new SituationUniversitaire();
 
-			//			if(this.currentDemandeTransferts.getTransferts().getFichier()==null || (this.currentDemandeTransferts.getTransferts().getFichier()!=null && this.currentDemandeTransferts.getTransferts().getFichier().getNom().equals("ETABLISSEMENT_PARTENAIRE")))
-			//				this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
-			//			
-			//			setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());			
+			System.out.println("bbbbb");
 
-			if(this.currentDemandeTransferts.getTransferts().getFichier()==null || (this.currentDemandeTransferts.getTransferts().getFichier()!=null && this.currentDemandeTransferts.getTransferts().getFichier().getNom().equals("ETABLISSEMENT_PARTENAIRE")))
+			if(this.currentDemandeTransferts.getTransferts().getFichier()==null)
 			{
 				System.out.println("ccccc");
 				if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource())!=null)
@@ -1590,9 +1587,16 @@ public class AdministrationController extends AbstractContextAwareController {
 				{
 					this.currentDemandeTransferts.getTransferts().setFichier(null);
 					setSelectedmd5(null);
-					//					this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
+					//				this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
 				}
+				//			this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
+				System.out.println("ddddd===>"+this.currentDemandeTransferts.getTransferts().getFichier());
 			}
+			else
+			{
+				setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());
+			}
+			System.out.println("eeeee===>"+this.currentDemandeTransferts.getTransferts().getFichier());
 
 			List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(this.currentDemandeTransferts.getAccueil().getCodeBac());
 			if (logger.isDebugEnabled())
@@ -2856,8 +2860,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			Fichier file = getDomainService().getFichierByIdAndAnneeAndFrom(this.currentDemandeTransferts.getTransferts().getFichier().getMd5(),getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
 			if (logger.isDebugEnabled())
 				logger.debug("file-->"+file);			
-			if(file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE"))
-				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
+
+//			if(file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE"))
+//				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
+			
 			String nom = this.getTempPath() + "" + file.getMd5();
 
 			File fichierExiste = new File(nom);
@@ -3851,15 +3857,16 @@ public class AdministrationController extends AbstractContextAwareController {
 						//					etu.getTransferts().setNumeroEtudiant(numeroEtudiant);
 						//					etu.getTransferts().setAnnee(this.currentDemandeTransferts.getAnnee());
 
-						Fichier f = new Fichier();
-						f.setFrom("A");
-						f.setMd5("ETABLISSEMENT_PARTENAIRE");
-						f.setAnnee(this.currentDemandeTransferts.getAnnee());
-						f.setNom("ETABLISSEMENT_PARTENAIRE");
-						f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
-						f.setTaille(12345);
-						//						etu.getTransferts().setFichier(f);
-						etu.getTransferts().setFichier(f);
+//						Fichier f = new Fichier();
+//						f.setFrom("A");
+//						f.setMd5("ETABLISSEMENT_PARTENAIRE");
+//						f.setAnnee(this.currentDemandeTransferts.getAnnee());
+//						f.setNom("ETABLISSEMENT_PARTENAIRE");
+//						f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
+//						f.setTaille(12345);
+//						etu.getTransferts().setFichier(f);
+
+						etu.getTransferts().setFichier(null);
 						etu.getTransferts().setRne(p.getRne());
 						etu.getTransferts().setTemoinTransfertValide(0);
 						etu.getTransferts().setTemoinOPIWs(null);

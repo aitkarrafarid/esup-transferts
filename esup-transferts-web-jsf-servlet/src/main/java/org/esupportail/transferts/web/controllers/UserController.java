@@ -732,14 +732,17 @@ public class UserController extends AbstractContextAwareController {
 						//					etu.getTransferts().setNumeroEtudiant(numeroEtudiant);
 						//					etu.getTransferts().setAnnee(this.currentDemandeTransferts.getAnnee());
 
-						Fichier f = new Fichier();
-						f.setFrom("A");
-						f.setMd5("ETABLISSEMENT_PARTENAIRE");
-						f.setAnnee(this.currentEtudiant.getAnnee());
-						f.setNom("ETABLISSEMENT_PARTENAIRE");
-						f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
-						f.setTaille(12345);
-						etu.getTransferts().setFichier(f);
+//						Fichier f = new Fichier();
+//						f.setFrom("A");
+//						f.setMd5("ETABLISSEMENT_PARTENAIRE");
+//						f.setAnnee(this.currentEtudiant.getAnnee());
+//						f.setNom("ETABLISSEMENT_PARTENAIRE");
+//						f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
+//						f.setTaille(12345);
+//						etu.getTransferts().setFichier(f);
+						
+						etu.getTransferts().setFichier(null);
+						
 						etu.getTransferts().setRne(p.getRne());
 						etu.getTransferts().setTemoinTransfertValide(0);
 						etu.getTransferts().setTemoinOPIWs(null);

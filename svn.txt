@@ -61,6 +61,9 @@
 - Ajout d'une méthode de webservice apogee "recupererListeEtudiants" pour les tests unitaires
 - Amelioration des test unitaires pour l'insertion en masse des demndes de transferts départ et envoi des données à l'établissement d'accueil.
 #############################################################################################################
-- Correction de l'ffichage de la signature sélectionné dans le détails d'un transferts départ
-
+- Correction de l'affichage de la signature sélectionné dans le détails d'un transferts départ
+- Suppression d'un pieChart sur la validation en masse des demandes de transferts départ
+- Redimenssionnement de l'image partenaire.jpg
+#############################################################################################################
+- Suppression de la signature "ETABLISSEMENT_PARTENAIRE" par défaut lors de l'envoi des données étudiants
 

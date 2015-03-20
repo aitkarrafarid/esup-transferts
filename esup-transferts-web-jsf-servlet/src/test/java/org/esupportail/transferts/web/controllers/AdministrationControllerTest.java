@@ -502,17 +502,16 @@ public class AdministrationControllerTest  {
 					etu.getTransferts().setAnnee(getCurrentAnnee());
 					etu.getTransferts().setDateDemandeTransfert(new Date());
 
+//					Fichier f = new Fichier();
+//					f.setFrom("A");
+//					f.setMd5("ETABLISSEMENT_PARTENAIRE");
+//					f.setAnnee(getCurrentAnnee());
+//					f.setNom("ETABLISSEMENT_PARTENAIRE");
+//					f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
+//					f.setTaille(12345);
+//					etu.getTransferts().setFichier(f);
 
-
-					Fichier f = new Fichier();
-					f.setFrom("A");
-					f.setMd5("ETABLISSEMENT_PARTENAIRE");
-					f.setAnnee(getCurrentAnnee());
-					f.setNom("ETABLISSEMENT_PARTENAIRE");
-					f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
-					f.setTaille(12345);
-
-					etu.getTransferts().setFichier(f);
+					etu.getTransferts().setFichier(null);
 
 					etu.getTransferts().setRne(getCurrentRne());
 					etu.getTransferts().setTemoinTransfertValide(0);

@@ -202,11 +202,8 @@ public class UserController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled())
 				logger.debug("file-->"+file);			
 			
-			if(file==null || (file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE")))
+			if(file==null)
 				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentEtudiant.getSource());		
-			
-//			if(file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE"))
-//				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentEtudiant.getSource());
 			
 			String nom = this.getTempPath() + "" + file.getMd5();
 
