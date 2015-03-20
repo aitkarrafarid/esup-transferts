@@ -39,3 +39,28 @@
  #############################################################################################################
  - Ajouter un bouton supplémentaire, exemple : « Avertir les partenaires » lors  de la constitution de l’offre de formation à présenter au transfert. Ceci 
  - Ajout d'un p:confirmDialog avant l'alert par mail
+#############################################################################################################
+- Ajout d'un skipTests (junit) dans le pom.xml racine
+#############################################################################################################
+- Dans la partie accueil, ajout d’un avis « autres » en plus de « favorable » et « défavorable »
+- Correction du LazyInitializationException dans le userController du module "transfert accueil"
+#############################################################################################################
+- Ajout d'un scheduler afin de permettre la planification d'une ou plusieurs tâches à un moment précis (à venir l'envoi d'un mail aux gestionnaires indiquant les demandes de transferts arrivées au terme du délai prévu par la nouvelle loi "Silence vaut accord")
+#############################################################################################################
+- Désactivation du scheduler par défaut
+- Correction d'un BUG sur l' ExceptionHandlerFactory
+#############################################################################################################
+- Envoi d'infos ws
+#############################################################################################################
+- Envoi d'infos ws
+#############################################################################################################
+- Envoi d'infos EtudiantRef via WS OK (révision précédente)
+- Annulation des tests unitaires
+#############################################################################################################
+- Correction du BUG de violation de contrainte de clé étrangère sur la table INFO_ACCUEIL lors de l'enregistrement d'une demande de transfert accueil
+- Ajout d'une méthode de webservice apogee "recupererListeEtudiants" pour les tests unitaires
+- Amelioration des test unitaires pour l'insertion en masse des demndes de transferts départ et envoi des données à l'établissement d'accueil.
+#############################################################################################################
+- Correction de l'ffichage de la signature sélectionné dans le détails d'un transferts départ
+
+

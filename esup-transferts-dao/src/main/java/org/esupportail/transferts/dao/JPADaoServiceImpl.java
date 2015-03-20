@@ -115,7 +115,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant) {
 		if (logger.isDebugEnabled()){
-			logger.debug("public void addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
+			logger.debug("public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
 		}
 		return entityManager.merge(currentEtudiant);
 //		entityManager.persist(currentEtudiant);	

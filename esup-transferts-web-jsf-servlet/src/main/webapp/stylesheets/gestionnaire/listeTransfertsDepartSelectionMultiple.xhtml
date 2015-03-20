@@ -30,7 +30,8 @@
 				paginator="true" rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50"
 				emptyMessage="Auncune demande de transferts départ"
 				selection="#{administrationController.selectedDemandeTransferts}"
-				filteredValue="#{administrationController.filteredEtudiantDepartMultiple}" rowSelectMode="add">
+				filteredValue="#{administrationController.filteredEtudiantDepartMultiple}"
+				rowSelectMode="add">
 
 				<f:facet name="header">
 						Liste des demandes de transferts départ	#{sessionController.currentAnnee}/#{sessionController.currentAnnee+1} 
@@ -178,41 +179,63 @@
 					</h:panelGrid>
 					<p:spacer height="20" />
 
-<!-- 					<h:outputText value="Barre de chargement : " style="width:7%;" /> -->
-<!-- 					<p:progressBar widgetVar="pbAjax" ajax="true" style="width:50%" -->
-<!-- 						value="#{administrationController.progress}" -->
-<!-- 						labelTemplate="{value}%" styleClass="animated"> -->
-<!-- 						<p:ajax event="complete" -->
-<!-- 							listener="#{administrationController.onComplete}" -->
-<!-- 							update=":multiple:msgs,:multiple:test" -->
-<!-- 							oncomplete="startButton2.enable()" /> -->
-<!-- 					</p:progressBar> -->
+					<!-- 					<h:outputText value="Barre de chargement : " style="width:7%;" /> -->
+					<!-- 					<p:progressBar widgetVar="pbAjax" ajax="true" style="width:50%" -->
+					<!-- 						value="#{administrationController.progress}" -->
+					<!-- 						labelTemplate="{value}%" styleClass="animated"> -->
+					<!-- 						<p:ajax event="complete" -->
+					<!-- 							listener="#{administrationController.onComplete}" -->
+					<!-- 							update=":multiple:msgs,:multiple:test" -->
+					<!-- 							oncomplete="startButton2.enable()" /> -->
+					<!-- 					</p:progressBar> -->
 
-<!-- 					<p:spacer height="40" /> -->
+					<!-- 					<p:spacer height="40" /> -->
 
-<!-- 					<p:commandButton value="Valider" icon="ui-icon-search" update="msgs" -->
-<!-- 						widgetVar="startButton2" -->
-<!-- 						action="#{administrationController.addAvisFavorableMultiple}" /> -->
-<!-- 					<p:commandButton value="Cancel" -->
-<!-- 						actionListener="#{administrationController.cancel}" -->
-<!-- 						oncomplete="pbAjax.cancel();startButton2.enable();" /> -->
+					<!-- 					<p:commandButton value="Valider" icon="ui-icon-search" update="msgs" -->
+					<!-- 						widgetVar="startButton2" -->
+					<!-- 						action="#{administrationController.addAvisFavorableMultiple}" /> -->
+					<!-- 					<p:commandButton value="Cancel" -->
+					<!-- 						actionListener="#{administrationController.cancel}" -->
+					<!-- 						oncomplete="pbAjax.cancel();startButton2.enable();" /> -->
 
-					<p:commandButton value="Valider" onclick="confirmation.show()" type="button"
-						action="#{administrationController.addAvisOuDecisionMultiple}" update=":multiple:msgs,:multiple:test" />
+<!-- 					<p:commandButton value="Valider" type="button" -->
+<!-- 						action="#{administrationController.addAvisOuDecisionMultiple}" -->
+<!-- 						update=":multiple:msgs,:multiple:test"> -->
+<!-- 						<p:confirm header="Confirmation" -->
+<!-- 							message="Attention, la validation en masse peut prendre quelques minutes..." -->
+<!-- 							icon="ui-icon-alert" /> -->
+<!-- 					</p:commandButton> -->
+
+						<p:commandButton
+							value="Valider"
+							actionListener="#{administrationController.addAvisOuDecisionMultiple}"
+							update=":multiple:msgs,:multiple:test">
+							<p:confirm header="Confirmation"
+								message="Attention, la validation en masse peut prendre quelques minutes..."
+								icon="ui-icon-alert" />
+						</p:commandButton>
 
 				</p:panel>
-				
-			<p:confirmDialog
-				message="Attention, la validation en masse peut prendre quelques minutes..."
-				header="Confirmation" severity="alert" widgetVar="confirmation">
-				<p:commandButton value="Oui"
-					update=":multiple:msgs,:multiple:test"
-					oncomplete="confirmation.hide()"
-					action="#{administrationController.addAvisOuDecisionMultiple}" />
-				<p:commandButton value="Non" onclick="confirmation.hide()"
-					actionListener="#{administrationController.destroyWorld}" type="button" />
-			</p:confirmDialog>	
-			
+
+				<!-- 			<p:confirmDialog -->
+				<!-- 				message="Attention, la validation en masse peut prendre quelques minutes..." -->
+				<!-- 				header="Confirmation" severity="alert" widgetVar="confirmation"> -->
+				<!-- 				<p:commandButton value="Oui" -->
+				<!-- 					update=":multiple:msgs,:multiple:test" -->
+				<!-- 					oncomplete="confirmation.hide()" -->
+				<!-- 					action="#{administrationController.addAvisOuDecisionMultiple}" /> -->
+				<!-- 				<p:commandButton value="Non" onclick="confirmation.hide()" -->
+				<!-- 					actionListener="#{administrationController.destroyWorld}" type="button" /> -->
+				<!-- 			</p:confirmDialog>	 -->
+
+				<p:confirmDialog global="true" showEffect="fade"
+					hideEffect="explode">
+					<p:commandButton value="Oui" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Non" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
 			</center>
 		</h:form>
 		<p:spacer height="20" />
@@ -240,11 +263,11 @@
 					<!-- 						<p:overlayPanel id="chartPanel" for="chartBtn" hideEffect="fade"> -->
 					<!-- 						<h3>JFreeChart on-the-fly</h3> -->
 					<!-- 						<p:graphicImage value="#{statistiqueController.chart}" /> -->
-					<p:pieChart id="custom"
-						value="#{statistiqueController.pieModelDepart}" legendPosition="e"
-						fill="false" showDataLabels="true"
-						title="Transferts départ #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}"
-						style="width:400px;height:300px" sliceMargin="5" diameter="150" />
+					<!-- 					<p:pieChart id="custom" -->
+					<!-- 						value="#{statistiqueController.pieModelDepart}" legendPosition="e" -->
+					<!-- 						fill="false" showDataLabels="true" -->
+					<!-- 						title="Transferts départ #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" -->
+					<!-- 						style="width:400px;height:300px" sliceMargin="5" diameter="150" /> -->
 
 					<!-- 						<p:pieChart id="sample" -->
 					<!-- 							value="#{statistiqueController.pieModelDepart}" -->
