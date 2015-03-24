@@ -83,7 +83,10 @@ public class AdministrationControllerTest  {
 	@Before
 	public void setUp() throws Exception {
 		setCurrentAnnee(2015);
+		/*Université d'Artois*/
 		setCurrentRne("0623957P");
+		/*Université de Lille 3*/
+//		setCurrentRne("0593561A");
 	}
 
 	@After
@@ -101,7 +104,7 @@ public class AdministrationControllerTest  {
 
 		//this.deleteAllDemandesTransfertDepartTest();
 
-		//this.deleteAllDemandesTransfertAccueilTest();
+//		this.deleteAllDemandesTransfertAccueilTest();
 
 		//this.addDemandeTransfertDepartTest(50, false, "0593561A");
 	}	
@@ -245,7 +248,7 @@ public class AdministrationControllerTest  {
 						TrResultatVdiVetDTO sessionsResultats = getDomainServiceScolarite().getSessionsResultats(etu.getNumeroEtudiant(), "A");
 						TrBac bac = getDomainServiceScolarite().getBaccalaureat(etu.getNumeroEtudiant());
 						TrInfosAdmEtu trInfosAdmEtu = getDomainServiceScolarite().getInfosAdmEtu(etu.getNumeroEtudiant());
-						TrEtablissementDTO trEtablissementDTO = getDomainServiceScolarite().getEtablissementByRne(rneEtabAccueil);
+						TrEtablissementDTO trEtablissementDTO = getDomainServiceScolarite().getEtablissementByRne(getCurrentRne());
 
 						List<SituationUniversitaire> listeSituationUniversitaire = new ArrayList<SituationUniversitaire>();
 						if(!sessionsResultats.getEtapes().isEmpty())

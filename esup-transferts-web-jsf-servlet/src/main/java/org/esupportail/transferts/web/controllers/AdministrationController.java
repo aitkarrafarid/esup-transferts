@@ -312,7 +312,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if(listeFichiers!=null)
 		{
 			if (logger.isDebugEnabled()) 
-				logger.debug("if(listeFichiers!=null)===>"+listeFichiers+"<===");
+				logger.debug("===>if(listeFichiers!=null)<===");
 			for(Fichier f : listeFichiers)
 			{				
 				SelectItem option = new SelectItem(f.getMd5(),f.getNomSignataire()+" - "+f.getNom());

@@ -66,4 +66,9 @@
 - Redimenssionnement de l'image partenaire.jpg
 #############################################################################################################
 - Suppression de la signature "ETABLISSEMENT_PARTENAIRE" par défaut lors de l'envoi des données étudiants
-
+#############################################################################################################
+- Correction d'un BUG sur les sortBy et filterBy du datatable suite à la migration technologique PF4.1 --> PF5.1
+- Ajout d'un message de confirmation lors de l'enregistrement ou la mise à jour de l'ODF
+- correction d'un lazyloading exception dans lors de l'ajout d'une demande de transferts départ
+- Remplacement des Dialog - Basic de PrimeFaces suite à la migration des composants PF4.1 --> 5.1
+- Ajout dans le i18n de la variable AIDE.LISTE.ODF.PAR.ETABLISSEMENT

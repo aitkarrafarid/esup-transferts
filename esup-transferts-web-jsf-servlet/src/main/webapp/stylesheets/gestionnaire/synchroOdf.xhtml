@@ -37,60 +37,60 @@
 					<p:column selectionMode="multiple" style="width:18px" />
 
 					<p:column id="libCentreGestion" headerText="Centre de gestion"
-						filterBy="libCentreGestion" filterMatchMode="contains"
-						sortBy="libCentreGestion">  
+						filterBy="#{odf.libCentreGestion}" filterMatchMode="contains"
+						sortBy="#{odf.libCentreGestion}">  
             #{odf.libCentreGestion}  
         </p:column>
 
 					<p:column id="libComposante" headerText="Composante"
-						filterBy="libComposante" filterMatchMode="contains"
-						sortBy="libComposante">  
+						filterBy="#{odf.libComposante}" filterMatchMode="contains"
+						sortBy="#{odf.libComposante}">  
             #{odf.libComposante}  
         </p:column>
 
 					<p:column id="codeVersionEtape" headerText="Code version d'etape"
-						filterBy="codeVersionEtape" filterMatchMode="contains"
-						sortBy="codeVersionEtape">  
+						filterBy="#{odf.codeVersionEtape}" filterMatchMode="contains"
+						sortBy="#{odf.codeVersionEtape}">  
             #{odf.codeVersionEtape}  
         </p:column>
 
 					<p:column id="libVersionEtape" headerText="Libelle version d'etape"
-						filterBy="libVersionEtape" filterMatchMode="contains"
-						sortBy="libVersionEtape" style="text-align:left">  
+						filterBy="#{odf.libVersionEtape}" filterMatchMode="contains"
+						sortBy="#{odf.libVersionEtape}" style="text-align:left">  
             #{odf.libVersionEtape}  
         </p:column>
 
 					<p:column id="codeEtape" headerText="Code etape"
-						filterBy="codeEtape" filterMatchMode="contains" sortBy="codeEtape">  
+						filterBy="#{odf.codeEtape}" filterMatchMode="contains" sortBy="#{odf.codeEtape}">  
             #{odf.codeEtape}  
         </p:column>
 
 					<p:column id="codeVersionDiplome" headerText="Code version diplome"
-						filterBy="codeVersionDiplome" filterMatchMode="contains"
-						sortBy="codeVersionDiplome">  
+						filterBy="#{odf.codeVersionDiplome}" filterMatchMode="contains"
+						sortBy="#{odf.codeVersionDiplome}">  
             #{odf.codeVersionDiplome}  
         </p:column>
 
 					<p:column id="libVersionDiplome"
 						headerText="Libelle version du diplome"
-						filterBy="libVersionDiplome" filterMatchMode="contains"
-						sortBy="libVersionDiplome" style="text-align:left">  
+						filterBy="#{odf.libVersionDiplome}" filterMatchMode="contains"
+						sortBy="#{odf.libVersionDiplome}" style="text-align:left">  
             #{odf.libVersionDiplome}  
         </p:column>
 
 					<p:column id="codeDiplome" headerText="Code diplome"
-						filterBy="codeDiplome" filterMatchMode="contains"
-						sortBy="codeDiplome">  
+						filterBy="#{odf.codeDiplome}" filterMatchMode="contains"
+						sortBy="#{odf.codeDiplome}">  
             #{odf.codeDiplome}  
         </p:column>
 
 					<p:column id="libTypDip" headerText="Type de Diplôme"
-						filterBy="libTypDip" sortBy="libTypDip">  
+						filterBy="#{odf.libTypDip}" sortBy="#{odf.libTypDip}">  
             #{odf.libTypDip}  
         </p:column>
 
 					<p:column id="depart" headerText="Départ" style="width:10%"
-						sortBy="depart" filterBy="depart" filterMatchMode="contains">
+						sortBy="#{odf.depart}" filterBy="#{odf.depart}" filterMatchMode="contains">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{odf.depart}" />
@@ -105,7 +105,7 @@
 					</p:column>
 
 					<p:column id="arrivee" headerText="Arrivée" style="width:10%"
-						sortBy="arrivee" filterBy="arrivee" filterMatchMode="contains"
+						sortBy="#{odf.arrivee}" filterBy="#{odf.arrivee}" filterMatchMode="contains"
 						rendered="#{sessionController.transfertsAccueil}">
 						<p:cellEditor>
 							<f:facet name="output">

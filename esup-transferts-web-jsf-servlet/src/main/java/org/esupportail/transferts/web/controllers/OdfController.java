@@ -302,7 +302,7 @@ public class OdfController extends AbstractContextAwareController {
 
 		getDomainService().addOdfs(temp3);		
 
-		String summary = "";
+		String summary = getString("ENREGISTREMENT.ODF");
 		String detail = getString("ENREGISTREMENT.ODF");
 		Severity severity=FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));			

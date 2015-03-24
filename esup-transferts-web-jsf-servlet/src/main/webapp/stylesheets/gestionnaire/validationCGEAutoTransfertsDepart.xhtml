@@ -49,21 +49,17 @@
 				            #{centreDeGest.annee}  
 				        </p:column>
 
-				<p:column headerText="Code CGE" sortBy="codeCGE" filterBy="codeCGE">
+				<p:column headerText="Code CGE" sortBy="#{centreDeGest.codeCGE}" filterBy="#{centreDeGest.codeCGE}">
 				            #{centreDeGest.codeCGE}  
 				        </p:column>
 
-				<p:column headerText="Libellé CGE" sortBy="libelleCGE"
-					filterBy="libelleCGE">
+				<p:column headerText="Libellé CGE" sortBy="#{centreDeGest.libelleCGE}"
+					filterBy="#{centreDeGest.libelleCGE}">
 				            #{centreDeGest.libelleCGE}  
 				        </p:column>
 
-				<!-- 				<p:column headerText="Validation automatique"> -->
-				<!-- 				            #{vtd.validAuto}   -->
-				<!-- 				        </p:column> -->
-
 				<p:column headerText="Validation automatique" style="width:25%"
-					sortBy="validAuto" filterBy="validAuto">
+					sortBy="#{centreDeGest.validAuto}" filterBy="#{centreDeGest.validAuto}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{centreDeGest.validAuto}" />

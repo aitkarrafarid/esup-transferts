@@ -37,8 +37,8 @@
 				filteredValue="#{administrationController.filteredEtudiantOpi}"
 				rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50" rows="10"
 				paginator="true" emptyMessage="Aucune demande de transfert entrant"
-				selection="#{administrationController.selectedOpis}" rowSelectMode="add" 
-				value="#{administrationController.allIndOpi}">
+				selection="#{administrationController.selectedOpis}"
+				rowSelectMode="add" value="#{administrationController.allIndOpi}">
 
 				<!-- 				<p:ajax event="rowSelect" update=":form:display" -->
 				<!-- 					oncomplete="carDialog.show()" /> -->
@@ -53,7 +53,7 @@
 
 				<!-- 				<p:column selectionMode="multiple" style="width:18px" /> -->
 				<p:column selectionMode="multiple" style="width:18px" />
-<!-- 				<p:column style="width:18px" rendered="#{opi.synchro!=0}" /> -->
+				<!-- 				<p:column style="width:18px" rendered="#{opi.synchro!=0}" /> -->
 
 				<p:column headerText="Etat OPI" style="width:10%;" sortBy="synchro"
 					id="nb">
@@ -65,12 +65,12 @@
 					<h:graphicImage alt="exclu" title="Exclu"
 						value="/media/images/alert.png" rendered="#{opi.synchro==2}" />
 					<h:graphicImage alt="vap" title="Vap"
-						value="/media/images/flag.png" rendered="#{opi.synchro==3}" />		
-					<h:outputText value="PostBac" rendered="#{opi.synchro==4}" />	
+						value="/media/images/flag.png" rendered="#{opi.synchro==3}" />
+					<h:outputText value="PostBac" rendered="#{opi.synchro==4}" />
 				</p:column>
 
-				<p:column headerText="Numéro Etudiant" style="width:10%;" sortBy="codEtuLpa" filterBy="codEtuLpa"
-					filterMatchMode="contains"
+				<p:column headerText="Numéro Etudiant" style="width:10%;"
+					sortBy="codEtuLpa" filterBy="codEtuLpa" filterMatchMode="contains"
 					id="codEtu">
 					<h:outputText value="#{opi.codEtuLpa}" />
 				</p:column>
@@ -118,13 +118,17 @@
             </f:facet>
 					<h:outputText value="#{opi.voeux.libEtp}" />
 				</p:column>
-				
-        <p:column style="width:32px;text-align: center">
-             <p:commandButton icon="ui-icon-trash" title="View" onclick="confirmationSuppression.show()">
-                <f:setPropertyActionListener value="#{opi}" target="#{administrationController.selectedOpiForDelete}" />
-            </p:commandButton>
-        </p:column>				
-				
+
+				<p:column style="width:32px;text-align: center">
+					<p:commandButton icon="ui-icon-trash" title="View" action="#{administrationController.deleteSelectedOpi}" update=":form,:form:growl">
+						<f:setPropertyActionListener value="#{opi}"
+							target="#{administrationController.selectedOpiForDelete}" />
+						<p:confirm header="Confirmation"
+							message="Êtes-vous sur de vouloir supprimer les informations OPI"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+
 				<f:facet name="footer">
 					<p:commandButton value="Visualisation" title="Visualisation"
 						icon="ui-icon-search" update=":form:display"
@@ -137,15 +141,17 @@
 						title="Export OPI"
 						action="#{administrationController.exportOpiVoeux}" />
 					<p:spacer width="20px" />
-					<p:commandButton value="Synchro OPI ==> APOGEE"
-						rendered="#{administrationController.modeSynchro and sessionController.currentUser.admin and !administrationController.switchTraiteNontraite}"
-						onclick="confirmation.show()">
+					<p:commandButton value="Synchro OPI ==> APOGEE" action="#{administrationController.synchroOpi}" update=":form,:form:growl"
+						rendered="#{administrationController.modeSynchro and sessionController.currentUser.admin and !administrationController.switchTraiteNontraite}">
+						<p:confirm header="Confirmation"
+							message="Êtes-vous sur de vouloir envoyer les informations OPI dans votre outils de scolarité. Attention, le temps de chargement peut être assez élevé..."
+							icon="ui-icon-alert" />
 					</p:commandButton>
 					<p:spacer width="20px" />
 					<p:selectBooleanButton
 						value="#{administrationController.switchTraiteNontraite}"
-						onLabel="Synchronisées" offLabel="En cours"
-						onIcon="ui-icon-check" offIcon="ui-icon-close">
+						onLabel="Synchronisées" offLabel="En cours" onIcon="ui-icon-check"
+						offIcon="ui-icon-close">
 						<p:ajax update=":form" oncomplete="true"
 							listener="#{administrationController.addMessage}" />
 					</p:selectBooleanButton>
@@ -174,29 +180,37 @@
 						<p:graphicImage value="/media/images/alert.png" />
 						<h:outputText
 							value="Liste des Codes Bac exclus de la synchronisation (#{administrationController.exclueBacOpi})" />
-					</h:panelGrid>					
+					</h:panelGrid>
 				</p:panel>
 			</center>
 
-			<p:confirmDialog
-				message="Êtes-vous sur de vouloir supprimer les informations OPI"
-				header="Confirmation de la supression" severity="alert" widgetVar="confirmationSuppression">
-				<p:commandButton value="Oui" update="form,growl"
-					oncomplete="confirmationSuppression.hide()"
-					action="#{administrationController.deleteSelectedOpi}" />
-				<p:commandButton value="Non" onclick="confirmationSuppression.hide()"
-					type="button" />
-			</p:confirmDialog>
+			<!-- 			<p:confirmDialog -->
+			<!-- 				message="Êtes-vous sur de vouloir supprimer les informations OPI" -->
+			<!-- 				header="Confirmation de la supression" severity="alert" -->
+			<!-- 				widgetVar="confirmationSuppression"> -->
+			<!-- 				<p:commandButton value="Oui" update="form,growl" -->
+			<!-- 					oncomplete="confirmationSuppression.hide()" -->
+			<!-- 					action="#{administrationController.deleteSelectedOpi}" /> -->
+			<!-- 				<p:commandButton value="Non" -->
+			<!-- 					onclick="confirmationSuppression.hide()" type="button" /> -->
+			<!-- 			</p:confirmDialog> -->
 
-			<p:confirmDialog
-				message="Êtes-vous sur de vouloir envoyer les informations OPI dans votre outils de scolarité. Attention, 
-				le temps de chargement peut être assez élevé..."
-				header="Confirmation" severity="alert" widgetVar="confirmation">
-				<p:commandButton value="Oui" update="form,growl"
-					oncomplete="confirmation.hide()"
-					action="#{administrationController.synchroOpi}" />
-				<p:commandButton value="Non" onclick="confirmation.hide()"
-					type="button" />
+			<!-- 			<p:confirmDialog -->
+			<!-- 				message="Êtes-vous sur de vouloir envoyer les informations OPI dans votre outils de scolarité. Attention,  -->
+			<!-- 				le temps de chargement peut être assez élevé..." -->
+			<!-- 				header="Confirmation" severity="alert" widgetVar="confirmation"> -->
+			<!-- 				<p:commandButton value="Oui" update="form,growl" -->
+			<!-- 					oncomplete="confirmation.hide()" -->
+			<!-- 					action="#{administrationController.synchroOpi}" /> -->
+			<!-- 				<p:commandButton value="Non" onclick="confirmation.hide()" -->
+			<!-- 					type="button" /> -->
+			<!-- 			</p:confirmDialog> -->
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="Oui" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Non" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
 
 			<p:dialog header="Détails transfert entrant" widgetVar="opiDialog"

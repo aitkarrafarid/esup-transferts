@@ -76,7 +76,7 @@
 				<p:ajax event="change" update="formVoeux" />
 				<!-- 				<f:ajax event="change" render="typeTransfert" /> -->
 			</p:selectOneMenu>
-			<p:commandButton id="modalDialogButton" onclick="dlg2.show();"
+			<p:commandButton id="modalDialogButton" onclick="PF('dlg2').show();"
 				type="button" icon="ui-icon-help" />
 
 			<h:outputText value="* Département : " />
@@ -91,7 +91,7 @@
 					listener="#{userController.resetGeneral}" />
 			</p:selectOneMenu>
 			<!-- 			<h:outputText value=" " /> -->
-			<p:commandButton id="modalDialogButton2" onclick="dlg3.show();"
+			<p:commandButton id="modalDialogButton2" onclick="PF('dlg3').show();"
 				type="button" icon="ui-icon-help" />
 
 			<h:outputText value="* Etablissement : "

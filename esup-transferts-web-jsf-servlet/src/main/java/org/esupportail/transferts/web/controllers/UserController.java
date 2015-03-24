@@ -623,7 +623,7 @@ public class UserController extends AbstractContextAwareController {
 					if (logger.isDebugEnabled()) 
 						logger.debug("monService-->"+monService);
 
-					EtudiantRef etu = getDomainService().getEtudiantRef(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
+					EtudiantRef etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), "D");
 
 					if(etu!=null)
 					{
@@ -1104,7 +1104,9 @@ public class UserController extends AbstractContextAwareController {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Demande de transferts existante !!!");
 					}
-					this.currentEtudiant = getDomainService().getPresenceEtudiantRef(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee());				
+//					this.currentEtudiant = getDomainService().getPresenceEtudiantRef(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee());	
+					this.currentEtudiant = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), "D");
+					
 					if(this.currentEtudiant.getSource().equals("A"))
 					{
 						String summary = "Vous ne pouvez pas effectuer une demande de transferts d�part car vous avez deja effecute une demande de transfert accueil";
