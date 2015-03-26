@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -111,7 +112,7 @@ public class AdministrationControllerTest {
 
 	@Value("${param.ajout.liste.demandes.transfert.depart.envoi.opi}")
 	private boolean envoiOpi;
-	
+
 	@Value("${param.ajout.liste.demandes.transfert.depart.from.TestUnitaireEtudiantRef}")
 	private boolean fromTestUnitaireEtudiantRef;	
 	/**/
@@ -180,7 +181,7 @@ public class AdministrationControllerTest {
 
 		if(ajoutListeDemandesTransfertDepart)
 			this.addDemandeTransfertDepartTest(getNombreMaxDeDemandesACreer(), isEnvoiOpi(), fromTestUnitaireEtudiantRef);
-		
+
 		if(totalDemandeTransfertsDepartEtAccueil)
 			this.getTotalDemandeTransfertsTest(getCurrentAnnee());
 	}	
@@ -224,6 +225,8 @@ public class AdministrationControllerTest {
 
 			if(listeEtuTest!=null && !listeEtuTest.isEmpty())
 			{
+				// shuffle the list
+				Collections.shuffle(listeEtuTest);
 				System.out.println("aaaaa");
 				for(TestUnitaireEtudiantRef etu : listeEtuTest)
 				{
@@ -241,7 +244,7 @@ public class AdministrationControllerTest {
 		{
 			listeEtu = getDomainServiceScolarite().recupererListeEtudiants(myAnneeRequeteWs, codeDiplome, versionDiplome, codeEtape, versionEtape);
 		}
-		
+
 		List<EtudiantRef> listeEtudiantATransferer = new ArrayList<EtudiantRef>();
 		int compteur=0;
 
@@ -282,7 +285,7 @@ public class AdministrationControllerTest {
 					etudiant.getTransferts().setTemoinTransfertValide(0);
 					etudiant.getTransferts().setTemoinOPIWs(null);
 					etudiant.getTransferts().setTypeTransfert("T");
-					etudiant.getTransferts().setDept("059");
+					etudiant.getTransferts().setDept(this.getRneAccueil().substring(0, 3));
 					etudiant.getTransferts().setRne(this.getRneAccueil());
 
 					OffreDeFormationsDTO o = getDomainService().getOdfByPK(this.getRneAccueil(), myAnneeInt, "BV2GCCD", 130, "1IGCCD", "130", "GBU");
