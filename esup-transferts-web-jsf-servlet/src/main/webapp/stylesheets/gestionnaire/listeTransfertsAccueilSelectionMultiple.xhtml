@@ -54,29 +54,34 @@
 				</p:column>
 
 				<p:column headerText="Composante de la formation choisie"
-					filterBy="transferts.odf.codeComposante" style="text-align:left;"
-					sortBy="transferts.odf.codeComposante" filterMatchMode="contains">
+					filterBy="#{transferts.transferts.odf.codeComposante}"
+					style="text-align:left;"
+					sortBy="#{transferts.transferts.odf.codeComposante}"
+					filterMatchMode="contains">
             #{transferts.transferts.odf.codeComposante} - #{transferts.transferts.odf.libComposante}  
         </p:column>
 
 				<p:column headerText="Etape d'inscription"
-					filterBy="transferts.odf.libVersionEtape" style="text-align:left;"
-					sortBy="transferts.odf.libVersionEtape" filterMatchMode="contains"
-					id="etapeInscription">  
+					filterBy="#{transferts.transferts.odf.libVersionEtape}"
+					style="text-align:left;"
+					sortBy="#{transferts.transferts.odf.libVersionEtape}"
+					filterMatchMode="contains" id="etapeInscription">  
             #{transferts.transferts.odf.libVersionEtape}
         </p:column>
-				<p:column headerText="Numéro étudiant" filterBy="numeroEtudiant"
-					sortBy="numeroEtudiant">
+				<p:column headerText="Numéro étudiant"
+					filterBy="#{transferts.numeroEtudiant}"
+					sortBy="#{transferts.numeroEtudiant}">
             #{transferts.numeroEtudiant}  
         </p:column>
 
-				<p:column headerText="Numéro I.N.E" filterBy="numeroIne"
-					sortBy="numeroIne">
+				<p:column headerText="Numéro I.N.E"
+					filterBy="#{transferts.numeroIne}" sortBy="#{transferts.numeroIne}">
             #{transferts.numeroIne}  
         </p:column>
 
-				<p:column headerText="Nom" filterBy="nomPatronymique"
-					style="text-align:left;" sortBy="nomPatronymique" id="nom">  
+				<p:column headerText="Nom" filterBy="#{transferts.nomPatronymique}"
+					style="text-align:left;" sortBy="#{transferts.nomPatronymique}"
+					id="nom">  
             #{transferts.nomPatronymique}  
         </p:column>
 
@@ -142,22 +147,33 @@
 					<!-- 						actionListener="#{administrationController.cancel}" -->
 					<!-- 						oncomplete="pbAjax.cancel();startButton2.enable();" /> -->
 
-					<p:commandButton value="Valider" onclick="confirmation.show()"
-						type="button"
-						action="#{administrationController.addAvisOuDecisionMultiple}"
-						update=":multiple:msgs,:multiple:test" />
+					<p:commandButton value="Valider"
+						actionListener="#{administrationController.addAvisOuDecisionMultiple}"
+						update=":multiple:msgs,:multiple:test">
+						<p:confirm header="Confirmation"
+							message="Attention, la validation en masse peut prendre quelques minutes..."
+							icon="ui-icon-alert" />
+					</p:commandButton>
 
 				</p:panel>
 
-				<p:confirmDialog
-					message="Attention, la validation en masse peut prendre quelques minutes..."
-					header="Confirmation" severity="alert" widgetVar="confirmation">
-					<p:commandButton value="Oui" update=":multiple:msgs,:multiple:test"
-						oncomplete="confirmation.hide()"
-						action="#{administrationController.addAvisOuDecisionMultiple}" />
-					<p:commandButton value="Non" onclick="confirmation.hide()"
-						actionListener="#{administrationController.destroyWorld}"
-						type="button" />
+				<!-- 				<p:confirmDialog -->
+				<!-- 					message="Attention, la validation en masse peut prendre quelques minutes..." -->
+				<!-- 					header="Confirmation" severity="alert" widgetVar="confirmation"> -->
+				<!-- 					<p:commandButton value="Oui" update=":multiple:msgs,:multiple:test" -->
+				<!-- 						oncomplete="confirmation.hide()" -->
+				<!-- 						action="#{administrationController.addAvisOuDecisionMultiple}" /> -->
+				<!-- 					<p:commandButton value="Non" onclick="confirmation.hide()" -->
+				<!-- 						actionListener="#{administrationController.destroyWorld}" -->
+				<!-- 						type="button" /> -->
+				<!-- 				</p:confirmDialog> -->
+
+				<p:confirmDialog global="true" showEffect="fade"
+					hideEffect="explode">
+					<p:commandButton value="Oui" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Non" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 				</p:confirmDialog>
 
 			</center>
@@ -180,11 +196,11 @@
 					</h:panelGrid>
 					<h:outputText value="Etablissements partenaires"
 						styleClass="highlightTableRow" />
-<!-- 					<p:pieChart id="custom" -->
-<!-- 						value="#{statistiqueController.pieModelAccueil}" -->
-<!-- 						legendPosition="e" fill="false" showDataLabels="true" -->
-<!-- 						title="Transferts Accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" -->
-<!-- 						style="width:400px;height:300px" sliceMargin="5" diameter="150" /> -->
+					<!-- 					<p:pieChart id="custom" -->
+					<!-- 						value="#{statistiqueController.pieModelAccueil}" -->
+					<!-- 						legendPosition="e" fill="false" showDataLabels="true" -->
+					<!-- 						title="Transferts Accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" -->
+					<!-- 						style="width:400px;height:300px" sliceMargin="5" diameter="150" /> -->
 				</h:panelGrid>
 			</p:panel>
 		</center>

@@ -278,6 +278,7 @@ public class AdministrationControllerTest {
 					}
 
 					etudiant.getAdresse().setAnnee(myAnneeInt);
+					etudiant.getAdresse().setEmail(etudiant.getPrenom1()+"."+etudiant.getNomPatronymique()+"@testunitaire.com");
 
 					etudiant.getTransferts().setDateDemandeTransfert(new Date());
 					etudiant.getTransferts().setAnnee(myAnneeInt);

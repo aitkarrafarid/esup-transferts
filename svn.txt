@@ -76,3 +76,10 @@
 - Modification de larborescence des tests unitaires
 - Ajout de l'injection de dépendances "@Value" depuis le fichier de configuration
 - Ajout d'un bean "TestUnitaireEtudiantRef"
+#############################################################################################################
+- Correction d'un BUG dans les test unitaire sur le code_dept qui était en dur
+- Ajout dans les tests unitaire d'un trie aléatoire "shuffle the list" lors de la création en masse des demande sd e transferts départ
+#############################################################################################################
+- Correction des "sortBy" et "filterBy" dans le datatable validation en masse des transferts accueil
+- Correction du p:confirmDialog dans dans le datatable validation en masse des transferts accueil
+- Correction du mail par défaut lors des tests unitaires
