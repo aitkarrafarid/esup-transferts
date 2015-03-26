@@ -46,6 +46,7 @@ import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.PersonnelComposantePK;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.Test;
+import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.domain.beans.WsPubPK;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -2058,5 +2059,27 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			e.printStackTrace();
 			return null;
 		}		
+	}
+
+	@Override
+	public List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source) 
+	{
+		if (logger.isDebugEnabled()){
+			logger.debug("public List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source) ===>"+source+"<===");
+		}
+		try{
+			Query q = entityManager.createNamedQuery("getAllTestUnitaireEtudiantRefBySource");
+			q.setParameter("source", source);
+			List<TestUnitaireEtudiantRef> ret = (List<TestUnitaireEtudiantRef>) q.getResultList();
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
+		}
+		catch(NoResultException e){
+//			return new ArrayList<Fichier>();
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

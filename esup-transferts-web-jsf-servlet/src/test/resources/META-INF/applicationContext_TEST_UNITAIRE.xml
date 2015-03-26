@@ -8,9 +8,9 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:META-INF/defaults.properties</value>
-				<value>classpath:META-INF/config.properties</value>
-				<value>classpath:META-INF/configUrlServices.properties</value>
+				<value>classpath:META-INF/defaults_TEST_UNITAIRE.properties</value>
+				<value>classpath:META-INF/config_TEST_UNITAIRE.properties</value>
+				<value>classpath:META-INF/configUrlServices_TEST_UNITAIRE.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -19,9 +19,9 @@
 	<import resource="classpath*:META-INF/esup-transferts-domain-services-domain.xml" />
 <!-- 	<import resource="classpath*:META-INF/esup-transferts-domain-services-ldap.xml" /> -->
 
-	<bean id="administrationControllerTest"
-		class="org.esupportail.transferts.web.controllers.AdministrationControllerTest"
-		scope="request">
-	</bean>
+<!-- 	<import resource="classpath*:META-INF/i18n/i18n.xml" /> -->
+<!-- 	<import resource="classpath*:META-INF/smtp/smtp.xml" /> -->
+<!-- 	<import resource="classpath*:META-INF/misc/abstractBeans.xml" /> -->
+	<import resource="classpath*:META-INF/web/controllers.xml" />
 
 </beans>
