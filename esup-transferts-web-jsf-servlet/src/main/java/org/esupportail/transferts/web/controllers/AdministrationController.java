@@ -1105,32 +1105,6 @@ public class AdministrationController extends AbstractContextAwareController {
 							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 						}							
 					}					
-
-
-					//					opi.setSynchro(1);
-					//					getDomainService().updateIndOpi(opi);
-					//
-					//					String decision="";
-					//					if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
-					//						decision="Favorable";
-					//					else
-					//						decision="Défavorable";
-					//
-					//					String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
-					//					String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
-					//							opi.getLibPr1IndOpi(),
-					//							decision,
-					//							opi.getNumeroOpi());
-					//					try {
-					//						getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
-					//					} 
-					//					catch (AddressException e) 
-					//					{
-					//						String summary = getString("ERREUR.ENVOI_MAIL");
-					//						String detail = getString("ERREUR.ENVOI_MAIL");
-					//						Severity severity = FacesMessage.SEVERITY_INFO;
-					//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-					//					}					
 				}				
 				String summary = getString("SYNCHRO.OPI_OK");
 				String detail = getString("SYNCHRO.OPI_OK");
@@ -3371,6 +3345,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) 
 			logger.debug("public void addAccueilDecisionDefinitif()");		
 		try {
+			
 			this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
 			this.addDemandeTransfertsFromAvis(2);
 
@@ -4283,7 +4258,11 @@ public class AdministrationController extends AbstractContextAwareController {
 
 					this.currentDemandeTransferts.getAccueilDecision().add(currentDecisionMultiple);
 					setCodePaysItems(etu[i].getAdresse().getCodPay());
-					this.addAccueilDecisionDefinitif();
+					
+					if(this.currentDemandeTransferts.getAccueil().getCodeBac()!=null)
+						this.addAccueilDecisionDefinitif();
+					else
+						test+="(Manque le code bac)";
 				}
 			}
 			if (logger.isDebugEnabled()) 

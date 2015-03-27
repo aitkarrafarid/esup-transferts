@@ -1,7 +1,6 @@
 package org.esupportail.transferts.web.controllers;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -9,17 +8,17 @@ import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.SelectItem;
 
-import org.apache.poi.hssf.record.SSTRecord;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
 import org.primefaces.event.ItemSelectEvent;
-import org.primefaces.model.StreamedContent;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.HorizontalBarChartModel;
 import org.primefaces.model.chart.PieChartModel;  
 
 public class StatistiqueController extends AbstractContextAwareController implements Serializable {  
@@ -34,8 +33,8 @@ public class StatistiqueController extends AbstractContextAwareController implem
 	private final Logger logger = new LoggerImpl(this.getClass());		
 	private PieChartModel pieModelDepart;  
 	private PieChartModel pieModelAccueil;  
-	private CartesianChartModel categoryModelDetailsDepartAndArrive;  
-	private CartesianChartModel categoryModelTotalDepartAndArrive;
+	private HorizontalBarChartModel categoryModelDetailsDepartAndArrive;  
+	private BarChartModel categoryModelTotalDepartAndArrive;
 
 	public StatistiqueController() {
 	}  
@@ -83,14 +82,10 @@ public class StatistiqueController extends AbstractContextAwareController implem
 		}
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);  
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-
-		//        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item selected",  
-		//                "Item Index: " + event.getItemIndex() + ", Series Index:" + event.getSeriesIndex()); 
-		//        FacesContext.getCurrentInstance().addMessage(null, msg);  
 	}  
 
 	private void categoryModelDetailsDepartAndArrive() {  
-		categoryModelDetailsDepartAndArrive = new CartesianChartModel();  
+		categoryModelDetailsDepartAndArrive = new HorizontalBarChartModel();  
 
 		ChartSeries statDepart = new ChartSeries();  
 		statDepart.setLabel("Depart");  
@@ -153,11 +148,30 @@ public class StatistiqueController extends AbstractContextAwareController implem
 		}
 		categoryModelDetailsDepartAndArrive.addSeries(statDepart);  
 		categoryModelDetailsDepartAndArrive.addSeries(statArrive);   
+		
+        Axis xAxis = categoryModelDetailsDepartAndArrive.getAxis(AxisType.X);
+        xAxis.setLabel("Nombre de demandes de transferts");
+        xAxis.setMin(0);
+        xAxis.setMax(500);
+         
+        Axis yAxis = categoryModelDetailsDepartAndArrive.getAxis(AxisType.Y);
+        yAxis.setLabel("Liste des établissements");  
 	} 	
 
 	private void createCategoryModelTotalDepartAndArrive() {  
-		categoryModelTotalDepartAndArrive = new CartesianChartModel();  
+		categoryModelTotalDepartAndArrive = new BarChartModel();  
 
+		categoryModelTotalDepartAndArrive.setTitle("Total");
+		categoryModelTotalDepartAndArrive.setLegendPosition("ne");
+         
+        Axis xAxis = categoryModelTotalDepartAndArrive.getAxis(AxisType.X);
+        xAxis.setLabel("Gender");
+         
+        Axis yAxis = categoryModelTotalDepartAndArrive.getAxis(AxisType.Y);
+        yAxis.setLabel("Type de ");
+        yAxis.setMin(0);
+        yAxis.setMax(200);		
+		
 		ChartSeries totalDepart = new ChartSeries();
 		ChartSeries totalAccueil = new ChartSeries();
 		ChartSeries totalOPI = new ChartSeries();
@@ -168,7 +182,6 @@ public class StatistiqueController extends AbstractContextAwareController implem
 		Long nbDepart = getDomainService().getStatistiquesNombreTotalTransfertDepart(getSessionController().getCurrentAnnee());
 		Long nbAccueil = getDomainService().getStatistiquesNombreTotalTransfertAccueil(getSessionController().getCurrentAnnee());
 		Long nbOPI = getDomainService().getStatistiquesNombreTotalTransfertOPI(getSessionController().getCurrentAnnee());
-		//		Long AccueilPlusOPI = nbAccueil+nbOPI;
 
 		totalDepart.set("", nbDepart);  
 		totalAccueil.set("", nbAccueil);  
@@ -191,29 +204,9 @@ public class StatistiqueController extends AbstractContextAwareController implem
 		int demandesTransfertsByAvisSaisieAndAnnee = getDomainService().getDemandesTransfertsByAvisSaisieAndAnnee(getSessionController().getCurrentAnnee(), "D").intValue();
 		int demandesTransfertsByTerminerAndAnnee = getDomainService().getDemandesTransfertsByTerminerAndAnnee(getSessionController().getCurrentAnnee(), "D").intValue();
 
-		//		int demandesTransfertsByEnCoursAndAnnee = 0;
-		//		int demandesTransfertsByAvisSaisieAndAnnee = 1;
-		//		int demandesTransfertsByTerminerAndAnnee = 112;		
-
-		//		if(demandesTransfertsByEnCoursAndAnnee==0)
-		//			pieModelDepart.set("Non traite", 1);  
-		//		else
 		pieModelDepart.set("Non traite", demandesTransfertsByEnCoursAndAnnee);
-
-		//		if(demandesTransfertsByAvisSaisieAndAnnee==0)
-		//			pieModelDepart.set("En cours de traitement", 1);  
-		//		else
 		pieModelDepart.set("En cours de traitement", demandesTransfertsByAvisSaisieAndAnnee);
-
-		//		if(demandesTransfertsByTerminerAndAnnee==0)
-		//			pieModelDepart.set("Traite", 1);
-		//		else
 		pieModelDepart.set("Traite", demandesTransfertsByTerminerAndAnnee);
-
-		//				pieModel.set("Probleme de transfert OPI", getDomainService().getDemandesTransfertsByPbOpiAndAnnee(getSessionController().getCurrentAnnee()).intValue());
-		//				pieModel.set("Etablissement non partenaire", getDomainService().getDemandesTransfertsByEtabNonPartenaireAndAnnee(getSessionController().getCurrentAnnee()).intValue());	
-		//				pieModel.set("Infos OPI transmises", getDomainService().getDemandesTransfertsByOpiOkAndAnnee(getSessionController().getCurrentAnnee()).intValue());			
-
 		pieModelDepart.setTitle("Transferts départ"+getSessionController().getCurrentAnnee()+"/"+getSessionController().getCurrentAnnee()+1);
 		pieModelDepart.setLegendPosition("w");
 
@@ -240,10 +233,6 @@ public class StatistiqueController extends AbstractContextAwareController implem
 			pieModelAccueil.set("Traite", 1);
 		else
 			pieModelAccueil.set("Traite", demandesTransfertsByTerminerAndAnnee);
-
-		//		pieModelAccueil.set("Non traite", getDomainService().getDemandesTransfertsByEnCoursAndAnnee(getSessionController().getCurrentAnnee(), "A").intValue());  
-		//		pieModelAccueil.set("En cours de traitement", getDomainService().getDemandesTransfertsByAvisSaisieAndAnnee(getSessionController().getCurrentAnnee(), "A").intValue());  
-		//		pieModelAccueil.set("Traite", getDomainService().getDemandesTransfertsByTerminerAndAnnee(getSessionController().getCurrentAnnee(), "A").intValue());  
 	}	
 
 	public PieChartModel getPieModelAccueil() {
@@ -255,12 +244,12 @@ public class StatistiqueController extends AbstractContextAwareController implem
 		this.pieModelAccueil = pieModelAccueil;
 	}
 
-	public CartesianChartModel getCategoryModelTotalDepartAndArrive() {
+	public BarChartModel getCategoryModelTotalDepartAndArrive() {
 		createCategoryModelTotalDepartAndArrive();
 		return categoryModelTotalDepartAndArrive;
 	}
 
-	public void setCategoryModelTotalDepartAndArrive(CartesianChartModel categoryModelTotalDepartAndArrive) {
+	public void setCategoryModelTotalDepartAndArrive(BarChartModel categoryModelTotalDepartAndArrive) {
 		this.categoryModelTotalDepartAndArrive = categoryModelTotalDepartAndArrive;
 	}
 
@@ -269,7 +258,7 @@ public class StatistiqueController extends AbstractContextAwareController implem
 		return categoryModelDetailsDepartAndArrive;
 	}
 
-	public void setCategoryModelDetailsDepartAndArrive(CartesianChartModel categoryModelDetailsDepartAndArrive) {
+	public void setCategoryModelDetailsDepartAndArrive(HorizontalBarChartModel categoryModelDetailsDepartAndArrive) {
 		this.categoryModelDetailsDepartAndArrive = categoryModelDetailsDepartAndArrive;
 	}
 }  

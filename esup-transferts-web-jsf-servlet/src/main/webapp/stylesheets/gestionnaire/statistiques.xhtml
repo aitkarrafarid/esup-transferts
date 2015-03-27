@@ -24,22 +24,30 @@
 			<p:growl id="messages" showDetail="true" />
 			<p:messages id="msgs" showDetail="false" />
 			<center>
-							<p:panel id="pnl" style="width:80%; text-align:center;"
-				rendered="#{sessionController.currentUser.admin}" styleClass="panel"
-				header="Liste des statistiques #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" />			
+				<p:panel id="pnl" style="width:80%; text-align:center;"
+					rendered="#{sessionController.currentUser.admin}"
+					styleClass="panel"
+					header="Liste des statistiques #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" />
 				<h:panelGrid columns="2">
-					<p:barChart id="depart"
-						value="#{statistiqueController.categoryModelDetailsDepartAndArrive}" orientation="horizontal" 
-						legendPosition="ne1" title="Liste des transferts" min="0" max="200"
-						style="height:5000px;width:500px" animate="true">
+					<!-- 					<p:chart id="depart" -->
+					<!-- 						value="#{statistiqueController.categoryModelDetailsDepartAndArrive}" orientation="horizontal"  -->
+					<!-- 						legendPosition="ne1" title="Liste des transferts" min="0" max="200" -->
+					<!-- 						style="height:5000px;width:500px" animate="true"> -->
+					<!-- 						<p:ajax event="itemSelect" -->
+					<!-- 							listener="#{statistiqueController.itemSelect}" update="messages" /> -->
+					<!-- 					</p:chart> -->
+
+					<p:chart type="bar"
+						model="#{statistiqueController.categoryModelDetailsDepartAndArrive}"
+						style="height:5000px;width:600px" animate="true">
 						<p:ajax event="itemSelect"
 							listener="#{statistiqueController.itemSelect}" update="messages" />
-					</p:barChart>
+					</p:chart>
 
-					<p:barChart id="arrive"
-						value="#{statistiqueController.categoryModelTotalDepartAndArrive}" legendPosition="ne2"
-						title="Total" min="0" max="1000" style="width:400px"
-						animate="true" />
+					<p:chart type="bar" model="#{statistiqueController.categoryModelTotalDepartAndArrive}" style="height:300px"/>
+
+<!-- 					<p:chart id="arrive" type="bar" -->
+<!-- 						value="#{statistiqueController.categoryModelTotalDepartAndArrive}" /> -->
 
 					<!-- 					<p:barChart id="opi" value="#{statistiqueController.categoryModel}" -->
 					<!-- 						legendPosition="ne" title="Données OPI" min="0" max="200" -->

@@ -49,6 +49,7 @@ import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
 import org.esupportail.transferts.domain.beans.Transferts;
 import org.esupportail.transferts.domain.beans.User;
 import org.esupportail.transferts.domain.beans.WsPub;
+import org.esupportail.transferts.utils.CheckNNE36;
 import org.esupportail.transferts.web.utils.MyAuthenticator;
 
 import java.net.Authenticator;
@@ -170,6 +171,8 @@ public class AdministrationControllerTest {
 		System.out.println("fromTestUnitaireEtudiantRef===>"+fromTestUnitaireEtudiantRef+"<===");	
 		System.out.println("############################################################################################################################################");
 
+		this.getCleIne(); 
+		
 		if(totalDemandeTransfertsDepartEtAccueil)
 			this.getTotalDemandeTransfertsTest(getCurrentAnnee());
 
@@ -186,6 +189,12 @@ public class AdministrationControllerTest {
 			this.getTotalDemandeTransfertsTest(getCurrentAnnee());
 	}	
 
+	public void getCleIne() 
+	{
+		System.out.println("===>public void getCleIne()<===");
+		System.out.println("Clé INE===>"+CheckNNE36.calculCLeIne("0DDG5R0001")+"<===");
+	}
+	
 	public String rand(int nb) {
 		String chars = "0123456789abcdefghijklmnopqrstuvwxyz";
 		StringBuilder res = new StringBuilder();

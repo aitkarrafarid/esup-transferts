@@ -83,3 +83,9 @@
 - Correction des "sortBy" et "filterBy" dans le datatable validation en masse des transferts accueil
 - Correction du p:confirmDialog dans dans le datatable validation en masse des transferts accueil
 - Correction du mail par défaut lors des tests unitaires
+#############################################################################################################
+- Correction des "sortBy" et "filterBy" dans le datatable validation en masse des transferts départ
+- Prise en compte du "this.currentDemandeTransferts.getAccueil().getCodeBac()!=null" lors de la generation en masse des données opi dans esup-transferts
+#############################################################################################################
+- Correction des composants statistiques suite à la migration PF4.1-->PF5.1
+- ajout d'une méthode calculCLeIne(String numero) dans util

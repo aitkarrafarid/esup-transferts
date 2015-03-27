@@ -77,30 +77,30 @@
 						rendered="#{transferts.transferts.temoinOPIWs==2}" />
 				</p:column>
 
-				<p:column headerText="Composante actuelle" filterBy="composante"
-					style="text-align:left;" sortBy="composante"
+				<p:column headerText="Composante actuelle" filterBy="#{transferts.composante}"
+					style="text-align:left;" sortBy="#{transferts.composante}"
 					filterMatchMode="contains">
             #{transferts.composante}  
         </p:column>
 
-				<p:column headerText="Dernière IA" filterBy="libEtapePremiereLocal"
-					style="text-align:left;" sortBy="libEtapePremiereLocal"
+				<p:column headerText="Dernière IA" filterBy="#{transferts.libEtapePremiereLocal}"
+					style="text-align:left;" sortBy="#{transferts.libEtapePremiereLocal}"
 					id="derniereIA">  
             #{transferts.libEtapePremiereLocal}  
         </p:column>
 
-				<p:column headerText="Numéro étudiant" filterBy="numeroEtudiant"
-					sortBy="numeroEtudiant">
+				<p:column headerText="Numéro étudiant" filterBy="#{transferts.numeroEtudiant}"
+					sortBy="#{transferts.numeroEtudiant}">
             #{transferts.numeroEtudiant}  
         </p:column>
 
-				<p:column headerText="Numéro I.N.E" filterBy="numeroIne"
-					sortBy="numeroIne">
+				<p:column headerText="Numéro I.N.E" filterBy="#{transferts.numeroIne}"
+					sortBy="#{transferts.numeroIne}">
             #{transferts.numeroIne}  
         </p:column>
 
-				<p:column headerText="Nom" filterBy="nomPatronymique"
-					style="text-align:left;" sortBy="nomPatronymique" id="nom">  
+				<p:column headerText="Nom" filterBy="#{transferts.nomPatronymique}"
+					style="text-align:left;" sortBy="#{transferts.nomPatronymique}" id="nom">  
             #{transferts.nomPatronymique}  
         </p:column>
 
