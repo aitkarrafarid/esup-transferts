@@ -209,9 +209,15 @@ public class AdministrationControllerTest {
 		System.out.println("===>public void getTotalDemandeTransfertsTest()<===");
 		System.out.println("getDomainService().getAllDemandesTransfertsByAnnee(annee, D)===>"+annee+"<===");
 		List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(annee, "D");
-		System.out.println("Total des demandes de transferts départ===>"+lEtu.size()+"<===");
+		if(lEtu!=null)
+			System.out.println("Total des demandes de transferts départ===>"+lEtu.size()+"<===");
+		else
+			System.out.println("Total des demandes de transferts départ===>0<===");
 		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(annee, "A");
-		System.out.println("Total des demandes de transferts accueil===>"+lEtu2.size()+"<===");			
+		if(lEtu2!=null)
+			System.out.println("Total des demandes de transferts accueil===>"+lEtu2.size()+"<===");
+		else
+			System.out.println("Total des demandes de transferts accueil===>0<===");
 	}	
 
 	public void addDemandeTransfertDepartTest(Integer nbDemandeACreer, boolean envoi, boolean local)
