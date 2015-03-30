@@ -93,3 +93,5 @@
 - Mise à jour de l'implémentation du DAO : ajout d'un test "isEmpty()" car une le retour d'une collection d'objet vide ne retourne pas null mais vide
 - Correction des 2 nullpointerexception lors du clic sur le détail d'une demande de transferts sans avoir sélectionné de demandes
 - Changement d'affciachege dand la visualisation de l'offre de formation
+#############################################################################################################
+- Correction d'un nullpointerexception dans les test unitaire suite à la modif dans le DAO
