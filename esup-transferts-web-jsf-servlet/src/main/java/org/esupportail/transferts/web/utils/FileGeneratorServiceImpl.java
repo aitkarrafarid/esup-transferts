@@ -167,7 +167,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 		SpreadsheetObject sso = new SpreadsheetObject(colonnes);
 		generate(sso, typeExport, filename);
 	}		
-	
+
 	public void generate(SpreadsheetObject sso, String typeExport,
 			String filename) {
 		if (logger.isDebugEnabled()) {
@@ -247,23 +247,26 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 			// definition des valeurs
 			Map<Integer, String> vEtudiant = new HashMap<Integer, String>();
 			int cpt = 1;
-			for (PersonnelComposante pers : persComp) {
-				String endResult = "";
-				try {
-					// methode reflectHelper, prend objet, recupere le getter de la propertie
-					// pour un Boolean , ajouter une methode get
-					Object result = ReflectHelper.resultExpression(s.getNameProperty(), pers);
+			if(persComp!=null)
+			{
+				for (PersonnelComposante pers : persComp) {
+					String endResult = "";
+					try {
+						// methode reflectHelper, prend objet, recupere le getter de la propertie
+						// pour un Boolean , ajouter une methode get
+						Object result = ReflectHelper.resultExpression(s.getNameProperty(), pers);
 
-					if (result != null) {
-						endResult = result.toString();
-					} 
-				} catch (NullPointerException e) {
-					logger.warn("la colonne " + s.getKeyLabel() 
-							+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+						if (result != null) {
+							endResult = result.toString();
+						} 
+					} catch (NullPointerException e) {
+						logger.warn("la colonne " + s.getKeyLabel() 
+								+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+					}
+					vEtudiant.put(cpt, endResult);
+
+					cpt++;
 				}
-				vEtudiant.put(cpt, endResult);
-
-				cpt++;
 			}
 			// definition de toutes les colonnes
 			I18nService service = (I18nService) BeanUtils.getBean("i18nService");
@@ -275,7 +278,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 		SpreadsheetObject sso = new SpreadsheetObject(colonnes);
 		generate(sso, typeExport, filename);
 	}
-	
+
 	public void exportXlsPersonnelsComposantesArrivee(List<PersonnelComposante> persComp, String typeExport, String filename, List<String> colonnesChoisies) 
 	{
 		List<SpreadsheetColumn> colonnes = new ArrayList<SpreadsheetColumn>();
@@ -284,23 +287,27 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 			// definition des valeurs
 			Map<Integer, String> vEtudiant = new HashMap<Integer, String>();
 			int cpt = 1;
-			for (PersonnelComposante pers : persComp) {
-				String endResult = "";
-				try {
-					// methode reflectHelper, prend objet, recupere le getter de la propertie
-					// pour un Boolean , ajouter une methode get
-					Object result = ReflectHelper.resultExpression(s.getNameProperty(), pers);
+			if(persComp!=null)
+			{
+				for (PersonnelComposante pers : persComp) 
+				{
+					String endResult = "";
+					try {
+						// methode reflectHelper, prend objet, recupere le getter de la propertie
+						// pour un Boolean , ajouter une methode get
+						Object result = ReflectHelper.resultExpression(s.getNameProperty(), pers);
 
-					if (result != null) {
-						endResult = result.toString();
-					} 
-				} catch (NullPointerException e) {
-					logger.warn("la colonne " + s.getKeyLabel() 
-							+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+						if (result != null) {
+							endResult = result.toString();
+						} 
+					} catch (NullPointerException e) {
+						logger.warn("la colonne " + s.getKeyLabel() 
+								+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+					}
+					vEtudiant.put(cpt, endResult);
+
+					cpt++;
 				}
-				vEtudiant.put(cpt, endResult);
-
-				cpt++;
 			}
 			// definition de toutes les colonnes
 			I18nService service = (I18nService) BeanUtils.getBean("i18nService");

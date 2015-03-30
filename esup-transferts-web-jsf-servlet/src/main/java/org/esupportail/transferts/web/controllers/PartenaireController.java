@@ -236,90 +236,93 @@ public class PartenaireController extends AbstractContextAwareController {
 		{
 			//listePartenaires = getDomainService().getListeWsPub();
 			listePartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
-			for(WsPub part : listePartenaires)
+			if(listePartenaires!=null)
 			{
-				if (part.getUrl() != null) 
+				for(WsPub part : listePartenaires)
 				{
-					Authenticator.setDefault(new MyAuthenticator(part.getIdentifiant(), part.getPassword()));
-					if (this.testUrl(part.getUrl())) 
+					if (part.getUrl() != null) 
 					{
-						try {
-							String address = part.getUrl();
-							JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
-							factoryBean.setServiceClass(DomainServiceOpi.class);
-							factoryBean.setAddress(address);
-							DomainServiceOpi monService = (DomainServiceOpi) factoryBean.create();
-							part.setOnline(1);
-							if(!(part.getRne().equals(getSessionController().getRne())))
-							{
-								Date d = getDomainService().getDateMaxMajByRneAndAnnee(getSessionController().getCurrentAnnee(), part.getRne());
-								if (logger.isDebugEnabled())
-									logger.debug("######################### Date Max MAJ ################################" + d);								
-								if(d!=null)
+						Authenticator.setDefault(new MyAuthenticator(part.getIdentifiant(), part.getPassword()));
+						if (this.testUrl(part.getUrl())) 
+						{
+							try {
+								String address = part.getUrl();
+								JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
+								factoryBean.setServiceClass(DomainServiceOpi.class);
+								factoryBean.setAddress(address);
+								DomainServiceOpi monService = (DomainServiceOpi) factoryBean.create();
+								part.setOnline(1);
+								if(!(part.getRne().equals(getSessionController().getRne())))
 								{
+									Date d = getDomainService().getDateMaxMajByRneAndAnnee(getSessionController().getCurrentAnnee(), part.getRne());
 									if (logger.isDebugEnabled())
-										logger.debug("monService.getFormationsByMaxDateLocalDifferentDateMaxDistantAndAnneeAndRne(d, getSessionController().getCurrentAnnee(), part.getRne());");
-									List<OffreDeFormationsDTO> lOdf = monService.getFormationsByMaxDateLocalDifferentDateMaxDistantAndAnneeAndRne(d, getSessionController().getCurrentAnnee(), part.getRne());
-									if(lOdf!=null)
+										logger.debug("######################### Date Max MAJ ################################" + d);								
+									if(d!=null)
 									{
-										OffreDeFormationsDTO[] tabFormationsMaj = new OffreDeFormationsDTO[lOdf.size()]; 
-										for(int i=0; i<lOdf.size();i++)
-											tabFormationsMaj[i]=lOdf.get(i);
-										part.setSyncOdf(2);
+										if (logger.isDebugEnabled())
+											logger.debug("monService.getFormationsByMaxDateLocalDifferentDateMaxDistantAndAnneeAndRne(d, getSessionController().getCurrentAnnee(), part.getRne());");
+										List<OffreDeFormationsDTO> lOdf = monService.getFormationsByMaxDateLocalDifferentDateMaxDistantAndAnneeAndRne(d, getSessionController().getCurrentAnnee(), part.getRne());
+										if(lOdf!=null)
+										{
+											OffreDeFormationsDTO[] tabFormationsMaj = new OffreDeFormationsDTO[lOdf.size()]; 
+											for(int i=0; i<lOdf.size();i++)
+												tabFormationsMaj[i]=lOdf.get(i);
+											part.setSyncOdf(2);
+										}
+										else
+										{
+											part.setSyncOdf(1);
+										}
 									}
 									else
 									{
-										part.setSyncOdf(1);
+										if (logger.isDebugEnabled())
+											logger.debug("monService.getFormationsByRneAndAnnee(part.getRne(), getSessionController().getCurrentAnnee());");
+										List<OffreDeFormationsDTO> lOdf = monService.getFormationsByRneAndAnnee(part.getRne(), getSessionController().getCurrentAnnee());
+										if(lOdf!=null)
+										{
+											OffreDeFormationsDTO[] tabFormationsMaj = new OffreDeFormationsDTO[lOdf.size()]; 
+											for(int i=0; i<lOdf.size();i++)
+												tabFormationsMaj[i]=lOdf.get(i);
+											part.setSyncOdf(2);
+										}
+										else
+										{
+											part.setSyncOdf(3);
+										}								
 									}
 								}
 								else
 								{
-									if (logger.isDebugEnabled())
-										logger.debug("monService.getFormationsByRneAndAnnee(part.getRne(), getSessionController().getCurrentAnnee());");
-									List<OffreDeFormationsDTO> lOdf = monService.getFormationsByRneAndAnnee(part.getRne(), getSessionController().getCurrentAnnee());
-									if(lOdf!=null)
-									{
-										OffreDeFormationsDTO[] tabFormationsMaj = new OffreDeFormationsDTO[lOdf.size()]; 
-										for(int i=0; i<lOdf.size();i++)
-											tabFormationsMaj[i]=lOdf.get(i);
-										part.setSyncOdf(2);
-									}
-									else
-									{
-										part.setSyncOdf(3);
-									}								
+									part.setSyncOdf(1);
 								}
 							}
-							else
+							catch (Exception e) 
 							{
-								part.setSyncOdf(1);
-							}
+								if (logger.isDebugEnabled()) {
+									logger.debug("WebServiceException RNE : " + part.getRne());
+									logger.debug("-----------------");
+									logger.debug(e.getCause().getMessage());
+									logger.debug("-----------------");
+								}
+								e.printStackTrace();
+								part.setOnline(0);
+								part.setSyncOdf(0);
+							}					
 						}
-						catch (Exception e) 
+						else
 						{
-							if (logger.isDebugEnabled()) {
-								logger.debug("WebServiceException RNE : " + part.getRne());
-								logger.debug("-----------------");
-								logger.debug(e.getCause().getMessage());
-								logger.debug("-----------------");
-							}
-							e.printStackTrace();
 							part.setOnline(0);
 							part.setSyncOdf(0);
-						}					
+						}
+						AuthCacheValue.setAuthCache(new AuthCacheImpl());
+						Authenticator.setDefault(null);
 					}
 					else
 					{
 						part.setOnline(0);
 						part.setSyncOdf(0);
 					}
-					AuthCacheValue.setAuthCache(new AuthCacheImpl());
-					Authenticator.setDefault(null);
-				}
-				else
-				{
-					part.setOnline(0);
-					part.setSyncOdf(0);
 				}
 			}
 		}

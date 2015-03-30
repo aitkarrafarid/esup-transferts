@@ -28,7 +28,7 @@
 
 			<p:spacer height="20px" />
 
-			<p:dataTable var="car" value="#{partenaireController.partenaires}"
+			<p:dataTable var="car" value="#{partenaireController.partenaires}" emptyMessage="Aucun établissement partenaire"
 				rowsPerPageTemplate="5,10,15,20,25,30" rows="10" paginator="true"
 				id="partenaire" styleClass="datatable"
 				style="width:80%; text-align:center;" editable="true">

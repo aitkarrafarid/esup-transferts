@@ -95,3 +95,7 @@
 - Changement d'affciachege dand la visualisation de l'offre de formation
 #############################################################################################################
 - Correction d'un nullpointerexception dans les test unitaire suite à la modif dans le DAO
+#############################################################################################################
+- Correction d'un nullpointerexception dans l'affichage des OPI's suite à la modif dans le DAO
+#############################################################################################################
+- Correction de plusieurs nullpointerexception suite à la modif dans le DAO

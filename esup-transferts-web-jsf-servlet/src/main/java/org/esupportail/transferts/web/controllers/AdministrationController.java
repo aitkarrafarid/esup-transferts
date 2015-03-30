@@ -750,34 +750,36 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void exportListeDroitsDepart()
 	{
-		if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled())
 			logger.debug("exportListeDroitsDepart()");
-		}
+		
 		setSource("D");
 		String typeExport = "xls";
 		String fileName = "listeDesDroitsTransfertsDepart" + "." + typeExport;
 		List<String> colonnesChoisies = new ArrayList<String>();
 		List<PersonnelComposante> lPersComp = getDomainService().getListePersonnelsComposantesBySourceAndAnnee(getSource(), getSessionController().getCurrentAnnee());
 
-		for(PersonnelComposante pc : lPersComp)
-			pc.setLibelleTypePersonnel(this.getTypePersonnel(pc.getTypePersonnel()));
+		if(lPersComp!=null)
+			for(PersonnelComposante pc : lPersComp)
+				pc.setLibelleTypePersonnel(this.getTypePersonnel(pc.getTypePersonnel()));
 
 		getFileGeneratorService().exportXlsPersonnelsComposantesDepart(lPersComp,	typeExport, fileName, colonnesChoisies);
 	}	
 
 	public void exportListeDroitsAccueil()
 	{
-		if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled())
 			logger.debug("exportListeDroitAccueil()");
-		}
+		
 		setSource("A");
 		String typeExport = "xls";
 		String fileName = "listeDesDroitsTransfertsAccueil" + "." + typeExport;
 		List<String> colonnesChoisies = new ArrayList<String>();
 		List<PersonnelComposante> lPersComp = getDomainService().getListePersonnelsComposantesBySourceAndAnnee(getSource(), getSessionController().getCurrentAnnee());
 
-		for(PersonnelComposante pc : lPersComp)
-			pc.setLibelleTypePersonnel(this.getTypePersonnel(pc.getTypePersonnel()));
+		if(lPersComp!=null)
+			for(PersonnelComposante pc : lPersComp)
+				pc.setLibelleTypePersonnel(this.getTypePersonnel(pc.getTypePersonnel()));
 
 		getFileGeneratorService().exportXlsPersonnelsComposantesArrivee(lPersComp,	typeExport, fileName, colonnesChoisies);
 	}
@@ -1818,50 +1820,47 @@ public class AdministrationController extends AbstractContextAwareController {
 			{
 				System.out.println("aaaaa");
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(getSessionController().getCurrentAnnee(), getSource());
-				for (EtudiantRef etu : lEtu) 
+				if(lEtu!=null)
 				{
-
-					if (logger.isDebugEnabled())
+					for (EtudiantRef etu : lEtu) 
 					{
-						logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
-						logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
-						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
-						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
-					}
 
-					etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
-					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
+						if (logger.isDebugEnabled())
+						{
+							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+							logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
+							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
+							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
+						}
 
-					//					if(etu.getTransferts().getFichier()==null)
-					//					{
-					//						if (logger.isDebugEnabled()) {
-					//							logger.debug("Pas de signature");
-					//						}
-					//						etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
-					//					}
-					//					else
-					//						if (logger.isDebugEnabled())
-					//							logger.debug("Signature !!!");
+						etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
+						etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
 
-					if (logger.isDebugEnabled())
+						if (logger.isDebugEnabled())
+							try {
+								logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}					
 						try {
-							logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}					
-					try {
-						if((lPc!=null 
-								&& chaineComposante!=null 
-								&& !chaineComposante.equals("") 
-								&& chaineComposante.contains(etu.getTransferts().getOdf().getCodeComposante())
-								) || getSessionController().getCurrentUser().isAdmin())
-							lEtu2.add(etu);
-					} catch (Exception e) {
-						e.printStackTrace();
+							if((lPc!=null 
+									&& chaineComposante!=null 
+									&& !chaineComposante.equals("") 
+									&& chaineComposante.contains(etu.getTransferts().getOdf().getCodeComposante())
+									) || getSessionController().getCurrentUser().isAdmin())
+								lEtu2.add(etu);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
+					setTotalAccueil(lEtu2.size());
+					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
 				}
-				setTotalAccueil(lEtu2.size());
-				listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
+				else
+				{
+					setTotalAccueil(0);
+					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(new ArrayList<EtudiantRef>());
+				}
 			}
 			return listeTransfertDepartDataModel;
 		}
@@ -1869,52 +1868,47 @@ public class AdministrationController extends AbstractContextAwareController {
 		{
 			if (listeTransfertDepartDataModel == null) 
 			{
-				System.out.println("bbbbb");
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnneeAndNonTraite(getSessionController().getCurrentAnnee(), getSource());
-				for (EtudiantRef etu : lEtu) 
+				if(lEtu!=null)
 				{
-					if (logger.isDebugEnabled())
+					for (EtudiantRef etu : lEtu) 
 					{
-						logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
-						logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
-						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
-						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
-					}
-
-					etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
-					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
-
-					//					if(etu.getTransferts().getFichier()==null)
-					//					{
-					//						if (logger.isDebugEnabled()) {
-					//							logger.debug("Pas de signature");
-					//						}
-					//						etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
-					//					}
-					//					else
-					//						if (logger.isDebugEnabled())
-					//							logger.debug("Signature !!!");
-
-
-					if (logger.isDebugEnabled())
-						try {
-							logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
-						} catch (Exception e1) {
-							e1.printStackTrace();
+						if (logger.isDebugEnabled())
+						{
+							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+							logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
+							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
+							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
 						}
-					try {
-						if((lPc!=null 
-								&& chaineComposante!=null 
-								&& !chaineComposante.equals("") 
-								&& chaineComposante.contains(etu.getTransferts().getOdf().getCodeComposante())
-								) || getSessionController().getCurrentUser().isAdmin())
-							lEtu2.add(etu);
-					} catch (Exception e) {
-						e.printStackTrace();
+
+						etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
+						etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
+
+						if (logger.isDebugEnabled())
+							try {
+								logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						try {
+							if((lPc!=null 
+									&& chaineComposante!=null 
+									&& !chaineComposante.equals("") 
+									&& chaineComposante.contains(etu.getTransferts().getOdf().getCodeComposante())
+									) || getSessionController().getCurrentUser().isAdmin())
+								lEtu2.add(etu);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
+					setTotalAccueil(lEtu2.size());
+					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
 				}
-				setTotalAccueil(lEtu2.size());
-				listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
+				else
+				{
+					setTotalAccueil(0);
+					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(new ArrayList<EtudiantRef>());
+				}
 			}
 			return listeTransfertDepartDataModel;
 		}
@@ -1945,59 +1939,67 @@ public class AdministrationController extends AbstractContextAwareController {
 			if (listeTransfertDepartDataModel == null) 
 			{
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(getSessionController().getCurrentAnnee(), getSource());
-				for (EtudiantRef etu : lEtu) 
+				if(lEtu!=null)
 				{
-					if (logger.isDebugEnabled())
+					for (EtudiantRef etu : lEtu) 
 					{
-						logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
-						logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
-						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
-						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
-					}
-
-					etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
-					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
-
-					if(etu.getTransferts().getFichier()==null)
-					{
-						if (logger.isDebugEnabled()) {
-							logger.debug("Pas de signature");
+						if (logger.isDebugEnabled())
+						{
+							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+							logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
+							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
+							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
 						}
-						etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
-					}
-					else
-					{
-						if (logger.isDebugEnabled()) {
-							logger.debug("Signature !!!");
-						}					
-					}
-					//					if (etu.getLibEtapePremiereLocal() == null || etu.getLibEtapePremiereLocal().equals("Non disponible")) 
-					//					{
-					//						if (logger.isDebugEnabled()) {
-					//							logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
-					//						}	
-					//						etu=this.initialiseTransientEtudiantRef(etu);
-					//						getDomainService().addDemandeTransferts(etu);
-					//					}
-					if (logger.isDebugEnabled())
+
+						etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
+						etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
+
+						if(etu.getTransferts().getFichier()==null)
+						{
+							if (logger.isDebugEnabled()) {
+								logger.debug("Pas de signature");
+							}
+							etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
+						}
+						else
+						{
+							if (logger.isDebugEnabled()) {
+								logger.debug("Signature !!!");
+							}					
+						}
+						//					if (etu.getLibEtapePremiereLocal() == null || etu.getLibEtapePremiereLocal().equals("Non disponible")) 
+						//					{
+						//						if (logger.isDebugEnabled()) {
+						//							logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
+						//						}	
+						//						etu=this.initialiseTransientEtudiantRef(etu);
+						//						getDomainService().addDemandeTransferts(etu);
+						//					}
+						if (logger.isDebugEnabled())
+							try {
+								logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
 						try {
-							logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
-						} catch (Exception e1) {
-							e1.printStackTrace();
+							if((lPc!=null 
+									&& chaineComposante!=null 
+									&& !chaineComposante.equals("") 
+									&& chaineComposante.contains(etu.getComposante())
+									) || getSessionController().getCurrentUser().isAdmin())
+								lEtu2.add(etu);
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-					try {
-						if((lPc!=null 
-								&& chaineComposante!=null 
-								&& !chaineComposante.equals("") 
-								&& chaineComposante.contains(etu.getComposante())
-								) || getSessionController().getCurrentUser().isAdmin())
-							lEtu2.add(etu);
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
+					setTotalDepart(lEtu2.size());
+					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
 				}
-				setTotalDepart(lEtu2.size());
-				listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
+				else
+				{
+					setTotalDepart(0);
+					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(new ArrayList<EtudiantRef>());
+				}
 			}
 			return listeTransfertDepartDataModel;
 		}
@@ -2006,57 +2008,65 @@ public class AdministrationController extends AbstractContextAwareController {
 			if (listeTransfertDepartDataModel == null) 
 			{
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnneeAndNonTraite(getSessionController().getCurrentAnnee(), getSource());
-				for (EtudiantRef etu : lEtu) 
+				if(lEtu!=null)
 				{
-					if (logger.isDebugEnabled())
-					{
-						logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
-						logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
-						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
-						logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
-					}
-
-					etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
-					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
-
-					if(etu.getTransferts().getFichier()==null)
-					{
-						if (logger.isDebugEnabled()) 
-							logger.debug("Pas de signature");
-						etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
-					}
-					else
-					{
-						if (logger.isDebugEnabled()) 
-							logger.debug("Signature !!!");
-					}
-					if (etu.getLibEtapePremiereLocal() == null || etu.getLibEtapePremiereLocal().equals("Non disponible")) 
+					for (EtudiantRef etu : lEtu) 
 					{
 						if (logger.isDebugEnabled())
-							logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
-
-						etu=this.initialiseTransientEtudiantRef(etu);
-						getDomainService().addDemandeTransferts(etu);
-					}
-					if (logger.isDebugEnabled())
-						try {
-							logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
-						} catch (Exception e1) {
-							e1.printStackTrace();
+						{
+							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+							logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
+							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
+							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
 						}
-					try {
-						if((lPc!=null 
-								&& chaineComposante!=null 
-								&& !chaineComposante.equals("") 
-								&& chaineComposante.contains(etu.getComposante())
-								) || getSessionController().getCurrentUser().isAdmin())
-							lEtu2.add(etu);
-					} catch (Exception e) {
-						e.printStackTrace();
+
+						etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
+						etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
+
+						if(etu.getTransferts().getFichier()==null)
+						{
+							if (logger.isDebugEnabled()) 
+								logger.debug("Pas de signature");
+							etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
+						}
+						else
+						{
+							if (logger.isDebugEnabled()) 
+								logger.debug("Signature !!!");
+						}
+						if (etu.getLibEtapePremiereLocal() == null || etu.getLibEtapePremiereLocal().equals("Non disponible")) 
+						{
+							if (logger.isDebugEnabled())
+								logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
+
+							etu=this.initialiseTransientEtudiantRef(etu);
+							getDomainService().addDemandeTransferts(etu);
+						}
+						if (logger.isDebugEnabled())
+							try {
+								logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						try {
+							if((lPc!=null 
+									&& chaineComposante!=null 
+									&& !chaineComposante.equals("") 
+									&& chaineComposante.contains(etu.getComposante())
+									) || getSessionController().getCurrentUser().isAdmin())
+								lEtu2.add(etu);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
+					setTotalDepart(lEtu2.size());
+					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
 				}
-				setTotalDepart(lEtu2.size());
-				listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(lEtu2);
+				else
+				{
+					setTotalDepart(0);
+					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(new ArrayList<EtudiantRef>());
+				}
 			}
 			return listeTransfertDepartDataModel;
 		}
@@ -4710,20 +4720,38 @@ public class AdministrationController extends AbstractContextAwareController {
 			{	
 				//				List<IndOpi> lOpis = getDomainService().getAllIndOpiBySynchroAndSource(getSessionController().getCurrentAnnee(), 1, getSource());
 				List<IndOpi> lOpis = getDomainService().getAllIndOpiBySynchroAndExcluAndSource(getSessionController().getCurrentAnnee(), getSource());
-				setTotalOpi(lOpis.size());
+				if(lOpis!=null)
+				{
+					setTotalOpi(lOpis.size());
+					transfertDataModelOpi = new TransfertDataModelOpi(lOpis);
+				}
+				else
+				{
+					setTotalOpi(0);
+					transfertDataModelOpi = new TransfertDataModelOpi(new ArrayList<IndOpi>());
+				}
+
 				if (logger.isDebugEnabled())
 					logger.debug("getTotalOpi()-->"+getTotalOpi());			
 				setFilteredEtudiantOpi(null);
-				transfertDataModelOpi = new TransfertDataModelOpi(lOpis);
 			}
 			else
 			{
 				List<IndOpi> lOpis = getDomainService().getAllIndOpiBySynchroAndSource(getSessionController().getCurrentAnnee(),0, getSource());
-				setTotalOpi(lOpis.size());
+				if(lOpis!=null)
+				{
+					setTotalOpi(lOpis.size());
+					transfertDataModelOpi = new TransfertDataModelOpi(lOpis);
+				}
+				else
+				{
+					setTotalOpi(0);
+					transfertDataModelOpi = new TransfertDataModelOpi(new ArrayList<IndOpi>());
+				}
+
 				if (logger.isDebugEnabled())
 					logger.debug("getTotalOpi()-->"+getTotalOpi());	
 				setFilteredEtudiantOpi(null);
-				transfertDataModelOpi = new TransfertDataModelOpi(lOpis);
 			}
 			for (IndOpi t : transfertDataModelOpi) 
 			{
