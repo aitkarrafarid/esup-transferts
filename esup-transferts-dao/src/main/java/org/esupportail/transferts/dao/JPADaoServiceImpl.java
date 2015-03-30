@@ -119,36 +119,45 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
 		}
 		return entityManager.merge(currentEtudiant);
-//		entityManager.persist(currentEtudiant);	
 	}
-
-	//	@Override
-	//	public List<EtudiantRef> getAllDemandesTransferts() {
-	//		Query q = entityManager.createNamedQuery("allDemandesTransferts");
-	//		@SuppressWarnings("unchecked")
-	//		List<EtudiantRef> ret = (List<EtudiantRef>)q.getResultList();
-	//		return ret;
-	//	}
 
 	@Override
 	public List<IndOpi> getAllIndOpiBySource(Integer annee, String source) {
 		if (logger.isDebugEnabled())
 			logger.debug("public List<IndOpi> getAllIndOpiBySource(Integer annee, String source)-->"+annee+"-----"+source);		
-		Query q = entityManager.createNamedQuery("allIndOpiBySource");
-//		Query q = entityManager.createNamedQuery("allIndOpi");
-		q.setParameter("annee", annee);
-		q.setParameter("source", source);
-		@SuppressWarnings("unchecked")
-		List<IndOpi> ret = (List<IndOpi>)q.getResultList();
-		return ret;
+		try{		
+			Query q = entityManager.createNamedQuery("allIndOpiBySource");
+			//		Query q = entityManager.createNamedQuery("allIndOpi");
+			q.setParameter("annee", annee);
+			q.setParameter("source", source);
+			@SuppressWarnings("unchecked")
+			List<IndOpi> ret = (List<IndOpi>)q.getResultList();
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
+		}
+		catch(NoResultException e){
+			return null;
+		}			
 	}
 
 	@Override
 	public List<WsPub> getListeWsPub() {
-		Query q = entityManager.createNamedQuery("allWsPub");
-		@SuppressWarnings("unchecked")
-		List<WsPub> ret = (List<WsPub>)q.getResultList();
-		return ret;
+		if (logger.isDebugEnabled())
+			logger.debug("public List<WsPub> getListeWsPub()");
+		try{		
+			Query q = entityManager.createNamedQuery("allWsPub");
+			@SuppressWarnings("unchecked")
+			List<WsPub> ret = (List<WsPub>)q.getResultList();
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
+		}
+		catch(NoResultException e){
+			return null;
+		}		
 	}
 
 	@Override
@@ -175,7 +184,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("annee", annee);
 			@SuppressWarnings("unchecked")
 			List<WsPub> ret = (List<WsPub>)q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -202,7 +214,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("annee", annee);
 			@SuppressWarnings("unchecked")
 			List<Avis> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return new ArrayList<Avis>();
@@ -218,7 +233,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getEtatsDossier");
 			@SuppressWarnings("unchecked")
 			List<EtatDossier> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return new ArrayList<EtatDossier>();
@@ -250,7 +268,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getLocalisationDossier");
 			@SuppressWarnings("unchecked")
 			List<LocalisationDossier> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return new ArrayList<LocalisationDossier>();
@@ -283,7 +304,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getDecisionsDossier");
 			@SuppressWarnings("unchecked")
 			List<DecisionDossier> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return new ArrayList<DecisionDossier>();
@@ -331,7 +355,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-//			return new ArrayList<Fichier>();
 			e.printStackTrace();
 			return null;
 		}
@@ -383,7 +406,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			}		
 			String moduloBase32 = opi.getNumeroOpi();
 			opi.setNumeroOpi(moduloBase32+value);
-			//opi.setSynchro(0);
 			opi.getVoeux().setNumeroOpi(moduloBase32+value);
 			entityManager.merge(opi);
 		}
@@ -402,7 +424,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("source", source);
 			@SuppressWarnings("unchecked")
 			List<EtudiantRef> ret = (List<EtudiantRef>) q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -418,7 +443,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getAnneeCodeSize");
 			@SuppressWarnings("unchecked")
 			List<Integer> ret = (List<Integer>) q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -457,22 +485,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return new Avis();
 		}
 	}
-
-//	@Override
-//	public AdresseEtablissement getAdresseEtablissementByRne(String rne) {
-//		if (logger.isDebugEnabled()){
-//			logger.debug("getAdresseEtablissementByRne(String rne)");
-//		}
-//		try{
-//			Query q = entityManager.createNamedQuery("getAdresseEtablissementByRne");
-//			q.setParameter("rne", rne);
-//			AdresseEtablissement ret = (AdresseEtablissement) q.getSingleResult();
-//			return ret;
-//		}
-//		catch(NoResultException e){
-//			return new AdresseEtablissement();
-//		}
-//	}
 
 	@Override
 	public void deleteDemandeTransfert(EtudiantRef demandeTransferts, Integer annee) 
@@ -602,23 +614,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 	}
 
-	//	@Override
-	//	public List<DatasExterne> getInterditBu(String numeroEtudiant) {
-	//		if (logger.isDebugEnabled()){
-	//			logger.debug("getInterditBu()");
-	//		}
-	//		try{
-	//			Query q = entityManager.createNamedQuery("getAllInterditBuByNumeroEtudiant");
-	//			q.setParameter("numeroEtudiant", numeroEtudiant);
-	//			@SuppressWarnings("unchecked")
-	//			List<DatasExterne> ret = q.getResultList();
-	//			return ret;
-	//		}
-	//		catch(NoResultException e){
-	//			return null;
-	//		}
-	//	}
-
 	@Override
 	public List<DatasExterne> getAllDatasExterneByIdentifiant(String identifiant) {
 		if (logger.isDebugEnabled())
@@ -628,7 +623,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("identifiant", identifiant);
 			@SuppressWarnings("unchecked")
 			List<DatasExterne> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -646,13 +644,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("niveau", niveau);
 			@SuppressWarnings("unchecked")
 			List<DatasExterne> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
 		}
 	}	
-	
+
 	@Override
 	public DatasExterne getAllDatasExterneByCodeInterditAndNumeroEtudiant(String identifiant, String code) 
 	{
@@ -679,7 +680,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("source", source);
 			@SuppressWarnings("unchecked")
 			List<String> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -697,7 +701,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("source", source);
 			@SuppressWarnings("unchecked")
 			List<String> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -729,7 +736,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getAllCodeSize");
 			@SuppressWarnings("unchecked")
 			List<CodeSizeAnnee> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -780,7 +790,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getAllParametres");
 			@SuppressWarnings("unchecked")
 			List<Parametres> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -823,7 +836,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("source", source);
 			@SuppressWarnings("unchecked")
 			List<EtudiantRef> ret = (List<EtudiantRef>) q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -861,7 +877,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("rne", rne);
 			@SuppressWarnings("unchecked")
 			List<OffreDeFormationsDTO> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
@@ -879,7 +898,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("rne", rne);
 			@SuppressWarnings("unchecked")
 			List<OffreDeFormationsDTO> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
@@ -918,7 +940,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				q = entityManager.createNamedQuery("getAllOdfTypesDiplomeByRneAndAnnee");
 			q.setParameter("rne", rne);
 			q.setParameter("annee", currentAnnee);
-			//List<String> ret = (List<String>) q.getResultList();
 			Map<String, String> map = new HashMap<String, String>();
 
 			List<Object[]> result1 = q.getResultList();
@@ -973,7 +994,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("rne", rne);
 			@SuppressWarnings("unchecked")
 			List<OffreDeFormationsDTO> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
@@ -991,7 +1015,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("annee", annee);
 			@SuppressWarnings("unchecked")
 			List<OffreDeFormationsDTO> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
@@ -1055,7 +1082,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("annee", currentAnnee);
 			q.setParameter("codTypDip", codTypDip);
 			q.setParameter("codeNiveau", codeNiveau);
-			//List<String> ret = (List<String>) q.getResultList();
 			Map<String, String> map = new HashMap<String, String>();
 
 			@SuppressWarnings("unchecked")
@@ -1101,7 +1127,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("codTypDip", codTypDip);
 			q.setParameter("codeNiveau", codeNiveau);
 			q.setParameter("codeComposante", codeComposante);
-			//List<String> ret = (List<String>) q.getResultList();
 			Map<String, String> map = new HashMap<String, String>();
 
 			@SuppressWarnings("unchecked")
@@ -1142,7 +1167,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("codeDiplome", codeDiplome);
 			@SuppressWarnings("unchecked")
 			List<OffreDeFormationsDTO> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
@@ -1167,14 +1195,17 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("codeComposante", codeComposante);
 			@SuppressWarnings("unchecked")
 			List<OffreDeFormationsDTO> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
 			return null;
 		}
 	}	
-	
+
 	@Override
 	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDipAndAtifOuPas(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeDiplome) {
 		if (logger.isDebugEnabled())
@@ -1188,7 +1219,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("codeDiplome", codeDiplome);
 			@SuppressWarnings("unchecked")
 			List<OffreDeFormationsDTO> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
@@ -1206,7 +1240,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		q.setParameter("source", source);
 		@SuppressWarnings("unchecked")
 		List<IndOpi> ret = (List<IndOpi>)q.getResultList();
-		return ret;
+		if(ret.isEmpty())
+			return null;
+		else
+			return ret;
 	}
 
 	public void updateIndOpi(IndOpi opi) {
@@ -1231,7 +1268,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getAccueilAnnee");
 			@SuppressWarnings("unchecked")
 			List<AccueilAnnee> ret = (List<AccueilAnnee>)q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1247,13 +1287,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getAccueilAnneeSansNull");
 			@SuppressWarnings("unchecked")
 			List<AccueilAnnee> ret = (List<AccueilAnnee>)q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
 		}
 	}
-	
+
 	@Override
 	public List<AccueilResultat> getListeAccueilResultat() {
 		if (logger.isDebugEnabled()){
@@ -1263,7 +1306,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getAccueilResultat");
 			@SuppressWarnings("unchecked")
 			List<AccueilResultat> ret = (List<AccueilResultat>)q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1279,13 +1325,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getAccueilResultatSansNull");
 			@SuppressWarnings("unchecked")
 			List<AccueilResultat> ret = (List<AccueilResultat>)q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
 		}
 	}	
-	
+
 	@Override
 	public AccueilAnnee getAccueilAnneeById(Integer id) {
 		if (logger.isDebugEnabled())
@@ -1384,7 +1433,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("annee", annee);
 			@SuppressWarnings("unchecked")
 			List<PersonnelComposante> ret = (List<PersonnelComposante>) q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1421,66 +1473,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 	}	
 
-//	public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArrivee(String rne, Integer annee) {
-//		if (logger.isDebugEnabled())
-//			logger.debug("public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArrivee(String rne, Integer annee, String codTypDip)-->"+rne+"-----"+annee);
-//		try{
-//			Query q = entityManager.createNamedQuery("getOdfComposanteByRneAndAnneeAndActifAndArrivee");
-//			q.setParameter("rne", rne);
-//			q.setParameter("annee", annee);
-//			Map<String, String> map = new HashMap<String, String>();
-//			@SuppressWarnings("unchecked")
-//			List<Object[]> result1 = q.getResultList();
-//			for (Object[] resultElement : result1) 
-//			{
-//				String codeComposante = (String)resultElement[0];
-//				String libComposante = (String)resultElement[1];
-//				if (logger.isDebugEnabled())
-//				{
-//					logger.debug("################### codeComposante --> " + codeComposante);
-//					logger.debug("################### libComposante --> " + libComposante);
-//				}
-//				map.put(codeComposante, libComposante);
-//			}
-//			return map;
-//		}
-//		catch(NoResultException e){
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
-
-//	@Override
-//	public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(String rne, Integer annee, String codTypDip) {
-//		if (logger.isDebugEnabled())
-//			logger.debug("public Map<String, String> getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(String rne, Integer annee, String codTypDip)-->"+rne+"-----"+annee+"-----"+codTypDip);
-//		try{
-//			Query q = entityManager.createNamedQuery("getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip");
-//			q.setParameter("rne", rne);
-//			q.setParameter("annee", annee);
-//			q.setParameter("codTypDip", codTypDip);
-//			Map<String, String> map = new HashMap<String, String>();
-//			@SuppressWarnings("unchecked")
-//			List<Object[]> result1 = q.getResultList();
-//			for (Object[] resultElement : result1) 
-//			{
-//				String codeComposante = (String)resultElement[0];
-//				String libComposante = (String)resultElement[1];
-//				if (logger.isDebugEnabled())
-//				{
-//					logger.debug("################### codeComposante --> " + codeComposante);
-//					logger.debug("################### libComposante --> " + libComposante);
-//				}
-//				map.put(codeComposante, libComposante);
-//			}
-//			return map;
-//		}
-//		catch(NoResultException e){
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
-	
 	@Override
 	public void addWsPub(WsPub ws) {
 		if (logger.isDebugEnabled()){
@@ -1576,7 +1568,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("annee", annee);
 			@SuppressWarnings("unchecked")
 			List<PersonnelComposante> ret = (List<PersonnelComposante>) q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1641,9 +1636,12 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		q.setParameter("source", source);
 		@SuppressWarnings("unchecked")
 		List<IndOpi> ret = (List<IndOpi>)q.getResultList();
-		return ret;
+		if(ret.isEmpty())
+			return null;
+		else
+			return ret;
 	}
-	
+
 	@Override
 	public Map<String, Long> getStatistiquesTransfert(String source, Integer annee) {
 		if (logger.isDebugEnabled()){
@@ -1778,7 +1776,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getListeTests");
 			@SuppressWarnings("unchecked")
 			List<Test> ret = (List<Test>) q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1811,7 +1812,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("source", source);
 			@SuppressWarnings("unchecked")
 			List<Composante> ret = (List<Composante>) q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1843,7 +1847,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("source", source);
 			@SuppressWarnings("unchecked")
 			List<CGE> ret = (List<CGE>) q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;			
 		}
 		catch(NoResultException e){
 			return null;
@@ -1982,7 +1989,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("codeComposante", codeComposante);
 			@SuppressWarnings("unchecked")
 			List<OffreDeFormationsDTO> ret = q.getResultList();
-			return ret;
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
@@ -2077,7 +2087,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-//			return new ArrayList<Fichier>();
+			//			return new ArrayList<Fichier>();
 			e.printStackTrace();
 			return null;
 		}

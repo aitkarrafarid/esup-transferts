@@ -22,7 +22,7 @@
 		<p:spacer height="10px" />
 		<h:form id="display"
 			rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
-			<p:growl id="msgs" showDetail="true" />
+			<p:growl id="msgs" showDetail="false" />
 			<p:dataTable var="transferts" styleClass="datatable" id="test2"
 				style="text-align:center;width:80%;"
 				value="#{administrationController.allDemandesTransfertsAccueil}"

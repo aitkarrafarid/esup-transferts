@@ -86,7 +86,8 @@ public class TestController extends AbstractContextAwareController {
 		setAnneeEtudeVide(true);
 		setLibelleDiplomeVide(true);
 		setLibelleEtapeVide(true);
-		setListeLibellesEtape(null);		
+		setListeLibellesEtape(null);
+		setComposanteVide(true);
 	}
 	
 	public String goToTestSansReset()

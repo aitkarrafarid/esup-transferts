@@ -643,8 +643,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			String txtDataExterneNiveau2 = "";
 
 			List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(etu.getNumeroIne(), 2);
-			for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
-				txtDataExterneNiveau2 += " - "+lInterditNiveau2.getLibInterdit();
+
+			if(listeDatasEterneNiveau2!=null)
+				for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
+					txtDataExterneNiveau2 += " - "+lInterditNiveau2.getLibInterdit();
 
 			if (logger.isDebugEnabled())
 				logger.debug("Liste des interdits de niveau 2-->"+txtDataExterneNiveau2);			
@@ -1488,17 +1490,19 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("goToCurrentDemandeTransfertsAccueil");
 
-		this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource());
-
-		setTexteInterditNiveau2("");
-		setTexteInterditNiveau3("");
-
 		if (this.currentDemandeTransferts != null) 
 		{
+
+			this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource());
+
+			setTexteInterditNiveau2("");
+			setTexteInterditNiveau3("");
+
 			List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 2);
 
-			for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
-				this.texteInterditNiveau2 += "<BR /> - "+lInterditNiveau2.getLibInterdit();
+			if(listeDatasEterneNiveau2 !=null)
+				for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
+					this.texteInterditNiveau2 += "<BR /> - "+lInterditNiveau2.getLibInterdit();
 
 			if (logger.isDebugEnabled())
 				logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
@@ -1510,8 +1514,9 @@ public class AdministrationController extends AbstractContextAwareController {
 
 			List<DatasExterne> listeDatasEterneNiveau3 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 3);
 
-			for(DatasExterne lInterditNiveau3 : listeDatasEterneNiveau3)
-				this.texteInterditNiveau3 += lInterditNiveau3.getLibInterdit();
+			if(listeDatasEterneNiveau3!=null)
+				for(DatasExterne lInterditNiveau3 : listeDatasEterneNiveau3)
+					this.texteInterditNiveau3 += lInterditNiveau3.getLibInterdit();
 
 			if (logger.isDebugEnabled())
 				logger.debug("Liste des interdits de niveau 3-->"+this.texteInterditNiveau3);
@@ -1660,37 +1665,29 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("goToCurrentDemandeTransferts");
 
-		System.out.println("aaaaa");
-
-		this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource());
-
-		System.out.println("bbbbb");
-
-		if(this.currentDemandeTransferts.getTransferts().getFichier()==null)
+		if (this.currentDemandeTransferts != null) 
 		{
-			System.out.println("ccccc");
-			if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource())!=null)
+
+			this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource());
+
+			if(this.currentDemandeTransferts.getTransferts().getFichier()==null)
 			{
-				this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
-				setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());
+				if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource())!=null)
+				{
+					this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
+					setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());
+				}
+				else
+				{
+					this.currentDemandeTransferts.getTransferts().setFichier(null);
+					setSelectedmd5(null);
+				}
 			}
 			else
 			{
-				this.currentDemandeTransferts.getTransferts().setFichier(null);
-				setSelectedmd5(null);
-				//				this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
+				setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());
 			}
-			//			this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
-			System.out.println("ddddd===>"+this.currentDemandeTransferts.getTransferts().getFichier());
-		}
-		else
-		{
-			setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());
-		}
-		System.out.println("eeeee===>"+this.currentDemandeTransferts.getTransferts().getFichier());
 
-		if (this.currentDemandeTransferts != null) 
-		{
 			droitPC = getDomainService().getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(getCurrentUserLogin(),
 					getSource(), 
 					getSessionController().getCurrentAnnee(), 
@@ -1804,9 +1801,12 @@ public class AdministrationController extends AbstractContextAwareController {
 		String chaineComposante=null;
 		try {
 			lPc = getDomainService().getListeComposantesByUidAndSourceAndAnnee(getSessionController().getCurrentUser().getLogin(), getSource(), getSessionController().getCurrentAnnee());
-			for(PersonnelComposante pc : lPc)
+			if(lPc!=null)
 			{
-				chaineComposante+=pc.getCodeComposante()+",";
+				for(PersonnelComposante pc : lPc)
+				{
+					chaineComposante+=pc.getCodeComposante()+",";
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1929,9 +1929,12 @@ public class AdministrationController extends AbstractContextAwareController {
 		String chaineComposante=null;
 		try {
 			lPc = getDomainService().getListeComposantesByUidAndSourceAndAnnee(getSessionController().getCurrentUser().getLogin(), getSource(), getSessionController().getCurrentAnnee());
-			for(PersonnelComposante pc : lPc)
+			if(lPc!=null)
 			{
-				chaineComposante+=pc.getCodeComposante()+",";
+				for(PersonnelComposante pc : lPc)
+				{
+					chaineComposante+=pc.getCodeComposante()+",";
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2835,9 +2838,9 @@ public class AdministrationController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled())
 				logger.debug("file-->"+file);			
 
-//			if(file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE"))
-//				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
-			
+			//			if(file!=null && file.getNom().equals("ETABLISSEMENT_PARTENAIRE"))
+			//				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
+
 			String nom = this.getTempPath() + "" + file.getMd5();
 
 			File fichierExiste = new File(nom);
@@ -3345,7 +3348,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) 
 			logger.debug("public void addAccueilDecisionDefinitif()");		
 		try {
-			
+
 			this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
 			this.addDemandeTransfertsFromAvis(2);
 
@@ -3832,14 +3835,14 @@ public class AdministrationController extends AbstractContextAwareController {
 						//					etu.getTransferts().setNumeroEtudiant(numeroEtudiant);
 						//					etu.getTransferts().setAnnee(this.currentDemandeTransferts.getAnnee());
 
-//						Fichier f = new Fichier();
-//						f.setFrom("A");
-//						f.setMd5("ETABLISSEMENT_PARTENAIRE");
-//						f.setAnnee(this.currentDemandeTransferts.getAnnee());
-//						f.setNom("ETABLISSEMENT_PARTENAIRE");
-//						f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
-//						f.setTaille(12345);
-//						etu.getTransferts().setFichier(f);
+						//						Fichier f = new Fichier();
+						//						f.setFrom("A");
+						//						f.setMd5("ETABLISSEMENT_PARTENAIRE");
+						//						f.setAnnee(this.currentDemandeTransferts.getAnnee());
+						//						f.setNom("ETABLISSEMENT_PARTENAIRE");
+						//						f.setNomSignataire("ETABLISSEMENT_PARTENAIRE");
+						//						f.setTaille(12345);
+						//						etu.getTransferts().setFichier(f);
 
 						etu.getTransferts().setFichier(null);
 						etu.getTransferts().setRne(p.getRne());
@@ -4258,7 +4261,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 					this.currentDemandeTransferts.getAccueilDecision().add(currentDecisionMultiple);
 					setCodePaysItems(etu[i].getAdresse().getCodPay());
-					
+
 					if(this.currentDemandeTransferts.getAccueil().getCodeBac()!=null)
 						this.addAccueilDecisionDefinitif();
 					else

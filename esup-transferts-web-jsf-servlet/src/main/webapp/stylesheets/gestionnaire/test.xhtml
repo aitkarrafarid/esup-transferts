@@ -40,199 +40,196 @@
 					<p:fieldset id="vo" legend="Visualisation de l'offre de formation"
 						toggleable="true" toggleSpeed="200">
 
-						<h:panelGrid columns="3" columnClasses="column" cellpadding="5"
-							styleClass="panel" style="width:80%; text-align:left;">
-							<h:outputText value="* Département : " />
-							<p:selectOneMenu id="departements" required="true" filter="true"
-								requiredMessage="#{msgs['ERREUR.DEPARTEMENT']}"
-								value="#{testController.etu.transferts.dept}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{testController.listeDepartements}" />
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
-									listener="#{testController.resetGeneral}" />
-							</p:selectOneMenu>
-							<h:outputText value=" " />
+						<p:panelGrid
+							style="text-align:left;width:100%; border-style: hidden !important;">
 
-							<h:outputText value="* Etablissement : "
-								rendered="#{!testController.deptVide}" />
-							<p:selectOneMenu id="etablissements"
-								disabled="#{testController.etu.transferts.temoinTransfertValide==2}"
-								rendered="#{!testController.deptVide}"
-								value="#{testController.etu.transferts.rne}" required="true"
-								requiredMessage="#{msgs['ERREUR.ETABLISSEMENT']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{testController.listeEtablissements}" />
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
-									listener="#{testController.resetTypeDiplome}" />
-							</p:selectOneMenu>
-							<p:commandButton rendered="#{!testController.deptVide}"
-								id="modalDialogButton" onclick="PF('dlg2').show();"
-								type="button" icon="ui-icon-help" />
-							<!-- 							<h:outputText value=" " rendered="#{!testController.deptVide}" /> -->
+							<p:row>
+								<p:column style="width:30%">
+									<h:outputText value="* Département : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="departements" required="true"
+										filter="true" requiredMessage="#{msgs['ERREUR.DEPARTEMENT']}"
+										value="#{testController.etu.transferts.dept}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems value="#{testController.listeDepartements}" />
+										<p:ajax event="change" update="vo,msgs,msgs2,growl"
+											listener="#{testController.resetGeneral}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
 
-							<h:outputText value="* Type de diplôme : "
-								rendered="#{!testController.typesDiplomeVide}" />
-							<p:selectOneMenu id="typesDiplome"
-								disabled="#{testController.etu.transferts.temoinTransfertValide==2}"
-								rendered="#{!testController.typesDiplomeVide}"
-								value="#{testController.codTypDip}" required="true"
-								requiredMessage="#{msgs['ERREUR.TYPE_DIPLOME']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{testController.listeTypesDiplome}" />
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
-									listener="#{testController.resetAnneeEtude}" />
-							</p:selectOneMenu>
-							<h:outputText value=" "
-								rendered="#{!testController.typesDiplomeVide}" />
+							<p:row rendered="#{!testController.deptVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Etablissement : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="etablissements"
+										disabled="#{testController.etu.transferts.temoinTransfertValide==2}"
+										value="#{testController.etu.transferts.rne}" required="true"
+										requiredMessage="#{msgs['ERREUR.ETABLISSEMENT']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems value="#{testController.listeEtablissements}" />
+										<p:ajax event="change" update="vo,msgs,msgs2,growl"
+											listener="#{testController.resetTypeDiplome}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<p:commandButton id="modalDialogButton"
+										onclick="PF('dlg2').show();" type="button" icon="ui-icon-help" />
+								</p:column>
+							</p:row>
 
-							<h:outputText value="* Type de diplôme : "
-								rendered="#{!testController.typesDiplomeAutreVide}" />
-							<p:inputText id="typesDiplomeAutre" required="true"
-								disabled="#{testController.etu.transferts.temoinTransfertValide==2}"
-								requiredMessage="#{msgs['ERREUR.TYPE_DIPLOME_AUTRE']}"
-								rendered="#{!testController.typesDiplomeAutreVide}"
-								value="#{testController.etu.transferts.libelleTypeDiplome}" />
-							<h:outputText value=" "
-								rendered="#{!testController.typesDiplomeAutreVide}" />
+							<p:row rendered="#{!testController.typesDiplomeVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Type de diplôme : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="typesDiplome"
+										disabled="#{testController.etu.transferts.temoinTransfertValide==2}"
+										value="#{testController.codTypDip}" required="true"
+										requiredMessage="#{msgs['ERREUR.TYPE_DIPLOME']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems value="#{testController.listeTypesDiplome}" />
+										<p:ajax event="change" update="vo,msgs,msgs2,growl"
+											listener="#{testController.resetAnneeEtude}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
 
-							<!-- 							<h:outputText value="* Niveau : " -->
-							<!-- 								rendered="#{!testController.anneeEtudeVide}" /> -->
-							<!-- 							<p:selectOneMenu id="niveau" -->
-							<!-- 								disabled="#{testController.etu.transferts.temoinTransfertValide==2}" -->
-							<!-- 								rendered="#{!testController.anneeEtudeVide}" -->
-							<!-- 								value="#{testController.codeNiveau}" required="true" -->
-							<!-- 								requiredMessage="#{msgs['ERREUR.NIVEAU']}"> -->
-							<!-- 								<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
-							<!-- 								<f:selectItems value="#{testController.listeAnneesEtude}" /> -->
-							<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
-							<!-- 									listener="#{testController.resetLibelleDiplome}" /> -->
-							<!-- 							</p:selectOneMenu> -->
-							<!-- 							<h:outputText value=" " -->
-							<!-- 								rendered="#{!testController.anneeEtudeVide}" /> -->
+							<p:row rendered="#{!testController.typesDiplomeAutreVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Type de diplôme : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:inputText id="typesDiplomeAutre" required="true"
+										disabled="#{testController.etu.transferts.temoinTransfertValide==2}"
+										requiredMessage="#{msgs['ERREUR.TYPE_DIPLOME_AUTRE']}"
+										value="#{testController.etu.transferts.libelleTypeDiplome}" />
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
 
-							<h:outputText value="* Niveau : "
-								rendered="#{!testController.anneeEtudeVide}" />
-							<p:selectOneMenu id="niveauDiplome"
-								rendered="#{!testController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}"
-								value="#{testController.codeNiveau}" required="true"
-								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{testController.listeAnneesEtude}" />
-								<!-- 												<f:ajax event="change" render="vo" -->
-								<!-- 													listener="#{testController.resetLibelleDiplome}" /> -->
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
-									listener="#{testController.resetLibelleDiplome}" />
-							</p:selectOneMenu>
-							<p:selectOneMenu id="niveauComposante"
-								rendered="#{!testController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}"
-								value="#{testController.codeNiveau}" required="true"
-								requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{testController.listeAnneesEtude}" />
-								<!-- 												<f:ajax event="change" render="vo" -->
-								<!-- 													listener="#{testController.resetLibelleDiplome}" /> -->
-								<p:ajax event="change" update="vo,msgs,msgs2,growl"
-									listener="#{testController.resetComposante}" />
-							</p:selectOneMenu>
-							<h:outputText value=" "
-								rendered="#{!testController.anneeEtudeVide}" />
+							<p:row rendered="#{!testController.anneeEtudeVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Niveau : " />
+								</p:column>
+								<p:column style="width:65%"
+									rendered="#{!testController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}">
+									<p:selectOneMenu id="niveauDiplome"
+										value="#{testController.codeNiveau}" required="true"
+										requiredMessage="#{msgs['ERREUR.NIVEAU']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems value="#{testController.listeAnneesEtude}" />
+										<!-- 																											<f:ajax event="change" render="vo" -->
+										<!-- 																												listener="#{testController.resetLibelleDiplome}" /> -->
+										<p:ajax event="change" update="vo,msgs,msgs2,growl"
+											listener="#{testController.resetLibelleDiplome}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:65%"
+									rendered="#{!testController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}">
+									<p:selectOneMenu id="niveauComposante"
+										value="#{testController.codeNiveau}" required="true"
+										requiredMessage="#{msgs['ERREUR.NIVEAU']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems value="#{testController.listeAnneesEtude}" />
+										<p:ajax event="change" update="vo,msgs,msgs2,growl"
+											listener="#{testController.resetComposante}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
 
-							<!-- 							<h:outputText value="* Diplôme : " -->
-							<!-- 								rendered="#{!testController.libelleDiplomeVide}" /> -->
-							<!-- 							<p:selectOneMenu id="diplomes" -->
-							<!-- 								disabled="#{testController.etu.transferts.temoinTransfertValide==2}" -->
-							<!-- 								rendered="#{!testController.libelleDiplomeVide}" -->
-							<!-- 								value="#{testController.codeDiplome}" required="true" -->
-							<!-- 								requiredMessage="#{msgs['ERREUR.DIPLOME']}"> -->
-							<!-- 								<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
-							<!-- 								<f:selectItems value="#{testController.listeLibellesDiplome}" /> -->
-							<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" -->
-							<!-- 									listener="#{testController.resetLibelleEtape}" /> -->
-							<!-- 							</p:selectOneMenu> -->
-							<!-- 							<h:outputText value=" " -->
-							<!-- 								rendered="#{!testController.libelleDiplomeVide}" /> -->
+							<p:row
+								rendered="#{!testController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}">
+								<p:column style="width:30%">
+									<h:outputText value="* Diplôme : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="diplomes"
+										value="#{testController.codeDiplome}" required="true"
+										requiredMessage="#{msgs['ERREUR.DIPLOME']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems value="#{testController.listeLibellesDiplome}" />
+										<p:ajax event="change" update="vo"
+											listener="#{testController.resetLibelleEtape}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
+							<p:row
+								rendered="#{!testController.composanteVide and sessionController.choixDuVoeuParComposante}">
+								<p:column style="width:30%">
+									<h:outputText value="* Composante : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:selectOneMenu id="composante"
+										value="#{testController.codeComposante}" required="true"
+										requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
+										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItems value="#{testController.listeComposantes}" />
+										<p:ajax event="change" update="vo"
+											listener="#{testController.resetLibelleEtape}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
 
-							<h:outputText value="* Diplôme : "
-								rendered="#{!testController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
-							<p:selectOneMenu id="diplomes"
-								rendered="#{!testController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}"
-								value="#{testController.codeDiplome}" required="true"
-								requiredMessage="#{msgs['ERREUR.DIPLOME']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{testController.listeLibellesDiplome}" />
-								<p:ajax event="change" update="vo"
-									listener="#{testController.resetLibelleEtape}" />
-							</p:selectOneMenu>
-							<h:outputText value=" "
-								rendered="#{!testController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
-
-							<h:outputText value="* Composante : "
-								rendered="#{!testController.composanteVide and sessionController.choixDuVoeuParComposante}" />
-							<p:selectOneMenu id="composante"
-								rendered="#{!testController.composanteVide and sessionController.choixDuVoeuParComposante}"
-								value="#{testController.codeComposante}" required="true"
-								requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
-								<f:selectItem itemLabel="== Choix ==" itemValue="" />
-								<f:selectItems value="#{testController.listeComposantes}" />
-								<p:ajax event="change" update="vo"
-									listener="#{testController.resetLibelleEtape}" />
-							</p:selectOneMenu>
-							<h:outputText value=" "
-								rendered="#{!testController.composanteVide and sessionController.choixDuVoeuParComposante}" />
-
-
-							<h:outputText value="* Parcours : "
-								rendered="#{!testController.libelleEtapeVide}" />
-							<p:dataTable var="vet"
-								rendered="#{!testController.libelleEtapeVide}"
-								rowKey="#{vet.codeEtape}" emptyMessage="Aucun parcours"
-								selection="#{testController.currentOdf}" selectionMode="single"
-								value="#{testController.odfDataModel}">
-								<!-- 								<p:ajax event="rowSelect" update=":form:display"  -->
-								<!-- 									oncomplete="carDialog.show()" /> -->
-								<p:column width="60">
-									<f:facet name="header">  
+							<p:row rendered="#{!testController.libelleEtapeVide}">
+								<p:column style="width:30%">
+									<h:outputText value="* Parcours : " />
+								</p:column>
+								<p:column style="width:65%">
+									<p:dataTable var="vet" rowKey="#{vet.codeEtape}"
+										emptyMessage="Aucun parcours"
+										selection="#{testController.currentOdf}"
+										selectionMode="single" value="#{testController.odfDataModel}">
+										<p:column width="60">
+											<f:facet name="header">  
 		                   				Code diplome 
         			    			</f:facet>
-									<h:outputText value="#{vet.codeDiplome}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">  
+											<h:outputText value="#{vet.codeDiplome}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">  
 		                   				Libellé de version d'étape
         			    			</f:facet>
-									<h:outputText value="#{vet.libVersionEtape}" />
+											<h:outputText value="#{vet.libVersionEtape}" />
+										</p:column>
+									</p:dataTable>
 								</p:column>
-							</p:dataTable>
-							<h:outputText value=" "
-								rendered="#{!testController.libelleEtapeVide}" />
-
-							<!-- 							<h:outputText value="* Parcours : " -->
-							<!-- 								rendered="#{!administrationController.libelleEtapeVide}" /> -->
-							<!-- 							<p:selectOneMenu id="parcours" -->
-							<!-- 								disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}" -->
-							<!-- 								rendered="#{!administrationController.libelleEtapeVide}" -->
-							<!-- 								value="#{administrationController.currentDemandeTransferts.transferts.idEtape}" -->
-							<!-- 								required="true" requiredMessage="#{msgs['ERREUR.PARCOURS']}"> -->
-							<!-- 								<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
-							<!-- 								<f:selectItems value="#{administrationController.listeLibellesEtape}" /> -->
-							<!-- 								<p:ajax event="change" update="vo,msgs,msgs2,growl" /> -->
-							<!-- 							</p:selectOneMenu> -->
-							<!-- 							<h:outputText value=" " -->
-							<!-- 								rendered="#{!administrationController.libelleEtapeVide}" /> -->
-						</h:panelGrid>
+								<p:column style="width:5%">
+									<h:outputText value=" " />
+								</p:column>
+							</p:row>
+							
+						</p:panelGrid>
 					</p:fieldset>
 
 				</p:panel>
-				<!-- 				<p:spacer height="30px" /> -->
-				<!-- 				<p:commandButton value="Voir la demande" icon="ui-icon-search" update="vo,msgs,msgs2,growl"  -->
-				<!-- 					action="#{testController.goToTestSansReset}" /> -->
 			</center>
 
 			<p:dialog id="modalDialog" header="Type de transfert"
 				widgetVar="dlg2" modal="true" height="300">
 				<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
 					styleClass="panel" style="width:70%; text-align:left;">
-					<h:outputText escape="false" value="#{msgs['AIDE.LISTE.ODF.PAR.ETABLISSEMENT']}" />
+					<h:outputText escape="false"
+						value="#{msgs['AIDE.LISTE.ODF.PAR.ETABLISSEMENT']}" />
 				</h:panelGrid>
 			</p:dialog>
 
