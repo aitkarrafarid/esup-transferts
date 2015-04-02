@@ -99,3 +99,4 @@
 - Correction d'un nullpointerexception dans l'affichage des OPI's suite à la modif dans le DAO
 #############################################################################################################
 - Correction de plusieurs nullpointerexception suite à la modif dans le DAO
+- Ajout de l'envoi de 2 mails dans le scheduler afin de prévenir les gestionnaires des demandes à traiter rapidement

@@ -10,7 +10,9 @@
 
 	<bean id="businessManager"
 		class="org.esupportail.transferts.web.scheduler.BusinessManager">
+		<property name="smtpService" ref="smtpService" />
 		<property name="domainService" ref="domainService" />
+		<property name="i18nService" ref="i18nService" />
 	</bean>
 
 	<bean id="QuartzJob" class="org.esupportail.transferts.web.scheduler.QuartzJob">

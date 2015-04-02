@@ -1818,13 +1818,11 @@ public class AdministrationController extends AbstractContextAwareController {
 		{
 			if (listeTransfertDepartDataModel == null)
 			{
-				System.out.println("aaaaa");
 				List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(getSessionController().getCurrentAnnee(), getSource());
 				if(lEtu!=null)
 				{
 					for (EtudiantRef etu : lEtu) 
 					{
-
 						if (logger.isDebugEnabled())
 						{
 							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
@@ -1832,10 +1830,8 @@ public class AdministrationController extends AbstractContextAwareController {
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
 						}
-
 						etu.setAlertDepassementSilenceVautAccord(GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()));
 						etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord()));
-
 						if (logger.isDebugEnabled())
 							try {
 								logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
