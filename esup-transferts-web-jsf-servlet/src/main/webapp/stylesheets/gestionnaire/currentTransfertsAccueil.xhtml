@@ -687,10 +687,6 @@
 			<p:stack icon="/media/images/stack.png" styleClass="panel"
 				rendered="#{administrationController.listeFichiers != null}"
 				id="menuBasGauche">
-<!-- 				<p:menuitem value="Décision" icon="/media/images/kate.png" -->
-<!-- 					update="msgs,msgs2,growl" -->
-<!-- 					rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}" -->
-<!-- 					action="#{administrationController.goToSaisirDecision}" /> -->
 				<p:menuitem value="Décision" icon="/media/images/kate.png"
 					update="msgs,msgs2,growl"
 					action="#{administrationController.goToSaisirDecision}" />
@@ -706,6 +702,7 @@
 					onclick="confirmation.show()"
 					rendered="#{(sessionController.currentUser.admin and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2) || (administrationController.droitPC!=null and administrationController.droitPC.droitSuppression=='oui' and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2)}" />
 			</p:stack>
+			
 			<p:confirmDialog
 				message="Êtes-vous sur de vouloir supprimer cette demande de transfert"
 				header="Confirmation" severity="alert" widgetVar="confirmation">

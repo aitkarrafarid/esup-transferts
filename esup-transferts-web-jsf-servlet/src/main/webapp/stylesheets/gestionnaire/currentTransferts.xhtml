@@ -521,11 +521,6 @@
 			<p:stack icon="/media/images/stack.png" styleClass="panel"
 				rendered="#{administrationController.listeFichiers != null}"
 				id="menuBasGauche">
-<!-- 				<p:menuitem value="Avis" icon="/media/images/avis.png" -->
-<!-- 					update="msgs,msgs2,growl" -->
-<!-- 					rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitAvis=='oui')}" -->
-<!-- 					action="#{administrationController.goToSaisirAvis}" /> -->
-
 				<p:menuitem value="Avis" icon="/media/images/avis.png"
 					update="msgs,msgs2,growl"
 					action="#{administrationController.goToSaisirAvis}" />
@@ -546,14 +541,11 @@
 					rendered="#{(sessionController.currentUser.admin and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2) || (administrationController.droitPC!=null and administrationController.droitPC.droitSuppression=='oui' and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2)}" />
 			</p:stack>
 
-			<!-- <p:commandButton value="Basic" type="button" onclick="PF('dlg1').hide();" /> -->
-
 			<p:dialog header="Confirmation" widgetVar="dlg1" modal="true"
 				height="100">
 				<p:panel style="border: none !important;">
 					<h:outputText
 						value="Êtes-vous sur de vouloir supprimer cette demande de transfert" />
-					<!-- 				<p:spacer height="10" /> -->
 				</p:panel>
 				<p:panel style="border: none !important;">
 					<p:commandButton value="Oui"
@@ -565,18 +557,6 @@
 						type="button" />
 				</p:panel>
 			</p:dialog>
-
-			<!-- 			<p:confirmDialog -->
-			<!-- 				message="Êtes-vous sur de vouloir supprimer cette demande de transfert" -->
-			<!-- 				header="Confirmation" severity="alert" widgetVar="confirmation"> -->
-			<!-- 				<p:commandButton value="Oui" -->
-			<!-- 					update="msgs,msgs2,growl,currentTransferts" -->
-			<!-- 					oncomplete="confirmation.hide()" -->
-			<!-- 					action="#{administrationController.deleteDemandeTransfert}" /> -->
-			<!-- 				<p:commandButton value="Non" onclick="confirmation.hide()" -->
-			<!-- 					actionListener="#{administrationController.destroyWorld}" -->
-			<!-- 					type="button" /> -->
-			<!-- 			</p:confirmDialog> -->
 		</h:form>
 
 		<p:dialog id="modalDialog" header="Type de transfert" widgetVar="dlg2"

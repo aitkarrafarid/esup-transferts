@@ -102,28 +102,37 @@
 							<p:column headerText="Nom du signataire">
 				            #{signature.nomSignataire}  
 				        </p:column>
-
 							<p:column style="width:4%">
-								<p:commandButton id="selectButton" update=":sign"
-									oncomplete="confirmation.show()" icon="ui-icon-close"
-									title="View">
+								<p:commandButton id="selectButton" update=":upload,:sign,:messages,:msgs,:msgs2" action="#{fileUploadController.deleteFichier}"
+									icon="ui-icon-close" title="View">
 									<f:setPropertyActionListener value="#{signature}"
 										target="#{fileUploadController.selectedFichierDelete}" />
+									<p:confirm header="Confirmation"
+										message="La signature sera supprimée uniquement si elle n'est pas rattachée à une demande de transferts. Souhaitez-vous vraiment supprimer cette signature ?"
+										icon="ui-icon-alert" />
 								</p:commandButton>
 							</p:column>
 						</p:dataTable>
 					</p:fieldset>
 
-					<p:confirmDialog
-						message="La signature sera supprimée uniquement si elle n'est pas rattachée à une demande de transferts. Souhaitez-vous vraiment supprimer cette signature ?"
-						header="Confirmation" severity="alert" widgetVar="confirmation">
-						<p:commandButton value="Oui"
-							update=":upload,:sign,:messages,:msgs,:msgs2"
-							oncomplete="confirmation.hide()"
-							action="#{fileUploadController.deleteFichier}" />
-						<p:commandButton value="Non" onclick="confirmation.hide()"
-							type="button" />
+					<p:confirmDialog global="true" showEffect="fade"
+						hideEffect="explode">
+						<p:commandButton value="Oui" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Non" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
+
+					<!-- 					<p:confirmDialog -->
+					<!-- 						message="La signature sera supprimée uniquement si elle n'est pas rattachée à une demande de transferts. Souhaitez-vous vraiment supprimer cette signature ?" -->
+					<!-- 						header="Confirmation" severity="alert" widgetVar="confirmation"> -->
+					<!-- 						<p:commandButton value="Oui" -->
+					<!-- 							update=":upload,:sign,:messages,:msgs,:msgs2" -->
+					<!-- 							oncomplete="confirmation.hide()" -->
+					<!-- 							action="#{fileUploadController.deleteFichier}" /> -->
+					<!-- 						<p:commandButton value="Non" onclick="confirmation.hide()" -->
+					<!-- 							type="button" /> -->
+					<!-- 					</p:confirmDialog> -->
 
 					<p:spacer height="30" />
 					<p:commandButton value="Signature par défaut"
@@ -133,14 +142,6 @@
 				</h:form>
 
 			</p:panel>
-			<!-- 			<p:panel rendered="#{!sessionController.currentUser.admin}"> -->
-			<!-- 				<p:fieldset id="signature" legend="Signature" toggleable="true" -->
-			<!-- 					collapsed="false" toggleSpeed="200"> -->
-			<!-- 					<h:outputText -->
-			<!-- 						value="Vous n'avez pas les droits d'accéder à cette page" /> -->
-			<!-- 				</p:fieldset> -->
-			<!-- 			</p:panel> -->
-
 		</center>
 		<p:messages id="msgs2" showDetail="false" />
 	</ui:define>

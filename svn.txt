@@ -103,3 +103,6 @@
 #############################################################################################################
 - Correction de plusieurs nullpointerexception suite à la modif dans le DAO (return null au lieu d'une collection vide)
 - Modification du schedulder pour alert les transferts départ arrivant aux termes de la nouvelle loi silence vaut accord
+#############################################################################################################
+- Correction de plusieurs nullpointerexception suite à la modif dans le DAO (return null au lieu d'une collection vide)
+- Correction d'un BUG "p:confirmDialog" sur la suppression d'une signature lié aux changement PF4.1-->PF5.1

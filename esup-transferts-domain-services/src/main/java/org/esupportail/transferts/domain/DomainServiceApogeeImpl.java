@@ -819,7 +819,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			String etabBac = "ETRANGER";
 
-			if(!indBacDTO[0].getDepartementBac().getLibDept().equals("ETRANGER"))
+			if(indBacDTO[0]!=null && !indBacDTO[0].getDepartementBac().getLibDept().equals("ETRANGER"))
 				etabBac = this.getEtablissementByDepartement(indBacDTO[0].getDepartementBac().getCodeDept()).getLibAcademie();
 
 			TrBac infosBac = new TrBac(indBacDTO[0].getCodBac(), 
