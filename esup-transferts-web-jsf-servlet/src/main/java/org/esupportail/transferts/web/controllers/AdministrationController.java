@@ -596,9 +596,12 @@ public class AdministrationController extends AbstractContextAwareController {
 		String chaineComposante=null;
 		try {
 			lPc = getDomainService().getListeComposantesByUidAndSourceAndAnnee(getSessionController().getCurrentUser().getLogin(), getSource(), getSessionController().getCurrentAnnee());
-			for(PersonnelComposante pc : lPc)
+			if(lPc!=null && !lPc.isEmpty())
 			{
-				chaineComposante+=pc.getCodeComposante()+",";
+				for(PersonnelComposante pc : lPc)
+				{
+					chaineComposante+=pc.getCodeComposante()+",";
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -752,7 +755,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("exportListeDroitsDepart()");
-		
+
 		setSource("D");
 		String typeExport = "xls";
 		String fileName = "listeDesDroitsTransfertsDepart" + "." + typeExport;
@@ -770,7 +773,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("exportListeDroitAccueil()");
-		
+
 		setSource("A");
 		String typeExport = "xls";
 		String fileName = "listeDesDroitsTransfertsAccueil" + "." + typeExport;
@@ -832,9 +835,12 @@ public class AdministrationController extends AbstractContextAwareController {
 		String chaineComposante=null;
 		try {
 			lPc = getDomainService().getListeComposantesByUidAndSourceAndAnnee(getSessionController().getCurrentUser().getLogin(), getSource(), getSessionController().getCurrentAnnee());
-			for(PersonnelComposante pc : lPc)
+			if(lPc!=null && !lPc.isEmpty())
 			{
-				chaineComposante+=pc.getCodeComposante()+",";
+				for(PersonnelComposante pc : lPc)
+				{
+					chaineComposante+=pc.getCodeComposante()+",";
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

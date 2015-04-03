@@ -171,7 +171,7 @@ public class AdministrationControllerTest {
 		System.out.println("fromTestUnitaireEtudiantRef===>"+fromTestUnitaireEtudiantRef+"<===");	
 		System.out.println("############################################################################################################################################");
 
-		this.getCleIne(); 
+		//this.getCleIne(); 
 		
 		if(totalDemandeTransfertsDepartEtAccueil)
 			this.getTotalDemandeTransfertsTest(getCurrentAnnee());
@@ -306,6 +306,11 @@ public class AdministrationControllerTest {
 
 					OffreDeFormationsDTO o = getDomainService().getOdfByPK(this.getRneAccueil(), myAnneeInt, "BV2GCCD", 130, "1IGCCD", "130", "GBU");
 
+					if(o==null)
+					{
+						System.out.println("etudiant.toString()===>" +etudiant.toString()+"<===");
+						System.out.println("Aucune formation correspondante à===>"+this.getRneAccueil()+"-"+myAnneeInt+"- BV2GCCD - 130 - 1IGCCD - 130 - GBU<===");
+					}
 					etudiant.getTransferts().setOdf(o);
 					etudiant.getTransferts().getOdf().setRne(this.getRneAccueil());
 

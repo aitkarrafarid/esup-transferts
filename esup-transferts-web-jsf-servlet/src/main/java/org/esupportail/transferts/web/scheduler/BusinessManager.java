@@ -23,14 +23,25 @@ public class BusinessManager {
 
 	public void runAction() 
 	{
-		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(2015, "A");
-		if(lEtu2!=null)
+		List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(2015, "A");
+		List<EtudiantRef> lEtuDepart = getDomainService().getAllDemandesTransfertsByAnnee(2015, "D");
+		this.envoiMail(lEtuAccueil, "A");
+		this.envoiMail(lEtuDepart, "D");
+
+	}
+
+	private void envoiMail(List<EtudiantRef> lEtu, String source)
+	{
+		if(lEtu!=null)
 		{
 			List<EtudiantRef> listeEtudiantRefAlertSilenceVautAccord = new ArrayList<EtudiantRef>();
 			List<EtudiantRef> listeEtudiantRefAlertDepassementSilenceVautAccord = new ArrayList<EtudiantRef>();
 			Date now = new Date();
-			System.out.println("lEtu2.size()===>"+lEtu2.size()+"<===");
-			for(EtudiantRef etu : lEtu2)
+			String sujet="";
+			String body="";
+			System.out.println("lEtu.size()===>"+lEtu.size()+"<===");
+
+			for(EtudiantRef etu : lEtu)
 			{
 				if(etu.getTransferts().getTemoinTransfertValide()!=2)
 				{
@@ -38,56 +49,36 @@ public class BusinessManager {
 					etu.setAlertSilenceVautAccord(GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 42));	
 					if(now.after(etu.getAlertSilenceVautAccord()) && now.before(etu.getAlertDepassementSilenceVautAccord()))
 					{
-						//						System.out.println("===>#################################################################################################################<===");
-						//						System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-						//						System.out.println("etu.getNomPatronymique()===>"+etu.getNomPatronymique()+"<===");	
-						//						System.out.println("etu.getPrenom1()===>"+etu.getPrenom1()+"<===");	
-						//						System.out.println("etu.getTransferts().getDateDemandeTransfert()===>"+etu.getTransferts().getDateDemandeTransfert()+"<===");
-						//						System.out.println("etu.getAlertSilenceVautAccord()===>"+etu.getAlertSilenceVautAccord()+"<===");
-						//						System.out.println("etu.getAlertDepassementSilenceVautAccord()===>"+etu.getAlertDepassementSilenceVautAccord()+"<===");
-						//						System.out.println("now===>"+now+"<===");
-						//						System.out.println("===>#################################################################################################################<===");
 						listeEtudiantRefAlertSilenceVautAccord.add(etu);
 					}
 					if(now.after(etu.getAlertDepassementSilenceVautAccord()))
 					{
-						//						System.out.println("===>#################################################################################################################<===");
-						//						System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-						//						System.out.println("etu.getNomPatronymique()===>"+etu.getNomPatronymique()+"<===");	
-						//						System.out.println("etu.getPrenom1()===>"+etu.getPrenom1()+"<===");	
-						//						System.out.println("etu.getTransferts().getDateDemandeTransfert()===>"+etu.getTransferts().getDateDemandeTransfert()+"<===");
-						//						System.out.println("etu.getAlertSilenceVautAccord()===>"+etu.getAlertSilenceVautAccord()+"<===");
-						//						System.out.println("etu.getAlertDepassementSilenceVautAccord()===>"+etu.getAlertDepassementSilenceVautAccord()+"<===");
-						//						System.out.println("now===>"+now+"<===");
-						//						System.out.println("===>#################################################################################################################<===");
 						listeEtudiantRefAlertDepassementSilenceVautAccord.add(etu);
 					}					
 				}
 			}
 
-			
-			
 			if(listeEtudiantRefAlertSilenceVautAccord!=null && !listeEtudiantRefAlertSilenceVautAccord.isEmpty())
 			{
-				String sujet = "Silence vaut accord (délai de 6 semaines dépassés)";
-				String body = "Liste des des demande de transferts dépassant le délai des 6 semaines : <BR /><BR />\r\n\r\n";
+				
+				if(source.equals("A"))
+				{
+					sujet = "[transferts accueil] Silence vaut accord (délai de 6 semaines dépassés)";
+					body = "Liste des des demande de transferts accueil dépassant le délai des 6 semaines : <BR /><BR />\r\n\r\n";
+				}
+				else
+				{
+					sujet = "[transferts départ] Silence vaut accord (délai de 6 semaines dépassés)";
+					body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR /><BR />\r\n\r\n";
+				}
 				System.out.println("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
 				for(EtudiantRef etu : listeEtudiantRefAlertSilenceVautAccord)
 				{
 					System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-//					System.out.println("etu.getNomPatronymique()===>"+etu.getNomPatronymique()+"<===");	
-//					System.out.println("etu.getPrenom1()===>"+etu.getPrenom1()+"<===");	
-//					System.out.println("etu.getTransferts().getDateDemandeTransfert()===>"+etu.getTransferts().getDateDemandeTransfert()+"<===");
-//					System.out.println("etu.getAlertSilenceVautAccord()===>"+etu.getAlertSilenceVautAccord()+"<===");
-//					System.out.println("etu.getAlertDepassementSilenceVautAccord()===>"+etu.getAlertDepassementSilenceVautAccord()+"<===");
-//					System.out.println("now===>"+now+"<===");
 					System.out.println("===>#################################################################################################################<===");
-//					body+=etu.getNumeroIne()+" "+etu.getNomPatronymique()+" "+etu.getPrenom1()+"<BR /><BR />\r\n\r\n";
 					body+=etu.getNumeroIne()+"<BR /><BR />\r\n\r\n";
 				}
 				try {
-//					body = i18nService.getString("TRANSFERT_MAIL_BODY", "Farid",
-//							"AIT KARRA");
 					getSmtpService().send(new InternetAddress("farid.aitkarra@univ-artois.fr"), sujet, body, body);
 				} 
 				catch (AddressException e) 
@@ -104,25 +95,24 @@ public class BusinessManager {
 
 			if(listeEtudiantRefAlertDepassementSilenceVautAccord!=null && !listeEtudiantRefAlertDepassementSilenceVautAccord.isEmpty())
 			{
-				String sujet = "Silence vaut accord (délai des 2 mois dépassés)";
-				String body = "Liste des des demande de transferts dépassant le délai des 2 mois : <BR /><BR />\r\n\r\n";
+				if(source.equals("A"))
+				{				
+				sujet = "[transferts accueil] Silence vaut accord (délai des 2 mois dépassés)";
+				body = "Liste des des demande de transferts accueil dépassant le délai des 2 mois : <BR /><BR />\r\n\r\n";
+				}
+				else
+				{
+					sujet = "[transferts départ] Silence vaut accord (délai des 2 mois dépassés)";
+					body = "Liste des des demande de transferts départ dépassant le délai des 2 mois : <BR /><BR />\r\n\r\n";					
+				}
 				System.out.println("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");				
 				for(EtudiantRef etu : listeEtudiantRefAlertDepassementSilenceVautAccord)
 				{
 					System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-//					System.out.println("etu.getNomPatronymique()===>"+etu.getNomPatronymique()+"<===");	
-//					System.out.println("etu.getPrenom1()===>"+etu.getPrenom1()+"<===");	
-//					System.out.println("etu.getTransferts().getDateDemandeTransfert()===>"+etu.getTransferts().getDateDemandeTransfert()+"<===");
-//					System.out.println("etu.getAlertSilenceVautAccord()===>"+etu.getAlertSilenceVautAccord()+"<===");
-//					System.out.println("etu.getAlertDepassementSilenceVautAccord()===>"+etu.getAlertDepassementSilenceVautAccord()+"<===");
-//					System.out.println("now===>"+now+"<===");
 					System.out.println("===>#################################################################################################################<===");
-//					body+=etu.getNumeroIne()+" "+etu.getNomPatronymique()+" "+etu.getPrenom1()+"<BR /><BR />\r\n\r\n";
 					body+=etu.getNumeroIne()+"<BR /><BR />\r\n\r\n";
 				}	
 				try {
-//					body = i18nService.getString("TRANSFERT_MAIL_BODY", "Farid",
-//							"AIT KARRA");
 					getSmtpService().send(new InternetAddress("farid.aitkarra@univ-artois.fr"), sujet, body, body);
 				} 
 				catch (AddressException e) 
@@ -139,22 +129,11 @@ public class BusinessManager {
 		}
 		else
 		{
-			System.out.println("lEtu2.size()===>0<===");
-		}
-
-
-		//		String sujet = i18nService.getString("TRANSFERT_MAIL_SUJET");
-		//		String body = i18nService.getString("TRANSFERT_MAIL_BODY");
-		//		try {
-		//			body = i18nService.getString("TRANSFERT_MAIL_BODY", "Farid",
-		//					"AIT KARRA");
-		//			getSmtpService().send(new InternetAddress("farid.aitkarra@univ-artois.fr"), sujet, body, body);
-		//		} 
-		//		catch (AddressException e) 
-		//		{
-		//			System.out.println("===>Echec envoi de mail<===");
-		//			e.printStackTrace();
-		//		}
+			if(source.equals("A"))
+				System.out.println("[accueil]===>lEtu.size()===>0<===");
+			else
+				System.out.println("[départ]===>lEtu.size()===>0<===");
+		}		
 	}
 
 	public DomainService getDomainService() {

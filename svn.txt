@@ -100,3 +100,6 @@
 #############################################################################################################
 - Correction de plusieurs nullpointerexception suite à la modif dans le DAO
 - Ajout de l'envoi de 2 mails dans le scheduler afin de prévenir les gestionnaires des demandes à traiter rapidement
+#############################################################################################################
+- Correction de plusieurs nullpointerexception suite à la modif dans le DAO (return null au lieu d'une collection vide)
+- Modification du schedulder pour alert les transferts départ arrivant aux termes de la nouvelle loi silence vaut accord

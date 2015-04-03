@@ -225,7 +225,10 @@ public class ManagerController extends AbstractContextAwareController {
 			logger.debug("goToManagerChoixLicence");
 		setUse(true);
 		listeComposantesFermeSplit=null;
-		players = new DualListModel<PersonnelComposante>(this.getSource(), this.getTarget());
+		if(this.getTarget()!=null)
+			players = new DualListModel<PersonnelComposante>(this.getSource(), this.getTarget());
+		else
+			players = new DualListModel<PersonnelComposante>(this.getSource(), new ArrayList<PersonnelComposante>());
 		if(logger.isDebugEnabled())
 			logger.debug("############# typePersonnel #############-->"+typePersonnel);
 		return "goToManagerChoixLicence";

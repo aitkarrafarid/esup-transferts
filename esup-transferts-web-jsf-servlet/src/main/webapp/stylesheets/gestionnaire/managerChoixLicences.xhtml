@@ -19,8 +19,9 @@
 		<p:panel rendered="#{!sessionController.currentUser.admin}">
 			<ui:include
 				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
-		</p:panel>		
-		<h:form id="formManagerChoixLicence" rendered="#{sessionController.currentUser.admin}">
+		</p:panel>
+		<h:form id="formManagerChoixLicence"
+			rendered="#{sessionController.currentUser.admin}">
 			<p:messages id="msgs" showDetail="false" />
 			<p:growl id="growl" showDetail="false" />
 			<center>
@@ -28,11 +29,12 @@
 					value="Liste des gestionnaires de transferts départ" />
 				<h:outputText rendered="#{managerController.from=='A'}"
 					value="Liste des gestionnaires de transferts accueil" />
-					
+
 				<p:pickList id="pojoPickList" value="#{managerController.players}" 
-					var="player" converter="#{personnelComposanteConverter}" 
-					itemValue="#{player}" itemLabel="#{player.codeComposante}" 
-					showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains">
+					var="player" converter="#{personnelComposanteConverter}"
+					itemValue="#{player}" itemLabel="#{player.codeComposante}"
+					showSourceFilter="true" showTargetFilter="true"
+					filterMatchMode="contains">
 
 					<f:facet name="sourceCaption">Liste des composantes</f:facet>
 					<f:facet name="targetCaption">#{managerController.personnelChoisi.login}</f:facet>
@@ -40,35 +42,36 @@
 					<p:column>  
             #{player.codeComposante} - #{player.libelleComposante} 
         </p:column>
-
-
 				</p:pickList>
 
 				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-
 					<h:outputText value="Type de personnel : " />
-					<p:selectOneRadio id="options" required="true" rendered="#{managerController.from=='A'}"
+					<p:selectOneRadio id="options" required="true"
+						rendered="#{managerController.from=='A'}"
 						value="#{managerController.typePersonnel}">
 						<f:selectItem itemLabel="Direction des études" itemValue="1" />
 						<f:selectItem itemLabel="Gestionnaire secrétariat pédagogique"
 							itemValue="2" />
 					</p:selectOneRadio>
-
 				</h:panelGrid>
 
 				<p:spacer height="40" />
 
-				<p:commandButton id="retour" value="Retour" rendered="#{managerController.from=='D'}"
-					action="#{managerController.goToListeManagerDepart}" immediate="true" />
-				<p:commandButton id="retour2" value="Retour" rendered="#{managerController.from=='A'}"
-					action="#{managerController.goToListeManagerAccueil}" immediate="true" />					
+				<p:commandButton id="retour" value="Retour"
+					rendered="#{managerController.from=='D'}"
+					action="#{managerController.goToListeManagerDepart}"
+					immediate="true" />
+				<p:commandButton id="retour2" value="Retour"
+					rendered="#{managerController.from=='A'}"
+					action="#{managerController.goToListeManagerAccueil}"
+					immediate="true" />
 				<p:spacer width="20" />
-<!-- 				<p:commandButton id="pojoSubmit" value="Valider" -->
-<!-- 					action="#{managerController.addPersonnelComposante}" -->
-<!-- 					update="msgs,msgs2,growl" /> -->
+				<!-- 				<p:commandButton id="pojoSubmit" value="Valider" -->
+				<!-- 					action="#{managerController.addPersonnelComposante}" -->
+				<!-- 					update="msgs,msgs2,growl" /> -->
 				<p:commandButton id="pojoSubmitdetails" value="Suivant"
 					action="#{managerController.goToDetailDroits}"
-					update="msgs,msgs2,growl" />					
+					update="msgs,msgs2,growl" />
 			</center>
 			<!-- 			<p:spacer height="30" /> -->
 			<!-- 			<div style="padding-left: 300px;"> -->
