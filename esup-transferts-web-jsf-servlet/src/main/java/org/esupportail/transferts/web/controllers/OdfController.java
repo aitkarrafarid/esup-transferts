@@ -181,7 +181,7 @@ public class OdfController extends AbstractContextAwareController {
 		List<OffreDeFormationsDTO> listFormationsIdentiques = new ArrayList<OffreDeFormationsDTO>();
 		int k=0;
 
-		if(!LOdfsLocal.isEmpty())
+		if(LOdfsLocal!=null && !LOdfsLocal.isEmpty())
 		{
 			for(OffreDeFormationsDTO local :LOdfsLocal)
 			{
