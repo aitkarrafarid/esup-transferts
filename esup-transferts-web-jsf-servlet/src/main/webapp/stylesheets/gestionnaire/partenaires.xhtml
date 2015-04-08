@@ -39,7 +39,7 @@
 
 				<p:ajax event="rowEdit" listener="#{partenaireController.onEdit}"
 					update=":growl,:msgs,:msgs2" />
-				<p:ajax event="rowEditCancel" oncomplete="confirmation.show()"
+				<p:ajax event="rowEditCancel" oncomplete="PF('confirmation').show()"
 					listener="#{partenaireController.setOnCancel}" />
 
 				<p:column headerText="Online" style="width:7%;"
@@ -218,9 +218,9 @@
 			header="Confirmation" severity="alert" widgetVar="confirmation">
 			<p:commandButton value="Oui"
 				update=":growl,:msgs,:msgs2,:form:partenaire"
-				oncomplete="confirmation.hide()"
+				oncomplete="PF('confirmation').hide()"
 				action="#{partenaireController.onCancel}" />
-			<p:commandButton value="Non" onclick="confirmation.hide()"
+			<p:commandButton value="Non" onclick="PF('confirmation').hide()"
 				type="button" />
 		</p:confirmDialog>
 

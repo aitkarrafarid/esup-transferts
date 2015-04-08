@@ -145,5 +145,9 @@ Insert into ACCUEIL_ANNEE
    (ID_ACCUEIL_ANNEE, LIBELLE)
  Values
    (12, '2013/2014');   
+Insert into ACCUEIL_ANNEE
+   (ID_ACCUEIL_ANNEE, LIBELLE)
+ Values
+   (13, '2014/2015');      
    
 COMMIT;

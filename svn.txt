@@ -106,3 +106,9 @@
 #############################################################################################################
 - Correction de plusieurs nullpointerexception suite à la modif dans le DAO (return null au lieu d'une collection vide)
 - Correction d'un BUG "p:confirmDialog" sur la suppression d'une signature lié aux changement PF4.1-->PF5.1
+#############################################################################################################
+- Correction de plusieurs nullpointerexception dans l'ajout d'une ODF suite à la modif dans le DAO (return null au lieu d'une collection vide)
+#############################################################################################################
+- Modification du composant <p:confirmDialog> dans la suppression d'un établissement partenaire
+- Ajout de la nomenclature "autre" dans 
+- Ajout de la nomenclature année "2014/2015" dans la table "accueil_annee"
