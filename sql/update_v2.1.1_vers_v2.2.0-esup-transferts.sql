@@ -6,5 +6,7 @@ Insert into ACCUEIL_ANNEE
    (ID_ACCUEIL_ANNEE, LIBELLE)
  Values
    (13, '2014/2015');   
+
+update wspub set mail_technique='a.definir@monmail.fr';   
    
 COMMIT;
