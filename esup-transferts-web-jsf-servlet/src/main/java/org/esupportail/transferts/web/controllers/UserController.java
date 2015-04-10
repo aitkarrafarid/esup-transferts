@@ -1934,11 +1934,14 @@ public class UserController extends AbstractContextAwareController {
 	public List<Avis> getListeAvisByNumeroEtudiantAndAnnee() 
 	{
 		List<Avis> lAvis = getDomainService().getAvis(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
-		for(Avis a : lAvis)
+		if(lAvis!=null)
 		{
-			a.setLibEtatDossier(getDomainService().getEtatDossierById(a.getIdEtatDossier()).getLibelleLongEtatDossier());
-			a.setLibLocalisationDossier(getDomainService().getLocalisationDossierById(a.getIdLocalisationDossier()).getLibelleLongLocalisationDossier());
-			a.setLibDecisionDossier(getDomainService().getDecisionDossierById(a.getIdDecisionDossier()).getLibelleLongDecisionDossier());
+			for(Avis a : lAvis)
+			{
+				a.setLibEtatDossier(getDomainService().getEtatDossierById(a.getIdEtatDossier()).getLibelleLongEtatDossier());
+				a.setLibLocalisationDossier(getDomainService().getLocalisationDossierById(a.getIdLocalisationDossier()).getLibelleLongLocalisationDossier());
+				a.setLibDecisionDossier(getDomainService().getDecisionDossierById(a.getIdDecisionDossier()).getLibelleLongDecisionDossier());
+			}
 		}
 		return lAvis;
 	}
