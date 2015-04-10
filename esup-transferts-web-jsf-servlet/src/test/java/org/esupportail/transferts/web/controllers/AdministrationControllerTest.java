@@ -92,7 +92,7 @@ public class AdministrationControllerTest {
 
 	@Value("${rne.accueil}")
 	private String rneAccueil;
-
+	
 	@Value("${method.execute.total.depart.et.accueil}")
 	private boolean totalDemandeTransfertsDepartEtAccueil;
 
@@ -151,7 +151,7 @@ public class AdministrationControllerTest {
 		Assert.notNull(envoiOpi, "property envoiOpi of class " 
 				+ this.getClass().getName() + " can not be null");			
 		Assert.notNull(fromTestUnitaireEtudiantRef, "property fromTestUnitaireEtudiantRef of class " 
-				+ this.getClass().getName() + " can not be null");				
+				+ this.getClass().getName() + " can not be null");	
 	}		
 
 	@Test
@@ -224,8 +224,8 @@ public class AdministrationControllerTest {
 	{
 		System.out.println("===>public void addDemandeTransfertDepartTest()<===");
 
-		String myAnneeRequeteWs = "2014";
-		Integer myAnneeInt = 2015;
+		String myAnneeRequeteWs = getCurrentAnnee().toString();
+		Integer myAnneeInt = currentAnnee;
 		String codeDiplome = "CL2LEAE";
 		String versionDiplome = "140";
 		String codeEtape = "1ILEAS";
@@ -304,12 +304,18 @@ public class AdministrationControllerTest {
 					etudiant.getTransferts().setDept(this.getRneAccueil().substring(0, 3));
 					etudiant.getTransferts().setRne(this.getRneAccueil());
 
-					OffreDeFormationsDTO o = getDomainService().getOdfByPK(this.getRneAccueil(), myAnneeInt, "BV2GCCD", 130, "1IGCCD", "130", "GBU");
-
-					if(o==null)
+					List<OffreDeFormationsDTO> lodfdto = getDomainService().getAllOffreDeFormationByAnneeAndRneAndAtifOuPas(myAnneeInt, this.getRneAccueil());
+					OffreDeFormationsDTO o = null;
+					
+					if(lodfdto==null)
 					{
 						System.out.println("etudiant.toString()===>" +etudiant.toString()+"<===");
-						System.out.println("Aucune formation correspondante à===>"+this.getRneAccueil()+"-"+myAnneeInt+"- BV2GCCD - 130 - 1IGCCD - 130 - GBU<===");
+						System.out.println("Aucune formation correspondante===>"+this.getRneAccueil()+" - "+myAnneeInt+"<===");
+					}
+					else
+					{
+						Collections.shuffle(lodfdto);
+						o = getDomainService().getOdfByPK(this.getRneAccueil(), myAnneeInt, lodfdto.get(0).getCodeDiplome(), lodfdto.get(0).getCodeVersionDiplome(), lodfdto.get(0).getCodeEtape(), lodfdto.get(0).getCodeVersionEtape(), lodfdto.get(0).getCodeCentreGestion());
 					}
 					etudiant.getTransferts().setOdf(o);
 					etudiant.getTransferts().getOdf().setRne(this.getRneAccueil());
@@ -415,14 +421,14 @@ public class AdministrationControllerTest {
 
 
 
-						Fichier signatureParDefaut = getDomainService().getFichierDefautByAnneeAndFrom(2015, "D");
+						Fichier signatureParDefaut = getDomainService().getFichierDefautByAnneeAndFrom(getCurrentAnnee(), "D");
 						if(signatureParDefaut!=null)
 						{
 							etu.getTransferts().setTemoinOPIWs(1);
 							etu.getTransferts().setTemoinTransfertValide(2);
 							Avis currentAvis = new Avis();
 							currentAvis.setNumeroEtudiant(etu.getNumeroEtudiant());
-							currentAvis.setAnnee(2015);
+							currentAvis.setAnnee(getCurrentAnnee());
 							currentAvis.setDateSaisie(new Date());
 							currentAvis.setIdDecisionDossier(2);
 							currentAvis.setIdEtatDossier(1);
@@ -430,7 +436,7 @@ public class AdministrationControllerTest {
 
 							getDomainService().addAvis(currentAvis);
 
-							etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(2015, "D"));
+							etu.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getCurrentAnnee(), "D"));
 
 							getDomainService().addDemandeTransferts(etu);
 

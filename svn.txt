@@ -110,5 +110,12 @@
 - Correction de plusieurs nullpointerexception dans l'ajout d'une ODF suite à la modif dans le DAO (return null au lieu d'une collection vide)
 #############################################################################################################
 - Modification du composant <p:confirmDialog> dans la suppression d'un établissement partenaire
-- Ajout de la nomenclature "autre" dans 
 - Ajout de la nomenclature année "2014/2015" dans la table "accueil_annee"
+#############################################################################################################
+- Ajout provisoire (pour les tests) de la modification par le gestionnaire de la date de la demande de transfert afin de voir l'affichage des codes couleur
+#############################################################################################################
+- Correction de plusieurs nullpointerexception suite à la modif dans le DAO (return null au lieu d'une collection vide)
+#############################################################################################################
+- Ajout d'une instruction SQL "update wspub set mail_technique='a.definir@monmail.fr';" dans le fichier sql de migration 
+#############################################################################################################
+- Amélioration des test unitaires au niveau de l'odf

@@ -207,7 +207,12 @@ public class PartenaireController extends AbstractContextAwareController {
 
 	public void onCancel() {  
 		if(deletePartenaire!=null)
+		{
+//			if(deletePartenaire.getMailCorrespondantTechnique()==null)
+//				deletePartenaire.setMailCorrespondantTechnique("asupprimer@toto.fr");
+//			System.out.println("aaaaa===>"+deletePartenaire+"<===");
 			getDomainService().deleteWsPub(deletePartenaire);	
+		}
 		else
 		{
 			FacesMessage msg = new FacesMessage("Veuillez contacter l'administrateur pour la suppression", "Suppression PB !!!");  
