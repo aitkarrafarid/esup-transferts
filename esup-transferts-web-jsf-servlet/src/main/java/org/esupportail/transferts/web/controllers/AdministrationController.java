@@ -3238,11 +3238,14 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("getDomainServiceWS().getAvis(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());");
 		}
 		List<Avis> lAvis = getDomainService().getAvis(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
-		for (Avis a : lAvis) 
+		if(lAvis!=null)
 		{
-			a.setLibEtatDossier(getDomainService().getEtatDossierById(a.getIdEtatDossier()).getLibelleLongEtatDossier());
-			a.setLibLocalisationDossier(getDomainService().getLocalisationDossierById(a.getIdLocalisationDossier()).getLibelleLongLocalisationDossier());
-			a.setLibDecisionDossier(getDomainService().getDecisionDossierById(a.getIdDecisionDossier()).getLibelleLongDecisionDossier());
+			for (Avis a : lAvis) 
+			{
+				a.setLibEtatDossier(getDomainService().getEtatDossierById(a.getIdEtatDossier()).getLibelleLongEtatDossier());
+				a.setLibLocalisationDossier(getDomainService().getLocalisationDossierById(a.getIdLocalisationDossier()).getLibelleLongLocalisationDossier());
+				a.setLibDecisionDossier(getDomainService().getDecisionDossierById(a.getIdDecisionDossier()).getLibelleLongDecisionDossier());
+			}
 		}
 		return lAvis;
 	}
