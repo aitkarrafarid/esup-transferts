@@ -1,43 +1,26 @@
 package org.esupportail.transferts.web.controllers;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
-import javax.faces.context.FacesContext;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.transferts.dao.DaoService;
-import org.esupportail.transferts.dao.JPADaoServiceImpl;
 import org.esupportail.transferts.domain.DomainService;
-import org.esupportail.transferts.domain.DomainServiceApogeeImpl;
-import org.esupportail.transferts.domain.DomainServiceImpl;
 import org.esupportail.transferts.domain.DomainServiceOpi;
 import org.esupportail.transferts.domain.DomainServiceScolarite;
 import org.esupportail.transferts.domain.beans.AccueilAnnee;
 import org.esupportail.transferts.domain.beans.AccueilResultat;
 import org.esupportail.transferts.domain.beans.Avis;
-import org.esupportail.transferts.domain.beans.DatasExterne;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.domain.beans.InfosAccueil;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.ResultatEtape;
 import org.esupportail.transferts.domain.beans.ResultatSession;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
@@ -46,8 +29,6 @@ import org.esupportail.transferts.domain.beans.TrBac;
 import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
 import org.esupportail.transferts.domain.beans.TrInfosAdmEtu;
 import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
-import org.esupportail.transferts.domain.beans.Transferts;
-import org.esupportail.transferts.domain.beans.User;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.CheckNNE36;
 import org.esupportail.transferts.web.utils.MyAuthenticator;
@@ -61,19 +42,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.sun.jndi.ldap.ctl.GetEffectiveRightsControl;
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2015
  * 
  */
-@SuppressWarnings("serial")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath*:META-INF/applicationContext_TEST_UNITAIRE.xml")
 public class AdministrationControllerTest {

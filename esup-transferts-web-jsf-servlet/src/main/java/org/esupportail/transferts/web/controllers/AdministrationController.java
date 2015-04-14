@@ -2123,10 +2123,13 @@ public class AdministrationController extends AbstractContextAwareController {
 		boolean partenaire = false;
 		if (this.currentDemandeTransferts.getTransferts().getRne() != null) {
 			List<WsPub> listeEtablissementsPartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
-			for(WsPub eu : listeEtablissementsPartenaires)
+			if(listeEtablissementsPartenaires!=null)
 			{
-				if(this.currentDemandeTransferts.getTransferts().getRne().equals(eu.getRne()))
-					partenaire = true;
+				for(WsPub eu : listeEtablissementsPartenaires)
+				{
+					if(this.currentDemandeTransferts.getTransferts().getRne().equals(eu.getRne()))
+						partenaire = true;
+				}
 			}
 		}
 		return partenaire;
