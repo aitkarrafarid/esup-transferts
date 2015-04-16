@@ -32,8 +32,7 @@
 		<property name="validationAutomatique" value="${validation.automatique}" />
 		<property name="regleGestionTE02" value="${regle.gestion.TE02}" />
 		<property name="nbJourAvantAlertSilenceVautAccord" value="${nb.jour.avant.alert.silence.vaut.accord}" />
-		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"
-			value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
+		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"	value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
 		<!-- <property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}" 
 			/> -->
 	</bean>

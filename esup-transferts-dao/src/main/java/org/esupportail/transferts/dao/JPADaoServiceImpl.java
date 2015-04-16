@@ -176,9 +176,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public List<WsPub> getWsPubByAnnee(Integer annee) {
-		if (logger.isDebugEnabled()){
-			logger.debug("getWsPubByAnnee(Integer annee)");
-		}
+		if (logger.isDebugEnabled())
+			logger.debug("public List<WsPub> getWsPubByAnnee(Integer annee)===>"+annee+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getWsPubByAnnee");
 			q.setParameter("annee", annee);
@@ -802,9 +801,9 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public Parametres getParametreByCode(String codeParametre) {
-		if (logger.isDebugEnabled()){
-			logger.debug("getCodeSizeDefaut()");
-		}
+		if (logger.isDebugEnabled())
+			logger.debug("public Parametres getParametreByCode(String codeParametre)===>"+codeParametre+"<===");
+		
 		try{
 			Query q = entityManager.createNamedQuery("getParametreByCode");
 			q.setParameter("codeParametre", codeParametre);
@@ -969,7 +968,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public Date getDateMaxMajByRneAndAnnee(Integer annee, String rne) {
 		if (logger.isDebugEnabled())
-			logger.debug("getDateMaxMajByRneAndAnnee(Integer annee, String rne)");
+			logger.debug("public Date getDateMaxMajByRneAndAnnee(Integer annee, String rne)===>"+annee+"-----"+rne+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getDateMaxMajByRneAndAnnee");
 			q.setParameter("annee", annee);

@@ -13,6 +13,13 @@
 		<property name="smtpService" ref="smtpService" />
 		<property name="domainService" ref="domainService" />
 		<property name="i18nService" ref="i18nService" />
+		<property name="currentRne" value="${etab.rne}" />
+		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />
+		<property name="nbJourAvantAlertSilenceVautAccord" value="${nb.jour.avant.alert.silence.vaut.accord}" />
+		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"
+			value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
+		<property name="majOdfAutoForScheduler" value="${maj.odf.auto.for.scheduler}" />
+
 	</bean>
 
 	<bean id="QuartzJob" class="org.esupportail.transferts.web.scheduler.QuartzJob">
