@@ -50,7 +50,7 @@ public class BusinessManager {
 		CodeSizeAnnee csa = getDomainService().getCodeSizeDefaut();
 		setCurrentAnnee(csa.getAnnee());
 		this.setCurrentMail(getDomainService().getWsPubByRneAndAnnee(this.getCurrentRne(), this.getCurrentAnnee()).getMailCorrespondantFonctionnel());
-		
+
 		if(this.getCurrentAnnee()!=null)
 		{
 			List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "A");
@@ -170,7 +170,6 @@ public class BusinessManager {
 
 	private void refreshAllPartenaire()
 	{
-		//		WsPub part = getDomainService().getWsPubByRneAndAnnee(((WsPub) event.getObject()).getRne(), getSessionController().getCurrentAnnee());
 		List<WsPub> listePartenaires = getDomainService().getWsPubByAnnee(this.getCurrentAnnee());
 		if(listePartenaires!=null)
 		{
@@ -178,10 +177,13 @@ public class BusinessManager {
 			{
 				if (part.getUrl() != null) 
 				{
+					logger.info("===>"+part.getUrl()+"<===");
 					Authenticator.setDefault(new MyAuthenticator(part.getIdentifiant(), part.getPassword()));
 					if (this.testUrl(part.getUrl())) 
 					{
+						System.out.println("aaaaa");
 						try {
+							System.out.println("bbbbb");
 							String address = part.getUrl();
 							JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
 							factoryBean.setServiceClass(DomainServiceOpi.class);
@@ -234,24 +236,25 @@ public class BusinessManager {
 							{
 								part.setSyncOdf(1);
 							}
+							logger.info("===>Mise à jour de l'ODF des partenaires réussie<===");
 						}
 						catch (Exception e) 
 						{
-							if (logger.isDebugEnabled()) {
-								logger.debug("WebServiceException RNE : " + part.getRne());
-								logger.debug("-----------------");
-								logger.debug(e.getCause().getMessage());
-								logger.debug("-----------------");
-							}
+							System.out.println("ccccc");
+							logger.info("WebServiceException RNE : " + part.getRne());
+							logger.info("-----------------");
+							logger.info(e.getCause().getMessage());
+							logger.info("-----------------");
 							e.printStackTrace();
 							part.setOnline(0);
 							part.setSyncOdf(0);
-						}					
+						}		
 					}
 					else
 					{
 						part.setOnline(0);
 						part.setSyncOdf(0);
+						logger.info("===>Echec dela mise à jour de l'ODF du partenaire===>"+part.getRne()+"<===");
 					}
 					AuthCacheValue.setAuthCache(new AuthCacheImpl());
 					Authenticator.setDefault(null);
@@ -261,12 +264,11 @@ public class BusinessManager {
 					part.setOnline(0);
 					part.setSyncOdf(0);
 				}			
-				logger.info("===>Mise à jour de l'ODF des partenaires réussie<===");
 			}
 		}
 		else
 		{
-			logger.info("===>Echec de la mMise à jour de l'ODF des partenaires<===");	
+			logger.info("===>Aucun établissement partenaire<===");	
 		}
 	}
 
@@ -277,25 +279,19 @@ public class BusinessManager {
 			conn.connect();
 			return conn.getResponseCode() == HttpURLConnection.HTTP_OK;
 		} catch (MalformedURLException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("MalformedURLException");
-				logger.debug("host : " + host);
-			}
+			logger.info("MalformedURLException");
+			logger.info("host : " + host);
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("IOException");
-				logger.debug("host : " + host);
-			}
+			logger.info("IOException");
+			logger.info("host : " + host);
 			e.printStackTrace();
 			return false;
 		}
 		catch (Exception e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Exception");
-				logger.debug("host : " + host);
-			}
+			logger.info("Exception");
+			logger.info("host : " + host);
 			e.printStackTrace();
 			return false;				
 		}

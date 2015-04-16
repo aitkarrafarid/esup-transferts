@@ -119,3 +119,5 @@
 - Ajout d'une instruction SQL "update wspub set mail_technique='a.definir@monmail.fr';" dans le fichier sql de migration 
 #############################################################################################################
 - Amélioration des test unitaires au niveau de l'odf
+#############################################################################################################
+- Amélioration maj auto odf
