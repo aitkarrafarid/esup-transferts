@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -31,6 +33,7 @@ import org.esupportail.transferts.domain.beans.TrInfosAdmEtu;
 import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.CheckNNE36;
+import org.esupportail.transferts.web.utils.CompareByComposanteDepart;
 import org.esupportail.transferts.web.utils.MyAuthenticator;
 
 import java.net.Authenticator;
@@ -163,6 +166,8 @@ public class AdministrationControllerTest {
 
 		if(totalDemandeTransfertsDepartEtAccueil)
 			this.getTotalDemandeTransfertsTest(getCurrentAnnee());
+		
+		List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), "D");
 	}	
 
 	public void getCleIne() 

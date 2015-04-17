@@ -6,7 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -26,6 +28,8 @@ import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.GestionDate;
+import org.esupportail.transferts.web.utils.CompareByComposanteAccueil;
+import org.esupportail.transferts.web.utils.CompareByComposanteDepart;
 import org.esupportail.transferts.web.utils.MyAuthenticator;
 
 import sun.net.www.protocol.http.AuthCacheImpl;
@@ -92,24 +96,56 @@ public class BusinessManager {
 
 			if(listeEtudiantRefAlertSilenceVautAccord!=null && !listeEtudiantRefAlertSilenceVautAccord.isEmpty())
 			{
-
 				if(source.equals("A"))
 				{
+					Collections.sort(listeEtudiantRefAlertSilenceVautAccord, new CompareByComposanteAccueil());
 					sujet = "[transferts accueil] Silence vaut accord (délai de 6 semaines dépassés)";
-					body = "Liste des des demande de transferts accueil dépassant le délai des 6 semaines : <BR /><BR />\r\n\r\n";
+					body = "Liste des des demande de transferts accueil dépassant le délai des 6 semaines : <BR />\r\n";
 				}
 				else
 				{
+					Collections.sort(listeEtudiantRefAlertSilenceVautAccord, new CompareByComposanteDepart());
 					sujet = "[transferts départ] Silence vaut accord (délai de 6 semaines dépassés)";
-					body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR /><BR />\r\n\r\n";
+					body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR />\r\n";
 				}
 				System.out.println("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
+				String libComp="";
+				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertSilenceVautAccord)
 				{
+					if(source.equals("D"))
+					{
+						if(libComp.equals(""))
+							libComp=etu.getComposante();
+						else if(libComp.equals(etu.getComposante()))
+							repeat=true;
+						else
+						{
+							libComp=etu.getComposante();
+							repeat=false;
+						}
+					}
+					else
+					{
+						if(libComp.equals(""))
+							libComp=etu.getTransferts().getOdf().getCodeComposante();
+						else if(libComp.equals(etu.getTransferts().getOdf().getCodeComposante()))
+							repeat=true;
+						else
+						{
+							libComp=etu.getTransferts().getOdf().getCodeComposante();
+							repeat=false;
+						}
+					}
+					System.out.println("libComp===>"+libComp+"<===");		
 					System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
 					System.out.println("===>#################################################################################################################<===");
-					body+=etu.getNumeroIne()+"<BR /><BR />\r\n\r\n";
+
+					if(!repeat)
+						body+="<BR />\r\n"+libComp+"<BR />\r\n";
+					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
 				}
+
 				try {
 					getSmtpService().send(new InternetAddress(this.getCurrentMail()), sujet, body, body);
 				} 
@@ -128,21 +164,56 @@ public class BusinessManager {
 			if(listeEtudiantRefAlertDepassementSilenceVautAccord!=null && !listeEtudiantRefAlertDepassementSilenceVautAccord.isEmpty())
 			{
 				if(source.equals("A"))
-				{				
+				{		
+					Collections.sort(listeEtudiantRefAlertDepassementSilenceVautAccord, new CompareByComposanteAccueil());
 					sujet = "[transferts accueil] Silence vaut accord (délai des 2 mois dépassés)";
 					body = "Liste des des demande de transferts accueil dépassant le délai des 2 mois : <BR /><BR />\r\n\r\n";
 				}
 				else
 				{
+					Collections.sort(listeEtudiantRefAlertDepassementSilenceVautAccord, new CompareByComposanteDepart());
 					sujet = "[transferts départ] Silence vaut accord (délai des 2 mois dépassés)";
 					body = "Liste des des demande de transferts départ dépassant le délai des 2 mois : <BR /><BR />\r\n\r\n";					
 				}
 				System.out.println("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");				
+				String libComp="";
+				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertDepassementSilenceVautAccord)
 				{
+					//					System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
+					//					System.out.println("===>#################################################################################################################<===");
+					//					body+=etu.getNumeroIne()+"<BR /><BR />\r\n\r\n";
+					if(source.equals("D"))
+					{
+						if(libComp.equals(""))
+							libComp=etu.getComposante();
+						else if(libComp.equals(etu.getComposante()))
+							repeat=true;
+						else
+						{
+							libComp=etu.getComposante();
+							repeat=false;
+						}
+					}
+					else
+					{
+						if(libComp.equals(""))
+							libComp=etu.getTransferts().getOdf().getCodeComposante();
+						else if(libComp.equals(etu.getTransferts().getOdf().getCodeComposante()))
+							repeat=true;
+						else
+						{
+							libComp=etu.getTransferts().getOdf().getCodeComposante();
+							repeat=false;
+						}
+					}
+					System.out.println("libComp===>"+libComp+"<===");		
 					System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
 					System.out.println("===>#################################################################################################################<===");
-					body+=etu.getNumeroIne()+"<BR /><BR />\r\n\r\n";
+
+					if(!repeat)
+						body+="<BR />\r\n"+libComp+"<BR />\r\n";
+					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
 				}	
 				try {
 					getSmtpService().send(new InternetAddress(this.getCurrentMail()), sujet, body, body);
