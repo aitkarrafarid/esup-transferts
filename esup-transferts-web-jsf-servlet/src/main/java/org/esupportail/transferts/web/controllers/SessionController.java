@@ -61,6 +61,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	private String validationAutomatique;
 	private Integer regleGestionTE02;
 	private boolean choixDuVoeuParComposante;
+	private boolean majOdfAuto;
 	private Integer nbJourAvantAlertSilenceVautAccord;	
 	private Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
 	private Logger logger = new LoggerImpl(getClass());
@@ -394,5 +395,13 @@ public class SessionController extends AbstractDomainAwareBean {
 	public void setNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord(
 			Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord) {
 		this.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord = nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
+	}
+
+	public boolean isMajOdfAuto() {
+		return majOdfAuto;
+	}
+
+	public void setMajOdfAuto(boolean majOdfAuto) {
+		this.majOdfAuto = majOdfAuto;
 	}
 }

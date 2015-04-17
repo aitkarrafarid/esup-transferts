@@ -8,5 +8,10 @@ Insert into ACCUEIL_ANNEE
    (13, '2014/2015');   
 
 update wspub set mail_technique='a.definir@monmail.fr';   
-   
+
+Insert into PARAMETRES
+   (CODE, ETAT, COMMENTAIRE)
+ Values
+   ('maj_odf_auto', 0, 'Mise à jour automatique de l''offre de formation par rapport au scheduller');
+
 COMMIT;

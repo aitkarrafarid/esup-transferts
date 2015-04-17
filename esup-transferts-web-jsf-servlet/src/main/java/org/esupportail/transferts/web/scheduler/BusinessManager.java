@@ -26,6 +26,7 @@ import org.esupportail.transferts.domain.DomainServiceOpi;
 import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
+import org.esupportail.transferts.domain.beans.Parametres;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.GestionDate;
 import org.esupportail.transferts.web.utils.CompareByComposanteAccueil;
@@ -54,7 +55,12 @@ public class BusinessManager {
 		CodeSizeAnnee csa = getDomainService().getCodeSizeDefaut();
 		setCurrentAnnee(csa.getAnnee());
 		this.setCurrentMail(getDomainService().getWsPubByRneAndAnnee(this.getCurrentRne(), this.getCurrentAnnee()).getMailCorrespondantFonctionnel());
-
+		Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
+		if(maj_odf_auto==null)
+			majOdfAutoForScheduler=false;
+		else
+			majOdfAutoForScheduler=maj_odf_auto.isBool();
+		
 		if(this.getCurrentAnnee()!=null)
 		{
 			List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "A");

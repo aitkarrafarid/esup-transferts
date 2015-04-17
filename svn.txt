@@ -121,3 +121,8 @@
 - Amélioration des test unitaires au niveau de l'odf
 #############################################################################################################
 - Amélioration maj auto odf
+#############################################################################################################
+- Amélioration des mails liés à la nouvelle loi "silence vaut accord"
+#############################################################################################################
+- Externalisation de la mise à jour automatique de l'ODF par le sheduller
+- Mise à jour des fichiers sql nomenclature et update2.2.0

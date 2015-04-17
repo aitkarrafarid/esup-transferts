@@ -1295,13 +1295,26 @@ public class AdministrationController extends AbstractContextAwareController {
 	@SuppressWarnings("unused")
 	public void updateConfiguration()
 	{
-		Parametres param = getDomainService().getParametreByCode("choixDuVoeuParComposante");
-		param.setBool(getSessionController().isChoixDuVoeuParComposante());
-		param = getDomainService().updateConfiguration(param);
-		if(param!=null)
-			getSessionController().setChoixDuVoeuParComposante(param.isBool());
+		Parametres choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
+		if(choixDuVoeuParComposante!=null)
+		{
+			choixDuVoeuParComposante.setBool(getSessionController().isChoixDuVoeuParComposante());
+			choixDuVoeuParComposante = getDomainService().updateConfiguration(choixDuVoeuParComposante);
+			getSessionController().setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
+		}
 		else
 			getSessionController().setChoixDuVoeuParComposante(true);
+		
+		Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
+		if(maj_odf_auto!=null)
+		{
+			maj_odf_auto.setBool(getSessionController().isMajOdfAuto());
+			maj_odf_auto = getDomainService().updateConfiguration(maj_odf_auto);
+			getSessionController().setMajOdfAuto(maj_odf_auto.isBool());
+		}
+		else
+			getSessionController().setMajOdfAuto(true);
+		
 		String summary = getString("ENREGISTREMENT.CONFIGURATION");
 		String detail = getString("ENREGISTREMENT.CONFIGURATION");
 		Severity severity = FacesMessage.SEVERITY_INFO;
@@ -2274,12 +2287,19 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("isDefaultCodeSizeAnnee----->SoSo");		
 		this.defaultCodeSize = getDomainService().getCodeSizeDefaut();
-		Parametres param = getDomainService().getParametreByCode("choixDuVoeuParComposante");
-		if(param!=null)
-			getSessionController().setChoixDuVoeuParComposante(param.isBool());
+		
+		Parametres choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
+		if(choixDuVoeuParComposante!=null)
+			getSessionController().setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
 		else
 			getSessionController().setChoixDuVoeuParComposante(true);
 
+		Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
+		if(maj_odf_auto!=null)
+			getSessionController().setMajOdfAuto(maj_odf_auto.isBool());
+		else
+			getSessionController().setMajOdfAuto(true);
+		
 		if (this.defaultCodeSize != null)
 		{
 			this.setDefaultCodeSizeAnnee(true);
