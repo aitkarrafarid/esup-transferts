@@ -18,7 +18,7 @@ public class ComparatorEtudiantRef implements Comparator<EtudiantRef> {
         this.sortOrder = sortOrder;
     }
 
-	@Override
+	//@Override
 	public int compare(EtudiantRef etu1, EtudiantRef etu2) {
         try {
             Object value1 = EtudiantRef.class.getField(this.sortField).get(etu1);
