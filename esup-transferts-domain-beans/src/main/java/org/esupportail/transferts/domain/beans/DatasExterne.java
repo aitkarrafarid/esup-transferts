@@ -27,7 +27,10 @@ import javax.persistence.TemporalType;
 		    query="SELECT datasExterne FROM DatasExterne datasExterne WHERE datasExterne.identifiant = :identifiant"),
 	@NamedQuery(
 		    name="getAllDatasExterneByIdentifiantAndNiveau",
-		    query="SELECT datasExterne FROM DatasExterne datasExterne WHERE datasExterne.identifiant = :identifiant AND datasExterne.niveau = :niveau")	    
+		    query="SELECT datasExterne FROM DatasExterne datasExterne WHERE datasExterne.identifiant = :identifiant AND datasExterne.niveau = :niveau"),
+	@NamedQuery(
+		    name="getAllDatasExterneByNiveau",
+		    query="SELECT datasExterne FROM DatasExterne datasExterne WHERE datasExterne.niveau = :niveau")		    
 })
 @Table(name = "DATAS_EXTERNE")
 public class DatasExterne implements Serializable {

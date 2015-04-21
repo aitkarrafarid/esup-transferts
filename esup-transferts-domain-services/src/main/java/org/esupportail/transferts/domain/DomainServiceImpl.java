@@ -687,4 +687,9 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	public List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source) {
 		return getDaoService().getAllTestUnitaireEtudiantRefBySource(source);
 	}
+
+	@Override
+	public List<DatasExterne> getAllDatasExterneByNiveau(Integer niveau) {
+		return getDaoService().getAllDatasExterneByNiveau(niveau);
+	}
 }

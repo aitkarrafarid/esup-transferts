@@ -10,32 +10,24 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
-import javax.print.attribute.standard.DateTimeAtCompleted;
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -45,7 +37,6 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.web.dataModel.SituationUniversitaireDataModel;
 import org.esupportail.transferts.domain.DomainServiceOpi;
-import org.esupportail.transferts.domain.DomainServiceScolarite;
 import org.esupportail.transferts.domain.beans.AccueilAnnee;
 import org.esupportail.transferts.domain.beans.AccueilDecision;
 import org.esupportail.transferts.domain.beans.AccueilResultat;
@@ -70,7 +61,6 @@ import org.esupportail.transferts.domain.beans.ResultatEtape;
 import org.esupportail.transferts.domain.beans.ResultatSession;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.TrBac;
-import org.esupportail.transferts.domain.beans.TrBlocageDTO;
 import org.esupportail.transferts.domain.beans.TrCommuneDTO;
 import org.esupportail.transferts.domain.beans.TrDepartementDTO;
 import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
@@ -78,12 +68,10 @@ import org.esupportail.transferts.domain.beans.TrInfosAdmEtu;
 import org.esupportail.transferts.domain.beans.TrPaysDTO;
 import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
 import org.esupportail.transferts.domain.beans.TrSituationUniversitaire;
-import org.esupportail.transferts.domain.beans.Transferts;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.GestionDate;
 import org.esupportail.transferts.utils.RneModuleBase36;
 import org.esupportail.transferts.web.dataModel.CodeSizeDataModel;
-//import org.esupportail.transferts.web.dataModel.LazyListeTransfertDepartDataModel;
 import org.esupportail.transferts.web.dataModel.ListeTransfertDepartDataModel;
 import org.esupportail.transferts.web.dataModel.OdfDataModel;
 import org.esupportail.transferts.web.dataModel.TransfertDataModelOpi;
@@ -92,16 +80,11 @@ import org.esupportail.transferts.web.comparator.ComparatorSelectItem;
 import org.esupportail.transferts.web.utils.FileGeneratorService;
 import org.esupportail.transferts.web.utils.MyAuthenticator;
 import org.esupportail.transferts.web.utils.PDFUtils;
-import org.hsqldb.lib.HashSet;
 import org.springframework.util.Assert;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.ToggleEvent;
-import org.primefaces.model.tagcloud.TagCloudItem;
 
-import artois.domain.DomainService;
-import artois.domain.beans.Odf;
-import artois.domain.beans.Opi;
+import artois.domain.DomainServiceecandidat;
+import artois.domain.beans.Candidature;
 
 public class AdministrationController extends AbstractContextAwareController {
 
@@ -573,15 +556,6 @@ public class AdministrationController extends AbstractContextAwareController {
 		getFileGeneratorService().opiFile(listeIndOpi, typeExport, fileName);
 	}	
 
-	public void exportDemandeTransfertsAccueil2()
-	{
-		if (logger.isDebugEnabled()) {
-			logger.debug("exportDemandeTransfertsAccueil()");
-		}
-		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(this.getSessionController().getCurrentAnnee(), "A");
-		System.out.println("lEtu2.size()===>"+lEtu2.size()+"<===");
-	}
-
 	public void exportDemandeTransfertsAccueil()
 	{
 		if (logger.isDebugEnabled()) {
@@ -607,7 +581,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			e.printStackTrace();
 		}	
 
-		//		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(this.getSessionController().getCurrentAnnee(), source);
 		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(this.getSessionController().getCurrentAnnee(), "A");
 
 		if(lEtu2!=null)
@@ -626,15 +599,78 @@ public class AdministrationController extends AbstractContextAwareController {
 				}
 			}
 		}
-		List<EtudiantRefExcel> listeEtudiantRefExcel = new ArrayList<EtudiantRefExcel>();
-		List<AccueilAnnee> lAA = getDomainService().getListeAccueilAnnee();
 
+		//List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(etu.getNumeroIne(), 2);
+		/*************************************************************************************/
+		List<DatasExterne> listeDatasEterneNiveau2=null;
+
+		if(getSessionController().isUseCandidatures())
+		{
+			String urlCandidatures = getSessionController().getWsCandidaturesWsdl();
+			String user=getSessionController().getWsCandidaturesUser();
+			String pwd=getSessionController().getWsCandidaturesPwd();
+
+			Authenticator.setDefault(new MyAuthenticator(user, pwd));
+
+			if (this.testUrl(urlCandidatures)) 
+			{
+				try {
+					String address = urlCandidatures;
+					JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
+					factoryBean.setServiceClass(DomainServiceecandidat.class);
+					factoryBean.setAddress(address);
+					DomainServiceecandidat monService = (DomainServiceecandidat) factoryBean.create();
+
+					if (logger.isDebugEnabled()) 
+						logger.debug("monService-->"+monService);
+
+					List<Candidature> lCandidatures = monService.getAllCandidature();
+					if(lCandidatures!=null)
+					{
+						listeDatasEterneNiveau2 = new ArrayList<DatasExterne>();
+						for(Candidature c : lCandidatures)
+						{
+							System.out.println("candidatures===>"+c.getIdentifiant()+"<===");
+							DatasExterne de = new DatasExterne();
+							de.setCode(c.getSource());
+							de.setIdentifiant(c.getIdentifiant());
+							de.setNiveau(c.getCodeNiveauInterdit());
+							de.setLibInterdit(c.getLibInterdit());
+							listeDatasEterneNiveau2.add(de);
+						}
+					}
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+					String summary = getString("ERREUR.ACCES_WS-CANDIDATURES");
+					String detail = getString("ERREUR.ACCES_WS-CANDIDATURES");
+					Severity severity = FacesMessage.SEVERITY_ERROR;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+				}
+			} 
+			else 
+			{
+				int codeErr = this.codeErreurHttp(urlCandidatures);
+				String summary = "Erreur d'acces au Webservice candidatures : "+codeErr;
+				String detail = "Erreur d'acces au Webservice candidatures : "+codeErr;
+				Severity severity = FacesMessage.SEVERITY_ERROR;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+			}			
+		}
+		else
+		{
+			listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByNiveau(2);
+		}
+		/*************************************************************************************/
+		
+		List<EtudiantRefExcel> listeEtudiantRefExcel = new ArrayList<EtudiantRefExcel>();
+		List<AccueilAnnee> lAA = getDomainService().getListeAccueilAnnee();		
+		
 		for (EtudiantRef etu : lEtu) 
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("etu.getNumeroEtudiant()===>"+etu.getNumeroEtudiant()+"<===");	
-
-			//			etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(etu.getNumeroEtudiant(), etu.getAnnee(), etu.getSource());
 
 			AdresseRef adresse = new AdresseRef();
 			adresse.setLibAd1(etu.getAdresse().getLibAd1());
@@ -644,12 +680,16 @@ public class AdministrationController extends AbstractContextAwareController {
 
 			/*Debut d'initialisation de la colonne candidature à partir des donnees de la table dataExterne (niveau 2)*/
 			String txtDataExterneNiveau2 = "";
-
-			List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(etu.getNumeroIne(), 2);
-
+			
 			if(listeDatasEterneNiveau2!=null)
 				for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
-					txtDataExterneNiveau2 += " - "+lInterditNiveau2.getLibInterdit();
+				{	
+					if(etu.getNumeroIne().equals(lInterditNiveau2.getIdentifiant()))
+					{
+						System.out.println("===>"+etu.getNumeroIne()+"-----"+lInterditNiveau2.getLibInterdit()+"<===");
+						txtDataExterneNiveau2 += " - "+lInterditNiveau2.getLibInterdit();
+					}
+				}
 
 			if (logger.isDebugEnabled())
 				logger.debug("Liste des interdits de niveau 2-->"+txtDataExterneNiveau2);			
@@ -1058,8 +1098,8 @@ public class AdministrationController extends AbstractContextAwareController {
 					for(DatasExterne lInterditNiveau3 : listeDatasEterneNiveau3)
 						this.texteInterditNiveau3 = lInterditNiveau3.getLibInterdit();
 
-					if (logger.isDebugEnabled())
-						logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
+//					if (logger.isDebugEnabled())
+//						logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
 
 					if(listeDatasEterneNiveau3!=null && !listeDatasEterneNiveau3.isEmpty())
 					{
@@ -1304,7 +1344,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		else
 			getSessionController().setChoixDuVoeuParComposante(true);
-		
+
 		Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
 		if(maj_odf_auto!=null)
 		{
@@ -1314,7 +1354,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		else
 			getSessionController().setMajOdfAuto(true);
-		
+
 		String summary = getString("ENREGISTREMENT.CONFIGURATION");
 		String detail = getString("ENREGISTREMENT.CONFIGURATION");
 		Severity severity = FacesMessage.SEVERITY_INFO;
@@ -1513,18 +1553,77 @@ public class AdministrationController extends AbstractContextAwareController {
 
 		if (this.currentDemandeTransferts != null) 
 		{
-
 			this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource());
-
 			setTexteInterditNiveau2("");
 			setTexteInterditNiveau3("");
+			
+			List<DatasExterne> listeDatasEterneNiveau2=null;
 
-			List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 2);
+			if(getSessionController().isUseCandidatures())
+			{
+				String urlCandidatures = getSessionController().getWsCandidaturesWsdl();
+				String user=getSessionController().getWsCandidaturesUser();
+				String pwd=getSessionController().getWsCandidaturesPwd();
+
+				Authenticator.setDefault(new MyAuthenticator(user, pwd));
+
+				if (this.testUrl(urlCandidatures)) 
+				{
+					try {
+						String address = urlCandidatures;
+						JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
+						factoryBean.setServiceClass(DomainServiceecandidat.class);
+						factoryBean.setAddress(address);
+						DomainServiceecandidat monService = (DomainServiceecandidat) factoryBean.create();
+
+						if (logger.isDebugEnabled()) 
+							logger.debug("monService-->"+monService);
+
+						List<Candidature> lCandidatures = monService.getAllCandidatureByIne(this.currentDemandeTransferts.getNumeroIne());
+						if(lCandidatures!=null)
+						{
+							listeDatasEterneNiveau2 = new ArrayList<DatasExterne>();
+							for(Candidature c : lCandidatures)
+							{
+								System.out.println("candidatures===>"+c.getIdentifiant()+"<===");
+								DatasExterne de = new DatasExterne();
+								de.setCode(c.getSource());
+								de.setIdentifiant(c.getIdentifiant());
+								de.setNiveau(c.getCodeNiveauInterdit());
+								de.setLibInterdit(c.getLibInterdit());
+								listeDatasEterneNiveau2.add(de);
+							}
+						}
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+						String summary = getString("ERREUR.ACCES_WS-CANDIDATURES");
+						String detail = getString("ERREUR.ACCES_WS-CANDIDATURES");
+						Severity severity = FacesMessage.SEVERITY_ERROR;
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+						return null;
+					}
+				} 
+				else 
+				{
+					int codeErr = this.codeErreurHttp(urlCandidatures);
+					String summary = "Erreur d'acces au Webservice candidatures : "+codeErr;
+					String detail = "Erreur d'acces au Webservice candidatures : "+codeErr;
+					Severity severity = FacesMessage.SEVERITY_ERROR;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+					return null;
+				}			
+			}
+			else
+			{
+				listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 2);
+			}
 
 			if(listeDatasEterneNiveau2 !=null)
 				for(DatasExterne lInterditNiveau2 : listeDatasEterneNiveau2)
 					this.texteInterditNiveau2 += "<BR /> - "+lInterditNiveau2.getLibInterdit();
-
+			
 			if (logger.isDebugEnabled())
 				logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
 
@@ -1573,11 +1672,8 @@ public class AdministrationController extends AbstractContextAwareController {
 			currentAccueilResultat = new AccueilResultat();			
 			currentSituationUniv = new SituationUniversitaire();
 
-			System.out.println("bbbbb");
-
 			if(this.currentDemandeTransferts.getTransferts().getFichier()==null)
 			{
-				System.out.println("ccccc");
 				if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource())!=null)
 				{
 					this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource()));
@@ -1587,16 +1683,12 @@ public class AdministrationController extends AbstractContextAwareController {
 				{
 					this.currentDemandeTransferts.getTransferts().setFichier(null);
 					setSelectedmd5(null);
-					//				this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
 				}
-				//			this.currentDemandeTransferts.getTransferts().getFichier().getMd5();
-				System.out.println("ddddd===>"+this.currentDemandeTransferts.getTransferts().getFichier());
 			}
 			else
 			{
 				setSelectedmd5(this.currentDemandeTransferts.getTransferts().getFichier().getMd5());
 			}
-			System.out.println("eeeee===>"+this.currentDemandeTransferts.getTransferts().getFichier());
 
 			List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(this.currentDemandeTransferts.getAccueil().getCodeBac());
 			if (logger.isDebugEnabled())
@@ -2287,7 +2379,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("isDefaultCodeSizeAnnee----->SoSo");		
 		this.defaultCodeSize = getDomainService().getCodeSizeDefaut();
-		
+
 		Parametres choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
 		if(choixDuVoeuParComposante!=null)
 			getSessionController().setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
@@ -2299,7 +2391,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			getSessionController().setMajOdfAuto(maj_odf_auto.isBool());
 		else
 			getSessionController().setMajOdfAuto(true);
-		
+
 		if (this.defaultCodeSize != null)
 		{
 			this.setDefaultCodeSizeAnnee(true);
@@ -4618,9 +4710,6 @@ public class AdministrationController extends AbstractContextAwareController {
 					opi.getVoeux().setLibNomPatIndOpi(this.currentDemandeTransferts.getNomPatronymique());
 					opi.getVoeux().setLibPr1IndOpi(this.currentDemandeTransferts.getPrenom1());
 
-					//					if (libEtape != null && libEtape.getTemoinEnvoiVoeuOpi().equals("O")) 
-					//					{
-					/* Debut informations obligatoires sur les voeux */
 					opi.getVoeux().setCodDip(currentDemandeTransferts.getTransferts().getOdf().getCodeDiplome());
 					opi.getVoeux().setCodVrsVdi(currentDemandeTransferts.getTransferts().getOdf().getCodeVersionDiplome());
 					opi.getVoeux().setCodCge(currentDemandeTransferts.getTransferts().getOdf().getCodeCentreGestion());
@@ -4629,18 +4718,6 @@ public class AdministrationController extends AbstractContextAwareController {
 					opi.getVoeux().setCodDemDos("C");
 					opi.getVoeux().setNumCls("1");
 					opi.getVoeux().setCodCmp(currentDemandeTransferts.getTransferts().getOdf().getCodeComposante());
-					/* Fin informations obligatoires sur les voeux */
-					//					} else {
-					//						opi.getVoeux().setNumeroOpi(cleOpi);
-					//						opi.getVoeux().setCodDip(" ");
-					//						opi.getVoeux().setCodVrsVdi(null);
-					//						opi.getVoeux().setCodCge(" ");
-					//						opi.getVoeux().setCodEtp(" ");
-					//						opi.getVoeux().setCodVrsVet(" ");
-					//						opi.getVoeux().setCodDemDos(" ");
-					//						opi.getVoeux().setNumCls(" ");
-					//						opi.getVoeux().setCodCmp(" ");
-					//					}
 
 					if (logger.isDebugEnabled()) 
 					{
@@ -4682,11 +4759,14 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	private boolean testUrl(String host) {
 		try {
+			System.out.println("===>aaaaa<===");
 			HttpURLConnection conn = (HttpURLConnection) new URL(host).openConnection();
 			conn.setConnectTimeout(this.getTimeOutConnexionWs());
 			conn.connect();
+			System.out.println("===>"+conn.getResponseCode()+"<===");
 			return conn.getResponseCode() == HttpURLConnection.HTTP_OK;
 		} catch (MalformedURLException e) {
+			System.out.println("===>bbbbb<===");
 			if (logger.isDebugEnabled()) {
 				logger.debug("MalformedURLException");
 				logger.debug("host : " + host);
@@ -4694,6 +4774,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
+			System.out.println("===>ccccc<===");
 			if (logger.isDebugEnabled()) {
 				logger.debug("IOException");
 				logger.debug("host : " + host);
@@ -4703,6 +4784,33 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 	}	
 
+	private int codeErreurHttp(String host) {
+		try {
+			System.out.println("===>aaaaa<===");
+			HttpURLConnection conn = (HttpURLConnection) new URL(host).openConnection();
+			conn.setConnectTimeout(this.getTimeOutConnexionWs());
+			conn.connect();
+			System.out.println("===>"+conn.getResponseCode()+"<===");
+			return conn.getResponseCode();
+		} catch (MalformedURLException e) {
+			System.out.println("===>bbbbb<===");
+			if (logger.isDebugEnabled()) {
+				logger.debug("MalformedURLException");
+				logger.debug("host : " + host);
+			}
+			e.printStackTrace();
+			return 0;
+		} catch (IOException e) {
+			System.out.println("===>ccccc<===");
+			if (logger.isDebugEnabled()) {
+				logger.debug("IOException");
+				logger.debug("host : " + host);
+			}
+			e.printStackTrace();
+			return 0;
+		}
+	}	
+	
 	public DomainServiceOpi getDomainServiceWSOpiExt() {
 		return domainServiceWSOpiExt;
 	}
@@ -5066,15 +5174,8 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("getListeComposantes");
 
 		listeComposantes = new ArrayList<SelectItem>();
-		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		Map<String, String> listeComposantesDTO=null;
-		//		if(getSessionController().isChoixDuVeuParComposante())
-		//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
-		//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndDepartOuArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getSource());
 		listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
-		//		else
-		//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled()) {
@@ -5264,22 +5365,6 @@ public class AdministrationController extends AbstractContextAwareController {
 	public void setAideTypeTransfert(String aideTypeTransfert) {
 		this.aideTypeTransfert = aideTypeTransfert;
 	}
-
-	//	public boolean isVap() {
-	//		return vap;
-	//	}
-	//
-	//	public void setVap(boolean vap) {
-	//		this.vap = vap;
-	//	}
-
-	//	public DatasExterne getDatasEterneVap() {
-	//		return datasEterneVap;
-	//	}
-	//
-	//	public void setDatasEterneVap(DatasExterne datasEterneVap) {
-	//		this.datasEterneVap = datasEterneVap;
-	//	}
 
 	public IndOpi[] getSelectedOpis() {
 		return selectedOpis;

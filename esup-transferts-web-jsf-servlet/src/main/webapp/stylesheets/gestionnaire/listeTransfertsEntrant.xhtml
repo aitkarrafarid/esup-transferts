@@ -22,16 +22,7 @@
 		<h:form id="form"
 			rendered="#{administrationController.personnel and (administrationController.droitsDepart || sessionController.currentUser.admin)}">
 			<p:growl id="growl" />
-			<!-- 			<p:messages id="msgs" /> -->
 			<p:spacer height="20px" />
-			<!-- 				<p:dataTable var="opi" styleClass="datatable" -->
-			<!-- 					style="text-align:center;width:80%;" -->
-			<!-- 					filteredValue="#{administrationController.filteredEtudiantOpi}" -->
-			<!-- 					rowsPerPageTemplate="5,10,15,20,25,30,35,40,45,50" rows="10" -->
-			<!-- 					paginator="true" emptyMessage="Aucune demande de transfert entrant" -->
-			<!-- 					selection="#{administrationController.currentOpi}" -->
-			<!-- 					value="#{administrationController.allIndOpi}">				 -->
-
 			<p:dataTable var="opi" styleClass="datatable"
 				style="text-align:center;width:80%;"
 				filteredValue="#{administrationController.filteredEtudiantOpi}"
@@ -39,10 +30,6 @@
 				paginator="true" emptyMessage="Aucune demande de transfert entrant"
 				selection="#{administrationController.selectedOpis}"
 				rowSelectMode="add" value="#{administrationController.allIndOpi}">
-
-				<!-- 				<p:ajax event="rowSelect" update=":form:display" -->
-				<!-- 					oncomplete="carDialog.show()" /> -->
-
 				<f:facet name="header">  
             Liste des informations OPI's #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}
             <p:spacer width="20px" /> 
@@ -51,11 +38,8 @@
 						rendered="#{opi.source=='D'}" />
 				</f:facet>
 
-				<!-- 				<p:column selectionMode="multiple" style="width:18px" /> -->
 				<p:column selectionMode="multiple" style="width:18px" />
-				<!-- 				<p:column style="width:18px" rendered="#{opi.synchro!=0}" /> -->
-
-				<p:column headerText="Etat OPI" style="width:10%;" sortBy="synchro"
+				<p:column headerText="Etat OPI" style="width:10%;" sortBy="#{opi.synchro}"
 					id="nb">
 					<h:graphicImage alt="pasdesynchro" title="Pas de synchro"
 						value="/media/images/player_pause.png"
@@ -70,49 +54,49 @@
 				</p:column>
 
 				<p:column headerText="Numéro Etudiant" style="width:10%;"
-					sortBy="codEtuLpa" filterBy="codEtuLpa" filterMatchMode="contains"
+					sortBy="#{opi.codEtuLpa}" filterBy="#{opi.codEtuLpa}" filterMatchMode="contains"
 					id="codEtu">
 					<h:outputText value="#{opi.codEtuLpa}" />
 				</p:column>
 
-				<p:column>
+				<p:column sortBy="#{opi.numeroOpi}" filterBy="#{opi.numeroOpi}" filterMatchMode="contains"
+					id="numeroOpi">
 					<f:facet name="header">  
                     Numéro OPI
             </f:facet>
 					<h:outputText value="#{opi.numeroOpi}" />
 				</p:column>
 
-				<p:column filterBy="libNomPatIndOpi" sortBy="libNomPatIndOpi">
+				<p:column filterBy="#{opi.libNomPatIndOpi}" sortBy="#{opi.libNomPatIndOpi}" filterMatchMode="contains">
 					<f:facet name="header">  
                     Nom  
             </f:facet>
 					<h:outputText value="#{opi.libNomPatIndOpi}" />
 				</p:column>
 
-				<p:column>
+				<p:column filterBy="#{opi.libPr1IndOpi}" sortBy="#{opi.libPr1IndOpi}" filterMatchMode="contains">
 					<f:facet name="header">  
                     Prénom   
             </f:facet>
 					<h:outputText value="#{opi.libPr1IndOpi}" />
 				</p:column>
 
-				<p:column>
+				<p:column filterBy="#{opi.dateNaiIndOpi}" sortBy="#{opi.dateNaiIndOpi}" filterMatchMode="contains">
 					<f:facet name="header">  
                     Date de naissance 
             </f:facet>
 					<h:outputText value="#{opi.dateNaiIndOpi}">
-						<!-- 							<f:converter converterId="XMLGregorianCalendarConverterDate" /> -->
 						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
 					</h:outputText>
 				</p:column>
-				<p:column filterBy="libEtabDepart" sortBy="libEtabDepart"
+				<p:column filterBy="#{opi.libEtabDepart}" sortBy="#{opi.libEtabDepart}" 
 					filterMatchMode="contains">
 					<f:facet name="header">  
                     Etablissement de départ 
             </f:facet>
 					<h:outputText value="#{opi.libEtabDepart}" />
 				</p:column>
-				<p:column sortBy="voeux.libEtp">
+				<p:column sortBy="#{opi.voeux.libEtp}" filterBy="#{opi.voeux.libEtp}" filterMatchMode="contains">
 					<f:facet name="header">  
                     Etape 
             </f:facet>

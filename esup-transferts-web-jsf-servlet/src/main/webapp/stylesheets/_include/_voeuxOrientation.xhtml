@@ -80,7 +80,7 @@
 				type="button" icon="ui-icon-help" />
 
 			<h:outputText value="* Département : " />
-			<p:selectOneMenu id="departements" filter="true"
+			<p:selectOneMenu id="departements" filter="true" filterMatchMode="contains" 
 				value="#{userController.currentEtudiant.transferts.dept}"
 				required="true" requiredMessage="#{msgs['ERREUR.DEPARTEMENT']}">
 				<f:selectItem itemLabel="== Choix ==" itemValue="" />
@@ -96,7 +96,7 @@
 
 			<h:outputText value="* Etablissement : "
 				rendered="#{!userController.deptVide}" />
-			<p:selectOneMenu id="etablissements"
+			<p:selectOneMenu id="etablissements" filter="true" filterMatchMode="contains" 
 				rendered="#{!userController.deptVide}"
 				value="#{userController.currentEtudiant.transferts.rne}"
 				required="true" requiredMessage="#{msgs['ERREUR.ETABLISSEMENT']}">

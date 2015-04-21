@@ -2,6 +2,7 @@ package org.esupportail.transferts.web.controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -89,14 +90,14 @@ public class ManagerController extends AbstractContextAwareController {
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("public String goToDetailDroits()");
-//		setFrom("D");
+		//		setFrom("D");
 		listeComposantesDetailsDroits=getPlayers().getTarget();
 		//listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
 		//this.addPersonnelComposante();
 		//listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());		
 		return "goToDetailDroits"; 		
 	}
-	
+
 	public void addValidationAutoByComposante()
 	{
 		if (logger.isDebugEnabled())
@@ -143,7 +144,7 @@ public class ManagerController extends AbstractContextAwareController {
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("public String goToValidationCGEAutoTransfertsDepart()");
-			
+
 		setFilteredCGE(null);
 		setFrom("D");
 		if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getFrom())!=null)
@@ -158,52 +159,52 @@ public class ManagerController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled())
 				logger.debug("################ listeComposantesDetailsDroits #################### --> "+listeComposantesDetailsDroits.size());			
 
-			List<PersonnelComposante> lPc = new ArrayList<PersonnelComposante>();
-			for(int i=0;i<listeComposantesDetailsDroits.size();i++)
+		List<PersonnelComposante> lPc = new ArrayList<PersonnelComposante>();
+		for(int i=0;i<listeComposantesDetailsDroits.size();i++)
+		{
+			if (logger.isDebugEnabled())
 			{
-				if (logger.isDebugEnabled())
-				{
-					logger.debug("##########################################################################################");
-					logger.debug("################ listeComposantesDetailsDroits.get(i).getUid() #################### --> "+listeComposantesDetailsDroits.get(i).getUid());
-					logger.debug("################ listeComposantesDetailsDroits.get(i).getCodeComposante() #################### --> "+listeComposantesDetailsDroits.get(i).getCodeComposante());
-					logger.debug("################ listeComposantesDetailsDroits.get(i).getLibelleComposante() #################### --> "+listeComposantesDetailsDroits.get(i).getLibelleComposante());
-					logger.debug("################ listeComposantesDetailsDroits.get(i).getSource() #################### --> "+listeComposantesDetailsDroits.get(i).getSource());
-					logger.debug("##########################################################################################");					
-				}
-
-				if(getFrom().equals("D"))
-					typePersonnel=0;
-				
-				PersonnelComposante p = new PersonnelComposante(listeComposantesDetailsDroits.get(i).getUid(), 
-																listeComposantesDetailsDroits.get(i).getCodeComposante(),
-																listeComposantesDetailsDroits.get(i).getSource(), 
-																getSessionController().getCurrentAnnee(),
-																listeComposantesDetailsDroits.get(i).getDisplayName(),
-																listeComposantesDetailsDroits.get(i).getLibelleComposante(),
-																typePersonnel,
-																listeComposantesDetailsDroits.get(i).getDroitSuppression(),
-																listeComposantesDetailsDroits.get(i).getDroitEditionPdf(),
-																listeComposantesDetailsDroits.get(i).getDroitAvis(),
-																listeComposantesDetailsDroits.get(i).getDroitDecision(),
-																listeComposantesDetailsDroits.get(i).getDroitDeverrouiller());
-
-				lPc.add(p);						
-				
-				
+				logger.debug("##########################################################################################");
+				logger.debug("################ listeComposantesDetailsDroits.get(i).getUid() #################### --> "+listeComposantesDetailsDroits.get(i).getUid());
+				logger.debug("################ listeComposantesDetailsDroits.get(i).getCodeComposante() #################### --> "+listeComposantesDetailsDroits.get(i).getCodeComposante());
+				logger.debug("################ listeComposantesDetailsDroits.get(i).getLibelleComposante() #################### --> "+listeComposantesDetailsDroits.get(i).getLibelleComposante());
+				logger.debug("################ listeComposantesDetailsDroits.get(i).getSource() #################### --> "+listeComposantesDetailsDroits.get(i).getSource());
+				logger.debug("##########################################################################################");					
 			}
-			getDomainService().addPersonnelComposante(personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee(), lPc);
-			listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());			
-			String summary = "L'affectation de vos composantes a bien ete prise en compte";
-			String detail = "L'affectation de vos composantes a bien ete prise en compte";
-			Severity severity=FacesMessage.SEVERITY_INFO;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));				
+
+			if(getFrom().equals("D"))
+				typePersonnel=0;
+
+			PersonnelComposante p = new PersonnelComposante(listeComposantesDetailsDroits.get(i).getUid(), 
+					listeComposantesDetailsDroits.get(i).getCodeComposante(),
+					listeComposantesDetailsDroits.get(i).getSource(), 
+					getSessionController().getCurrentAnnee(),
+					listeComposantesDetailsDroits.get(i).getDisplayName(),
+					listeComposantesDetailsDroits.get(i).getLibelleComposante(),
+					typePersonnel,
+					listeComposantesDetailsDroits.get(i).getDroitSuppression(),
+					listeComposantesDetailsDroits.get(i).getDroitEditionPdf(),
+					listeComposantesDetailsDroits.get(i).getDroitAvis(),
+					listeComposantesDetailsDroits.get(i).getDroitDecision(),
+					listeComposantesDetailsDroits.get(i).getDroitDeverrouiller());
+
+			lPc.add(p);						
+
+
+		}
+		getDomainService().addPersonnelComposante(personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee(), lPc);
+		listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());			
+		String summary = "L'affectation de vos composantes a bien ete prise en compte";
+		String detail = "L'affectation de vos composantes a bien ete prise en compte";
+		Severity severity=FacesMessage.SEVERITY_INFO;
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));				
 	}
 
 	public void addPersonnelComposanteWithDetails()
 	{
 		if(logger.isDebugEnabled())
 			logger.debug("public void addPersonnelComposanteWithDetails()");	
-		
+
 		getDomainService().addPersonnelComposante(personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee(), listeComposantesDetailsDroits);
 		listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
 		String summary = "L'affectation de vos composantes a bien ete prise en compte";
@@ -211,7 +212,7 @@ public class ManagerController extends AbstractContextAwareController {
 		Severity severity=FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));				
 	}
-	
+
 	public void onTransfer(TransferEvent event) {  
 		StringBuilder builder = new StringBuilder();  
 		for(Object item : event.getItems()) {  
@@ -447,15 +448,21 @@ public class ManagerController extends AbstractContextAwareController {
 	}
 
 	public List<User> getUsers() {
-		Map<String, String> lpc = this.getPc();
-		if(lpc!=null)
+		//		users = new ArrayList<User>();
+		if(users==null || users.isEmpty())
 		{
-			for(String mapKey : lpc.keySet())
+			Map<String, String> lpc = new HashMap();
+			lpc = this.getPc();
+			if(lpc!=null)
 			{
-				User u = new User();
-				u.setLogin(mapKey);
-				u.setDisplayName(lpc.get(mapKey));
-				users.add(u);			
+				for(String mapKey : lpc.keySet())
+				{
+					System.out.println("===>"+mapKey+"<===");
+					User u = new User();
+					u.setLogin(mapKey);
+					u.setDisplayName(lpc.get(mapKey));
+					users.add(u);			
+				}
 			}
 		}	
 		return users;

@@ -33,8 +33,11 @@
 		<property name="regleGestionTE02" value="${regle.gestion.TE02}" />
 		<property name="nbJourAvantAlertSilenceVautAccord" value="${nb.jour.avant.alert.silence.vaut.accord}" />
 		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"	value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
-		<!-- <property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}" 
-			/> -->
+		<!-- <property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}"/> --> 
+		<property name="useCandidatures" value="${use.candidatures}" />
+	    <property name="wsCandidaturesWsdl" value="${ws.candidatures.wsdl}" />
+        <property name="wsCandidaturesUser" value="${ws.candidatures.user}" />
+        <property name="wsCandidaturesPwd" value="${ws.candidatures.pwd}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"

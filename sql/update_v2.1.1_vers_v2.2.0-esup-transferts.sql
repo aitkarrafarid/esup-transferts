@@ -12,6 +12,11 @@ update wspub set mail_technique='a.definir@monmail.fr';
 Insert into PARAMETRES
    (CODE, ETAT, COMMENTAIRE)
  Values
+   ('choixDuVoeuParComposante', 1, 'Choix du voeu par composante si true ou diplome si false');
+
+Insert into PARAMETRES
+   (CODE, ETAT, COMMENTAIRE)
+ Values
    ('maj_odf_auto', 0, 'Mise à jour automatique de l''offre de formation par rapport au scheduller');
 
 COMMIT;

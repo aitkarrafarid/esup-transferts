@@ -280,4 +280,6 @@ public interface DomainService extends Serializable {
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source);
 
 	public List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source);
+
+	public List<DatasExterne> getAllDatasExterneByNiveau(Integer niveau);
 }

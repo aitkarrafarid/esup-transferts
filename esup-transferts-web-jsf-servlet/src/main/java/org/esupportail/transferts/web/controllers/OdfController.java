@@ -21,8 +21,8 @@ import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.web.dataModel.OdfDataModel;
 import org.esupportail.transferts.web.utils.FileGeneratorService;
 
-import artois.domain.DomainService;
-import artois.domain.beans.Odf;
+//import artois.domain.DomainService;
+//import artois.domain.beans.Odf;
 
 public class OdfController extends AbstractContextAwareController {
 
@@ -37,7 +37,7 @@ public class OdfController extends AbstractContextAwareController {
 	private List<OffreDeFormationsDTO> odfs;
 	private OffreDeFormationsDTO[] selectedOdfs; 
 	private OdfDataModel odfDataModel;
-	private DomainService domainServiceOdf;
+//	private DomainService domainServiceOdf;
 	private List<String> listFormationsEnDoublons;
 	private FileGeneratorService fileGeneratorService;
 	private List<OffreDeFormationsDTO> filteredODF;  
@@ -500,13 +500,13 @@ public class OdfController extends AbstractContextAwareController {
 		this.odfDataModel = odfDataModel;
 	}
 
-	public DomainService getDomainServiceOdf() {
-		return domainServiceOdf;
-	}
-
-	public void setDomainServiceOdf(DomainService domainServiceOdf) {
-		this.domainServiceOdf = domainServiceOdf;
-	}
+//	public DomainService getDomainServiceOdf() {
+//		return domainServiceOdf;
+//	}
+//
+//	public void setDomainServiceOdf(DomainService domainServiceOdf) {
+//		this.domainServiceOdf = domainServiceOdf;
+//	}
 
 	public List<String> getListFormationsEnDoublons() {
 		return listFormationsEnDoublons;

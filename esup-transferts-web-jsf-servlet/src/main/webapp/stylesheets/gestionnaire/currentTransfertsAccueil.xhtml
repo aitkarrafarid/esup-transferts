@@ -360,7 +360,7 @@
 										value="* Département de l'université de départ : " />
 								</p:column>
 								<p:column style="width:65%">
-									<p:selectOneMenu id="departements" filter="true"
+									<p:selectOneMenu id="departements" filter="true" filterMatchMode="contains"
 										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 										value="#{administrationController.currentDemandeTransferts.accueil.codeDepUnivDepart}"
 										required="true"
@@ -383,7 +383,7 @@
 									<h:outputText value="* Nom de l'université de départ : " />
 								</p:column>
 								<p:column style="width:65%">
-									<p:selectOneMenu id="etablissements"
+									<p:selectOneMenu id="etablissements" filter="true" filterMatchMode="contains"
 										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 										value="#{administrationController.currentDemandeTransferts.accueil.codeRneUnivDepart}"
 										required="true"

@@ -126,3 +126,15 @@
 #############################################################################################################
 - Externalisation de la mise à jour automatique de l'ODF par le sheduller
 - Mise à jour des fichiers sql nomenclature et update2.2.0
+#############################################################################################################
+- Suppression de ws-si-scol qui n'est plus utilsé
+#############################################################################################################
+- Correction d'un BUG sur la visualisation de l'ODF coté gestionnaire
+#############################################################################################################
+- Correction du timeout de session
+#############################################################################################################
+- Ajout des sortBy et filterBy dans le datatable des OPI's
+- Ajout d'un filter="true" filterMatchMode="contains" dans certain selectOneMenu afin d'optimiser la recherche d'un département ou d'un établissement lors de la saisie d'un voeu d'orientation
+- Ajout de l'option synchrone au travers d'un webService pour les VAP
+- Ajout de la nomenclature "choixDuVoeuParComposante" dans le scrip sql d'update update_v2.1.1_vers_v2.2.0-esup-transferts.sql
+- Correction d'un BUG (doublons) sur la liste des utilisateurs (au niveau des droits)

@@ -121,30 +121,6 @@
 		</dependency>
 		<dependency>
 			<groupId>local</groupId>
-			<artifactId>ws-odf-domain-services</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-si-scol-domain-services-1.0.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>local</groupId>
-			<artifactId>ws-odf-domain-beans</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-si-scol-domain-beans-1.0.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>local</groupId>
-			<artifactId>ws-odf-dao</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-si-scol-dao-1.0.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>local</groupId>
 			<artifactId>rennes1-core</artifactId>
 			<version>0.2.4</version>
 			<scope>system</scope>
@@ -168,6 +144,22 @@
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/rennes1-export-0.4.3.jar
 			</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>local</groupId>
+			<artifactId>ws-mds-beans</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-mds-domain-beans-1.0.jar	
+			</systemPath>
+		</dependency>	
+		<dependency>
+			<groupId>local</groupId>
+			<artifactId>ws-mds-ws</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-mds-domain-services-1.0.jar
+			</systemPath>
+		</dependency>			
 		<dependency>
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>

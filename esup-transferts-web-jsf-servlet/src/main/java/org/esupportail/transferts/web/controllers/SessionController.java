@@ -64,6 +64,10 @@ public class SessionController extends AbstractDomainAwareBean {
 	private boolean majOdfAuto;
 	private Integer nbJourAvantAlertSilenceVautAccord;	
 	private Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
+	private boolean useCandidatures;
+	private String wsCandidaturesWsdl;
+	private String wsCandidaturesUser;
+	private String wsCandidaturesPwd;
 	private Logger logger = new LoggerImpl(getClass());
 	
 	/*
@@ -106,16 +110,23 @@ public class SessionController extends AbstractDomainAwareBean {
 				+ this.getClass().getName() + " can not be null");	
 		
 		Assert.notNull(this.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord, "property nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord of class " 
-				+ this.getClass().getName() + " can not be null");			
+				+ this.getClass().getName() + " can not be null");	
+		
+		Assert.notNull(this.useCandidatures, "property useCandidatures of class " 
+				+ this.getClass().getName() + " can not be null");	
+		
+		if(this.isUseCandidatures())
+		{
+			Assert.hasText(wsCandidaturesWsdl, "property wsCandidaturesWsdl of class "
+					+ this.getClass().getName() + " can not be null");	
+			
+			Assert.hasText(wsCandidaturesUser, "property wsCandidaturesUser of class "
+					+ this.getClass().getName() + " can not be null");	
+			
+			Assert.hasText(wsCandidaturesPwd, "property wsCandidaturesPwd of class "
+					+ this.getClass().getName() + " can not be null");	
+		}
 	}
-
-
-	/*
-	 ******************* CALLBACK ******************** */
-
-
-	/*
-	 ******************* METHODS ******************** */
 
 	/**
 	 * @return the current user, or null if guest.
@@ -403,5 +414,37 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setMajOdfAuto(boolean majOdfAuto) {
 		this.majOdfAuto = majOdfAuto;
+	}
+
+	public boolean isUseCandidatures() {
+		return useCandidatures;
+	}
+
+	public void setUseCandidatures(boolean useCandidatures) {
+		this.useCandidatures = useCandidatures;
+	}
+
+	public String getWsCandidaturesWsdl() {
+		return wsCandidaturesWsdl;
+	}
+
+	public void setWsCandidaturesWsdl(String wsCandidaturesWsdl) {
+		this.wsCandidaturesWsdl = wsCandidaturesWsdl;
+	}
+
+	public String getWsCandidaturesUser() {
+		return wsCandidaturesUser;
+	}
+
+	public void setWsCandidaturesUser(String wsCandidaturesUser) {
+		this.wsCandidaturesUser = wsCandidaturesUser;
+	}
+
+	public String getWsCandidaturesPwd() {
+		return wsCandidaturesPwd;
+	}
+
+	public void setWsCandidaturesPwd(String wsCandidaturesPwd) {
+		this.wsCandidaturesPwd = wsCandidaturesPwd;
 	}
 }

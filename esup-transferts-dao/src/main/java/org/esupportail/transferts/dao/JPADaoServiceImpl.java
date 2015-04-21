@@ -2091,4 +2091,23 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return null;
 		}
 	}
+
+	@Override
+	public List<DatasExterne> getAllDatasExterneByNiveau(Integer niveau) {
+		if (logger.isDebugEnabled())
+			logger.debug("public List<DatasExterne> getAllDatasExterneByNiveau===>"+niveau+"<===");
+		try{
+			Query q = entityManager.createNamedQuery("getAllDatasExterneByNiveau");
+			q.setParameter("niveau", niveau);
+			@SuppressWarnings("unchecked")
+			List<DatasExterne> ret = q.getResultList();
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
+		}
+		catch(NoResultException e){
+			return null;
+		}
+	}
 }
