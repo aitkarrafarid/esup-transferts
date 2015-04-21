@@ -39,7 +39,7 @@
 <!-- 			<p:graphicImage value="/media/images/ajaxloadingbar.gif" /> -->
 		</f:facet>
 	</p:ajaxStatus>
-	<p:ajaxStatus onstart="PF('statusDialog').show()"
+	<p:ajaxStatus onstart="PF('statusDialog').show()" onerror="PF('idleDialog').show()"
 		onsuccess="PF('statusDialog').hide()" />
 	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
 		 closable="false"
