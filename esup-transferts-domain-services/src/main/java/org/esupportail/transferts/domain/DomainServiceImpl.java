@@ -692,4 +692,14 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	public List<DatasExterne> getAllDatasExterneByNiveau(Integer niveau) {
 		return getDaoService().getAllDatasExterneByNiveau(niveau);
 	}
+
+	@Override
+	public List<IndOpi> getAllIndOpiByAnnee(Integer currentAnnee) {
+		return getDaoService().getAllIndOpiByAnnee(currentAnnee);
+	}
+
+	@Override
+	public void deleteOpi(IndOpi opi) {
+		getDaoService().deleteOpi(opi);
+	}
 }

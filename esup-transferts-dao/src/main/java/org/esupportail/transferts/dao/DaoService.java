@@ -283,4 +283,8 @@ public interface DaoService extends Serializable {
 	List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source);
 
 	List<DatasExterne> getAllDatasExterneByNiveau(Integer niveau);
+
+	List<IndOpi> getAllIndOpiByAnnee(Integer currentAnnee);
+
+	void deleteOpi(IndOpi opi);
 }

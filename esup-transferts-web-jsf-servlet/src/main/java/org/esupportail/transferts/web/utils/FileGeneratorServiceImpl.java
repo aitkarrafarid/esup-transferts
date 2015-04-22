@@ -206,24 +206,27 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 
 			String test="";
 			int nb=1;
-			for(int i=0;i<listeOpi.size();i++)
+			if (listeOpi != null && !listeOpi.isEmpty()) 
 			{
-				String chaine=listeOpi.get(i);
+				for(int i=0;i<listeOpi.size();i++)
+				{
+					String chaine=listeOpi.get(i);
 
-				if (logger.isDebugEnabled())
-					logger.debug("test.length() --> "+chaine);
-				if(i==0)
-				{
-					test += chaine;
+					if (logger.isDebugEnabled())
+						logger.debug("test.length() --> "+chaine);
+					if(i==0)
+					{
+						test += chaine;
+					}
+					else
+					{
+						test +="\n"+chaine;
+						nb++;
+					}
+					if (logger.isDebugEnabled()) {
+						logger.debug("test.length() --> "+chaine.length());
+					}				
 				}
-				else
-				{
-					test +="\n"+chaine;
-					nb++;
-				}
-				if (logger.isDebugEnabled()) {
-					logger.debug("test.length() --> "+chaine.length());
-				}				
 			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("test --> "+test);				

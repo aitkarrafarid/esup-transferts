@@ -282,4 +282,8 @@ public interface DomainService extends Serializable {
 	public List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source);
 
 	public List<DatasExterne> getAllDatasExterneByNiveau(Integer niveau);
+
+	public List<IndOpi> getAllIndOpiByAnnee(Integer currentAnnee);
+
+	public void deleteOpi(IndOpi opi);
 }

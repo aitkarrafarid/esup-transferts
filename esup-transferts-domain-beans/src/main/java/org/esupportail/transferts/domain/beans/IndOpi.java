@@ -34,6 +34,7 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "updateSynchroOpi", query = "UPDATE IndOpi i SET i.synchro=1 WHERE i.numeroOpi= :numeroOpi"),	
 		@NamedQuery(name = "allIndOpiBySource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee AND indOpi.source = :source"),
 		@NamedQuery(name = "allIndOpi", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee"),
+		@NamedQuery(name = "allIndOpiByAnnee", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee"),
 		@NamedQuery(name = "getIndOpiBySource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.numeroOpi = :numeroOpi AND indOpi.annee = :annee AND indOpi.source = :source"),
 		@NamedQuery(name = "getIndOpiExtractBySource", query = "SELECT DISTINCT RPAD (NVL(io.numeroOpi,' '), 10, ' ')"
 				+ "|| RPAD (' ',1,' ')"

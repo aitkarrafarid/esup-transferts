@@ -138,3 +138,9 @@
 - Ajout de l'option synchrone au travers d'un webService pour les VAP
 - Ajout de la nomenclature "choixDuVoeuParComposante" dans le scrip sql d'update update_v2.1.1_vers_v2.2.0-esup-transferts.sql
 - Correction d'un BUG (doublons) sur la liste des utilisateurs (au niveau des droits)
+#############################################################################################################
+- Correction de plusieurs nullPointerException dans les tests unitaire
+- Ajout de la possibilité de supprimer les opi's transferts par annee dans les tests unitaire
+#############################################################################################################
+- Correction d'un nullpointerexception lors de l'export des données opi's lorsqu'il n'y a pas de données
+- Correction d'un BUG suite à l'ajout d'une décision autre

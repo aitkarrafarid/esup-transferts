@@ -124,7 +124,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<IndOpi> getAllIndOpiBySource(Integer annee, String source) {
 		if (logger.isDebugEnabled())
-			logger.debug("public List<IndOpi> getAllIndOpiBySource(Integer annee, String source)-->"+annee+"-----"+source);		
+			logger.debug("public List<IndOpi> getAllIndOpiBySource(Integer annee, String source)===>"+annee+"-----"+source+"<===");		
 		try{		
 			Query q = entityManager.createNamedQuery("allIndOpiBySource");
 			//		Query q = entityManager.createNamedQuery("allIndOpi");
@@ -488,9 +488,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public void deleteDemandeTransfert(EtudiantRef demandeTransferts, Integer annee) 
 	{
-		if (logger.isDebugEnabled()){
+		if (logger.isDebugEnabled())
 			logger.debug("deleteDemandeTransfert(EtudiantRef demandeTransferts)");
-		}
 		try{
 			Query q = entityManager.createNamedQuery("deleteAvisByNumeroEtudiantAndAnnee");
 			q.setParameter("annee", annee);
@@ -2109,5 +2108,38 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		catch(NoResultException e){
 			return null;
 		}
+	}
+
+	@Override
+	public List<IndOpi> getAllIndOpiByAnnee(Integer currentAnnee) {
+		if (logger.isDebugEnabled())
+			logger.debug("public List<IndOpi> getAllIndOpiByAnnee(Integer annee, String source)===>"+currentAnnee+"<===");		
+		try{		
+			Query q = entityManager.createNamedQuery("allIndOpiByAnnee");
+			//		Query q = entityManager.createNamedQuery("allIndOpi");
+			q.setParameter("annee", currentAnnee);
+			@SuppressWarnings("unchecked")
+			List<IndOpi> ret = (List<IndOpi>)q.getResultList();
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
+		}
+		catch(NoResultException e){
+			return null;
+		}
+	}
+
+	@Override
+	public void deleteOpi(IndOpi opi) {
+		if (logger.isDebugEnabled())
+			logger.debug("===>public void deleteOpi(IndOpi opi)<===");
+		try{
+			IndOpi opiADelete = entityManager.find(IndOpi.class, opi.getNumeroOpi());
+			entityManager.remove(opiADelete);
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+		}	
 	}
 }

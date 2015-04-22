@@ -21,6 +21,7 @@ import org.esupportail.transferts.domain.beans.AccueilResultat;
 import org.esupportail.transferts.domain.beans.Avis;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.Fichier;
+import org.esupportail.transferts.domain.beans.IndOpi;
 import org.esupportail.transferts.domain.beans.InfosAccueil;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.ResultatEtape;
@@ -71,7 +72,7 @@ public class AdministrationControllerTest {
 
 	@Value("${rne.accueil}")
 	private String rneAccueil;
-	
+
 	@Value("${method.execute.total.depart.et.accueil}")
 	private boolean totalDemandeTransfertsDepartEtAccueil;
 
@@ -80,6 +81,9 @@ public class AdministrationControllerTest {
 
 	@Value("${method.execute.delete.demandes.transfert.accueil.by.currentAnnee}")
 	private boolean deleteDemandesTransfertAccueiltByCurrentAnneeTest;
+
+	@Value("${method.execute.delete.opi.by.currentAnnee}")
+	private boolean deleteOpiByCurrentAnnee;
 
 	/*
 	 * ajoutListeDemandesTransfertDepart
@@ -122,7 +126,9 @@ public class AdministrationControllerTest {
 		Assert.notNull(deleteDemandesTransfertDepartByCurrentAnneeTest, "property deleteDemandesTransfertDepartByCurrentAnneeTest of class " 
 				+ this.getClass().getName() + " can not be null");			
 		Assert.notNull(deleteDemandesTransfertAccueiltByCurrentAnneeTest, "property deleteDemandesTransfertAccueiltByCurrentAnneeTest of class " 
-				+ this.getClass().getName() + " can not be null");			
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(deleteOpiByCurrentAnnee, "property deleteOpiByCurrentAnnee of class " 
+				+ this.getClass().getName() + " can not be null");		
 		Assert.notNull(ajoutListeDemandesTransfertDepart, "property ajoutListeDemandesTransfertDepart of class " 
 				+ this.getClass().getName() + " can not be null");	
 		Assert.notNull(nombreMaxDeDemandesACreer, "property nombreMaxDeDemandesACreer of class " 
@@ -151,7 +157,7 @@ public class AdministrationControllerTest {
 		System.out.println("############################################################################################################################################");
 
 		//this.getCleIne(); 
-		
+
 		if(totalDemandeTransfertsDepartEtAccueil)
 			this.getTotalDemandeTransfertsTest(getCurrentAnnee());
 
@@ -161,12 +167,15 @@ public class AdministrationControllerTest {
 		if(deleteDemandesTransfertAccueiltByCurrentAnneeTest)
 			this.deleteAllDemandesTransfertAccueilByCurrentAnneeTest();		
 
+		if(deleteOpiByCurrentAnnee)
+			this.deleteOpiByCurrentAnnee();				
+
 		if(ajoutListeDemandesTransfertDepart)
 			this.addDemandeTransfertDepartTest(getNombreMaxDeDemandesACreer(), isEnvoiOpi(), fromTestUnitaireEtudiantRef);
 
 		if(totalDemandeTransfertsDepartEtAccueil)
 			this.getTotalDemandeTransfertsTest(getCurrentAnnee());
-		
+
 		List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), "D");
 	}	
 
@@ -175,7 +184,7 @@ public class AdministrationControllerTest {
 		System.out.println("===>public void getCleIne()<===");
 		System.out.println("Clé INE===>"+CheckNNE36.calculCLeIne("0DDG5R0001")+"<===");
 	}
-	
+
 	public String rand(int nb) {
 		String chars = "0123456789abcdefghijklmnopqrstuvwxyz";
 		StringBuilder res = new StringBuilder();
@@ -287,7 +296,7 @@ public class AdministrationControllerTest {
 
 					List<OffreDeFormationsDTO> lodfdto = getDomainService().getAllOffreDeFormationByAnneeAndRneAndAtifOuPas(myAnneeInt, this.getRneAccueil());
 					OffreDeFormationsDTO o = null;
-					
+
 					if(lodfdto==null)
 					{
 						System.out.println("etudiant.toString()===>" +etudiant.toString()+"<===");
@@ -492,19 +501,31 @@ public class AdministrationControllerTest {
 	//@Test
 	public void deleteAllDemandesTransfertDepartByCurrentAnneeTest()
 	{
-		System.out.println("===>public void deleteAllDemandesTransfertDepartByCurrentAnneeTest()<===");
+		System.out.println("===>public void deleteAllDemandesTransfertDepartByCurrentAnneeTest()"+getCurrentAnnee()+" ----- D<===");
 		List<EtudiantRef> lEtuDepart = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), "D");
-		for(EtudiantRef etuDepart : lEtuDepart)
-			getDomainService().deleteDemandeTransfert(etuDepart, getCurrentAnnee());
+		if(lEtuDepart!=null && !lEtuDepart.isEmpty())
+			for(EtudiantRef etuDepart : lEtuDepart)
+				getDomainService().deleteDemandeTransfert(etuDepart, getCurrentAnnee());
 	}
 
 	//@Test
 	public void deleteAllDemandesTransfertAccueilByCurrentAnneeTest()
 	{
-		System.out.println("===>public void deleteAllDemandesTransfertAccueilByCurrentAnneeTest()<===");
+		System.out.println("===>public void deleteAllDemandesTransfertAccueilByCurrentAnneeTest()"+getCurrentAnnee()+" ----- A<===");
 		List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), "A");
-		for(EtudiantRef etuAccueil : lEtuAccueil)
-			getDomainService().deleteDemandeTransfert(etuAccueil,getCurrentAnnee());
+		if(lEtuAccueil!=null && !lEtuAccueil.isEmpty())
+			for(EtudiantRef etuAccueil : lEtuAccueil)
+				getDomainService().deleteDemandeTransfert(etuAccueil,getCurrentAnnee());
+	}	
+
+	//@Test
+	public void deleteOpiByCurrentAnnee()
+	{
+		System.out.println("===>public void deleteOpiByCurrentAnnee()"+getCurrentAnnee()+"<===");
+		List<IndOpi> lOpis = getDomainService().getAllIndOpiByAnnee(getCurrentAnnee());
+		if(lOpis!=null && !lOpis.isEmpty())
+			for(IndOpi opi : lOpis)
+				getDomainService().deleteOpi(opi);
 	}	
 
 	private boolean testUrl(String host) {
@@ -645,5 +666,13 @@ public class AdministrationControllerTest {
 
 	public void setEnvoiOpi(boolean envoiOpi) {
 		this.envoiOpi = envoiOpi;
+	}
+
+	public boolean isDeleteOpiByCurrentAnnee() {
+		return deleteOpiByCurrentAnnee;
+	}
+
+	public void setDeleteOpiByCurrentAnnee(boolean deleteOpiByCurrentAnnee) {
+		this.deleteOpiByCurrentAnnee = deleteOpiByCurrentAnnee;
 	}
 }
