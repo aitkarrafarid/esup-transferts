@@ -30,6 +30,7 @@
 		<property name="htmlCssStyle" value="${html_css_style}" />
 		<property name="boutonDeconnexion" value="${bouton.deconnexion}" />	
 		<property name="editionPdfAccueilSansDecision" value="${editionPdfAccueilSansDecision}" />
+		        <property name="timezone" value="${timezone}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"

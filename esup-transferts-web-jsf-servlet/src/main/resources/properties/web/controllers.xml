@@ -38,6 +38,7 @@
 	    <property name="wsCandidaturesWsdl" value="${ws.candidatures.wsdl}" />
         <property name="wsCandidaturesUser" value="${ws.candidatures.user}" />
         <property name="wsCandidaturesPwd" value="${ws.candidatures.pwd}" />
+        <property name="timezone" value="${timezone}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"

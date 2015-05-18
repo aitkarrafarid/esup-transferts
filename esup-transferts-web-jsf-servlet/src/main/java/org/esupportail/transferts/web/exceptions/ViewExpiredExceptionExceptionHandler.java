@@ -46,7 +46,6 @@ ExceptionHandlerWrapper {
 			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
 			Throwable t = context.getException();
 			if (t instanceof ViewExpiredException) {
-				System.out.println("######### 11111 ###### ViewExpiredExceptionExceptionHandler ####### javax.faces.application.ViewExpiredException ##########################");
 				ViewExpiredException vee = (ViewExpiredException) t;
 				FacesContext fc = FacesContext.getCurrentInstance();
 				HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
@@ -69,17 +68,7 @@ ExceptionHandlerWrapper {
 
 	public void doRedirect(FacesContext fc, String redirectPage) throws FacesException{
 		ExternalContext ec = fc.getExternalContext();
-		System.out.println("######### 22222 ###### ViewExpiredExceptionExceptionHandler ####### javax.faces.application.ViewExpiredException ##########################");
-		
 		try {
-			// workaround for PrimeFaces
-			/*new DefaultRequestContext();
-			
-			if (ec.getRequestParameterMap().containsKey(Constants.PARTIAL_PROCESS_PARAM)
-					&& !ec.getRequestParameterMap().get(Constants.PARTIAL_PROCESS_PARAM).equals("@all")) {
-				fc.setViewRoot(new UIViewRoot());
-			}*/
-
 			// fix for renderer kit (Mojarra’s and PrimeFaces’s ajax redirect)
 			if (
 					(((DefaultRequestContext)RequestContext.getCurrentInstance()).isAjaxRequest()

@@ -230,7 +230,8 @@ public class AdministrationController extends AbstractContextAwareController {
 		String cle;
 		while( liste.hasMoreElements() ) {
 			cle = (String)liste.nextElement();
-			System.out.println( "-->"+cle + " = " + System.getProperty(cle) );
+			if (logger.isDebugEnabled())
+				logger.debug("===>"+cle + " = " + System.getProperty(cle)+"<===");	
 		} 
 	}	
 
@@ -624,7 +625,8 @@ public class AdministrationController extends AbstractContextAwareController {
 						listeDatasEterneNiveau2 = new ArrayList<DatasExterne>();
 						for(Candidature c : lCandidatures)
 						{
-							System.out.println("candidatures===>"+c.getIdentifiant()+"<===");
+							if (logger.isDebugEnabled())
+								logger.debug("candidatures===>"+c.getIdentifiant()+"<===");
 							DatasExterne de = new DatasExterne();
 							de.setCode(c.getSource());
 							de.setIdentifiant(c.getIdentifiant());
@@ -680,7 +682,8 @@ public class AdministrationController extends AbstractContextAwareController {
 				{	
 					if(etu.getNumeroIne().equals(lInterditNiveau2.getIdentifiant()))
 					{
-						System.out.println("===>"+etu.getNumeroIne()+"-----"+lInterditNiveau2.getLibInterdit()+"<===");
+						if (logger.isDebugEnabled())
+							logger.debug("===>"+etu.getNumeroIne()+"-----"+lInterditNiveau2.getLibInterdit()+"<===");
 						txtDataExterneNiveau2 += " - "+lInterditNiveau2.getLibInterdit();
 					}
 				}
@@ -1579,7 +1582,8 @@ public class AdministrationController extends AbstractContextAwareController {
 							listeDatasEterneNiveau2 = new ArrayList<DatasExterne>();
 							for(Candidature c : lCandidatures)
 							{
-								System.out.println("candidatures===>"+c.getIdentifiant()+"<===");
+								if (logger.isDebugEnabled())
+									logger.debug("candidatures===>"+c.getIdentifiant()+"<===");
 								DatasExterne de = new DatasExterne();
 								de.setCode(c.getSource());
 								de.setIdentifiant(c.getIdentifiant());
@@ -3482,7 +3486,6 @@ public class AdministrationController extends AbstractContextAwareController {
 
 			if(logger.isDebugEnabled()) 
 				logger.debug("lAd.size() -->"+lAd.size());
-			System.out.println("lAd.size()===>"+lAd.size()+"<===");
 
 			for(AccueilDecision ad : lAd)
 			{
@@ -3492,10 +3495,6 @@ public class AdministrationController extends AbstractContextAwareController {
 					logger.debug("1--ad.getId()===>"+ad.getId()+"<===");
 					logger.debug("1--ad.getAvis()===>"+ad.getAvis()+"<===");
 				}
-
-//				System.out.println("1--ad.getEtudiant().getNomPatronymique()===>"+ad.getEtudiant().getNomPatronymique()+"<===");
-//				System.out.println("1--ad.getId()===>"+ad.getId()+"<===");
-//				System.out.println("1--ad.getAvis()===>"+ad.getAvis()+"<===");
 
 				tableau[i] = ad.getId();
 				i++;
@@ -3520,10 +3519,6 @@ public class AdministrationController extends AbstractContextAwareController {
 					logger.debug("2--ad.getAvis()===>"+ad.getAvis()+"<===");
 				}	
 
-//				System.out.println("2--ad.getEtudiant().getNomPatronymique()===>"+ad.getEtudiant().getNomPatronymique()+"<===");
-//				System.out.println("2--ad.getId()===>"+ad.getId()+"<===");
-//				System.out.println("2--ad.getAvis()===>"+ad.getAvis()+"<===");
-
 				if(ad.getId()==id)
 				{
 					if(logger.isDebugEnabled()) 
@@ -3532,10 +3527,6 @@ public class AdministrationController extends AbstractContextAwareController {
 						logger.debug("3--ad.getId()===>"+ad.getId()+"<===");
 						logger.debug("3--ad.getAvis()===>"+ad.getAvis()+"<===");
 					}
-
-//					System.out.println("3--tableau[tableau.length-1]===>"+tableau[tableau.length-1]+"<===");
-//					System.out.println("3--ad.getId()===>"+ad.getId()+"<===");
-//					System.out.println("3--ad.getAvis()===>"+ad.getAvis()+"<===");
 
 					if(ad.getAvis().equals("A"))
 					{
@@ -3552,8 +3543,6 @@ public class AdministrationController extends AbstractContextAwareController {
 						decision="A";
 						libDecision="Autre";
 					}
-
-//					System.out.println("decision===>"+decision+"<===");
 				}
 			}
 
@@ -3561,10 +3550,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			{
 				if(logger.isDebugEnabled()) 
 					logger.debug("libDecision===>"+libDecision+"<===");
-				
-//				System.out.println("this.getListeAccueilDecision().get(0).getDecision()===>"+this.getListeAccueilDecision().get(0).getDecision()+"<===");
-//				System.out.println("this.getListeAccueilDecision().get((int) id).getDecision()===>"+this.getListeAccueilDecision().get((int) id).getDecision()+"<===");
-//				System.out.println("libDecision===>"+libDecision+"<===");
 			
 				this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
 				this.addDemandeTransfertsFromAvis(2);
@@ -4820,14 +4805,11 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	private boolean testUrl(String host) {
 		try {
-			System.out.println("===>aaaaa<===");
 			HttpURLConnection conn = (HttpURLConnection) new URL(host).openConnection();
 			conn.setConnectTimeout(this.getTimeOutConnexionWs());
 			conn.connect();
-			System.out.println("===>"+conn.getResponseCode()+"<===");
 			return conn.getResponseCode() == HttpURLConnection.HTTP_OK;
 		} catch (MalformedURLException e) {
-			System.out.println("===>bbbbb<===");
 			if (logger.isDebugEnabled()) {
 				logger.debug("MalformedURLException");
 				logger.debug("host : " + host);
@@ -4835,7 +4817,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			System.out.println("===>ccccc<===");
 			if (logger.isDebugEnabled()) {
 				logger.debug("IOException");
 				logger.debug("host : " + host);
@@ -4847,14 +4828,11 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	private int codeErreurHttp(String host) {
 		try {
-			System.out.println("===>aaaaa<===");
 			HttpURLConnection conn = (HttpURLConnection) new URL(host).openConnection();
 			conn.setConnectTimeout(this.getTimeOutConnexionWs());
 			conn.connect();
-			System.out.println("===>"+conn.getResponseCode()+"<===");
 			return conn.getResponseCode();
 		} catch (MalformedURLException e) {
-			System.out.println("===>bbbbb<===");
 			if (logger.isDebugEnabled()) {
 				logger.debug("MalformedURLException");
 				logger.debug("host : " + host);
@@ -4862,7 +4840,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			e.printStackTrace();
 			return 0;
 		} catch (IOException e) {
-			System.out.println("===>ccccc<===");
 			if (logger.isDebugEnabled()) {
 				logger.debug("IOException");
 				logger.debug("host : " + host);
@@ -4952,14 +4929,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 			for (IndOpi t : transfertDataModelOpi) 
 			{
-				//				t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
 				t.setLibEtabDepart(t.getEtabDepart());
-				//				if (t.getLibEtabDepart() == null || t.getLibEtabDepart().equals("")) 
-				//				{
-				//					System.out.println("aaaaa");
-				//					t.setLibEtabDepart(getDomainServiceScolarite().getEtablissementByRne(t.getEtabDepart()).getLibEtb());
-				//					getDomainService().updateLibelleVersionEtapeLocal(t);
-				//				}				
 
 				if (t.getVoeux().getLibelleVersionEtape() != null
 						&& !t.getVoeux().getLibelleVersionEtape().equals("")) 

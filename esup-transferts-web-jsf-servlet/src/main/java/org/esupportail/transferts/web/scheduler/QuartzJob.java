@@ -4,7 +4,6 @@ public class QuartzJob {
 	private BusinessManager businessManager;
 
 	public void execute(){
-//		System.out.println("In quartz job, I call the business manager") ;
 		businessManager.runAction();
 	}
  

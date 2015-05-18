@@ -27,20 +27,6 @@
 				</fo:flow>
 			</fo:page-sequence>
 
-			<!-- <fo:page-sequence master-reference="all"> -->
-			<!-- <fo:static-content flow-name="xsl-region-before"> -->
-			<!-- <xsl:call-template name="entete" /> -->
-			<!-- </fo:static-content> -->
-			<!-- <fo:flow flow-name="xsl-region-body"> -->
-			<!-- <fo:block> -->
-			<!-- <xsl:call-template name="miseEnPage" /> -->
-			<!-- </fo:block> -->
-			<!-- <fo:block> -->
-			<!-- <xsl:call-template name="exemplaireUA" /> -->
-			<!-- </fo:block> -->
-			<!-- </fo:flow> -->
-			<!-- </fo:page-sequence> -->
-
 			<fo:page-sequence master-reference="all">
 				<fo:static-content flow-name="xsl-region-before">
 					<xsl:call-template name="entete" />
@@ -72,8 +58,6 @@
 		</fo:root>
 	</xsl:template>
 
-
-
 	<xsl:template name="entete">
 		<fo:block>
 			<fo:external-graphic src="logo_couleur_moyen.jpg"
@@ -91,10 +75,6 @@
 				<xsl:value-of select="EtudiantRefImp/universiteAccueil/libOffEtb" />
 			</fo:block>
 		</fo:block>
-
-		<!-- <fo:block margin-top="5pt" text-align="center" font-size="20pt"> -->
-		<!-- Demande de transfert départ -->
-		<!-- </fo:block> -->
 
 		<fo:block padding-top="5pt" text-align="left" font-size="8pt">
 			<fo:block>
@@ -233,9 +213,6 @@
 		</fo:block>
 
 		<fo:block padding-top="5pt">
-			<!-- -->
-			<!--<fo:table height="{$margehaute}px" background-image="url({$baseMediaPdf}/images/logo.gif)" 
-				background-repeat="no-repeat"> -->
 			<fo:table padding="3pt">
 				<fo:table-column />
 				<fo:table-body>
@@ -327,9 +304,6 @@
 		</fo:block>
 
 		<fo:block padding-top="5pt">
-			<!-- -->
-			<!--<fo:table height="{$margehaute}px" background-image="url({$baseMediaPdf}/images/logo.gif)" 
-				background-repeat="no-repeat"> -->
 			<fo:table border="0.018cm solid #000000" padding="3pt">
 				<fo:table-column column-width="19mm" />
 				<fo:table-column column-width="125mm" />
@@ -421,22 +395,6 @@
 				</fo:table-body>
 			</fo:table>
 		</fo:block>
-
-		<!-- <fo:block padding-top="5pt"> -->
-		<!-- <fo:table padding="3pt"> -->
-		<!-- <fo:table-column /> -->
-		<!-- <fo:table-body> -->
-		<!-- <fo:table-row> -->
-		<!-- <fo:table-cell border="1"> -->
-		<!-- <fo:block font-size="9pt"> -->
-		<!-- <xsl:text>- Cette demande de transfert nécessite-t-elle une déroogation 
-			pour une année supplémentaire ? ....................................</xsl:text> -->
-		<!-- </fo:block> -->
-		<!-- </fo:table-cell> -->
-		<!-- </fo:table-row> -->
-		<!-- </fo:table-body> -->
-		<!-- </fo:table> -->
-		<!-- </fo:block> -->
 
 		<fo:block padding-top="-5pt">
 			<fo:table padding="3pt">
@@ -542,7 +500,6 @@
 							</fo:block>
 							<fo:block font-size="9pt">
 								<xsl:text>&#160;du(de la) Président(e) de l'université d'accueil</xsl:text>
-								<!-- <xsl:value-of select="accueilDecision/avis" /> -->
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="0.018cm solid #000000">
@@ -592,6 +549,23 @@
 							</fo:block>
 							<fo:block font-size="9pt">
 								<xsl:text>&#160;DATE : </xsl:text>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell border="0.018cm solid #000000">
+							<fo:block font-size="7pt" font-style="italic" text-align="justify">
+								<xsl:text>Cette démarche n'est pas utile si vous êtes en possession de l'attestation de transfert "départ" signée de votre établissement d'origine. Les documents seront à joindre à votre dossier d'inscription administrative</xsl:text>
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.018cm solid #000000">
+							<fo:block font-size="9pt">
+								<xsl:text></xsl:text>
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.018cm solid #000000">
+							<fo:block font-size="9pt">
+								<xsl:text></xsl:text>
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>

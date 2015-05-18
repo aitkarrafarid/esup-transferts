@@ -44,17 +44,10 @@ public class PrimeFacesExtenssionExceptionHandler extends AjaxExceptionHandler {
 
                     final String outcome = "/stylesheets/welcome.xhtml?faces-redirect=true&expired=expired";
                     
-                    System.out.println("######### 11111 ###### PrimeFacesExtenssionExceptionHandler ####### javax.faces.application.ViewExpiredException ##########################");
-                    
                     final NavigationHandler navHandler = context.getApplication().getNavigationHandler();
                     navHandler.handleNavigation(context, null, outcome);
                     context.responseComplete();
-
-                } else {
-                    //exceptionUtils.send(exception);
-                	//getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-                	System.out.println("######### 22222 ##### PrimeFacesExtenssionExceptionHandler ######## javax.faces.application.ViewExpiredException ##########################");
-                }
+                } 
             }
         }
        

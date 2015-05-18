@@ -30,7 +30,7 @@
 				<h:outputText
 					value="#{userController.currentEtudiant.transferts.dateDemandeTransfert}">
 					<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-						timeZone="Europe/Paris" />
+						timeZone="#{sessionController.timezone}" />
 				</h:outputText>
 			</h:panelGrid>
 		</p:fieldset>
@@ -128,7 +128,7 @@
 					<h:outputText value="Date de naissance : " />
 					<h:outputText
 						value="#{userController.currentEtudiant.dateNaissance}">
-						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 					</h:outputText>
 				</h:panelGrid>
 

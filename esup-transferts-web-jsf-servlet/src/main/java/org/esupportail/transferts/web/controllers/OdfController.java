@@ -366,7 +366,6 @@ public class OdfController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("Recuperation de l'offre de formation a partir du WebService Scolarite");
 		List<OffreDeFormationsDTO> list = new ArrayList<OffreDeFormationsDTO>();
-		System.out.println("################### test1");
 		list = getDomainServiceScolarite().getOffreDeFormation(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		nbOdfs=0;
 		if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)
@@ -410,55 +409,7 @@ public class OdfController extends AbstractContextAwareController {
 		else
 			if (logger.isDebugEnabled())
 				logger.debug("##########################TEST NULL################################");
-
-
-		System.out.println("########################## test2");
 		return list;
-		//		}
-		//		else
-		//		{
-		//			if (logger.isDebugEnabled())
-		//				logger.debug("Recuperation de l'offre de formation a partir du WebService WS-ODF de l'universite d'Artois");
-		//			List<OffreDeFormationsDTO> list = new ArrayList<OffreDeFormationsDTO>();
-		//			//			List<Odf> lOdf =  getDomainServiceOdf().getAllOdfByAnnee(getSessionController().getCurrentAnnee().toString());
-		//			List<Odf> lOdf =  getSessionController().getRemoteServicesOdf().getAllOdfByAnnee(getSessionController().getCurrentAnnee().toString());
-		//			nbOdfs=lOdf.size();
-		//			if(!lOdf.isEmpty())
-		//			{
-		//				for(Odf odf : lOdf)
-		//				{
-		//					String niveau="";
-		//					if(odf.getNiveau()==1)
-		//						niveau=odf.getNiveau()+getString("INFOS.NIVEAU1");
-		//					else
-		//						niveau=odf.getNiveau()+getString("INFOS.NIVEAU2");
-		//					OffreDeFormationsDTO o = new OffreDeFormationsDTO(odf.getRne(), 
-		//							odf.getAnnee(), 
-		//							odf.getCodTypDip(), 
-		//							odf.getLibTypDip(), 
-		//							odf.getCodeDiplome(), 
-		//							odf.getCodeVersionDiplome(), 
-		//							odf.getCodeEtape(), 
-		//							odf.getCodeVersionEtape(), 
-		//							odf.getLibDiplome(), 
-		//							odf.getLibVersionEtape(), 
-		//							odf.getCodeComposante(), 
-		//							odf.getLibComposante(), 
-		//							odf.getCodeCentreGestion(), 
-		//							odf.getLibCentreGestion(),
-		//							odf.getNiveau(),
-		//							niveau,
-		//							"oui",
-		//							"oui");
-		//					list.add(o);
-		//				}
-		//			}
-		//			else
-		//			{
-		//				list=null;
-		//			}
-		//			return list;			
-		//		}
 	}
 
 	public void setOdfs(List<OffreDeFormationsDTO> odfs) {

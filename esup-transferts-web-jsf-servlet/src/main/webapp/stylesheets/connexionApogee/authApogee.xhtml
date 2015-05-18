@@ -45,13 +45,10 @@
 							<p:inputMask value="#{userController.dateNaissanceApogee}"
 								autocomplete="false" required="true" mask="99/99/9999"
 								requiredMessage="#{msgs['ERREUR.DATE_DE_NAISSANCE']}">
-								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="ECT" />
+								<f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 							</p:inputMask>
 							<h:outputText value="Format JJ/MM/AAAA" />
 						</h:panelGrid>
-						<!-- 						<p:commandButton value="Connexion" ajax="false" -->
-						<!-- 							update=":apogee:growl,:apogee:msgs,:apogee:msgs2" -->
-						<!-- 							action="#{userController.test}" /> -->
 						<p:commandButton value="Connexion" ajax="false"
 							update=":apogee:growl,:apogee:msgs,:apogee:msgs2"
 							action="#{userController.authApogee}" />

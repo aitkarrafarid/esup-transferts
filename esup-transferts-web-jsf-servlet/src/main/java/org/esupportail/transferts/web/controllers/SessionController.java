@@ -68,6 +68,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	private String wsCandidaturesWsdl;
 	private String wsCandidaturesUser;
 	private String wsCandidaturesPwd;
+	private String timezone;
 	private Logger logger = new LoggerImpl(getClass());
 	
 	/*
@@ -126,6 +127,9 @@ public class SessionController extends AbstractDomainAwareBean {
 			Assert.hasText(wsCandidaturesPwd, "property wsCandidaturesPwd of class "
 					+ this.getClass().getName() + " can not be null");	
 		}
+		
+		Assert.hasText(timezone, "property timezone of class "
+				+ this.getClass().getName() + " can not be null");	
 	}
 
 	/**
@@ -446,5 +450,13 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setWsCandidaturesPwd(String wsCandidaturesPwd) {
 		this.wsCandidaturesPwd = wsCandidaturesPwd;
+	}
+
+	public String getTimezone() {
+		return timezone;
+	}
+
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
 	}
 }

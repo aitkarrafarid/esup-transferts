@@ -1039,7 +1039,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				{
 					int compteur=max-1;
 					int diff=contratPedagogiqueResultatVdiVetDTO.length-max;
-					//					System.out.println("##################### ----->"+diff);
 					for(int i=contratPedagogiqueResultatVdiVetDTO.length-1;i>=0;i--)
 					{
 						if(diff<=i)

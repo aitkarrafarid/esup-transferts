@@ -34,7 +34,7 @@
 				<h:outputText
 					value="#{userController.currentEtudiant.transferts.dateDemandeTransfert}">
 					<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-						timeZone="Europe/Paris" />
+						timeZone="#{sessionController.timezone}" />
 				</h:outputText>
 			</h:panelGrid>
 		</p:fieldset>
@@ -43,25 +43,6 @@
 			rendered="#{userController.listeAccueilDecision!=null and userController.currentEtudiant.transferts.temoinTransfertValide==2}" />
 		<p:separator style="width:500px;height:10px"
 			rendered="#{userController.listeAccueilDecision!=null and userController.currentEtudiant.transferts.temoinTransfertValide==2}" />
-
-<!-- 		<p:fieldset id="decision" legend="Décision" -->
-<!-- 			rendered="#{userController.currentEtudiant.accueilDecision!=null and userController.currentEtudiant.transferts.temoinTransfertValide==2}" -->
-<!-- 			toggleable="true" toggleSpeed="200"> -->
-<!-- 			<p:panelGrid columns="2" columnClasses="column" cellpadding="5"> -->
-<!-- 				<h:outputText value="Date de saisie de la décision : " /> -->
-<!-- 				<h:outputText -->
-<!-- 					value="#{userController.currentEtudiant.accueilDecision.dateSaisie}"> -->
-<!-- 					<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss" -->
-<!-- 						timeZone="Europe/Paris" /> -->
-<!-- 				</h:outputText> -->
-<!-- 				<h:outputText value="Décision : " /> -->
-<!-- 				<h:outputText -->
-<!-- 					value="#{userController.currentEtudiant.accueilDecision.decision}" /> -->
-<!-- 			</p:panelGrid> -->
-<!-- 		</p:fieldset> -->
-
-<!-- 		<p:spacer height="10px" /> -->
-<!-- 		<p:separator style="width:500px;height:10px" /> -->
 
 		<p:fieldset id="listeAvisDetails" legend="liste des décisions"
 			rendered="#{userController.listeAccueilDecision!=null and not empty userController.listeAccueilDecision}"
@@ -76,7 +57,7 @@
             </f:facet>
 					<h:outputText value="#{decision.dateSaisie}">
 					<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-						timeZone="Europe/Paris" />					
+						timeZone="#{sessionController.timezone}" />					
 					</h:outputText>
 				</p:column>
 
@@ -124,7 +105,7 @@
 				<h:outputText value="Date de naissance : " />
 				<h:outputText
 					value="#{userController.currentEtudiant.dateNaissance}">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 				</h:outputText>
 			</h:panelGrid>
 		</p:fieldset>

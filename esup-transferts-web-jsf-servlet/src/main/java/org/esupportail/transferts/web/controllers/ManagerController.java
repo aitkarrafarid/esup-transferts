@@ -457,7 +457,8 @@ public class ManagerController extends AbstractContextAwareController {
 			{
 				for(String mapKey : lpc.keySet())
 				{
-					System.out.println("===>"+mapKey+"<===");
+					if (logger.isDebugEnabled())
+						logger.debug("===>"+mapKey+"<===");
 					User u = new User();
 					u.setLogin(mapKey);
 					u.setDisplayName(lpc.get(mapKey));

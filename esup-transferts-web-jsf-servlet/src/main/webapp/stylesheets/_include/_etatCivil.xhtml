@@ -33,7 +33,7 @@
 				<h:outputText value="Date de naissance : " />
 				<h:outputText
 					value="#{userController.currentEtudiant.dateNaissance}">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 				</h:outputText>
 			</h:panelGrid>
 			

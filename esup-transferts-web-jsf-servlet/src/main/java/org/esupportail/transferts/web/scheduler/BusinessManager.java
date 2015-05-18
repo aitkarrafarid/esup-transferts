@@ -60,7 +60,7 @@ public class BusinessManager {
 			majOdfAutoForScheduler=false;
 		else
 			majOdfAutoForScheduler=maj_odf_auto.isBool();
-		
+
 		if(this.getCurrentAnnee()!=null)
 		{
 			List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "A");
@@ -81,7 +81,8 @@ public class BusinessManager {
 			Date now = new Date();
 			String sujet="";
 			String body="";
-			System.out.println("lEtu.size()===>"+lEtu.size()+"<===");
+			if (logger.isDebugEnabled())
+				logger.debug("lEtu.size()===>"+lEtu.size()+"<===");
 
 			for(EtudiantRef etu : lEtu)
 			{
@@ -114,7 +115,8 @@ public class BusinessManager {
 					sujet = "[transferts départ] Silence vaut accord (délai de 6 semaines dépassés)";
 					body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR />\r\n";
 				}
-				System.out.println("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
+				if (logger.isDebugEnabled())
+					logger.debug("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
 				String libComp="";
 				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertSilenceVautAccord)
@@ -143,10 +145,11 @@ public class BusinessManager {
 							repeat=false;
 						}
 					}
-					System.out.println("libComp===>"+libComp+"<===");		
-					System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-					System.out.println("===>#################################################################################################################<===");
-
+					if (logger.isDebugEnabled()){
+						logger.debug("libComp===>"+libComp+"<===");		
+						logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
+						logger.debug("===>#################################################################################################################<===");
+					}
 					if(!repeat)
 						body+="<BR />\r\n"+libComp+"<BR />\r\n";
 					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
@@ -157,14 +160,17 @@ public class BusinessManager {
 				} 
 				catch (AddressException e) 
 				{
-					System.out.println("===>Echec envoi de mail<===");
+					if (logger.isDebugEnabled())
+						logger.debug("===>Echec envoi de mail<===");
 					e.printStackTrace();
 				}	
 			}
 			else
 			{
-				System.out.println("===>Aucun étudiant<===");
-				System.out.println("===>#################################################################################################################<===");
+				if (logger.isDebugEnabled()){
+					logger.debug("===>Aucun étudiant<===");
+					logger.debug("===>#################################################################################################################<===");
+				}
 			}
 
 			if(listeEtudiantRefAlertDepassementSilenceVautAccord!=null && !listeEtudiantRefAlertDepassementSilenceVautAccord.isEmpty())
@@ -181,14 +187,12 @@ public class BusinessManager {
 					sujet = "[transferts départ] Silence vaut accord (délai des 2 mois dépassés)";
 					body = "Liste des des demande de transferts départ dépassant le délai des 2 mois : <BR /><BR />\r\n\r\n";					
 				}
-				System.out.println("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");				
+				if (logger.isDebugEnabled())
+					logger.debug("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");				
 				String libComp="";
 				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertDepassementSilenceVautAccord)
 				{
-					//					System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-					//					System.out.println("===>#################################################################################################################<===");
-					//					body+=etu.getNumeroIne()+"<BR /><BR />\r\n\r\n";
 					if(source.equals("D"))
 					{
 						if(libComp.equals(""))
@@ -213,10 +217,11 @@ public class BusinessManager {
 							repeat=false;
 						}
 					}
-					System.out.println("libComp===>"+libComp+"<===");		
-					System.out.println("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-					System.out.println("===>#################################################################################################################<===");
-
+					if (logger.isDebugEnabled()){
+						logger.debug("libComp===>"+libComp+"<===");		
+						logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
+						logger.debug("===>#################################################################################################################<===");
+					}
 					if(!repeat)
 						body+="<BR />\r\n"+libComp+"<BR />\r\n";
 					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
@@ -226,22 +231,27 @@ public class BusinessManager {
 				} 
 				catch (AddressException e) 
 				{
-					System.out.println("===>Echec envoi de mail<===");
+					if (logger.isDebugEnabled())
+						logger.debug("===>Echec envoi de mail<===");
 					e.printStackTrace();
 				}				
 			}
 			else
 			{
-				System.out.println("===>Aucun étudiant<===");
-				System.out.println("===>#################################################################################################################<===");
+				if (logger.isDebugEnabled()){
+					logger.debug("===>Aucun étudiant<===");
+					logger.debug("===>#################################################################################################################<===");
+				}
 			}			
 		}
 		else
 		{
 			if(source.equals("A"))
-				System.out.println("[accueil]===>lEtu.size()===>0<===");
+				if (logger.isDebugEnabled())
+					logger.debug("[accueil]===>lEtu.size()===>0<===");
 			else
-				System.out.println("[départ]===>lEtu.size()===>0<===");
+				if (logger.isDebugEnabled())
+					logger.debug("[départ]===>lEtu.size()===>0<===");
 		}		
 	}
 
@@ -258,9 +268,7 @@ public class BusinessManager {
 					Authenticator.setDefault(new MyAuthenticator(part.getIdentifiant(), part.getPassword()));
 					if (this.testUrl(part.getUrl())) 
 					{
-						System.out.println("aaaaa");
 						try {
-							System.out.println("bbbbb");
 							String address = part.getUrl();
 							JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
 							factoryBean.setServiceClass(DomainServiceOpi.class);
@@ -317,7 +325,6 @@ public class BusinessManager {
 						}
 						catch (Exception e) 
 						{
-							System.out.println("ccccc");
 							logger.info("WebServiceException RNE : " + part.getRne());
 							logger.info("-----------------");
 							logger.info(e.getCause().getMessage());

@@ -9,22 +9,10 @@
 
 <ui:composition template="/stylesheets/template.xhtml">
 
-
-<!-- 	<ui:define name="navigation"> -->
-<!-- 		<center> -->
-<!-- 			<p:panel rendered="#{!sessionController.error}" -->
-<!-- 				style="text-align:left;" styleClass="panel"> -->
-<!-- 				<ui:include src="/stylesheets/_include/_header.xhtml"></ui:include> -->
-<!-- 			</p:panel> -->
-<!-- 		</center> -->
-<!-- 	</ui:define> -->
-
 	<ui:define name="corps">
 		<ui:include src="/stylesheets/_include/_fermetureAppli.xhtml" />
 		<p:spacer height="30px" />
 		<ui:include src="/stylesheets/_include/_informationAppli.xhtml" />
-		<!-- 		<p:spacer height="30px" /> -->
-		<!-- 		<h:outputText value="" rendered="#{userController.resetWelcome}" /> -->
 		<h:form id="apogee" rendered="#{userController.defaultCodeSizeAnnee}">
 		<p:spacer height="30px" />
 			<center>
@@ -45,16 +33,13 @@
 							<p:inputMask value="#{userController.dateNaissanceApogee}"
 								autocomplete="false" required="true" mask="99/99/9999"
 								requiredMessage="#{msgs['ERREUR.DATE_DE_NAISSANCE']}">
-								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="ECT" />
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 							</p:inputMask>
 							<h:outputText value="Format JJ/MM/AAAA" />
 						</h:panelGrid>
 						<p:commandButton value="Connexion" ajax="false"
 							update=":apogee:growl,:apogee:msgs,:apogee:msgs2"
 							action="#{userController.verifieBeaOrIne}" />
-						<!-- 						<p:commandButton value="Connexion" ajax="false" -->
-						<!-- 							update=":apogee:growl,:apogee:msgs,:apogee:msgs2" -->
-						<!-- 							action="#{userController.authApogee}" /> -->
 					</p:fieldset>
 					<p:spacer height="20px" />
 					<p:messages id="msgs2" showDetail="false" />

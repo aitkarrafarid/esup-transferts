@@ -57,6 +57,8 @@ public class SessionController extends AbstractDomainAwareBean {
 	
 	private boolean editionPdfAccueilSansDecision;
 	
+	private String timezone;
+	
 //	private String aideTypeTransfert;
 	
 	/*
@@ -85,7 +87,9 @@ public class SessionController extends AbstractDomainAwareBean {
 		Assert.notNull(this.boutonDeconnexion, "property boutonDeconnexion of class " 
 				+ this.getClass().getName() + " can not be null");		
 		Assert.notNull(this.editionPdfAccueilSansDecision, "property editionPdfAccueilSansDecision of class " 
-				+ this.getClass().getName() + " can not be null");				
+				+ this.getClass().getName() + " can not be null");		
+		Assert.hasText(timezone, "property timezone of class "
+				+ this.getClass().getName() + " can not be null");	
 	}
 
 	public void resetController()
@@ -235,6 +239,14 @@ public class SessionController extends AbstractDomainAwareBean {
 	public void setEditionPdfAccueilSansDecision(
 			boolean editionPdfAccueilSansDecision) {
 		this.editionPdfAccueilSansDecision = editionPdfAccueilSansDecision;
+	}
+
+	public String getTimezone() {
+		return timezone;
+	}
+
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
 	}
 
 //	public String getAideTypeTransfert() {

@@ -141,6 +141,12 @@
 #############################################################################################################
 - Correction de plusieurs nullPointerException dans les tests unitaire
 - Ajout de la possibilité de supprimer les opi's transferts par annee dans les tests unitaire
-#############################################################################################################
 - Correction d'un nullpointerexception lors de l'export des données opi's lorsqu'il n'y a pas de données
 - Correction d'un BUG suite à l'ajout d'une décision autre
+#############################################################################################################
+- Correction d'un BUG de timezone en dur dans les vues (merci Cyril de Guadeloupe)
+- Ajout des fichiers :
+ module départ/gestionnaire : etudiant-exemple.xsl / etudiant_accueil-exemple.xsl
+ module accueil : etudiant_accueil-exemple.xsl
+ à renomer en supprimant le "*-exemple.xsl"
+- Suppression des System.out.println...

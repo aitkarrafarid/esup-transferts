@@ -76,19 +76,8 @@
 					sortBy="#{transferts.transferts.dateDemandeTransfert}"
 					filterMatchMode="contains">
 					<h:outputText value="#{transferts.transferts.dateDemandeTransfert}">
-						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 					</h:outputText>
-					<!-- 					<h:outputText>/</h:outputText> -->
-					<!-- 					<h:outputText value="#{transferts.alertSilenceVautAccord}"> -->
-					<!-- 						<f:convertDateTime pattern="dd/MM/yyyy" -->
-					<!-- 							timeZone="Europe/Paris" /> -->
-					<!-- 					</h:outputText> -->
-					<!-- 					<h:outputText>/</h:outputText> -->
-					<!-- 					<h:outputText -->
-					<!-- 						value="#{transferts.alertDepassementSilenceVautAccord}"> -->
-					<!-- 						<f:convertDateTime pattern="dd/MM/yyyy" -->
-					<!-- 							timeZone="Europe/Paris" /> -->
-					<!-- 					</h:outputText> -->
 				</p:column>
 
 				<p:column headerText="Composante actuelle"

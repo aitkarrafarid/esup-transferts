@@ -86,7 +86,7 @@
                     Date de naissance 
             </f:facet>
 					<h:outputText value="#{opi.dateNaiIndOpi}">
-						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 					</h:outputText>
 				</p:column>
 				<p:column filterBy="#{opi.libEtabDepart}" sortBy="#{opi.libEtabDepart}" 
@@ -249,8 +249,7 @@
 						<h:outputText value="Date de naissance : " />
 						<h:outputText value="#{selectedOpis.dateNaiIndOpi}"
 							style="font-weight:bold">
-							<!-- 							<f:converter converterId="XMLGregorianCalendarConverterDate" /> -->
-							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 						</h:outputText>
 
 						<h:outputText value="Ville de naissance : " />

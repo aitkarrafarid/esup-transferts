@@ -42,7 +42,7 @@
 				<h:outputText
 					value="#{userController.currentEtudiant.dateNaissance}"
 					rendered="#{userController.currentEtudiant!=null}">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Paris" />
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
 				</h:outputText>
 
 				<p:spacer height="10px" />
