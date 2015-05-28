@@ -932,7 +932,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				excel.setLibelleVET(excel.getOdf().getLibVersionEtape());
 
 			Avis dernierAvis = getDomainService().getDernierAvisFavorable(etu.getNumeroEtudiant(),getSessionController().getCurrentAnnee());
-			if (dernierAvis.getId() != 0) 
+			if (dernierAvis != null && dernierAvis.getIdEtatDossier() !=null && dernierAvis.getId() != 0) 
 			{
 				dernierAvis.setLibEtatDossier(getDomainService().getEtatDossierById(dernierAvis.getIdEtatDossier()).getLibelleLongEtatDossier());
 				dernierAvis.setLibLocalisationDossier(getDomainService().getLocalisationDossierById(dernierAvis.getIdLocalisationDossier()).getLibelleLongLocalisationDossier());
