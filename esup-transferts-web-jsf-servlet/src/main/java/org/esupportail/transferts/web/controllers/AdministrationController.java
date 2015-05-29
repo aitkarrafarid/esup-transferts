@@ -86,7 +86,7 @@ import org.primefaces.context.RequestContext;
 import artois.domain.DomainServiceecandidat;
 import artois.domain.beans.Candidature;
 
-public class CopyOfAdministrationController extends AbstractContextAwareController {
+public class AdministrationController extends AbstractContextAwareController {
 
 	/**
 	 * 
