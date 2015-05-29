@@ -61,6 +61,9 @@ public class EtudiantRefImp implements Serializable{
 	private String codeDecision;
 	
 	private String decision;
+	
+	private boolean partenaire;	
+	
 	/**
 	 * Constructeur
 	 */
@@ -111,7 +114,9 @@ public class EtudiantRefImp implements Serializable{
 				+ ", trResultatVdiVetDTO=" + trResultatVdiVetDTO + ", avis="
 				+ avis + ", dateDuJour=" + dateDuJour + ", anneeUniversitaire="
 				+ anneeUniversitaire + ", situationUniversitaire="
-				+ situationUniversitaire + "]";
+				+ situationUniversitaire + ", accueilDecision="
+				+ accueilDecision + ", codeDecision=" + codeDecision
+				+ ", decision=" + decision + ", partenaire=" + partenaire + "]";
 	}
 
 	public void setNumeroEtudiant(String numeroEtudiant) {
@@ -288,5 +293,13 @@ public class EtudiantRefImp implements Serializable{
 
 	public void setDecision(String decision) {
 		this.decision = decision;
+	}
+
+	public boolean isPartenaire() {
+		return partenaire;
+	}
+
+	public void setPartenaire(boolean partenaire) {
+		this.partenaire = partenaire;
 	}
 }

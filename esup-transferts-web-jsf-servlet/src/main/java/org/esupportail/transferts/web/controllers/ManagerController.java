@@ -549,7 +549,11 @@ public class ManagerController extends AbstractContextAwareController {
 		{
 			List<Composante> listeComposantesFromBdd = getDomainService().getListeComposantesFromBddByAnneeAndSource(getSessionController().getCurrentAnnee(),getFrom());
 			this.listeComposantes = getDomainServiceScolarite().recupererListeComposantes(getSessionController().getCurrentAnnee(),getFrom());
-			this.listeComposantesMerge = new ArrayList<Composante>(listeComposantesFromBdd);
+			if(listeComposantesFromBdd!=null)
+				this.listeComposantesMerge = new ArrayList<Composante>(listeComposantesFromBdd);
+			else
+				this.listeComposantesMerge = new ArrayList<Composante>();
+
 			List<Composante> listeComposantesDistinct = new ArrayList<Composante>();
 
 			if(logger.isDebugEnabled())
@@ -577,13 +581,16 @@ public class ManagerController extends AbstractContextAwareController {
 
 			for(Composante c1 : listeComposantes)
 			{
-				for(Composante c2 : listeComposantesFromBdd)
+				if(listeComposantesFromBdd!=null)
 				{
-					if(c1.getAnnee().equals(c2.getAnnee())
-							&& c1.getCodeComposante().equals(c2.getCodeComposante())
-							&& c1.getSource().equals(c2.getSource()))
+					for(Composante c2 : listeComposantesFromBdd)
 					{
-						listeComposantesDistinct.add(c1);
+						if(c1.getAnnee().equals(c2.getAnnee())
+								&& c1.getCodeComposante().equals(c2.getCodeComposante())
+								&& c1.getSource().equals(c2.getSource()))
+						{
+							listeComposantesDistinct.add(c1);
+						}
 					}
 				}
 			}
@@ -626,7 +633,10 @@ public class ManagerController extends AbstractContextAwareController {
 		{
 			List<CGE> listeCGEFromBdd = getDomainService().getListeCGEFromBddByAnneeAndSource(getSessionController().getCurrentAnnee(),getFrom());
 			this.listeCGE = getDomainServiceScolarite().recupererListeCGE(getSessionController().getCurrentAnnee(), getFrom());
-			this.listeCGEMerge = new ArrayList<CGE>(listeCGEFromBdd);
+			if(listeCGEFromBdd!=null)
+				this.listeCGEMerge = new ArrayList<CGE>(listeCGEFromBdd);
+			else
+				this.listeCGEMerge = new ArrayList<CGE>();
 			List<CGE> listeCGEDistinct = new ArrayList<CGE>();
 
 
@@ -638,13 +648,16 @@ public class ManagerController extends AbstractContextAwareController {
 
 			for(CGE c1 : listeCGE)
 			{
-				for(CGE c2 : listeCGEFromBdd)
+				if(listeCGEFromBdd!=null)
 				{
-					if(c1.getAnnee().equals(c2.getAnnee())
-							&& c1.getCodeCGE().equals(c2.getCodeCGE())
-							&& c1.getSource().equals(c2.getSource()))
+					for(CGE c2 : listeCGEFromBdd)
 					{
-						listeCGEDistinct.add(c1);
+						if(c1.getAnnee().equals(c2.getAnnee())
+								&& c1.getCodeCGE().equals(c2.getCodeCGE())
+								&& c1.getSource().equals(c2.getSource()))
+						{
+							listeCGEDistinct.add(c1);
+						}
 					}
 				}
 			}

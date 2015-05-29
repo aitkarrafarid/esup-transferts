@@ -150,3 +150,14 @@
  module accueil : etudiant_accueil-exemple.xsl
  à renomer en supprimant le "*-exemple.xsl"
 - Suppression des System.out.println...
+#############################################################################################################
+- Suppression du apo-webservicesclient.jar défini par défaut dans esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib et esup-transferts-accueil-web-jsf-servlet/src/main/webapp/WEB-INF/lib
+- Ajout dans la documentation technique de la mise en place du webservice Apogée adapté à votre établissement.
+#############################################################################################################
+- Suppression de la possibilité de modifier la date de la demande de transferts mise en place pour tester les modifications 
+#############################################################################################################
+- Ajout d'une propriéte partenaire dans l'objet etudiantRefImp
+- Ajout d'un test d'affichage 
+#############################################################################################################
+- Correction d'un BUG sur l'export excel (Lille 1)
+- Correction d'un BUG sur la gestion de la validation automatique (cge/composante)

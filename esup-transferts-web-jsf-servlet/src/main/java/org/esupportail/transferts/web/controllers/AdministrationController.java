@@ -86,7 +86,7 @@ import org.primefaces.context.RequestContext;
 import artois.domain.DomainServiceecandidat;
 import artois.domain.beans.Candidature;
 
-public class AdministrationController extends AbstractContextAwareController {
+public class CopyOfAdministrationController extends AbstractContextAwareController {
 
 	/**
 	 * 
@@ -1092,8 +1092,9 @@ public class AdministrationController extends AbstractContextAwareController {
 					setTexteInterditNiveau3("");
 					List<DatasExterne> listeDatasEterneNiveau3 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi(), 3);
 
-					for(DatasExterne lInterditNiveau3 : listeDatasEterneNiveau3)
-						this.texteInterditNiveau3 = lInterditNiveau3.getLibInterdit();
+					if(listeDatasEterneNiveau3 !=null)
+						for(DatasExterne lInterditNiveau3 : listeDatasEterneNiveau3)
+							this.texteInterditNiveau3 = lInterditNiveau3.getLibInterdit();
 
 					//					if (logger.isDebugEnabled())
 					//						logger.debug("Liste des interdits de niveau 2-->"+this.texteInterditNiveau2);
@@ -3038,6 +3039,18 @@ public class AdministrationController extends AbstractContextAwareController {
 					logger.debug("Pas de decision saisie");
 
 			etudiantRefImp.setAnneeUniversitaire(getSessionController().getCurrentAnnee()+ "/"+ (getSessionController().getCurrentAnnee() + 1));
+
+			WsPub partenaire = getDomainService().getWsPubByRneAndAnnee(this.currentDemandeTransferts.getAccueil().getCodeRneUnivDepart(), getSessionController().getCurrentAnnee());
+			if(partenaire!=null)
+			{
+				System.out.println("===>"+partenaire.toString()+"<===");
+				etudiantRefImp.setPartenaire(true);
+			}
+			else
+			{
+				System.out.println("===>"+null+"<===");
+				etudiantRefImp.setPartenaire(false);
+			}
 			marshaller.marshal(etudiantRefImp, new File(this.getXmlXslPath()+nameXml)) ;
 		} 
 		catch (JAXBException ex) 
@@ -3550,7 +3563,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			{
 				if(logger.isDebugEnabled()) 
 					logger.debug("libDecision===>"+libDecision+"<===");
-			
+
 				this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
 				this.addDemandeTransfertsFromAvis(2);
 
@@ -3596,7 +3609,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				opi.setCodBac(this.currentDemandeTransferts.getAccueil().getCodeBac());
 				opi.setDaabacObtOba(this.currentDemandeTransferts.getAccueil().getAnneeBac());
 				/* Fin des informations sur le baccalaureat */				
-				
+
 				opi.getVoeux().setCodDecVeu(decision);
 				/* Fin des informations sur la décision */			
 
@@ -3651,29 +3664,37 @@ public class AdministrationController extends AbstractContextAwareController {
 					if(this.isInterditNiveau2())
 					{
 						opi.setSynchro(3);
+						/*
+						 * Module accueil activé
+						 * */
 						if(getSessionController().isTransfertsAccueil())
 						{
 							if(decision.equals("F"))
 							{
-
+								/*
+								 * Pour les étudiants avec procédure e-candidat / accès via les applis – départ des universités partenaires
+								 * */
 								if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
 								{
 									sujet = getString("DECISION.MAIL.SUJET");
 									body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_PARTENAIRE",
 											this.currentDemandeTransferts.getPrenom1(),
 											this.currentDemandeTransferts.getNomPatronymique(),
-//											this.getListeAccueilDecision().get(0).getDecision(),
+											//											this.getListeAccueilDecision().get(0).getDecision(),
 											libDecision,
 											libEtab,
 											etab.getLibOffEtb());							
 								}
 								else
 								{
+									/*
+									 * Pour les étudiants avec procédure e-candidat / accès direct à l’appli Artois - non partenaire
+									 * */
 									sujet = getString("DECISION.MAIL.SUJET");
 									body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_NON_PARTENAIRE",
 											this.currentDemandeTransferts.getPrenom1(),
 											this.currentDemandeTransferts.getNomPatronymique(),
-//											this.getListeAccueilDecision().get(0).getDecision(),
+											//											this.getListeAccueilDecision().get(0).getDecision(),
 											libDecision,
 											libEtab,
 											etab.getLibOffEtb());							
@@ -3682,11 +3703,14 @@ public class AdministrationController extends AbstractContextAwareController {
 							}
 							else
 							{
+								/*
+								 * Mail reçu par un candidat ayant reçu un avis défavorable AVEC E-CANDIDAT
+								 * */
 								sujet = getString("DECISION.MAIL.SUJET");
 								body = getString("DECISION.MAIL.BODY_AVIS_D_CANDIDATURE",
 										this.currentDemandeTransferts.getPrenom1(),
 										this.currentDemandeTransferts.getNomPatronymique(),
-//										this.getListeAccueilDecision().get(0).getDecision(),
+										//										this.getListeAccueilDecision().get(0).getDecision(),
 										libDecision,
 										libEtab,
 										etab.getLibOffEtb());	
@@ -3716,22 +3740,28 @@ public class AdministrationController extends AbstractContextAwareController {
 							{					
 								if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
 								{
+									/*
+									 * Pour les étudiants sans procédure e-candidat / accès via les applis – départ des universités partenaires - partenaire
+									 * */
 									sujet = getString("DECISION.MAIL.SUJET");
 									body = getString("DECISION.MAIL.BODY_AVIS_F_PARTENAIRE",
 											this.currentDemandeTransferts.getPrenom1(),
 											this.currentDemandeTransferts.getNomPatronymique(),
-//											this.getListeAccueilDecision().get(0).getDecision(),
+											//											this.getListeAccueilDecision().get(0).getDecision(),
 											libDecision,
 											libEtab,
 											etab.getLibOffEtb());							
 								}
 								else
 								{
+									/*
+									 * Pour les étudiants sans procédure e-candidat / accès direct à l’appli Artois - non partenaire
+									 * */
 									sujet = getString("DECISION.MAIL.SUJET");
 									body = getString("DECISION.MAIL.BODY_AVIS_F_NON_PARTENAIRE",
 											this.currentDemandeTransferts.getPrenom1(),
 											this.currentDemandeTransferts.getNomPatronymique(),
-//											this.getListeAccueilDecision().get(0).getDecision(),
+											//											this.getListeAccueilDecision().get(0).getDecision(),
 											libDecision,
 											libEtab,
 											etab.getLibOffEtb());							
@@ -3740,11 +3770,14 @@ public class AdministrationController extends AbstractContextAwareController {
 							}
 							else
 							{
+								/*
+								 * Mail reçu par un candidat ayant reçu un avis défavorable SANS E-CANDIDAT 
+								 * */
 								sujet = getString("DECISION.MAIL.SUJET");
 								body = getString("DECISION.MAIL.BODY_AVIS_D",
 										this.currentDemandeTransferts.getPrenom1(),
 										this.currentDemandeTransferts.getNomPatronymique(),
-//										this.getListeAccueilDecision().get(0).getDecision(),
+										//										this.getListeAccueilDecision().get(0).getDecision(),
 										libDecision,
 										libEtab,
 										etab.getLibOffEtb());		
@@ -3772,12 +3805,12 @@ public class AdministrationController extends AbstractContextAwareController {
 					if(getSessionController().isTransfertsAccueil())
 					{
 						if(decision.equals("F"))
-						{				
+						{		
 							sujet = getString("DECISION.MAIL.SUJET");
 							body = getString("DECISION.MAIL.BODY_EXCLU_BAC",
 									this.currentDemandeTransferts.getPrenom1(),
 									this.currentDemandeTransferts.getNomPatronymique(),
-//									this.getListeAccueilDecision().get(0).getDecision(),
+									//									this.getListeAccueilDecision().get(0).getDecision(),
 									libDecision,
 									libEtab,
 									etab.getLibOffEtb());
@@ -3803,7 +3836,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				String body = getString("DECISION.MAIL.BODY_AVIS_A",
 						this.currentDemandeTransferts.getPrenom1(),
 						this.currentDemandeTransferts.getNomPatronymique(),
-//						this.getListeAccueilDecision().get(0).getDecision(),
+						//						this.getListeAccueilDecision().get(0).getDecision(),
 						libDecision);	
 				try {
 					getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
