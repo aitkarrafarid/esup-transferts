@@ -323,9 +323,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		String cleIne = ine.substring(ine.length()-1, ine.length());
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("ineSansCle --> "+ ineSansCle);
-			logger.debug("cleIne --> "+ cleIne);
-			logger.debug("dateNaissance --> "+ dateNaissance);
+			logger.debug("===>public EtudiantRef getCurrentEtudiantIne(String ine, Date dateNaissance)<===");
+			logger.debug("ine===>"+ine+"<===");
+			logger.debug("dateNaissance ===>"+dateNaissance+"<===");
+			logger.debug("===>----------------------------------------------------<===");
+			logger.debug("ineSansCle===>"+ineSansCle+"<===");
+			logger.debug("cleIne ===>"+cleIne+"<===");
 		}	
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -339,8 +342,13 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(null, null, ineSansCle, cleIne, null, null, null, null, null, null);
 			infoAdmEtuDTO = etudiantMetierService.recupererInfosAdmEtu(identifiantEtudiant.getCodEtu().toString());
 
-			if (logger.isDebugEnabled())
-				logger.debug("Numero etudiant -->"+identifiantEtudiant.getCodEtu().toString());
+			if(identifiantEtudiant!=null && infoAdmEtuDTO!=null)
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("===>if(identifiantEtudiant!=null && infoAdmEtuDTO!=null)<===");
+					logger.debug("Numero etudiant dans la bdd scol===>"+identifiantEtudiant.getCodEtu().toString()+"<===");
+					logger.debug("Date de naissance dans la bdd scol ===>"+infoAdmEtuDTO.getDateNaissance()+"<===");
+				}
 
 			if(dateFormat.format(dateNaissance).equals(dateFormat.format(infoAdmEtuDTO.getDateNaissance())))
 			{
@@ -1967,10 +1975,10 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			EtudiantCritereDTO etuCritere  = new EtudiantCritereDTO();
 			etuCritere.setAnnee(myAnnee);
-						
+
 			EtudiantCritereListeDTO[] etuCritereListeDiplome = new EtudiantCritereListeDTO[1];
 			EtudiantCritereListeDTO[] etuCritereListeEtape = new EtudiantCritereListeDTO[1];
-			
+
 			EtudiantCritereListeDTO diplome = new EtudiantCritereListeDTO();
 			diplome.setCode(codeDiplome);
 			diplome.setListVersion(new String[]{versionDiplome});
@@ -1978,10 +1986,10 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			EtudiantCritereListeDTO etape = new EtudiantCritereListeDTO();
 			etape.setCode(codeEtape);
 			etape.setListVersion(new String[]{versionEtape});			
-			
+
 			etuCritereListeDiplome[0]=diplome;
 			etuCritereListeEtape[0]=etape;
-			
+
 			etuCritere.setListDiplomes(etuCritereListeDiplome);
 			etuCritere.setListEtapes(etuCritereListeEtape);
 
