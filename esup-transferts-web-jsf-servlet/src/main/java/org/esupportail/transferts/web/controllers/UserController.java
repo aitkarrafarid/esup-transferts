@@ -981,7 +981,8 @@ public class UserController extends AbstractContextAwareController {
 								logger.debug("Demande de transferts existante !!!");
 								logger.debug("Aucun interdit !!!");
 							}
-							this.currentEtudiant = getDomainService().getPresenceEtudiantRef(getSessionController().getCurrentUser().getNumeroEtudiant(), getSessionController().getCurrentAnnee());
+							//					this.currentEtudiant = getDomainService().getPresenceEtudiantRef(getSessionController().getCurrentUser().getNumeroEtudiant(), getSessionController().getCurrentAnnee());
+							this.currentEtudiant = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(getSessionController().getCurrentUser().getNumeroEtudiant(), getSessionController().getCurrentAnnee(), "D");
 							if(this.currentEtudiant.getSource().equals("A"))
 							{
 								String summary = "Vous ne pouvez pas effectuer une demande de transferts d�part car sous avez deja effecute une demande de transfert accueil";
@@ -1382,7 +1383,7 @@ public class UserController extends AbstractContextAwareController {
 	public boolean isPartenaire()
 	{
 		boolean partenaire = false;
-		if (currentEtudiant.getTransferts().getRne() != null) {
+		if (currentEtudiant!=null && currentEtudiant.getTransferts()!=null && currentEtudiant.getTransferts().getRne() != null) {
 			List<WsPub> listeEtablissementsPartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
 			if(listeEtablissementsPartenaires !=null)
 			{
