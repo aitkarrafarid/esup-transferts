@@ -702,7 +702,7 @@
 					update="msgs,msgs2,growl,currentTransfertsAccueil"
 					action="#{administrationController.deverouillerDemandeTransfert}" />
 				<p:menuitem value="Supprimer" icon="/media/images/xapp.png"
-					onclick="confirmation.show()"
+					onclick="PF('confirmation').show()"
 					rendered="#{(sessionController.currentUser.admin and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2) || (administrationController.droitPC!=null and administrationController.droitPC.droitSuppression=='oui' and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2)}" />
 			</p:stack>
 
