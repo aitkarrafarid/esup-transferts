@@ -399,17 +399,14 @@ public class UserController extends AbstractContextAwareController {
 				logger.debug("===>this.addDemandeTransfertsSansValidationAuto()==''<===");
 			this.addDemandeTransfertsSansValidationAuto();
 		}
+		if(!this.getMailInformation().equals(""))
+			this.envoiMailInformations();
 	}
 
 	public void addDemandeTransfertsSansValidationAuto() 
 	{
 		if(logger.isDebugEnabled())
 			logger.debug("===>public void addDemandeTransfertsSansValidationAuto()<===");
-
-		//		InfosAccueil ia = new InfosAccueil();
-		//		ia.setNumeroEtudiant(this.getCurrentEtudiant().getNumeroEtudiant());
-		//		ia.setAnnee(this.getCurrentEtudiant().getAnnee());
-		//		this.getCurrentEtudiant().setAccueil(ia);
 
 		getDomainService().addDemandeTransferts(this.getCurrentEtudiant());
 
@@ -435,39 +432,9 @@ public class UserController extends AbstractContextAwareController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));			
 		}			
 
-		if(!this.getMailInformation().equals(""))
-		{
-			if(logger.isDebugEnabled())
-				logger.debug("Thread.sleep(2000)");
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}			
-			String sujet = getString("MAIL.INFORMATION.SUJET");
-			String body = "";			
-			try {
-				body=getString("MAIL.INFORMATION.BODY",
-						this.currentEtudiant.getNumeroIne(),
-						this.currentEtudiant.getNumeroEtudiant(),
-						this.currentEtudiant.getPrenom1(), 
-						this.currentEtudiant.getNomPatronymique(),
-						this.currentEtudiant.getDateNaissance());	
-
-				getSmtpService().send(new InternetAddress(this.getMailInformation()),
-						sujet, 
-						body, 
-						body);			
-			} 
-			catch (AddressException e) 
-			{
-				String summary = getString("ERREUR.ENVOI_MAIL");
-				String detail = getString("ERREUR.ENVOI_MAIL");
-				Severity severity=FacesMessage.SEVERITY_ERROR;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));	
-			}		
-		}
+//		if(!this.getMailInformation().equals(""))
+//			this.envoiMailInformations();
+		
 		String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 		String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 		Severity severity=FacesMessage.SEVERITY_INFO;
@@ -479,6 +446,39 @@ public class UserController extends AbstractContextAwareController {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity2,summary2, detail2));		
 	}
 
+	public void envoiMailInformations(){
+		if(logger.isDebugEnabled())
+			logger.debug("Thread.sleep(2000)");
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}			
+		String sujet = getString("MAIL.INFORMATION.SUJET");
+		String body = "";			
+		try {
+			body=getString("MAIL.INFORMATION.BODY",
+					this.currentEtudiant.getNumeroIne(),
+					this.currentEtudiant.getNumeroEtudiant(),
+					this.currentEtudiant.getPrenom1(), 
+					this.currentEtudiant.getNomPatronymique(),
+					this.currentEtudiant.getDateNaissance());	
+
+			getSmtpService().send(new InternetAddress(this.getMailInformation()),
+					sujet, 
+					body, 
+					body);			
+		} 
+		catch (AddressException e) 
+		{
+			String summary = getString("ERREUR.ENVOI_MAIL");
+			String detail = getString("ERREUR.ENVOI_MAIL");
+			Severity severity=FacesMessage.SEVERITY_ERROR;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));	
+		}	
+	}
+	
 	public void addAvisFavorable() {
 		currentAvis = new Avis();
 		currentAvis.setNumeroEtudiant(this.currentEtudiant.getNumeroEtudiant());
@@ -551,19 +551,6 @@ public class UserController extends AbstractContextAwareController {
 			this.currentEtudiant.getTransferts().setTemoinTransfertValide(1);
 		else
 			this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
-
-		//		if(this.currentEtudiant.getAdresse().getCodPay().equals("100"))
-		//		{
-		//			this.currentEtudiant.getAdresse().setCodeVilleEtranger(null);
-		//			this.currentEtudiant.getAdresse().setCodPay(this.getCodePaysItems());
-		//			this.currentEtudiant.getAdresse().setLibPay(getDomainServiceScolarite().getPaysByCodePays(this.getCodePaysItems()).getLibPay());
-		//		} 
-		//		else 
-		//		{
-		//			this.currentDemandeTransferts.getAdresse().setCodePostal(null);
-		//			this.currentDemandeTransferts.getAdresse().setNomCommune(null);
-		//			this.currentDemandeTransferts.getAdresse().setLibPay(getDomainServiceScolarite().getPaysByCodePays(this.currentDemandeTransferts.getAdresse().getCodPay()).getLibPay());
-		//		}
 
 		if(this.currentEtudiant.getAdresse().getCodPay().equals("100"))
 			this.currentEtudiant.getAdresse().setCodeVilleEtranger(null);
