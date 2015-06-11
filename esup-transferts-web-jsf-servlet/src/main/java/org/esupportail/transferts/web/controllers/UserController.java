@@ -999,6 +999,9 @@ public class UserController extends AbstractContextAwareController {
 							if (logger.isDebugEnabled()) {
 								logger.debug("L'utilisateur est un etudiant mais a un/des interdit(s)");
 							}
+							
+							this.currentEtudiant = this.currentEtudiantInterdit;
+							
 							getSessionController().setError(true);
 							String summary = "";
 							String detail = "";
