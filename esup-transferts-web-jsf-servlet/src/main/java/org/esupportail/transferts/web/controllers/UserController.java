@@ -432,9 +432,9 @@ public class UserController extends AbstractContextAwareController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));			
 		}			
 
-//		if(!this.getMailInformation().equals(""))
-//			this.envoiMailInformations();
-		
+		//		if(!this.getMailInformation().equals(""))
+		//			this.envoiMailInformations();
+
 		String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 		String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 		Severity severity=FacesMessage.SEVERITY_INFO;
@@ -478,7 +478,7 @@ public class UserController extends AbstractContextAwareController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));	
 		}	
 	}
-	
+
 	public void addAvisFavorable() {
 		currentAvis = new Avis();
 		currentAvis.setNumeroEtudiant(this.currentEtudiant.getNumeroEtudiant());
@@ -1126,10 +1126,13 @@ public class UserController extends AbstractContextAwareController {
 				{
 					tmp += b.getCodeBlocage()+" - "+b.getLibBlocage();
 				}
-				for(DatasExterne lInterditBu : listeInterditBu)
+				if(listeInterditBu !=null)
 				{
-					tmp += lInterditBu.getLibInterdit();
-				}				
+					for(DatasExterne lInterditBu : listeInterditBu)
+					{
+						tmp += lInterditBu.getLibInterdit();
+					}
+				}
 				String summary = "Vous avez des Interdits : \n" + "- "+ tmp;
 				String detail = "Vous avez des Interdits : \n" + "- "+ tmp;
 				Severity severity=FacesMessage.SEVERITY_ERROR;
