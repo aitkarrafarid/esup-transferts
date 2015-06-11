@@ -982,7 +982,8 @@ public class UserController extends AbstractContextAwareController {
 							else
 								this.initialiseNomenclatures();
 						}
-						else if(!isPresentBdd() && (!currentEtudiantInterdit.isInterdit() || !currentEtudiantInterdit.isInterditLocal()))
+						//						else if(!isPresentBdd() && (!currentEtudiantInterdit.isInterdit() || !currentEtudiantInterdit.isInterditLocal()))
+						else if(!isPresentBdd() && !currentEtudiantInterdit.isInterdit() && !currentEtudiantInterdit.isInterditLocal())
 						{
 							if (logger.isDebugEnabled())
 							{
@@ -1002,15 +1003,20 @@ public class UserController extends AbstractContextAwareController {
 							String summary = "";
 							String detail = "";
 							String tmp = "";
-
-							for(TrBlocageDTO b : currentEtudiantInterdit.getListeBlocagesDTO())
+							if(currentEtudiantInterdit.getListeBlocagesDTO() !=null)
 							{
-								tmp += b.getCodeBlocage()+" - "+b.getLibBlocage();
+								for(TrBlocageDTO b : currentEtudiantInterdit.getListeBlocagesDTO())
+								{
+									tmp += b.getCodeBlocage()+" - "+b.getLibBlocage();
+								}
 							}
-							for(DatasExterne lInterditBu : listeInterditBu)
+							if(listeInterditBu!=null)
 							{
-								tmp += lInterditBu.getLibInterdit();
-							}							
+								for(DatasExterne lInterditBu : listeInterditBu)
+								{
+									tmp += lInterditBu.getLibInterdit();
+								}
+							}
 							summary = "Vous avez des Interdits : \n" + "- "+ tmp;
 							detail = "Vous avez des Interdits : \n" + "- "+ tmp;
 							Severity severity=FacesMessage.SEVERITY_ERROR;
