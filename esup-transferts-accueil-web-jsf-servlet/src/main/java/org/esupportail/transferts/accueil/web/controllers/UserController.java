@@ -195,16 +195,16 @@ public class UserController extends AbstractContextAwareController {
 				logger.debug("this.currentEtudiant.toString()-->"+this.currentEtudiant.toString());			
 
 			Fichier file=null;
-			
+
 			if(this.currentEtudiant.getTransferts()!=null && this.currentEtudiant.getTransferts().getFichier()!=null)
 				file = getDomainService().getFichierByIdAndAnneeAndFrom(this.currentEtudiant.getTransferts().getFichier().getMd5(),getSessionController().getCurrentAnnee(), this.currentEtudiant.getSource());
-			
+
 			if (logger.isDebugEnabled())
 				logger.debug("file-->"+file);			
-			
+
 			if(file==null)
 				file = getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), this.currentEtudiant.getSource());		
-			
+
 			String nom = this.getTempPath() + "" + file.getMd5();
 
 			File fichierExiste = new File(nom);
@@ -219,7 +219,7 @@ public class UserController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled())
 					logger.debug("L'image existe deja");
 			}			
-			
+
 			this.initialiseNomenclatures();
 			EtudiantRefImp etudiantRefImp = new EtudiantRefImp();
 			etudiantRefImp.setNumeroEtudiant(this.currentEtudiant.getNumeroEtudiant());
@@ -569,27 +569,27 @@ public class UserController extends AbstractContextAwareController {
 		//this.getListeLibellesDiplome(); 
 	}
 
-//	public void resetLibelleDiplome()
-//	{
-//		if (logger.isDebugEnabled())
-//			logger.debug("public void resetLibelleDiplome()");
-//
-//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))  
-//		{
-//			setTypesDiplomeVide(false);
-//			setAnneeEtudeVide(false);
-//			setCodeDiplome(null);
-//			setLibelleEtapeVide(true);	
-//			setLibelleDiplomeVide(false);
-//			this.getListeLibellesDiplome(); 
-//		}
-//		else
-//		{
-//			setLibelleDiplomeVide(true);
-//			this.listeLibellesDiplome=null;
-//			this.listeLibellesEtape=null;
-//		}
-//	}
+	//	public void resetLibelleDiplome()
+	//	{
+	//		if (logger.isDebugEnabled())
+	//			logger.debug("public void resetLibelleDiplome()");
+	//
+	//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))  
+	//		{
+	//			setTypesDiplomeVide(false);
+	//			setAnneeEtudeVide(false);
+	//			setCodeDiplome(null);
+	//			setLibelleEtapeVide(true);	
+	//			setLibelleDiplomeVide(false);
+	//			this.getListeLibellesDiplome(); 
+	//		}
+	//		else
+	//		{
+	//			setLibelleDiplomeVide(true);
+	//			this.listeLibellesDiplome=null;
+	//			this.listeLibellesEtape=null;
+	//		}
+	//	}
 
 	public void resetLibelleEtape()
 	{
@@ -878,7 +878,7 @@ public class UserController extends AbstractContextAwareController {
 						currentEtudiant.setBddScol(1);
 						currentEtudiant.getTransferts().setDept(getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getCodeDep());
 						currentEtudiant.getTransferts().setRne(getSessionController().getRne());
-//						getDomainServiceScolarite().getDerniereIAByNumeroEtudiant(this.currentEtudiant.getNumeroEtudiant());	
+						//						getDomainServiceScolarite().getDerniereIAByNumeroEtudiant(this.currentEtudiant.getNumeroEtudiant());	
 						return "goToEtatCivilApogee";
 					}
 					else
@@ -889,10 +889,13 @@ public class UserController extends AbstractContextAwareController {
 						{
 							tmp += b.getCodeBlocage()+" - "+b.getLibBlocage();
 						}
-						for(DatasExterne lInterditBu : listeInterditBu)
+						if(listeInterditBu !=null)
 						{
-							tmp += lInterditBu.getLibInterdit();
-						}				
+							for(DatasExterne lInterditBu : listeInterditBu)
+							{
+								tmp += lInterditBu.getLibInterdit();
+							}
+						}
 						String summary = "Vous avez des Interdits : \n" + "- "+ tmp;
 						String detail = "Vous avez des Interdits : \n" + "- "+ tmp;
 						Severity severity=FacesMessage.SEVERITY_ERROR;
