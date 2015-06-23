@@ -219,7 +219,7 @@
 					<fo:table-row>
 						<fo:table-cell border="1">
 							<fo:block font-size="9pt">
-								<xsl:text>Solicite le transfert de :  </xsl:text>
+								<xsl:text>Sollicite le transfert de :  </xsl:text>
 								<xsl:value-of select="universiteDepart/libEtb" />
 								<xsl:text> - </xsl:text>
 								<xsl:value-of select="universiteDepart/libAd1Etb" />
