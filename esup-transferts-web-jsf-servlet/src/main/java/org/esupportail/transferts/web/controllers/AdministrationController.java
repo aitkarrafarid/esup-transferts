@@ -1084,7 +1084,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				for(IndOpi opi : primoInscription)
 				{
 					if (logger.isDebugEnabled()) {
-						logger.debug("##################################### !!! ERREUR OPI APOGEE - SYNCHRO.OPI_PARTIELLE !!! #################################################");
+						logger.debug("##################################### !!! OPI APOGEE - SYNCHRO.OPI_OK !!! #################################################");
 						logger.debug("opi.getVoeux().getCodEtp() --> "+opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi()+" - "+opi.getLibNomPatIndOpi()+" - "+opi.getLibPr1IndOpi());
 						logger.debug("#######################################################################################################################");				
 					}	
@@ -1215,7 +1215,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				for(IndOpi opi : reinscription)
 				{
 					if (logger.isDebugEnabled()) {
-						logger.debug("##################################### !!! ERREUR OPI APOGEE - SYNCHRO.OPI_PARTIELLE !!! #################################################");
+						logger.debug("##################################### !!! OPI APOGEE - SYNCHRO.OPI_OK !!! #################################################");
 						logger.debug("opi.getVoeux().getCodEtp() --> "+opi.getCodNneIndOpi()+opi.getCodCleNneIndOpi()+" - "+opi.getLibNomPatIndOpi()+" - "+opi.getLibPr1IndOpi());
 						logger.debug("#######################################################################################################################");				
 					}
@@ -3026,10 +3026,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("Decision saisie");
-					logger.debug("this.getListeDecisionsDossier().size() -->"+this.getListeDecisionsDossier().size());
-					logger.debug("this.getListeAccueilDecision().get(0).getAvis() -->"+this.getListeAccueilDecision().get(0).getAvis());
-					logger.debug("this.getListeAccueilDecision().get(0).getDecision() -->"+this.getListeAccueilDecision().get(0).getDecision());
+					for(int i=0;i<this.getListeAccueilDecision().size();i++)
+					{
+						logger.debug("this.getListeAccueilDecision().get(i).getId()===>"+this.getListeAccueilDecision().get(i).getId()+"<===");
+					}
 				}
 				etudiantRefImp.setCodeDecision(this.getListeAccueilDecision().get(0).getAvis());
 				etudiantRefImp.setDecision(this.getListeAccueilDecision().get(0).getDecision());

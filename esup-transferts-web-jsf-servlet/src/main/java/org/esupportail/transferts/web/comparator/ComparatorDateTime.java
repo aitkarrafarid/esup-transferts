@@ -32,9 +32,10 @@ public class ComparatorDateTime implements Comparator<AccueilDecision>, Serializ
 	}
 
 	public int compare(AccueilDecision p, AccueilDecision q) {
-		Date Pdate = p.getDateSaisie();
-		Date Qdate =q.getDateSaisie();
-		return Pdate.compareTo(Qdate) > 0 ? 0 : 1;
+//		Date Pdate = p.getDateSaisie();
+//		Date Qdate =q.getDateSaisie();
+//		return Pdate.compareTo(Qdate) > 0 ? 0 : 1;
+		return p.getDateSaisie().compareTo(q.getDateSaisie())*-1;
 	}
 
 }
