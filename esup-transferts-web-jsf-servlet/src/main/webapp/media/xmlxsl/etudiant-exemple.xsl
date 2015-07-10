@@ -408,6 +408,7 @@
 								</fo:block>
 							</fo:table-cell>
 							<xsl:for-each select="session">
+							<xsl:sort select="libSession" order="ascending" />
 								<fo:table-cell border="0.018cm solid #000000">
 									<fo:block font-size="8pt">
 										<xsl:value-of select="resultat" />

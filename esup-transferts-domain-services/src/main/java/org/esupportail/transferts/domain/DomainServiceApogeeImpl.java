@@ -1115,14 +1115,13 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					if(resultatVetDTO != null && etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=max)
 						//if(resultatVetDTO != null)
 					{
-						if (logger.isDebugEnabled()) {
+						if (logger.isDebugEnabled()) 
 							logger.debug("Etape non diplomante");
-						}	
+
 						for(int k=0;k<resultatVetDTO.length;k++)
 						{		
 							nb++;
 							r = new ResultatSession();
-							//SessionDTO sessionDTO = resultatVetDTO[k].getSession();
 
 							if(resultatVetDTO[k].getSession() != null)
 							{
@@ -1130,10 +1129,11 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 									logger.debug("session --> " + resultatVetDTO[k].getSession().getLibSes());
 									logger.debug("Note au version etape --> " + resultatVetDTO[k].getNotVet());
 								}
+								//r.setCodeSession(Integer.parseInt(resultatVetDTO[k].getSession().getCodSes()));
 								r.setLibSession(resultatVetDTO[k].getSession().getLibSes());
 							}
 							else
-								r.setLibSession("");
+								r.setLibSession("zzz");
 
 							if(resultatVetDTO[k].getTypResultat() != null && resultatVetDTO[k].getEtatDelib().getCodEtaAvc().equals("T"))
 							{
@@ -1174,7 +1174,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						if(resultatVetDTO==null ||resultatVetDTO.length!=2)
 						{
 							ResultatSession tmp = new ResultatSession();
-							tmp.setLibSession("");
+
+							tmp.setLibSession("zzz");
 							tmp.setResultat("");
 							listResultatSession.add(tmp);
 						}						
@@ -1197,10 +1198,11 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 									logger.debug("session --> " + resultatVdiDTO[l].getSession().getLibSes());
 									logger.debug("Note au version de diplome --> " + resultatVdiDTO[l].getNotVdi());
 								}
+								//r.setCodeSession(Integer.parseInt(resultatVdiDTO[l].getSession().getCodSes()));
 								r.setLibSession(resultatVdiDTO[l].getSession().getLibSes());
 							}
 							else
-								r.setLibSession("");
+								r.setLibSession("zzz");
 
 							if(resultatVdiDTO[l].getTypResultat() != null && resultatVdiDTO[l].getEtatDelib().getCodEtaAvc().equals("T"))
 							{
@@ -1241,7 +1243,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						if(resultatVdiDTO==null || resultatVdiDTO.length!=2)
 						{
 							ResultatSession tmp = new ResultatSession();
-							tmp.setLibSession("");
+							tmp.setLibSession("zzz");
 							tmp.setResultat("");
 							listResultatSession.add(tmp);
 						}	
@@ -1252,6 +1254,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 							logger.debug("Aucun resultat ou aucun diplome !!!");
 						}
 						r = new ResultatSession();
+						//r.setCodeSession(0);
 						r.setLibSession("");
 						r.setResultat("");
 						r.setMention("");
