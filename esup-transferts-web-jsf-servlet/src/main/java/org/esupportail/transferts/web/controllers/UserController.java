@@ -2008,6 +2008,13 @@ public class UserController extends AbstractContextAwareController {
 			getSessionController().setNumeroSerieImmatriculation(this.defaultCodeSize.getCode());
 			getSessionController().setAnnee(this.defaultCodeSize.getAnnee());
 			getSessionController().setCurrentAnnee(this.defaultCodeSize.getAnnee());
+			
+			Parametres choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
+			if(choixDuVoeuParComposante!=null)
+				getSessionController().setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
+			else
+				getSessionController().setChoixDuVoeuParComposante(true);
+			
 		}
 		return defaultCodeSizeAnnee;
 	}
