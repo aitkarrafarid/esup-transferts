@@ -1749,7 +1749,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) 
 		{
 			logger.debug("---------- getSessionController().getCurrentAnnee() ------------>"+getSessionController().getCurrentAnnee());
-			logger.debug("---------- tableau.length-1 ------------>"+tableau[tableau.length-1]);				
+//			logger.debug("---------- tableau.length-1 ------------>"+tableau[tableau.length-1]);				
 			logger.debug("---------- getSessionController().getRegleGestionTE02() ------------>"+getSessionController().getRegleGestionTE02());
 			logger.debug("---------- anneeVerifRepriseEtudes ------------>"+anneeVerifRepriseEtudes);
 		}	

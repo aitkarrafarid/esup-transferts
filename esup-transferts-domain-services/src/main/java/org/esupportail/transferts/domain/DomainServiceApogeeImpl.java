@@ -26,9 +26,12 @@ import gouv.education.apogee.commun.transverse.dto.administratif.InsAdmEtpDTO2;
 import gouv.education.apogee.commun.transverse.dto.etablissement.EtablissementCompletDTO;
 import gouv.education.apogee.commun.transverse.dto.etablissement.EtablissementCompletDTO2;
 import gouv.education.apogee.commun.transverse.dto.etudiant.AdresseDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.AdresseDTO2;
 import gouv.education.apogee.commun.transverse.dto.etudiant.BlocageDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.CommuneDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.CommuneDTO2;
 import gouv.education.apogee.commun.transverse.dto.etudiant.CoordonneesDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.CoordonneesDTO2;
 import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantCritereDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantCritereListeDTO;
 import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantDTO2;
@@ -40,11 +43,16 @@ import gouv.education.apogee.commun.transverse.dto.etudiant.PaysDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.DepartementDTO;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.ComposanteCentreGestionDTO;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.DiplomeDTO2;
+import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.DiplomeDTO3;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.EtapeDTO2;
+import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.EtapeDTO3;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.SECritereDTO2;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionDiplomeDTO2;
+import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionDiplomeDTO3;
 import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionEtapeDTO2;
+import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionEtapeDTO3;
 import gouv.education.apogee.commun.transverse.dto.opi.DonneesOpiDTO3;
+import gouv.education.apogee.commun.transverse.dto.opi.DonneesOpiDTO4;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJConvocationDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJDernierDiplObtDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.MAJDernierEtbFrequenteDTO;
@@ -160,7 +168,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		etudiant.setFrom("WSAMUE");
 		//etudiant.setEduPersonAffiliation(eduPersonAffiliation);
 		etudiant.setNumeroEtudiant(supannEtuId);
-		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+		EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
 		// Recuperation des infos de l'etudiant dans Apogee	
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		try {
@@ -332,7 +340,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}	
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+		EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
 		// Recuperation des infos de l'etudiant dans Apogee	
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		try {
@@ -592,7 +600,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			logger.debug("codNneIndOpi --> "+ codNneIndOpi);
 			logger.debug("codCleNneIndOpi --> "+ codCleNneIndOpi);
 		}	
-		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+		EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
 		// Recuperation des infos de l'etudiant dans Apogee	
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		try {
@@ -631,7 +639,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	public List<TrCommuneDTO> getCommunes(String codePostal){
 		// appel au WS AMUE
 		List<TrCommuneDTO> listTrCommuneDTO = null;
-		GeographieMetierServiceInterface geographieMetierServiceInterface = new GeographieMetierServiceInterfaceProxy();
+		GeographieMetierServiceInterfaceProxy geographieMetierServiceInterface = new GeographieMetierServiceInterfaceProxy();
 		gouv.education.apogee.commun.transverse.dto.geographie.CommuneDTO[] listeCommunes;
 		try{
 			listeCommunes = geographieMetierServiceInterface.recupererCommune(codePostal, null, null);
@@ -655,7 +663,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	{		
 		// appel au WS AMUE
 		List<TrPaysDTO> listTrPaysDTO = null;
-		GeographieMetierServiceInterface geographieMetierServiceInterface = new GeographieMetierServiceInterfaceProxy();
+		GeographieMetierServiceInterfaceProxy geographieMetierServiceInterface = new GeographieMetierServiceInterfaceProxy();
 		gouv.education.apogee.commun.transverse.dto.geographie.PaysDTO[] listePays;
 		try{
 			listePays = geographieMetierServiceInterface.recupererPays(null, null);
@@ -679,7 +687,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	{		
 		// appel au WS AMUE
 		TrPaysDTO trPaysDTO = null;
-		GeographieMetierServiceInterface geographieMetierServiceInterface = new GeographieMetierServiceInterfaceProxy();
+		GeographieMetierServiceInterfaceProxy geographieMetierServiceInterface = new GeographieMetierServiceInterfaceProxy();
 		gouv.education.apogee.commun.transverse.dto.geographie.PaysDTO[] pays;
 		try
 		{
@@ -697,7 +705,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	{
 		// appel au WS AMUE
 		List<TrDepartementDTO> listTrDepartementDTO = null;
-		GeographieMetierServiceInterface geographieMetierServiceInterface = new GeographieMetierServiceInterfaceProxy();
+		GeographieMetierServiceInterfaceProxy geographieMetierServiceInterface = new GeographieMetierServiceInterfaceProxy();
 		DepartementDTO[] listeDepartements;
 		try{
 			listeDepartements = geographieMetierServiceInterface.recupererDepartement(null, null);
@@ -719,11 +727,11 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	public List<TrEtablissementDTO> getListeEtablissements(String typeEtablissement, String dept) {
 		// appel au WS AMUE
 		List<TrEtablissementDTO> listTrEtablissementDTO = null;
-		EtablissementMetierServiceInterface etablissementMetierServiceInterface = new EtablissementMetierServiceInterfaceProxy();
+		EtablissementMetierServiceInterfaceProxy etablissementMetierServiceInterface = new EtablissementMetierServiceInterfaceProxy();
 		EtablissementCompletDTO2[] listeEtablissements;
 		try{
-			//			listeEtablissements = etablissementMetierServiceInterface.recupererEtablissementWS(typeEtablissement, null, null, dept, null, null, null);
 			listeEtablissements = etablissementMetierServiceInterface.recupererEtablissementWS_v2(typeEtablissement, null, null, dept, null, null, null);
+			
 			if(listeEtablissements.length>0)
 			{
 				listTrEtablissementDTO = new ArrayList<TrEtablissementDTO>();
@@ -743,7 +751,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	public TrEtablissementDTO getEtablissementByRne(String rne) {
 		// appel au WS AMUE
 		TrEtablissementDTO trEtablissement = null;
-		EtablissementMetierServiceInterface etablissementMetierServiceInterface = new EtablissementMetierServiceInterfaceProxy();
+		EtablissementMetierServiceInterfaceProxy etablissementMetierServiceInterface = new EtablissementMetierServiceInterfaceProxy();
 		EtablissementCompletDTO2[] typeEtablissementDTO;
 		try{
 			typeEtablissementDTO = etablissementMetierServiceInterface.recupererEtablissementWS_v2(null, rne, null, null, null, null, null);
@@ -774,7 +782,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	public TrEtablissementDTO getEtablissementByDepartement(String dep) {
 		// appel au WS AMUE
 		TrEtablissementDTO trEtablissement = null;
-		EtablissementMetierServiceInterface etablissementMetierServiceInterface = new EtablissementMetierServiceInterfaceProxy();
+		EtablissementMetierServiceInterfaceProxy etablissementMetierServiceInterface = new EtablissementMetierServiceInterfaceProxy();
 		EtablissementCompletDTO2[] typeEtablissementDTO;
 		try{
 			typeEtablissementDTO = etablissementMetierServiceInterface.recupererEtablissementWS_v2(null, null, null, dep, null, null, null);
@@ -804,7 +812,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 	@Override
 	public TrBac getBaccalaureat(String supannEtuId){
-		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+		EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
 		// Recuperation des infos de l'etudiant dans Apogee	
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		IndBacDTO[] indBacDTO;
@@ -845,7 +853,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 	@Override
 	public TrInfosAdmEtu getInfosAdmEtu(String supannEtuId){
-		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+		EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
 		// Recuperation des infos de l'etudiant dans Apogee	
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		try {
@@ -865,7 +873,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			logger.debug("String getComposante(String supannEtuId)");
 			logger.debug("supannEtuId --> "+supannEtuId);
 		}			
-		AdministratifMetierServiceInterface administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
+		AdministratifMetierServiceInterfaceProxy administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
 		InsAdmEtpDTO2[] insAdmEtpDTO;
 		try {
 			String ret="";
@@ -905,7 +913,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			logger.debug("public Map<String,String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId)");
 			logger.debug("supannEtuId --> "+supannEtuId);
 		}                      
-		AdministratifMetierServiceInterface administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
+		AdministratifMetierServiceInterfaceProxy administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
 		InsAdmEtpDTO[] insAdmEtpDTO;
 		try {
 			String ret="";
@@ -1031,11 +1039,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		if(source.equals("A"))
 			max=MAX_SESSIONS_RESULTAT_ACCUEIL;
 
-		PedagogiqueMetierServiceInterface pedagogiqueMetierServiceInterface = new PedagogiqueMetierServiceInterfaceProxy();
+		PedagogiqueMetierServiceInterfaceProxy pedagogiqueMetierServiceInterface = new PedagogiqueMetierServiceInterfaceProxy();
 		ContratPedagogiqueResultatVdiVetDTO[] contratPedagogiqueResultatVdiVetDTO;
 		try
 		{
 			contratPedagogiqueResultatVdiVetDTO = pedagogiqueMetierServiceInterface.recupererContratPedagogiqueResultatVdiVet(supannEtuId, "toutes", "Apogee", "AET", "toutes", null);
+			
 			ContratPedagogiqueResultatVdiVetDTO[] tab = new ContratPedagogiqueResultatVdiVetDTO[9];
 
 			if (logger.isDebugEnabled())
@@ -1294,14 +1303,14 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		VoeuxIns voeuxIns = new VoeuxIns();
 		IndOpi indOpi = new IndOpi();
-		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+		EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
 		// Recuperation des infos de l'etudiant dans Apogee	
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		try {
 			infoAdmEtuDTO = etudiantMetierService.recupererInfosAdmEtu(numeroEtudiant);
-			CoordonneesDTO coordonneesDTO = etudiantMetierService.recupererAdressesEtudiant(numeroEtudiant, null, null);
-			AdresseDTO adresseFixe = coordonneesDTO.getAdresseFixe();
-			CommuneDTO communeDTO = adresseFixe.getCommune();
+			CoordonneesDTO2 coordonneesDTO = etudiantMetierService.recupererAdressesEtudiant_v2(numeroEtudiant, null, null);
+			AdresseDTO2 adresseFixe = coordonneesDTO.getAdresseFixe();
+			CommuneDTO2 communeDTO = adresseFixe.getCommune();
 			PaysDTO paysDTO = adresseFixe.getPays();
 			NationaliteDTO nationaliteDTO = infoAdmEtuDTO.getNationaliteDTO();
 			IndBacDTO[] IndBacDTO = infoAdmEtuDTO.getListeBacs();
@@ -1374,9 +1383,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			logger.debug("public List<OffreDeFormationsDTO> getOffreDeFormation(String rne, Integer annee)-->"+rne+"-----"+annee);
 		}
 		List<OffreDeFormationsDTO> odfs = new ArrayList<OffreDeFormationsDTO>();
-		OffreFormationMetierServiceInterface offreFormation = new OffreFormationMetierServiceInterfaceProxy();	
+		OffreFormationMetierServiceInterfaceProxy offreFormation = new OffreFormationMetierServiceInterfaceProxy();	
 		// Recuperation des infos de l'etudiant dans Apogee	
-		DiplomeDTO2[] diplomeDTO2;
+		DiplomeDTO3[] diplomeDTO3;
 		VersionEtapeDTO2[] versionEtapeDTO2;
 		try 
 		{
@@ -1388,11 +1397,13 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			param.setCodDip("tous");
 			param.setCodVrsVdi("tous");
 			param.setCodElp("aucun");
-			diplomeDTO2 = offreFormation.recupererSE_v2(param);
+			diplomeDTO3 = offreFormation.recupererSE_v3(param);
+			
+//			offreFormation.recupererSE_v3(arg0)
 
-			for(DiplomeDTO2 ld : diplomeDTO2)
+			for(DiplomeDTO3 ld : diplomeDTO3)
 			{
-				VersionDiplomeDTO2[] versionDiplomeDTO2 =ld.getListVersionDiplome();
+				VersionDiplomeDTO3[] versionDiplomeDTO3 =ld.getListVersionDiplome();
 				if (logger.isDebugEnabled()) {
 					logger.debug("CodTypDip --> "+ ld.getTypeDiplome().getCodTypDip());
 					logger.debug("LibTypDip --> "+ ld.getTypeDiplome().getLibTypDip());
@@ -1403,14 +1414,14 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					logger.debug("ld.getTypeDiplome().getLibTypDip() --> "+ ld.getTypeDiplome().getLibTypDip());
 				}
 
-				for(VersionDiplomeDTO2 lvd : versionDiplomeDTO2)
+				for(VersionDiplomeDTO3 lvd : versionDiplomeDTO3)
 				{
 					if (logger.isDebugEnabled()) {
 						logger.debug("lvd.getCodCursusLmd --> "+lvd.getCodCursusLmd());
 						logger.debug("lvd.getLibWebVdi() --> "+lvd.getLibWebVdi());
 					}
-					EtapeDTO2[] etapeDTO2 = lvd.getOffreFormation().getListEtape();
-					for(EtapeDTO2 le : etapeDTO2)
+					EtapeDTO3[] etapeDTO3 = lvd.getOffreFormation().getListEtape();
+					for(EtapeDTO3 le : etapeDTO3)
 					{					
 						ComposanteCentreGestionDTO[] ccgOri = le.getListComposanteCentreGestion();
 
@@ -1421,9 +1432,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 								logger.debug("Alban --> le.getListComposanteCentreGestion()[i].getCodCentreGestion()-->"+ccgOri[i].getCodCentreGestion());
 								logger.debug("Alban --> ccgOri[i].getLibCentreGestion()-->"+ccgOri[i].getLibCentreGestion());
 							}
-							VersionEtapeDTO2[] versionEtapeDTO21=le.getListVersionEtape();
+							VersionEtapeDTO3[] versionEtapeDTO21=le.getListVersionEtape();
 
-							for(VersionEtapeDTO2 ve : versionEtapeDTO21)
+							for(VersionEtapeDTO3 ve : versionEtapeDTO21)
 							{
 								if(ccgOri[i].getCodComposante().equals(ve.getComposante().getCodComposante()))
 								{
@@ -1508,7 +1519,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		{
 			//OpiMetierServiceInterface opiMetierServiceInterface = new OpiMetierServiceInterfaceProxy();
 			//			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
-			DonneesOpiDTO3 donneesOpiDTO = new DonneesOpiDTO3();
+			DonneesOpiDTO4 donneesOpiDTO = new DonneesOpiDTO4();
 
 			/*Initialisation de l'objet DonneesOpiDTO2 d'apogee a partir de l'objet OPI de esup-transferts*/
 
@@ -1795,8 +1806,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			/*APPEL DE LA METHODE DU WS APOGEE*/
 			try {
-				//				opiMetierServiceInterface2.mettreajourDonneesOpi_v2(donneesOpiDTO);
-				opiMetierServiceInterface3.mettreajourDonneesOpi_v3(donneesOpiDTO);
+				opiMetierServiceInterface3.mettreajourDonneesOpi_v4(donneesOpiDTO);
 				// Traitement des exceptions
 			}catch (WebBaseException _ex) {
 				listeErreurs.add(opi);
@@ -1835,7 +1845,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String source, Integer annee)
 	{
-		ReferentielMetierServiceInterface referentielMetierService = new ReferentielMetierServiceInterfaceProxy();
+		ReferentielMetierServiceInterfaceProxy referentielMetierService = new ReferentielMetierServiceInterfaceProxy();
 		ComposanteDTO3[] comp = referentielMetierService.recupererComposante_v2(null, null);
 
 		if(comp.length!=0)
@@ -1885,7 +1895,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}	
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+		EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
 		// Recuperation des infos de l'etudiant dans Apogee	
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		try {
@@ -1922,7 +1932,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	public List<Composante> recupererListeComposantes(Integer annee, String source) {
 		if (logger.isDebugEnabled()) 
 			logger.debug("public List<Composante> recupererListeComposantes(Integer annee, String source)-->"+annee+"-----"+source);
-		ReferentielMetierServiceInterface referentielMetierService = new ReferentielMetierServiceInterfaceProxy();
+		ReferentielMetierServiceInterfaceProxy referentielMetierService = new ReferentielMetierServiceInterfaceProxy();
 		ComposanteDTO3[] comp = referentielMetierService.recupererComposante_v2(null, null);
 
 		if(comp.length!=0)
@@ -1943,7 +1953,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	public List<CGE> recupererListeCGE(Integer annee, String source) {
 		if (logger.isDebugEnabled()) 
 			logger.debug("public List<CGE> recupererListeCGE(Integer annee, String source)-->"+annee+"-----"+source);
-		ReferentielMetierServiceInterface referentielMetierService = new ReferentielMetierServiceInterfaceProxy();
+		ReferentielMetierServiceInterfaceProxy referentielMetierService = new ReferentielMetierServiceInterfaceProxy();
 		CentreGestionDTO2[] cge = referentielMetierService.recupererCGE(null, null);
 
 		if(cge.length!=0)
@@ -1974,7 +1984,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		List<EtudiantRef> listeEtu = new ArrayList<EtudiantRef>();
 
 		try{
-			EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
+			EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
 
 			EtudiantCritereDTO etuCritere  = new EtudiantCritereDTO();
 			etuCritere.setAnnee(myAnnee);
