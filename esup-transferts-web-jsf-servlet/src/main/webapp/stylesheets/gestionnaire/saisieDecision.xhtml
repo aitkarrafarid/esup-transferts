@@ -27,7 +27,7 @@
 							style="text-align:left;width:100%; border-style: hidden !important;">
 							<p:row>
 								<p:column style="width:50%">
-									<h:outputText value="Nom de famille : " />
+									<h:outputText value="Nom de famille #{administrationController.currentOdf.libVersionEtape} : " />
 									<h:outputText
 										value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
 								</p:column>
@@ -126,7 +126,7 @@
 					<p:spacer height="10px" />
 					<p:separator style="width:500px;height:10px" />
 
-					<p:fieldset id="listeDecisionDetails" legend="liste des décision"
+					<p:fieldset id="listeDecisionDetails" legend="liste des décision pour : #{administrationController.currentOdf.libVersionEtape}"
 						styleClass="panel" collapsed="false" toggleable="true"
 						style="width:700px;" toggleSpeed="200">
 						<p:dataList emptyMessage="Aucune décision"

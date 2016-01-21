@@ -161,3 +161,13 @@
 #############################################################################################################
 - Correction d'un BUG sur l'export excel (Lille 1)
 - Correction d'un BUG sur la gestion de la validation automatique (cge/composante)
+#############################################################################################################
+- Renomage de copyOfAdministrationController --> AdministrationController
+#############################################################################################################
+- Ajout de log supplémentaire pour Cyril (pb auth INE)
+#############################################################################################################
+- Correction d'un bug LazyInitializationException lors de l'affichage du recapitulatif d'une demande transferts départ
+#############################################################################################################
+- Correction d'un BUG sur la suppression d'une demande de transfert accueil (merci Damien/espe)
+#############################################################################################################
+- Ajout de l'envoi du mail informations dans de chaque demande de transfert départ si la propriété mail.information= du config.properties est définie
