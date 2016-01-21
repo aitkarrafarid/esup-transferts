@@ -62,8 +62,8 @@
 	</context-param>
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<!-- <param-value>hot-sneaks</param-value> -->
-		<param-value>artois</param-value>
+		<param-value>hot-sneaks</param-value>
+<!-- 		<param-value>artois</param-value> -->
 	</context-param>
 	<servlet>
 		<description> The main servlet of the application. This class

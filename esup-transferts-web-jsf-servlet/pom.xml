@@ -57,25 +57,25 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<!-- <version>4.0</version> -->
-			<version>5.1</version>
+			<version>5.3</version>
 		</dependency>
 		<!-- Début thème université d'Artois Commentez la dependency lié au thème 
 			Artois et décommentez celle en dessous si vous souhaitez utiliser un autre 
 			thème : http://www.primefaces.org/themes -->
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>artois</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/artois.jar
-			</systemPath>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.primefaces.themes</groupId> -->
+<!-- 			<artifactId>artois</artifactId> -->
+<!-- 			<version>1.0-SNAPSHOT</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/artois.jar -->
+<!-- 			</systemPath> -->
+<!-- 		</dependency> -->
 		<!-- Fin thème université d'Artois -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.primefaces.themes</groupId> -->
-		<!-- <artifactId>all-themes</artifactId> -->
-		<!-- <version>1.0.10</version> -->
-		<!-- </dependency> -->
+		<dependency>
+		<groupId>org.primefaces.themes</groupId>
+		<artifactId>all-themes</artifactId>
+		<version>1.0.10</version>
+		</dependency>
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>primefaces-extensions</artifactId>

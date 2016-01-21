@@ -35,13 +35,29 @@ public class OdfController extends AbstractContextAwareController {
 	 */
 	private final Logger logger = new LoggerImpl(this.getClass());	
 	private List<OffreDeFormationsDTO> odfs;
+	//	private List<OffreDeFormationsDTO> listeODFScolarite;
 	private OffreDeFormationsDTO[] selectedOdfs; 
 	private OdfDataModel odfDataModel;
-//	private DomainService domainServiceOdf;
+	//	private DomainService domainServiceOdf;
 	private List<String> listFormationsEnDoublons;
 	private FileGeneratorService fileGeneratorService;
 	private List<OffreDeFormationsDTO> filteredODF;  
 	private Integer nbOdfs;
+	private String filtre;
+	private List<OffreDeFormationsDTO> list=null;
+
+	public void addMessage() 
+	{
+		//		this.listeTransfertDepartDataModel = null;
+		//		this.transfertDataModelOpi =null;
+		//		String summary;
+		//
+		//		if (switchTraiteNontraite)
+		//			summary = getString("INFOS.LISTE_DE_TOUTES_LES_DEMANDES");
+		//		else
+		//			summary = getString("INFOS.LISTE_DES_DEMANDES_EN_COURS_DE_TRAITEMENT");
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Sofianou===>"+getFiltre()+"<==="));
+	}	
 
 	public Integer getNbOdfs() {
 		return nbOdfs;
@@ -59,15 +75,15 @@ public class OdfController extends AbstractContextAwareController {
 	public void alertPartenaireMAJOdfs()
 	{
 		String sujet = getString("MAIL.ODF.MAJ.SUJET");
-//		List<WsPub> listePartenaires = getDomainService().getListeWsPub();
+		//		List<WsPub> listePartenaires = getDomainService().getListeWsPub();
 		List<WsPub> listePartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
-		
+
 		String libEtab=null;
 		if(libEtab==null)
 			libEtab = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getLibOffEtb();
-		
-//		String tmp = "";
-		
+
+		//		String tmp = "";
+
 		for(WsPub part : listePartenaires)
 		{
 			if(!part.getRne().equals(getSessionController().getRne()))
@@ -75,7 +91,7 @@ public class OdfController extends AbstractContextAwareController {
 				try {
 					String body = getString("MAIL.ODF.MAJ.BODY", libEtab);
 					getSmtpService().send(new InternetAddress(part.getMailCorrespondantFonctionnel()), sujet, body, body);
-//					tmp += libEtab+" \n ";
+					//					tmp += libEtab+" \n ";
 				} 
 				catch (AddressException e) 
 				{
@@ -91,12 +107,11 @@ public class OdfController extends AbstractContextAwareController {
 		Severity severity=FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));	
 	}
-	
+
 	public  void exportXlsODF()
 	{
-		if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled()) 
 			logger.debug("exportXslODF()");
-		}
 
 		String typeExport = "xls";
 		Integer anneeSuivante = getSessionController().getCurrentAnnee()+1;
@@ -176,170 +191,168 @@ public class OdfController extends AbstractContextAwareController {
 
 	public void addOdfs()
 	{
-		List<OffreDeFormationsDTO> LOdfsLocal = getDomainService().getSelectedOdfs(getSessionController().getCurrentAnnee(),getSessionController().getRne());
-		List<OffreDeFormationsDTO> listFormationsInactives = new ArrayList<OffreDeFormationsDTO>();
-		List<OffreDeFormationsDTO> listFormationsIdentiques = new ArrayList<OffreDeFormationsDTO>();
-		int k=0;
-
-		if(LOdfsLocal!=null && !LOdfsLocal.isEmpty())
+		if(getFiltre()!=null && !getFiltre().equals("decoche"))
 		{
-			for(OffreDeFormationsDTO local :LOdfsLocal)
+			List<OffreDeFormationsDTO> LOdfsLocal = getDomainService().getSelectedOdfs(getSessionController().getCurrentAnnee(),getSessionController().getRne());
+			List<OffreDeFormationsDTO> listFormationsInactives = new ArrayList<OffreDeFormationsDTO>();
+			List<OffreDeFormationsDTO> listFormationsIdentiques = new ArrayList<OffreDeFormationsDTO>();
+			int k=0;
+
+			if(LOdfsLocal!=null && !LOdfsLocal.isEmpty())
 			{
-				boolean test = false;
-				for(OffreDeFormationsDTO odf : selectedOdfs)
+				for(OffreDeFormationsDTO local :LOdfsLocal)
 				{
-					if(local!=null 
-							&& local.getAnnee().equals(odf.getAnnee())
-							&& local.getRne().equals(odf.getRne()) 
-							&& local.getCodeDiplome().equals(odf.getCodeDiplome())
-							&& local.getCodeVersionDiplome().equals(odf.getCodeVersionDiplome())
-							&& local.getCodeEtape().equals(odf.getCodeEtape())
-							&& local.getCodeVersionEtape().equals(odf.getCodeVersionEtape())
-							&& local.getCodeCentreGestion().equals(odf.getCodeCentreGestion())
-							)
+					boolean test = false;
+					for(OffreDeFormationsDTO odf : selectedOdfs)
+					{
+						if(local!=null 
+								&& local.getAnnee().equals(odf.getAnnee())
+								&& local.getRne().equals(odf.getRne()) 
+								&& local.getCodeDiplome().equals(odf.getCodeDiplome())
+								&& local.getCodeVersionDiplome().equals(odf.getCodeVersionDiplome())
+								&& local.getCodeEtape().equals(odf.getCodeEtape())
+								&& local.getCodeVersionEtape().equals(odf.getCodeVersionEtape())
+								&& local.getCodeCentreGestion().equals(odf.getCodeCentreGestion())
+								)
+						{
+							if (logger.isDebugEnabled())
+							{
+								logger.debug("odf.getDepart()-->"+odf.getDepart());
+								logger.debug("odf.getArrivee()-->"+odf.getArrivee());
+							}
+							test = true;
+							break;
+						}
+					}
+					if(!test)
+					{
+						local.setActif(0);
+						listFormationsInactives.add(local);							
+					}	
+					else
 					{
 						if (logger.isDebugEnabled())
 						{
-							logger.debug("1111111111");
-							logger.debug("odf.getDepart()-->"+odf.getDepart());
-							logger.debug("odf.getArrivee()-->"+odf.getArrivee());
+							logger.debug("local.getDepart()-->"+local.getDepart());
+							logger.debug("local.getArrivee()-->"+local.getArrivee());
 						}
-						test = true;
-						break;
+						listFormationsIdentiques.add(local);
+					}
+				}			
+			}
+
+			OffreDeFormationsDTO[] tabFormationsInactives = new OffreDeFormationsDTO[listFormationsInactives.size()]; 
+			List<OffreDeFormationsDTO> listFormationsSelectionneMoinsCellesIdentiques = new ArrayList<OffreDeFormationsDTO>();
+
+			for(int i=0; i<listFormationsInactives.size();i++)
+				tabFormationsInactives[i]=listFormationsInactives.get(i);
+
+			for(int i=0; i<selectedOdfs.length;i++)
+			{
+				boolean test2=false;
+				if(!listFormationsIdentiques.isEmpty())
+				{
+					for(OffreDeFormationsDTO o : listFormationsIdentiques)
+					{
+						if(o!=null 
+								&& o.getAnnee().equals(selectedOdfs[i].getAnnee())
+								&& o.getRne().equals(selectedOdfs[i].getRne()) 
+								&& o.getCodeDiplome().equals(selectedOdfs[i].getCodeDiplome())
+								&& o.getCodeVersionDiplome().equals(selectedOdfs[i].getCodeVersionDiplome())
+								&& o.getCodeEtape().equals(selectedOdfs[i].getCodeEtape())
+								&& o.getCodeVersionEtape().equals(selectedOdfs[i].getCodeVersionEtape())
+								&& o.getCodeCentreGestion().equals(selectedOdfs[i].getCodeCentreGestion())
+								)
+						{
+							if (logger.isDebugEnabled())
+							{
+								logger.debug("o.getDepart()-->"+o.getDepart());
+								logger.debug("o.getArrivee()-->"+o.getArrivee());							
+								logger.debug("selectedOdfs[i].getDepart()-->"+selectedOdfs[i].getDepart());
+								logger.debug("selectedOdfs[i].getArrivee()-->"+selectedOdfs[i].getArrivee());
+							}
+							if(o.getDepart().equals(selectedOdfs[i].getDepart())
+									&& o.getArrivee().equals(selectedOdfs[i].getArrivee()))
+								test2=true;
+							break;
+						}
+
+					}
+					if(!test2)
+					{
+						selectedOdfs[i].setActif(1);
+						listFormationsSelectionneMoinsCellesIdentiques.add(selectedOdfs[i]);
+						k++;					
 					}
 				}
-				if(!test)
-				{
-					if (logger.isDebugEnabled())
-						logger.debug("2222222222");
-					local.setActif(0);
-					listFormationsInactives.add(local);							
-				}	
 				else
 				{
-					if (logger.isDebugEnabled())
-					{
-						logger.debug("3333333333");
-						logger.debug("local.getDepart()-->"+local.getDepart());
-						logger.debug("local.getArrivee()-->"+local.getArrivee());
-					}
-					listFormationsIdentiques.add(local);
-				}
-			}			
-		}
-
-		OffreDeFormationsDTO[] tabFormationsInactives = new OffreDeFormationsDTO[listFormationsInactives.size()]; 
-		List<OffreDeFormationsDTO> listFormationsSelectionneMoinsCellesIdentiques = new ArrayList<OffreDeFormationsDTO>();
-
-		for(int i=0; i<listFormationsInactives.size();i++)
-			tabFormationsInactives[i]=listFormationsInactives.get(i);
-
-		for(int i=0; i<selectedOdfs.length;i++)
-		{
-			boolean test2=false;
-			if(!listFormationsIdentiques.isEmpty())
-			{
-				for(OffreDeFormationsDTO o : listFormationsIdentiques)
-				{
-					if(o!=null 
-							&& o.getAnnee().equals(selectedOdfs[i].getAnnee())
-							&& o.getRne().equals(selectedOdfs[i].getRne()) 
-							&& o.getCodeDiplome().equals(selectedOdfs[i].getCodeDiplome())
-							&& o.getCodeVersionDiplome().equals(selectedOdfs[i].getCodeVersionDiplome())
-							&& o.getCodeEtape().equals(selectedOdfs[i].getCodeEtape())
-							&& o.getCodeVersionEtape().equals(selectedOdfs[i].getCodeVersionEtape())
-							&& o.getCodeCentreGestion().equals(selectedOdfs[i].getCodeCentreGestion())
-							)
-					{
-						if (logger.isDebugEnabled())
-						{
-							logger.debug("4444444444");
-							logger.debug("o.getDepart()-->"+o.getDepart());
-							logger.debug("o.getArrivee()-->"+o.getArrivee());							
-							logger.debug("selectedOdfs[i].getDepart()-->"+selectedOdfs[i].getDepart());
-							logger.debug("selectedOdfs[i].getArrivee()-->"+selectedOdfs[i].getArrivee());
-						}
-						if(o.getDepart().equals(selectedOdfs[i].getDepart())
-								&& o.getArrivee().equals(selectedOdfs[i].getArrivee()))
-							test2=true;
-						break;
-					}
-
-				}
-				if(!test2)
-				{
-					if (logger.isDebugEnabled())
-						logger.debug("5555555555");
 					selectedOdfs[i].setActif(1);
 					listFormationsSelectionneMoinsCellesIdentiques.add(selectedOdfs[i]);
-					k++;					
 				}
 			}
-			else
+
+			OffreDeFormationsDTO[] tabFormationsSelectionneMoinsCellesIdentiques = new OffreDeFormationsDTO[listFormationsSelectionneMoinsCellesIdentiques.size()]; 
+			for(int i=0;i<listFormationsSelectionneMoinsCellesIdentiques.size();i++)
+			{
+				tabFormationsSelectionneMoinsCellesIdentiques[i]=listFormationsSelectionneMoinsCellesIdentiques.get(i);
+			}
+
+			OffreDeFormationsDTO[] temp3 = (OffreDeFormationsDTO[]) ArrayUtils.addAll(tabFormationsSelectionneMoinsCellesIdentiques, tabFormationsInactives);
+			
+			if(!getSessionController().isTransfertsAccueil())
 			{
 				if (logger.isDebugEnabled())
-					logger.debug("6666666666");
-				selectedOdfs[i].setActif(1);
-				listFormationsSelectionneMoinsCellesIdentiques.add(selectedOdfs[i]);
+					logger.debug("if(!getSessionController().isTransfertsAccueil())");			
+				for(int i=0; i<temp3.length;i++)
+					temp3[i].setArrivee("oui");
+			}	
+			getDomainService().addOdfs(temp3);		
+			
+			if(getFiltre()!=null && getFiltre().equals("coche"))
+			{
+				if (logger.isDebugEnabled())
+					logger.debug("public void addOdfs()-----getFiltre()===>"+getFiltre()+"<===");
+				goToSynchroOdf();
 			}
 		}
-
-		OffreDeFormationsDTO[] tabFormationsSelectionneMoinsCellesIdentiques = new OffreDeFormationsDTO[listFormationsSelectionneMoinsCellesIdentiques.size()]; 
-		for(int i=0;i<listFormationsSelectionneMoinsCellesIdentiques.size();i++)
-		{
-			tabFormationsSelectionneMoinsCellesIdentiques[i]=listFormationsSelectionneMoinsCellesIdentiques.get(i);
-		}
-
-		OffreDeFormationsDTO[] temp3 = (OffreDeFormationsDTO[]) ArrayUtils.addAll(tabFormationsSelectionneMoinsCellesIdentiques, tabFormationsInactives);
-
-		if(!getSessionController().isTransfertsAccueil())
+		else
 		{
 			if (logger.isDebugEnabled())
-				logger.debug("if(!getSessionController().isTransfertsAccueil())");			
-			for(int i=0; i<temp3.length;i++)
-				temp3[i].setArrivee("oui");
-		}	
-
-		getDomainService().addOdfs(temp3);		
-
+				logger.debug("public void addOdfs()===>decoche<===");
+			
+			for(int i=0; i<selectedOdfs.length;i++)
+			{
+				selectedOdfs[i].setActif(1);
+			}
+			getDomainService().addOdfs(selectedOdfs);
+			
+			if(getFiltre()!=null && getFiltre().equals("decoche"))
+			{
+				if (logger.isDebugEnabled())
+					logger.debug("public void addOdfs()-----getFiltre()===>"+getFiltre()+"<===");
+				goToSynchroOdf();
+			}
+		}
 		String summary = getString("ENREGISTREMENT.ODF");
 		String detail = getString("ENREGISTREMENT.ODF");
 		Severity severity=FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));			
-//
-//		String sujet = getString("MAIL.ODF.MAJ.SUJET");
-//		List<WsPub> listePartenaires = getDomainService().getListeWsPub();
-//		String libEtab = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getLibOffEtb();
-//
-//		for(WsPub part : listePartenaires)
-//		{
-//			if(!part.getRne().equals(getSessionController().getRne()))
-//			{
-//				try {
-//					String body = getString("MAIL.ODF.MAJ.BODY", libEtab);
-//					getSmtpService().send(new InternetAddress(part.getMailCorrespondantFonctionnel()), sujet, body, body);
-//				} 
-//				catch (AddressException e) 
-//				{
-//					summary = getString("ERREUR.ENVOI_MAIL");
-//					detail = getString("ERREUR.ENVOI_MAIL");
-//					severity = FacesMessage.SEVERITY_ERROR;
-//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-//				}
-//			}
-//		}
 	}	
 
 	public String goToSynchroOdf() 
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("goToSynchroOdf");
+
+		logger.debug("public String goToSynchroOdf()-----getFiltre()===>"+getFiltre()+"<===");
+
 		odfs = new ArrayList<OffreDeFormationsDTO>();
 		this.odfDataModel = null;
 		this.selectedOdfs = null;
 		this.filteredODF = null;
 
-		if(selectedOdfs==null)
+		if(selectedOdfs==null || getFiltre().equals("coche"));
 		{
 			List<OffreDeFormationsDTO> list = getDomainService().getSelectedOdfs(getSessionController().getCurrentAnnee(), getSessionController().getRne());
 			if(list!=null && list.size()!=0)
@@ -348,8 +361,8 @@ public class OdfController extends AbstractContextAwareController {
 				for(int i=0;i<list.size();i++)
 					this.selectedOdfs[i] = list.get(i);
 			}
-		}					
-
+		}
+		list = new ArrayList<OffreDeFormationsDTO>();
 		this.setOdfs(this.getOdfs());
 
 		return "goToSynchroOdf";
@@ -361,54 +374,124 @@ public class OdfController extends AbstractContextAwareController {
 
 	public List<OffreDeFormationsDTO> getOdfs() 
 	{
-		//		if(getSessionController().isOdfSIScolarite())
-		//		{
 		if (logger.isDebugEnabled())
-			logger.debug("Recuperation de l'offre de formation a partir du WebService Scolarite");
-		List<OffreDeFormationsDTO> list = new ArrayList<OffreDeFormationsDTO>();
-		list = getDomainServiceScolarite().getOffreDeFormation(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-		nbOdfs=0;
-		if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)
 		{
-			nbOdfs=list.size();
-			//				if (logger.isDebugEnabled())
-			//					logger.debug("if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)");
-			for(int i=0;i<this.selectedOdfs.length;i++)
+			logger.debug("Recuperation de l'offre de formation a partir du WebService Scolarite");
+			logger.debug("public List<OffreDeFormationsDTO> getOdfs()-----getFiltre()===>"+getFiltre()+"<===");
+		}
+		
+		if(list!=null)
+			if (logger.isDebugEnabled())
+				logger.debug("list===>"+list.size()+"<===");
+
+		//		List<OffreDeFormationsDTO> list=null;
+
+		if(getFiltre()==null || getFiltre().equals("toutes"))
+		{		
+			if (logger.isDebugEnabled())
+				logger.debug("getFiltre()===>toutes<===");
+			//list = new ArrayList<OffreDeFormationsDTO>();
+			//			if(list==null || list.isEmpty())
+
+			list = getDomainServiceScolarite().getOffreDeFormation(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+
+			nbOdfs=0;
+			if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)
 			{
-				//					if (logger.isDebugEnabled())
-				//						logger.debug("for(int i=0;i<this.selectedOdfs.length;i++)");					
-				for(OffreDeFormationsDTO o : list)
+				nbOdfs=list.size();
+				for(int i=0;i<this.selectedOdfs.length;i++)
 				{
-					//						if (logger.isDebugEnabled())
-					//							logger.debug("for(OffreDeFormationsDTO o : list)");							
-					if(o.getAnnee().equals(this.selectedOdfs[i].getAnnee())
-							&& o.getRne().equals(this.selectedOdfs[i].getRne())
-							&& o.getCodeDiplome().equals(this.selectedOdfs[i].getCodeDiplome())
-							&& o.getCodeVersionDiplome().equals(this.selectedOdfs[i].getCodeVersionDiplome())
-							&& o.getCodeEtape().equals(this.selectedOdfs[i].getCodeEtape())
-							&& o.getCodeVersionEtape().equals(this.selectedOdfs[i].getCodeVersionEtape())
-							&& o.getCodeCentreGestion().equals(this.selectedOdfs[i].getCodeCentreGestion()))
+					for(OffreDeFormationsDTO o : list)
 					{
-						if (logger.isDebugEnabled())
+						if(o.getAnnee().equals(this.selectedOdfs[i].getAnnee())
+								&& o.getRne().equals(this.selectedOdfs[i].getRne())
+								&& o.getCodeDiplome().equals(this.selectedOdfs[i].getCodeDiplome())
+								&& o.getCodeVersionDiplome().equals(this.selectedOdfs[i].getCodeVersionDiplome())
+								&& o.getCodeEtape().equals(this.selectedOdfs[i].getCodeEtape())
+								&& o.getCodeVersionEtape().equals(this.selectedOdfs[i].getCodeVersionEtape())
+								&& o.getCodeCentreGestion().equals(this.selectedOdfs[i].getCodeCentreGestion()))
 						{
-							logger.debug("######################################TEST EGALITE ODF###############################################");
-							logger.debug("o.getAnnee()-->"+o.getAnnee());	
-							logger.debug("o.getRne()-->"+o.getRne());	
-							logger.debug("o.getCodeDiplome()-->"+o.getCodeDiplome());	
-							logger.debug("o.getCodeVersionDiplome()-->"+o.getCodeVersionDiplome());	
-							logger.debug("o.getCodeEtape()-->"+o.getCodeEtape());	
-							logger.debug("o.getCodeVersionEtape()-->"+o.getCodeVersionEtape());	
-							logger.debug("o.getCodeCentreGestion()-->"+o.getCodeCentreGestion());	
+							if (logger.isDebugEnabled())
+							{
+								logger.debug("######################################TEST EGALITE ODF###############################################");
+								logger.debug("o.getAnnee()-->"+o.getAnnee());	
+								logger.debug("o.getRne()-->"+o.getRne());	
+								logger.debug("o.getCodeDiplome()-->"+o.getCodeDiplome());	
+								logger.debug("o.getCodeVersionDiplome()-->"+o.getCodeVersionDiplome());	
+								logger.debug("o.getCodeEtape()-->"+o.getCodeEtape());	
+								logger.debug("o.getCodeVersionEtape()-->"+o.getCodeVersionEtape());	
+								logger.debug("o.getCodeCentreGestion()-->"+o.getCodeCentreGestion());	
+							}
+							o.setDepart(this.selectedOdfs[i].getDepart());
+							o.setArrivee(this.selectedOdfs[i].getArrivee());
 						}
-						o.setDepart(this.selectedOdfs[i].getDepart());
-						o.setArrivee(this.selectedOdfs[i].getArrivee());
 					}
 				}
 			}
+			else
+				if (logger.isDebugEnabled())
+					logger.debug("##########################TEST NULL################################");
 		}
-		else
+		else if(getFiltre()!=null && getFiltre().equals("coche"))
+		{
 			if (logger.isDebugEnabled())
-				logger.debug("##########################TEST NULL################################");
+				logger.debug("getFiltre()===>coche<===");
+			
+			list = getDomainService().getSelectedOdfs(getSessionController().getCurrentAnnee(), getSessionController().getRne());
+			nbOdfs=list.size();
+			
+			if (logger.isDebugEnabled())
+				logger.debug("nbOdfs===>"+nbOdfs+"<===");
+		}
+		else if(getFiltre()!=null && getFiltre().equals("decoche"))
+		{
+			if (logger.isDebugEnabled())
+				logger.debug("getFiltre()===>decoche<===");
+			List<OffreDeFormationsDTO> listeDecoche = new ArrayList<OffreDeFormationsDTO>();
+			//list = new ArrayList<OffreDeFormationsDTO>();
+			//			if(list==null || list.isEmpty())
+
+			list = getDomainServiceScolarite().getOffreDeFormation(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+
+			if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)
+			{
+				for(int i=0;i<this.selectedOdfs.length;i++)
+				{
+					for(OffreDeFormationsDTO o : list)
+					{
+						if(o.getAnnee().equals(this.selectedOdfs[i].getAnnee())
+								&& o.getRne().equals(this.selectedOdfs[i].getRne())
+								&& o.getCodeDiplome().equals(this.selectedOdfs[i].getCodeDiplome())
+								&& o.getCodeVersionDiplome().equals(this.selectedOdfs[i].getCodeVersionDiplome())
+								&& o.getCodeEtape().equals(this.selectedOdfs[i].getCodeEtape())
+								&& o.getCodeVersionEtape().equals(this.selectedOdfs[i].getCodeVersionEtape())
+								&& o.getCodeCentreGestion().equals(this.selectedOdfs[i].getCodeCentreGestion()))
+						{
+							if (logger.isDebugEnabled())
+							{
+								logger.debug("######################################TEST EGALITE ODF###############################################");
+								logger.debug("o.getAnnee()-->"+o.getAnnee());	
+								logger.debug("o.getRne()-->"+o.getRne());	
+								logger.debug("o.getCodeDiplome()-->"+o.getCodeDiplome());	
+								logger.debug("o.getCodeVersionDiplome()-->"+o.getCodeVersionDiplome());	
+								logger.debug("o.getCodeEtape()-->"+o.getCodeEtape());	
+								logger.debug("o.getCodeVersionEtape()-->"+o.getCodeVersionEtape());	
+								logger.debug("o.getCodeCentreGestion()-->"+o.getCodeCentreGestion());	
+							}
+							listeDecoche.add(o);
+						}
+					}
+				}
+				list.removeAll(listeDecoche);
+				nbOdfs=list.size();
+				
+				if (logger.isDebugEnabled())
+					logger.debug("nbOdfs===>"+nbOdfs+"<===");
+			}
+			else
+				if (logger.isDebugEnabled())
+					logger.debug("##########################TEST NULL################################");			
+		}
 		return list;
 	}
 
@@ -451,13 +534,13 @@ public class OdfController extends AbstractContextAwareController {
 		this.odfDataModel = odfDataModel;
 	}
 
-//	public DomainService getDomainServiceOdf() {
-//		return domainServiceOdf;
-//	}
-//
-//	public void setDomainServiceOdf(DomainService domainServiceOdf) {
-//		this.domainServiceOdf = domainServiceOdf;
-//	}
+	//	public DomainService getDomainServiceOdf() {
+	//		return domainServiceOdf;
+	//	}
+	//
+	//	public void setDomainServiceOdf(DomainService domainServiceOdf) {
+	//		this.domainServiceOdf = domainServiceOdf;
+	//	}
 
 	public List<String> getListFormationsEnDoublons() {
 		return listFormationsEnDoublons;
@@ -481,5 +564,13 @@ public class OdfController extends AbstractContextAwareController {
 
 	public void setFilteredODF(List<OffreDeFormationsDTO> filteredODF) {
 		this.filteredODF = filteredODF;
-	}	
+	}
+
+	public String getFiltre() {
+		return filtre;
+	}
+
+	public void setFiltre(String filtre) {
+		this.filtre = filtre;
+	}
 }

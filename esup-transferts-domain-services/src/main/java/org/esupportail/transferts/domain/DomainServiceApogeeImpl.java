@@ -914,10 +914,10 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			logger.debug("supannEtuId --> "+supannEtuId);
 		}                      
 		AdministratifMetierServiceInterfaceProxy administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
-		InsAdmEtpDTO[] insAdmEtpDTO;
+		InsAdmEtpDTO2[] insAdmEtpDTO;
 		try {
 			String ret="";
-			insAdmEtpDTO = administratifMetierServiceInterface.recupererIAEtapes(supannEtuId, null, "ARE", "ARE");
+			insAdmEtpDTO = administratifMetierServiceInterface.recupererIAEtapes_v2(supannEtuId, null, "ARE", "ARE");
 			Map<String, String> map = new HashMap<String, String>();
 			for(int i=0; i<insAdmEtpDTO.length;i++)
 			{
@@ -955,76 +955,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			return map;
 		}
 	}             
-
-	//	@Override
-	//	public Map<String,String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId){
-	//		if (logger.isDebugEnabled()) {
-	//			logger.debug("public Map<String,String> getEtapePremiereAndCodeCgeAndLibCge(String supannEtuId)");
-	//			logger.debug("supannEtuId --> "+supannEtuId);
-	//		}			
-	//		AdministratifMetierServiceInterface administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
-	//		InsAdmEtpDTO[] insAdmEtpDTO;
-	//		try {
-	//			String ret="";
-	//			insAdmEtpDTO = administratifMetierServiceInterface.recupererIAEtapes(supannEtuId, null, "ARE", "ARE");
-	//			Map<String, String> map = new HashMap<String, String>();
-	//			List<Integer> anneeIAE = new ArrayList<Integer>();
-	//			
-	//			for(int i=0; i<insAdmEtpDTO.length;i++)
-	//			{
-	//				if (logger.isDebugEnabled()) 
-	//				{
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getAnneeIAE() ----------->"+insAdmEtpDTO[i].getAnneeIAE());	
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getDateIAE() ----------->"+insAdmEtpDTO[i].getDateIAE());						
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getComposante().getLibComposante() ----------->"+insAdmEtpDTO[i].getComposante().getLibComposante());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getTemoinPI() ----------->>"+insAdmEtpDTO[i].getTemoinPI());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getTemoinVae() ----------->"+insAdmEtpDTO[i].getTemoinVae());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtatIae().getCodeEtatIAE() ----------->"+insAdmEtpDTO[i].getEtatIae().getCodeEtatIAE());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtatIae().getLibEtatIAE() ----------->"+insAdmEtpDTO[i].getEtatIae().getLibEtatIAE());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtatIaa().getCodeEtatIAA() ----------->"+insAdmEtpDTO[i].getEtatIaa().getCodeEtatIAA());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtatIaa().getLibEtatIAA() ----------->"+insAdmEtpDTO[i].getEtatIaa().getLibEtatIAA());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtapePremiere() ----------->"+insAdmEtpDTO[i].getEtapePremiere());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getCge().getCodeCGE() ----------->"+insAdmEtpDTO[i].getCge().getCodeCGE());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getCge().getLibCGE() ----------->"+insAdmEtpDTO[i].getCge().getLibCGE());
-	//					logger.debug("---------- getEtapePremiereAndCodeCgeAndLibCge - insAdmEtpDTO[i].getEtape().getLibWebVet() ----------->"+insAdmEtpDTO[i].getEtape().getLibWebVet());
-	//				}					
-	//				if(insAdmEtpDTO[i].getEtapePremiere().equals("oui"))
-	//					anneeIAE.add(Integer.parseInt(insAdmEtpDTO[i].getAnneeIAE()));
-	//			}
-	//
-	//			Integer tableau[] = new Integer[anneeIAE.size()];
-	//			for(int i=0 ; i<anneeIAE.size() ; i++)	
-	//				tableau[i]=anneeIAE.get(i);
-	//				
-	//			if (logger.isDebugEnabled()) 
-	//				for(int i=0;i<tableau.length;i++)
-	//					logger.debug("---------- tableau["+i+"] ------------>"+tableau[i]);		
-	//			
-	//			Arrays.sort(tableau);
-	//
-	//			for(int i=0; i<insAdmEtpDTO.length;i++)
-	//			{
-	//				if(insAdmEtpDTO[i].getEtapePremiere().equals("oui") && insAdmEtpDTO[i].getAnneeIAE().equals(tableau[0].toString()))
-	//				{
-	//					map.put("libWebVet", insAdmEtpDTO[i].getEtape().getLibWebVet());
-	//					map.put("codeCGE", insAdmEtpDTO[i].getCge().getCodeCGE());
-	//					map.put("libCGE", insAdmEtpDTO[i].getCge().getLibCGE());
-	//					map.put("codeComposante", insAdmEtpDTO[i].getComposante().getCodComposante());
-	//					map.put("libComposante", insAdmEtpDTO[i].getComposante().getLibComposante());		
-	//				}
-	//			}			
-	//			return map;
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			Map<String, String> map = new HashMap<String, String>();
-	//			map.put("libWebVet", "Inconnue");
-	//			map.put("codeCGE", "Inconnue");
-	//			map.put("libCGE", "Inconnue");		
-	//			map.put("codeComposante", "Inconnue");
-	//			map.put("libComposante", "Inconnue");		
-	//			return map;
-	//		}
-	//	}		
 
 	@Override
 	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId, String source)
@@ -1535,6 +1465,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				logger.debug("opi.getLibAd2() --> "+opi.getLibAd2());
 				logger.debug("opi.getLibAd3() --> "+opi.getLibAd3());
 				logger.debug("opi.getLibAde() --> "+opi.getLibAde());
+				logger.debug("opi.getNumTel() --> "+opi.getNumTel());
 				logger.debug("#######################################################################################################################");				
 			}
 			MAJOpiAdresseDTO opiAdresseFixeDTO = new MAJOpiAdresseDTO();
@@ -1545,6 +1476,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			opiAdresseFixeDTO.setLib2(opi.getLibAd2());
 			opiAdresseFixeDTO.setLib3(opi.getLibAd3());
 			opiAdresseFixeDTO.setLibAde(opi.getLibAde());
+			opiAdresseFixeDTO.setNumTel(opi.getNumTel());
 			donneesOpiDTO.setAdresseFixe(opiAdresseFixeDTO);
 
 			/*#################################################*/ 

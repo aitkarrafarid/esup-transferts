@@ -61,7 +61,8 @@
         </p:column>
 
 					<p:column id="codeEtape" headerText="Code etape"
-						filterBy="#{odf.codeEtape}" filterMatchMode="contains" sortBy="#{odf.codeEtape}">  
+						filterBy="#{odf.codeEtape}" filterMatchMode="contains"
+						sortBy="#{odf.codeEtape}">  
             #{odf.codeEtape}  
         </p:column>
 
@@ -90,7 +91,8 @@
         </p:column>
 
 					<p:column id="depart" headerText="Départ" style="width:10%"
-						sortBy="#{odf.depart}" filterBy="#{odf.depart}" filterMatchMode="contains">
+						sortBy="#{odf.depart}" filterBy="#{odf.depart}"
+						filterMatchMode="contains">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{odf.depart}" />
@@ -105,7 +107,8 @@
 					</p:column>
 
 					<p:column id="arrivee" headerText="Arrivée" style="width:10%"
-						sortBy="#{odf.arrivee}" filterBy="#{odf.arrivee}" filterMatchMode="contains"
+						sortBy="#{odf.arrivee}" filterBy="#{odf.arrivee}"
+						filterMatchMode="contains"
 						rendered="#{sessionController.transfertsAccueil}">
 						<p:cellEditor>
 							<f:facet name="output">
@@ -121,13 +124,33 @@
 					</p:column>
 
 					<f:facet name="footer">
-						<!--             Total #{fn:length(odfController.odfs)} formation(s).   -->
+						<p:fieldset legend="Filtre" style="margin-bottom:20px" toggleable="true" toggleSpeed="500" collapsed="true">
+							<h:panelGrid columns="2" cellpadding="5">
+								<p:selectOneMenu id="console" style="width:50%;"
+									value="#{odfController.filtre}">
+									<f:selectItem itemLabel="Toutes les formations" itemValue="toutes" />
+									<f:selectItem itemLabel="Formations cochées" itemValue="coche" />
+									<f:selectItem itemLabel="Formations décochées" itemValue="decoche" />
+								</p:selectOneMenu>
+<!-- 								<p:spacer height="30px" /> -->
+								<p:commandButton value="Valider"
+									title="Valider" update=":formOdf"
+									action="#{odfController.goToSynchroOdf}" />
+								<!-- 						<p:selectBooleanButton style="position:absolute;left:2%;" -->
+								<!-- 							value="#{odfController.coche}" -->
+								<!-- 							onLabel="coché" offLabel="décoché" -->
+								<!-- 							onIcon="ui-icon-check" offIcon="ui-icon-close"> -->
+								<!-- 							<p:ajax update=":formOdf" oncomplete="true" -->
+								<!-- 								listener="#{odfController.addMessage}" /> -->
+								<!-- 						</p:selectBooleanButton>						 -->
+							</h:panelGrid>
+						</p:fieldset>						
 						Total : #{odfController.nbOdfs} formation(s).
 					</f:facet>
 				</p:dataTable>
 				<p:spacer height="30px" />
 				<p:commandButton value="Enregistrer" icon="ui-icon-disk"
-					update="msgs" title="Enregistrer" action="#{odfController.addOdfs}" />
+					update=":formOdf msgs" title="Enregistrer" action="#{odfController.addOdfs}" />
 				<p:commandButton value="Vérifier" icon="ui-icon-transfer-e-w"
 					update="msgs" title="Vérifier" action="#{odfController.verifier}" />
 				<p:commandButton value="Alerter les partenaires"
