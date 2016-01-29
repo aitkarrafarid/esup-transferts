@@ -50,6 +50,11 @@
 			<to-view-id>/stylesheets/depart/recapitulatif.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>goToCorrespondance</from-outcome>
+			<to-view-id>/stylesheets/depart/correspondance.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
 		<!-- Authentification logiciel scolarité -->		
 		<navigation-case>
 			<from-outcome>goToAdresseApogee</from-outcome>
@@ -202,7 +207,12 @@
 			<from-outcome>goToSaisirDecision</from-outcome>
 			<to-view-id>/stylesheets/gestionnaire/saisieDecision.xhtml</to-view-id>
 			<redirect />
-		</navigation-case>		
+		</navigation-case>	
+		<navigation-case>
+			<from-outcome>goToSaisirCorrespondance</from-outcome>
+			<to-view-id>/stylesheets/gestionnaire/saisieCorrespondance.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>			
 		<navigation-case>
 			<from-outcome>goToStats</from-outcome>
 			<to-view-id>/stylesheets/gestionnaire/statistiques.xhtml</to-view-id>
