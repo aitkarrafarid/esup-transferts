@@ -41,7 +41,7 @@ import org.springframework.beans.factory.InitializingBean;
 import com.googlecode.ehcache.annotations.Cacheable;
 
 /**
- * @author Farid AIT KARRA (Universite d'Artois) - 2015
+ * @author Farid AIT KARRA (Universite d'Artois) - 2016
  * 
  */
 public class DomainServiceImpl implements DomainService, InitializingBean {
@@ -609,8 +609,8 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	}
 
 	@Override
-	public void addIndOpi(IndOpi opi) {
-		getDaoService().addIndOpi(opi);
+	public void addIndOpi(IndOpi opi, boolean maj) {
+		getDaoService().addIndOpi(opi, maj);
 	}
 
 	@Override
@@ -701,5 +701,23 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	@Override
 	public void deleteOpi(IndOpi opi) {
 		getDaoService().deleteOpi(opi);
+	}
+
+	@Override
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee) {
+		// TODO Auto-generated method stub
+		return getDaoService().getDemandeTransfertByAnneeAndNumeroIneAndSource(ine, annee);
+	}
+
+	@Override
+	public IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee) {
+		// TODO Auto-generated method stub
+		return getDaoService().getIndOpiByNneAndCleIneAndAnnee(nne, cleIne, annee);
+	}
+
+	@Override
+	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) {
+		// TODO Auto-generated method stub
+		return getDaoService().getSituationUniversitaireByNumeroEtudiantAndAnnee(numeroEtudiant, annee);
 	}
 }

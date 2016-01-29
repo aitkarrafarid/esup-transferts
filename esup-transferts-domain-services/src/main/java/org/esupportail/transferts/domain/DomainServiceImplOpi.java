@@ -56,10 +56,10 @@ public class DomainServiceImplOpi implements DomainServiceOpi, InitializingBean 
 		return daoService;
 	}
 
-	@Override
-	public void addIndOpi(IndOpi opi) {
-		getDaoService().addIndOpi(opi);
-	}
+//	@Override
+//	public void addIndOpi(IndOpi opi) {
+//		getDaoService().addIndOpi(opi);
+//	}
 
 	@Override
 	public List<OffreDeFormationsDTO> getFormationsByMaxDateLocalDifferentDateMaxDistantAndAnneeAndRne(Date maxDate, Integer annee, String rne){

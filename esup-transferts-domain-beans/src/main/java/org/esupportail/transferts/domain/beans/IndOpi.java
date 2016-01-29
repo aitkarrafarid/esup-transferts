@@ -28,6 +28,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @NamedQueries({
+		@NamedQuery(name = "getIndOpiByNneAndCleIneAndAnnee", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.codNneIndOpi = :nne AND indOpi.codCleNneIndOpi = :cleIne AND indOpi.annee = :annee"),
 		@NamedQuery(name = "allIndOpiNonSynchroAndSource", query = "SELECT indOpi FROM IndOpi indOpi LEFT JOIN FETCH indOpi.voeux WHERE indOpi.annee = :annee AND indOpi.synchro=0 AND indOpi.source = :source"),
 		@NamedQuery(name = "allIndOpiBySynchroAndSource", query = "SELECT indOpi FROM IndOpi indOpi LEFT JOIN FETCH indOpi.voeux  WHERE indOpi.annee = :annee AND indOpi.synchro= :synchro AND indOpi.source= :source"),
 		@NamedQuery(name = "allIndOpiBySynchroAndExcluAndSource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee AND indOpi.synchro!=0 AND indOpi.source= :source"),

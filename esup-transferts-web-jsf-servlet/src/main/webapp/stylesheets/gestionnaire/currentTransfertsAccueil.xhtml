@@ -39,7 +39,7 @@
 				<!-- 			<p:commandButton action="#{administrationController.addLaissezPasserPrimoInscription}" value="addLaissezPasserPrimoInscription" /> -->
 
 				<p:panel id="adresse" styleClass="panel"
-					header="Demande de Transferts accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" 
+					header="Demande de Transferts accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}"
 					style="width:80%;text-align:left;">
 
 					<p:fieldset legend="Etat civil" toggleable="true" toggleSpeed="200">
@@ -53,14 +53,14 @@
 								</p:column>
 								<p:column style="width:50%">
 									<h:outputText value="Date de la demande : " />
-<!-- 									<p:calendar id="mask" -->
-<!-- 										value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}" -->
-<!-- 										pattern="dd-MM-yyyy" mask="true" /> -->
-								<h:outputText
-									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
-									<f:convertDateTime pattern="dd/MM/yyyy"
-										timeZone="Europe/Paris" />
-								</h:outputText>
+									<!-- 									<p:calendar id="mask" -->
+									<!-- 										value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}" -->
+									<!-- 										pattern="dd-MM-yyyy" mask="true" /> -->
+									<h:outputText
+										value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="Europe/Paris" />
+									</h:outputText>
 								</p:column>
 							</p:row>
 							<p:row>
@@ -360,7 +360,8 @@
 										value="* Département de l'université de départ : " />
 								</p:column>
 								<p:column style="width:65%">
-									<p:selectOneMenu id="departements" filter="true" filterMatchMode="contains"
+									<p:selectOneMenu id="departements" filter="true"
+										filterMatchMode="contains"
 										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 										value="#{administrationController.currentDemandeTransferts.accueil.codeDepUnivDepart}"
 										required="true"
@@ -383,7 +384,8 @@
 									<h:outputText value="* Nom de l'université de départ : " />
 								</p:column>
 								<p:column style="width:65%">
-									<p:selectOneMenu id="etablissements" filter="true" filterMatchMode="contains"
+									<p:selectOneMenu id="etablissements" filter="true"
+										filterMatchMode="contains"
 										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
 										value="#{administrationController.currentDemandeTransferts.accueil.codeRneUnivDepart}"
 										required="true"
@@ -690,6 +692,10 @@
 			<p:stack icon="/media/images/stack.png" styleClass="panel"
 				rendered="#{administrationController.listeFichiers != null}"
 				id="menuBasGauche">
+				<p:menuitem value="Correspondance"
+					icon="/media/images/messenger.png" update="msgs,msgs2,growl"
+					disabled="false"
+					action="#{administrationController.goToSaisirCorrespondance}" />
 				<p:menuitem value="Décision" icon="/media/images/kate.png"
 					update="msgs,msgs2,growl"
 					action="#{administrationController.goToSaisirDecision}" />

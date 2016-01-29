@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.esupportail.transferts.web.comparator;
+package org.esupportail.transferts.accueil.web.comparator;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -17,7 +17,7 @@ import org.esupportail.transferts.domain.beans.AccueilDecision;
  * @author cleprous
  *
  */
-public class ComparatorDateTime implements Comparator<AccueilDecision>, Serializable {
+public class ComparatorDateTimeAccueilDecision implements Comparator<AccueilDecision>, Serializable {
 
 	/**
 	 * The serialization id. 
@@ -27,15 +27,29 @@ public class ComparatorDateTime implements Comparator<AccueilDecision>, Serializ
 	/**
 	 * Constructor.
 	 */
-	public ComparatorDateTime() {
+	public ComparatorDateTimeAccueilDecision() {
 		super();
 	}
 
 	public int compare(AccueilDecision p, AccueilDecision q) {
-//		Date Pdate = p.getDateSaisie();
-//		Date Qdate =q.getDateSaisie();
+		Date Pdate = p.getDateSaisie();
+		Date Qdate =q.getDateSaisie();
 //		return Pdate.compareTo(Qdate) > 0 ? 0 : 1;
-		return p.getDateSaisie().compareTo(q.getDateSaisie())*-1;
+		if (Pdate.compareTo(Qdate) < 0)
+		{
+//			System.out.println("date1 is before date2");
+			return 1;
+		}
+		else if (Pdate.compareTo(Qdate) > 0)
+		{
+//			System.out.println("date1 is after date2");
+			return -1;
+		}
+		else
+		{
+//			System.out.println("date1 is equal to date2");
+			return 0;
+		}
 	}
 
 }

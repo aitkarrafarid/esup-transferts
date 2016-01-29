@@ -54,6 +54,11 @@
 			<to-view-id>/stylesheets/connexionApogee/recapitulatif.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>goToCorrespondance</from-outcome>
+			<to-view-id>/stylesheets/connexionApogee/correspondance.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>			
 	</navigation-rule>
 
 </faces-config>

@@ -107,9 +107,10 @@
 					<p:spacer height="10px" />
 					<p:separator style="width:500px;height:10px" />
 
-					<p:fieldset id="listeAvisDetails" legend="liste des avis pour : #{administrationController.currentOdf.libVersionEtape}"
+					<p:fieldset id="listeAvisDetails" legend="liste des avis pour : #{administrationController.currentOdf.libVersionEtape}#{administrationController.currentDemandeTransferts.transferts.libelleTypeDiplome}"
 						styleClass="panel" collapsed="true" toggleable="true"
 						style="width:700px;" toggleSpeed="200">
+						
 						<p:dataList emptyMessage="Aucun avis"
 							value="#{administrationController.listeAvisByNumeroEtudiantAndAnnee}"
 							var="avis2" paginator="true" rows="5" effectSpeed="fast"

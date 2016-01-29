@@ -522,6 +522,9 @@
 			<p:stack icon="/media/images/stack.png" styleClass="panel"
 				rendered="#{administrationController.listeFichiers != null}"
 				id="menuBasGauche">
+				<p:menuitem value="Correspondance" icon="/media/images/messenger.png"
+					update="msgs,msgs2,growl" disabled="true"
+					action="#{administrationController.goToSaisirCorrespondance}" />				
 				<p:menuitem value="Avis" icon="/media/images/avis.png"
 					update="msgs,msgs2,growl"
 					action="#{administrationController.goToSaisirAvis}" />

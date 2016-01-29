@@ -21,7 +21,7 @@ import org.esupportail.transferts.domain.beans.Test;
 @WebService
 public interface DomainServiceOpi extends Serializable {
 	
-	public void addIndOpi(IndOpi opi);	
+//	public void addIndOpi(IndOpi opi);	
 	
 	public List<OffreDeFormationsDTO> getFormationsByRneAndAnnee(String rne, Integer annee);
 	

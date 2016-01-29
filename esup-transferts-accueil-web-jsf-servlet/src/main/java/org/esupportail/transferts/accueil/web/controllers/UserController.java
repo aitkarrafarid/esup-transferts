@@ -37,6 +37,7 @@ import org.esupportail.transferts.domain.beans.AccueilResultat;
 import org.esupportail.transferts.domain.beans.AdresseRef;
 import org.esupportail.transferts.domain.beans.Avis;
 import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
+import org.esupportail.transferts.domain.beans.Correspondance;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.EtudiantRefImp;
 import org.esupportail.transferts.domain.beans.Fichier;
@@ -57,7 +58,8 @@ import org.esupportail.transferts.domain.beans.TrSituationUniversitaire;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.CheckBEA23;
 import org.esupportail.transferts.utils.CheckNNE36;
-import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTime;
+import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeCorrespondance;
+import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeAccueilDecision;
 import org.esupportail.transferts.accueil.web.comparator.ComparatorSelectItem;
 import org.esupportail.transferts.accueil.web.controllers.AbstractContextAwareController;
 import org.esupportail.transferts.accueil.web.dataModel.OdfDataModel;
@@ -127,6 +129,7 @@ public class UserController extends AbstractContextAwareController {
 	private Parametres parametreAppliInfosAccueil;
 	private String aideTypeTransfert;
 	private List<TrSituationUniversitaire> lTrSituationUniversitaire;
+	private List<Correspondance> listeCorrespondances = null;
 	/*
 	 ******************* INIT ******************** */
 
@@ -1937,7 +1940,7 @@ public class UserController extends AbstractContextAwareController {
 			{
 				listeAccueilDecision.add((AccueilDecision) i.next());
 			}			
-			Collections.sort(listeAccueilDecision, new ComparatorDateTime());
+			Collections.sort(listeAccueilDecision, new ComparatorDateTimeAccueilDecision());
 		}
 		return listeAccueilDecision;		
 	}
@@ -1984,6 +1987,7 @@ public class UserController extends AbstractContextAwareController {
 	public List<TrSituationUniversitaire> getlTrSituationUniversitaire() 
 	{
 		List<TrSituationUniversitaire> lTrSU = new ArrayList<TrSituationUniversitaire>();
+		this.currentEtudiant.getAccueil().setSituationUniversitaire(getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(this.currentEtudiant.getNumeroEtudiant(), this.currentEtudiant.getAnnee()));
 		for(SituationUniversitaire su : this.currentEtudiant.getAccueil().getSituationUniversitaire())
 		{
 			String annee = "";
@@ -1996,15 +2000,31 @@ public class UserController extends AbstractContextAwareController {
 				resultat = su.getResultat().getLibelle();
 			else
 				resultat = su.getLibAccueilResultat();				
-			//lTrSU.add(new TrSituationUniversitaire(su.getId(), su.getAnnee().getLibelle(), su.getLibelle(), su.getResultat().getLibelle()));
 			lTrSU.add(new TrSituationUniversitaire(su.getId(), annee, su.getLibelle(), resultat));
 		}
-		//etudiantRefImp.setSituationUniversitaire(lTrSU);
 		return lTrSU;
 	}
 
 	public void setlTrSituationUniversitaire(List<TrSituationUniversitaire> lTrSituationUniversitaire) 
 	{
 		this.lTrSituationUniversitaire = lTrSituationUniversitaire;
+	}
+
+	public List<Correspondance> getListeCorrespondances() {
+		if(this.currentEtudiant.getCorrespondances()!=null)
+		{
+			listeCorrespondances = new ArrayList<Correspondance>();
+			Iterator i=this.currentEtudiant.getCorrespondances().iterator(); // on cr�e un Iterator pour parcourir notre HashSet
+			while(i.hasNext()) // tant qu'on a un suivant
+			{
+				listeCorrespondances.add((Correspondance) i.next());
+			}			
+			Collections.sort(listeCorrespondances, new ComparatorDateTimeCorrespondance());
+		}
+		return listeCorrespondances;
+	}
+
+	public void setListeCorrespondances(List<Correspondance> listeCorrespondances) {
+		this.listeCorrespondances = listeCorrespondances;
 	}
 }

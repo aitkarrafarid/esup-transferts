@@ -11,18 +11,7 @@
 <h:form id="formVoeux">
 	<p:messages id="msgs" showDetail="false" />
 	<p:growl id="growl" showDetail="false" sticky="true" />
-
 	<p:panel id="voeux" header="Récapitulatif">
-
-		<h:panelGrid columns="1"
-			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2}">
-			<p:commandButton value="Imprimer les formulaires"
-				update="voeux,msgs,msgsBas,growl"
-				action="#{userController.imprimerDemandeTransfert}" />
-		</h:panelGrid>
-
-		<p:spacer height="10px" />
-
 		<p:fieldset legend="infos" toggleable="true" toggleSpeed="200"
 			rendered="#{userController.presentBdd}">
 			<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
@@ -128,7 +117,8 @@
 					<h:outputText value="Date de naissance : " />
 					<h:outputText
 						value="#{userController.currentEtudiant.dateNaissance}">
-						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="#{sessionController.timezone}" />
 					</h:outputText>
 				</h:panelGrid>
 
@@ -282,11 +272,11 @@
 				rendered="#{userController.verifDateNaisApogee}"
 				action="#{userController.goToVoeuxOrientationApogee}"
 				immediate="true" />
-						<p:commandButton value="Enregistrer la demande"
-							update=":formVoeux:voeux,:formVoeux:msgs,:formVoeux:msgsBas,:formVoeux:growl"
-							actionListener="#{userController.addDemandeTransferts}" />
-<!-- 			<p:commandButton value="Enregistrer la demande" -->
-<!-- 				actionListener="#{userController.addDemandeTransferts}" /> -->
+			<p:commandButton value="Enregistrer la demande"
+				update=":formVoeux:voeux,:formVoeux:msgs,:formVoeux:msgsBas,:formVoeux:growl"
+				actionListener="#{userController.addDemandeTransferts}" />
+			<!-- 			<p:commandButton value="Enregistrer la demande" -->
+			<!-- 				actionListener="#{userController.addDemandeTransferts}" /> -->
 		</h:panelGrid>
 		<p:spacer height="20px" />
 

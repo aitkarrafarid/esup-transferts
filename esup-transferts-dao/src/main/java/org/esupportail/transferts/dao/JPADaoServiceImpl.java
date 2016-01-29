@@ -51,7 +51,7 @@ import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.domain.beans.WsPubPK;
 import org.springframework.dao.EmptyResultDataAccessException;
 /**
- * @author Farid AIT KARRA (Universite d'Artois) - 2015
+ * @author Farid AIT KARRA (Universite d'Artois) - 2016
  * 
  * The Hiberate implementation of the DAO service.
  */
@@ -115,9 +115,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant) {
-//		if (logger.isDebugEnabled()){
-//			logger.debug("public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
-//		}
+		if (logger.isDebugEnabled())
+			logger.info("public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
 		return entityManager.merge(currentEtudiant);
 	}
 
@@ -390,22 +389,26 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	}
 
 	@Override
-	public void addIndOpi(IndOpi opi) {
+	public void addIndOpi(IndOpi opi, boolean maj) {
 		if (logger.isDebugEnabled()){
 			logger.debug("addIndOpi()");
 			logger.debug("opi --> "+opi);
+			logger.debug("maj --> "+maj);
 		}
 		try{
-			String sql = "select lpad(OPI_SEQ.NEXTVAL,4,'0') from DUAL";
-			@SuppressWarnings("rawtypes")
-			List results = entityManager.createNativeQuery(sql).getResultList();
-			String value = (String)results.iterator().next();
-			if (logger.isDebugEnabled()){
-				logger.debug("Numero de sequence --> "+value);
-			}		
-			String moduloBase32 = opi.getNumeroOpi();
-			opi.setNumeroOpi(moduloBase32+value);
-			opi.getVoeux().setNumeroOpi(moduloBase32+value);
+			if(!maj)
+			{
+				String sql = "select lpad(OPI_SEQ.NEXTVAL,4,'0') from DUAL";
+				@SuppressWarnings("rawtypes")
+				List results = entityManager.createNativeQuery(sql).getResultList();
+				String value = (String)results.iterator().next();
+				if (logger.isDebugEnabled()){
+					logger.debug("Numero de sequence --> "+value);
+				}		
+				String moduloBase32 = opi.getNumeroOpi();
+				opi.setNumeroOpi(moduloBase32+value);
+				opi.getVoeux().setNumeroOpi(moduloBase32+value);
+			}
 			entityManager.merge(opi);
 		}
 		catch(NoResultException e){
@@ -802,7 +805,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	public Parametres getParametreByCode(String codeParametre) {
 		if (logger.isDebugEnabled())
 			logger.debug("public Parametres getParametreByCode(String codeParametre)===>"+codeParametre+"<===");
-		
+
 		try{
 			Query q = entityManager.createNamedQuery("getParametreByCode");
 			q.setParameter("codeParametre", codeParametre);
@@ -1110,7 +1113,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Integer codeNiveau, 
 			String codeComposante,
 			boolean actif) 
-			{
+	{
 		if (logger.isDebugEnabled()){
 			logger.debug("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(String rne, Integer currentAnnee, String codTypDip, Integer codeNiveau, String codeComposante) ");
 		}
@@ -1146,7 +1149,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			e.printStackTrace();
 			return null;
 		}
-			}	
+	}	
 
 	@Override
 	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeDiplome, String source) {
@@ -2141,5 +2144,60 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		catch(NoResultException e){
 			e.printStackTrace();
 		}	
+	}
+
+	@Override
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee) {
+		if (logger.isDebugEnabled())
+			logger.debug("public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee, String source)===>"+ine+"<===");
+		try{
+			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroIneAndSource");
+			q.setParameter("numeroIne", ine);
+			q.setParameter("annee", annee);
+			EtudiantRef etu = (EtudiantRef) q.getSingleResult();
+			return etu;
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+			return null;
+		}		
+	}
+
+	@Override
+	public IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee) {
+		if (logger.isDebugEnabled())
+			logger.debug("public IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee)===>"+nne+", "+cleIne+", "+annee+"<===");
+		try{
+			Query q = entityManager.createNamedQuery("getIndOpiByNneAndCleIneAndAnnee");
+			q.setParameter("nne", nne);
+			q.setParameter("cleIne", cleIne);
+			q.setParameter("annee", annee);
+			IndOpi opi = (IndOpi) q.getSingleResult();
+			return opi;
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+			return null;
+		}	
+	}
+
+	@Override
+	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) {
+		if (logger.isDebugEnabled())
+			logger.debug("public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee)===>"+numeroEtudiant+"-----"+annee+"<===");		
+		try{		
+			Query q = entityManager.createNamedQuery("getSituationUniversitaireByNumeroEtudiantAndAnnee");
+			q.setParameter("numeroEtudiant", numeroEtudiant);
+			q.setParameter("annee", annee);
+			@SuppressWarnings("unchecked")
+			List<SituationUniversitaire> ret = (List<SituationUniversitaire>)q.getResultList();
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
+		}
+		catch(NoResultException e){
+			return null;
+		}
 	}
 }

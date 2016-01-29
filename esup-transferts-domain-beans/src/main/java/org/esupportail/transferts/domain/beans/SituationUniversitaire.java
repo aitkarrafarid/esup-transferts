@@ -31,9 +31,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
-//@NamedQueries({
-//	@NamedQuery(name = "getSituationUniversitaireByNumeroEtudiantAndAnnee", query = "select situationUniversitaire FROM SituationUniversitaire situationUniversitaire WHERE situationUniversitaire.infosAccueil.numeroEtudiant = :numeroEtudiant and situationUniversitaire.infosAccueil.annee = :annee")
-//	})
+@NamedQueries({
+	@NamedQuery(name = "getSituationUniversitaireByNumeroEtudiantAndAnnee", query = "select situationUniversitaire FROM SituationUniversitaire situationUniversitaire WHERE situationUniversitaire.infosAccueil.numeroEtudiant = :numeroEtudiant and situationUniversitaire.infosAccueil.annee = :annee")
+	})
 @Table(name="SITUATION_UNIVERSITAIRE")
 public class SituationUniversitaire implements Serializable{
 	/**

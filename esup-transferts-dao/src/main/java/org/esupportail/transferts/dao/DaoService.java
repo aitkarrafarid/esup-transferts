@@ -32,7 +32,7 @@ import org.esupportail.transferts.domain.beans.Test;
 import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
 import org.esupportail.transferts.domain.beans.WsPub;
 /**
- * @author Farid AIT KARRA (Universite d'Artois) - 2014
+ * @author Farid AIT KARRA (Universite d'Artois) - 2016
  * 
  * The DAO service interface.
  */
@@ -50,7 +50,7 @@ public interface DaoService extends Serializable {
 
 	List<IndOpi> getAllIndOpiBySource(Integer annee, String Source);
 
-	void addIndOpi(IndOpi opi);
+	void addIndOpi(IndOpi opi, boolean maj);
 
 	List<WsPub> getListeWsPub();
 
@@ -287,4 +287,10 @@ public interface DaoService extends Serializable {
 	List<IndOpi> getAllIndOpiByAnnee(Integer currentAnnee);
 
 	void deleteOpi(IndOpi opi);
+
+	EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee);
+
+	IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee);
+
+	List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
 }

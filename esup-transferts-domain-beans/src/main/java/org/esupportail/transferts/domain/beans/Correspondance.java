@@ -29,18 +29,18 @@ import javax.persistence.Transient;
  * The class that represent users.
  */
 @Entity
-@Table(name = "ACCUEIL_DECISION")
-public class AccueilDecision implements Serializable {
+@Table(name = "CORRESPONDANCE")
+public class Correspondance implements Serializable {
 
 	/**
 	 * For serialize.
 	 */
 	@Transient
-	private static final long serialVersionUID = 1234512397404494181L;
+	private static final long serialVersionUID = 121234597412121212L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="DECISION_SEQ")
-	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CORRESPONDANCE_SEQ")
+	@SequenceGenerator(name="CORRESPONDANCE_SEQ", sequenceName="CORRESPONDANCE_SEQ", allocationSize=1)
 	private long id;		
 
 	@ManyToOne
@@ -48,7 +48,7 @@ public class AccueilDecision implements Serializable {
 		@JoinColumn(name = "numeroEtudiant", referencedColumnName = "numeroEtudiant"),
 		@JoinColumn(name = "annee", referencedColumnName = "annee") })
 	private EtudiantRef etudiant;		
-
+	
 	/**
 	 * Date de saisie
 	 */
@@ -63,30 +63,23 @@ public class AccueilDecision implements Serializable {
 	private String auteur;	
 
 	/**
-	 * Voeux
+	 * titre
 	 */
-	@Column(name = "AVIS", nullable = false, length = 1)
-	private String avis;		
-	
-	/**
-	 * Decision
-	 */
-	@Column(name = "DECISION")
-	private String decision;		
+	@Column(name = "titre", length = 500)
+	private String titre;		
 
+	/**
+	 * msg
+	 */
+	@Column(name = "msg", length = 2000)
+	private String msg;		
+	
 	/**
 	 * Bean constructor.
 	 */
-	public AccueilDecision() {
+	public Correspondance() {
 		super();
 	}
-
-//	@Override
-//	public String toString() {
-//		return "AccueilDecision [id=" + id + ", etudiant=" + etudiant
-//				+ ", dateSaisie=" + dateSaisie + ", auteur=" + auteur
-//				+ ", avis=" + avis + ", decision=" + decision + "]";
-//	}
 
 	/**
 	 * @see java.lang.Object#hashCode()
@@ -115,22 +108,6 @@ public class AccueilDecision implements Serializable {
 		this.auteur = auteur;
 	}
 
-	public String getDecision() {
-		return decision;
-	}
-
-	public void setDecision(String decision) {
-		this.decision = decision;
-	}
-
-	public String getAvis() {
-		return avis;
-	}
-
-	public void setAvis(String avis) {
-		this.avis = avis;
-	}
-
 	public long getId() {
 		return id;
 	}
@@ -145,5 +122,21 @@ public class AccueilDecision implements Serializable {
 
 	public void setEtudiant(EtudiantRef etudiant) {
 		this.etudiant = etudiant;
+	}
+
+	public String getTitre() {
+		return titre;
+	}
+
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 }

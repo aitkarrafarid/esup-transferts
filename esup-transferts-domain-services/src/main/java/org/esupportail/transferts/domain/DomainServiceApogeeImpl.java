@@ -181,15 +181,15 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				if(listeBlocagesDTO!=null)
 					logger.debug("listeBlocagesDTO -->"+listeBlocagesDTO.length);
 
-			CoordonneesDTO coordonneesDTO = etudiantMetierService.recupererAdressesEtudiant(etudiant.getNumeroEtudiant(), null, null);
+			CoordonneesDTO2 coordonneesDTO = etudiantMetierService.recupererAdressesEtudiant_v2(etudiant.getNumeroEtudiant(), null, null);
 			if (logger.isDebugEnabled())
 				logger.debug("coordonneesDTO -->"+coordonneesDTO.toString());
 
-			AdresseDTO adresseFixe = coordonneesDTO.getAdresseFixe();
+			AdresseDTO2 adresseFixe = coordonneesDTO.getAdresseFixe();
 			if (logger.isDebugEnabled())
 				logger.debug("adresseFixe -->"+adresseFixe.toString());		
 
-			CommuneDTO communeDTO = adresseFixe.getCommune();
+			CommuneDTO2 communeDTO = adresseFixe.getCommune();
 			if (logger.isDebugEnabled() && communeDTO!=null)
 				logger.debug("communeDTO -->"+communeDTO.toString());	
 			else if(logger.isDebugEnabled() && communeDTO==null)
@@ -368,15 +368,15 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					if(listeBlocagesDTO!=null)
 						logger.debug("listeBlocagesDTO -->"+listeBlocagesDTO.length);
 
-				CoordonneesDTO coordonneesDTO = etudiantMetierService.recupererAdressesEtudiant(infoAdmEtuDTO.getNumEtu().toString(), null, "N");
+				CoordonneesDTO2 coordonneesDTO = etudiantMetierService.recupererAdressesEtudiant_v2(infoAdmEtuDTO.getNumEtu().toString(), null, "N");
 				if (logger.isDebugEnabled())
 					logger.debug("coordonneesDTO -->"+coordonneesDTO.toString());
 
-				AdresseDTO adresseFixe = coordonneesDTO.getAdresseFixe();
+				AdresseDTO2 adresseFixe = coordonneesDTO.getAdresseFixe();
 				if (logger.isDebugEnabled())
 					logger.debug("adresseFixe -->"+adresseFixe.toString());				
 
-				CommuneDTO communeDTO = adresseFixe.getCommune();
+				CommuneDTO2 communeDTO = adresseFixe.getCommune();
 				if (logger.isDebugEnabled())
 					logger.debug("communeDTO -->"+communeDTO.toString());					
 
@@ -1699,6 +1699,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			//				opiVoeuDTO.setCodDecVeu(arg0); // !!! PAS RECUPERE !!!
 			opiVoeuDTO.setCodDemDos(opi.getVoeux().getCodDemDos()); // !!! OBLIGATOIRE !!!
 			opiVoeuDTO.setCodDecVeu(opi.getVoeux().getCodDecVeu());
+//			opiVoeuDTO.setCodDecVeu("D");
 			opiVoeuDTO.setCodDip(opi.getVoeux().getCodDip());
 			opiVoeuDTO.setCodEtp(opi.getVoeux().getCodEtp()); // !!! OBLIGATOIRE !!!
 			//				opiVoeuDTO.setCodMfo(arg0); // !!! PAS RECUPERE !!!

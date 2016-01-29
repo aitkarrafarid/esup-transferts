@@ -14,11 +14,11 @@
 
 	<p:panel id="voeux" header="Récapitulatif">
 
-		<h:panelGrid columns="1"
-			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}">
-			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl"
-				action="#{userController.imprimerDemandeTransfert}" />
-		</h:panelGrid>
+<!-- 		<h:panelGrid columns="1" -->
+<!-- 			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}"> -->
+<!-- 			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl" -->
+<!-- 				action="#{userController.imprimerDemandeTransfert}" /> -->
+<!-- 		</h:panelGrid> -->
 
 <!-- 		<h:panelGrid columns="1"> -->
 <!-- 			<p:commandButton value="Imprimer" update="voeux,msgs,msgsBas,growl" -->
@@ -315,11 +315,11 @@
 
 		<!-- 		<h:selectOneRadio value="test" /> -->
 
-		<h:panelGrid columns="1"
-			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}">
-			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl"
-				action="#{userController.imprimerDemandeTransfert}" />
-		</h:panelGrid>
+<!-- 		<h:panelGrid columns="1" -->
+<!-- 			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}"> -->
+<!-- 			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl" -->
+<!-- 				action="#{userController.imprimerDemandeTransfert}" /> -->
+<!-- 		</h:panelGrid> -->
 	</p:panel>
 	<p:messages id="msgsBas" showDetail="false" />
 </h:form>

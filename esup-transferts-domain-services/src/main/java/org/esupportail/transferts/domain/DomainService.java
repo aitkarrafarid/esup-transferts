@@ -36,7 +36,7 @@ import org.esupportail.transferts.domain.beans.WsPub;
 import org.hibernate.exception.ConstraintViolationException;
 
 /**
- * @author Farid AIT KARRA (Universite d'Artois) - 2014
+ * @author Farid AIT KARRA (Universite d'Artois) - 2016
  * 
  */
 public interface DomainService extends Serializable {
@@ -248,7 +248,7 @@ public interface DomainService extends Serializable {
 
 	public DatasExterne getDataExterneByIdentifiantAndCode(String identifiant,String code);
 
-	public void addIndOpi(IndOpi opi);
+	public void addIndOpi(IndOpi opi, boolean maj);
 
 	public IndOpi getOpiByNumeroOpi(IndOpi opi);
 
@@ -286,4 +286,10 @@ public interface DomainService extends Serializable {
 	public List<IndOpi> getAllIndOpiByAnnee(Integer currentAnnee);
 
 	public void deleteOpi(IndOpi opi);
+
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee);
+
+	public IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee);
+
+	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
 }
