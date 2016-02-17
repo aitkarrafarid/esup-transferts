@@ -20,6 +20,7 @@ import org.esupportail.transferts.domain.beans.Composante;
 import org.esupportail.transferts.domain.beans.DecisionDossier;
 import org.esupportail.transferts.domain.beans.EtatDossier;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
+import org.esupportail.transferts.domain.beans.Fermeture;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.domain.beans.IndOpi;
 import org.esupportail.transferts.domain.beans.DatasExterne;
@@ -293,4 +294,14 @@ public interface DaoService extends Serializable {
 	IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee);
 
 	List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
+
+	void addFermeture(Fermeture myFermeture);
+
+	List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee);
+
+	List<Fermeture> addPeriodeFermetures(List<Fermeture> lFermetures);
+
+	void deletePeriodeFermeture(String id);
+
+	Fermeture getFermetureFromId(String id);
 }

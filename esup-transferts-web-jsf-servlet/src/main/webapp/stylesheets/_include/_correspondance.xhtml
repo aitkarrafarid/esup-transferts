@@ -29,11 +29,12 @@
 		<p:separator style="width:500px;height:10px"
 			rendered="#{userController.presentBdd and not empty userController.listeAvisByNumeroEtudiantAndAnnee}" />
 
-		<p:fieldset id="listeAvisDetails" legend="liste des avis"
+		<p:fieldset id="listeAvisDetails" legend="liste des correspondances"
 			rendered="#{userController.presentBdd and not empty userController.listeAvisByNumeroEtudiantAndAnnee}"
 			toggleable="true" toggleSpeed="200">
 			<p:spacer height="10px" />
 			<p:dataTable id="basic" var="correspondance"
+				emptyMessage="Aucune correspondance"
 				value="#{userController.currentEtudiant.correspondances}"
 				resizableColumns="true">
 
@@ -44,14 +45,7 @@
 					<h:outputText value="#{correspondance.dateSaisie}" />
 				</p:column>
 
-<!-- 				<p:column> -->
-<!-- 					<f:facet name="header">   -->
-<!--                     Auteur   -->
-<!--             </f:facet> -->
-<!-- 					<h:outputText value="#{correspondance.auteur}" /> -->
-<!-- 				</p:column> -->
-
-				<p:column id="modelHeader" width="25%" >
+				<p:column id="modelHeader" width="25%">
 					<f:facet name="header">  
                     Titre  
             </f:facet>
@@ -64,48 +58,6 @@
             </f:facet>
 					<h:outputText escape="false" value="#{correspondance.msg}" />
 				</p:column>
-
-				<!-- 				<p:column> -->
-				<!-- 					<f:facet name="header">   -->
-				<!--                     Etat du dossier   -->
-				<!--             </f:facet> -->
-				<!-- 					<h:outputText value="#{avis.libEtatDossier}" /> -->
-				<!-- 				</p:column> -->
-
-				<!-- 				<p:column> -->
-				<!-- 					<f:facet name="header">   -->
-				<!--                     Motif   -->
-				<!--             </f:facet> -->
-				<!-- 					<h:outputText value="#{avis.motifEtatDossier}" /> -->
-				<!-- 				</p:column> -->
-
-				<!-- 				<p:column> -->
-				<!-- 					<f:facet name="header">   -->
-				<!--                     Localisation du dossier   -->
-				<!--             </f:facet> -->
-				<!-- 					<h:outputText value="#{avis.libLocalisationDossier}" /> -->
-				<!-- 				</p:column> -->
-
-				<!-- 				<p:column> -->
-				<!-- 					<f:facet name="header">   -->
-				<!--                     Motif   -->
-				<!--             </f:facet> -->
-				<!-- 					<h:outputText value="#{avis.motifLocalisationDossier}" /> -->
-				<!-- 				</p:column> -->
-
-				<!-- 				<p:column> -->
-				<!-- 					<f:facet name="header">   -->
-				<!--                     Décision   -->
-				<!--             </f:facet> -->
-				<!-- 					<h:outputText value="#{avis.libDecisionDossier}" /> -->
-				<!-- 				</p:column> -->
-
-				<!-- 				<p:column> -->
-				<!-- 					<f:facet name="header">   -->
-				<!--                     Motif   -->
-				<!--             </f:facet> -->
-				<!-- 					<h:outputText value="#{avis.motifDecisionDossier}" /> -->
-				<!-- 				</p:column> -->
 			</p:dataTable>
 		</p:fieldset>
 
@@ -113,26 +65,13 @@
 		<p:separator style="width:500px;height:10px" />
 		<p:spacer height="20px" />
 
-		<h:panelGrid columns="2" rendered="#{!userController.presentBdd}">
-			<p:commandButton value="Précédent"
-				rendered="#{userController.etudiant}"
-				action="#{userController.goToVoeuxOrientation}" immediate="true" />
-			<p:commandButton value="Précédent"
-				rendered="#{userController.verifDateNaisApogee}"
-				action="#{userController.goToVoeuxOrientationApogee}"
-				immediate="true" />
-			<p:commandButton value="Enregistrer la demande"
-				update=":formVoeux:voeux,:formVoeux:msgs,:formVoeux:msgsBas,:formVoeux:growl"
-				actionListener="#{userController.addDemandeTransferts}" />
-		</h:panelGrid>
-		<p:spacer height="20px" />
 		<h:selectOneRadio value="test" />
-		<h:panelGrid columns="1"
-			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2}">
-			<p:commandButton value="Imprimer les formulaires"
-				update="voeux,msgs,msgsBas,growl"
-				action="#{userController.imprimerDemandeTransfert}" />
-		</h:panelGrid>
+<!-- 		<h:panelGrid columns="1" -->
+<!-- 			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2}"> -->
+<!-- 			<p:commandButton value="Imprimer les formulaires" -->
+<!-- 				update="voeux,msgs,msgsBas,growl" -->
+<!-- 				action="#{userController.imprimerDemandeTransfert}" /> -->
+<!-- 		</h:panelGrid> -->
 	</p:panel>
 	<p:messages id="msgsBas" showDetail="false" />
 </h:form>

@@ -7,8 +7,9 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <ui:composition template="/stylesheets/depart/template.xhtml">
+
 	<ui:define name="navigation">
 		<center>
 			<p:panel style="text-align:left;" styleClass="panel">
@@ -19,16 +20,15 @@
 
 	<ui:define name="corps">
 		<center>
-			<p:panel
-				rendered="#{userController.etudiant and !userController.currentEtudiantInterdit.interdit and !userController.presentBdd}"
-				style="text-align:left;" styleClass="panel">
-				<ui:include src="/stylesheets/_include/_adresse.xhtml"></ui:include>
-			</p:panel>		
+			<p:panel style="text-align:left;" styleClass="panel">
+				<ui:include src="/stylesheets/_include/_correspondance.xhtml"></ui:include>
+			</p:panel>
 		</center>
 	</ui:define>
 
-	<ui:define name="content">
-		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include>
-	</ui:define>
+<!-- 	<ui:define name="content"> -->
+<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
+<!-- 	</ui:define> -->
+
 </ui:composition>
 </html>

@@ -67,8 +67,11 @@
 							rendered="#{sessionController.currentUser.admin}"
 							action="#{administrationController.goToInformationAppliDepart}" />
 						<p:menuitem value="Fermeture de l'application"
-							rendered="#{sessionController.currentUser.admin}"
+							rendered="#{sessionController.currentUser.admin and !sessionController.planningFermeturesAuto}"
 							action="#{administrationController.goToFermetureAppliDepart}" />
+						<p:menuitem value="Fermeture de l'application"
+							rendered="#{sessionController.currentUser.admin and sessionController.planningFermeturesAuto}"
+							action="#{scheduleController.goToFermetureAppliSchedulerDepart}" />							
 					</p:submenu>
 					<p:submenu label="Validation automatique"
 						rendered="#{sessionController.currentUser.admin and sessionController.validationAutomatique!=''}">

@@ -21,6 +21,7 @@ import org.esupportail.transferts.domain.beans.EtatDossier;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.EtudiantRefExcel;
 import org.esupportail.transferts.domain.beans.EtudiantRefImp;
+import org.esupportail.transferts.domain.beans.Fermeture;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.domain.beans.IndOpi;
 import org.esupportail.transferts.domain.beans.DatasExterne;
@@ -292,4 +293,14 @@ public interface DomainService extends Serializable {
 	public IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee);
 
 	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
+
+	public void addFermeture(Fermeture myFermeture);
+
+	public List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee);
+
+	public List<Fermeture> addPeriodeFermetures(List<Fermeture> lFermetures);
+
+	public void deletePeriodeFermeture(String id);
+
+	public Fermeture getFermetureFromId(String id);
 }

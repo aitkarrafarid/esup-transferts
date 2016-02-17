@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -51,6 +52,7 @@ import org.esupportail.transferts.domain.beans.EtatDossier;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.EtudiantRefExcel;
 import org.esupportail.transferts.domain.beans.EtudiantRefImp;
+import org.esupportail.transferts.domain.beans.Fermeture;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.domain.beans.IdentifiantEtudiant;
 import org.esupportail.transferts.domain.beans.IndOpi;
@@ -1396,7 +1398,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	}	
 
 	@SuppressWarnings("unused")
-	public void updateConfiguration()
+	public String updateConfiguration()
 	{
 		Parametres choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
 		if(choixDuVoeuParComposante!=null)
@@ -1418,10 +1420,24 @@ public class AdministrationController extends AbstractContextAwareController {
 		else
 			getSessionController().setMajOdfAuto(true);
 
+		Parametres planning_fermetures_auto = getDomainService().getParametreByCode("planning_fermetures");
+		if(planning_fermetures_auto!=null)
+		{
+			planning_fermetures_auto.setBool(getSessionController().isPlanningFermeturesAuto());
+			planning_fermetures_auto = getDomainService().updateConfiguration(planning_fermetures_auto);
+			getSessionController().setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
+		}
+		else
+			getSessionController().setPlanningFermeturesAuto(true);		
+
 		String summary = getString("ENREGISTREMENT.CONFIGURATION");
 		String detail = getString("ENREGISTREMENT.CONFIGURATION");
 		Severity severity = FacesMessage.SEVERITY_INFO;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage(severity, summary, detail));
+		context.getExternalContext().getFlash().setKeepMessages(true);
+
+		return "goToAdministration";
 	}
 
 	public String goToInformationAppliDepart() 
@@ -1444,6 +1460,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public String goToFermetureAppliDepart() 
 	{
+		logger.info("===>goToFermetureAppliDepart<===");
 		if (logger.isDebugEnabled())
 			logger.debug("goToFermetureAppliDepart");
 		setSource("D");
@@ -2456,6 +2473,12 @@ public class AdministrationController extends AbstractContextAwareController {
 			getSessionController().setMajOdfAuto(maj_odf_auto.isBool());
 		else
 			getSessionController().setMajOdfAuto(true);
+
+		Parametres planning_fermetures_auto = getDomainService().getParametreByCode("planning_fermetures");
+		if(planning_fermetures_auto!=null)
+			getSessionController().setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
+		else
+			getSessionController().setPlanningFermeturesAuto(true);		
 
 		if (this.defaultCodeSize != null)
 		{
@@ -4016,22 +4039,22 @@ public class AdministrationController extends AbstractContextAwareController {
 				currentAccueilDecision.setDateSaisie(new Date());
 				this.currentDemandeTransferts.getAccueilDecision().add(this.currentAccueilDecision);
 
-//				Correspondance correspondance = new Correspondance();
-//				try {
-//					correspondance.setEtudiant(this.currentDemandeTransferts);
-//					correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
-//					correspondance.setDateSaisie(new Date());
-//					correspondance.setTitre(getString("ENREGISTREMENT.ACCUEIL_DECISION"));
-//					correspondance.setMsg(getString("ENREGISTREMENT.ACCUEIL_DECISION"));
-//				} catch (Exception e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
+				//				Correspondance correspondance = new Correspondance();
+				//				try {
+				//					correspondance.setEtudiant(this.currentDemandeTransferts);
+				//					correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
+				//					correspondance.setDateSaisie(new Date());
+				//					correspondance.setTitre(getString("ENREGISTREMENT.ACCUEIL_DECISION"));
+				//					correspondance.setMsg(getString("ENREGISTREMENT.ACCUEIL_DECISION"));
+				//				} catch (Exception e1) {
+				//					// TODO Auto-generated catch block
+				//					e1.printStackTrace();
+				//				}
 
 				//				this.addDemandeTransfertsFromAvis(1);
 				//				currentDemandeTransferts=getDomainService().getPresenceEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
 				//				this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
-//				this.addCorrespondance(correspondance);
+				//				this.addCorrespondance(correspondance);
 				this.currentDemandeTransferts = this.addDemandeTransfertsFromAvis(1);
 
 				this.currentAccueilDecision = new AccueilDecision();
@@ -5152,7 +5175,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	public SituationUniversitaireDataModel getSudm() {
 		if(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire()!=null)
 		{
-//			if(sudm==null)
+			//			if(sudm==null)
 			if (logger.isDebugEnabled()) 
 			{
 				logger.debug("===>aaaaa<===");

@@ -62,6 +62,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	private Integer regleGestionTE02;
 	private boolean choixDuVoeuParComposante;
 	private boolean majOdfAuto;
+	private boolean planningFermeturesAuto;
 	private Integer nbJourAvantAlertSilenceVautAccord;	
 	private Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
 	private boolean useCandidatures;
@@ -458,5 +459,13 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;
+	}
+
+	public boolean isPlanningFermeturesAuto() {
+		return planningFermeturesAuto;
+	}
+
+	public void setPlanningFermeturesAuto(boolean planningFermeturesAuto) {
+		this.planningFermeturesAuto = planningFermeturesAuto;
 	}
 }

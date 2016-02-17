@@ -22,6 +22,7 @@ import org.esupportail.transferts.domain.beans.EtatDossier;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.EtudiantRefExcel;
 import org.esupportail.transferts.domain.beans.EtudiantRefImp;
+import org.esupportail.transferts.domain.beans.Fermeture;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.domain.beans.IndOpi;
 import org.esupportail.transferts.domain.beans.DatasExterne;
@@ -705,19 +706,41 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 
 	@Override
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee) {
-		// TODO Auto-generated method stub
 		return getDaoService().getDemandeTransfertByAnneeAndNumeroIneAndSource(ine, annee);
 	}
 
 	@Override
 	public IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee) {
-		// TODO Auto-generated method stub
 		return getDaoService().getIndOpiByNneAndCleIneAndAnnee(nne, cleIne, annee);
 	}
 
 	@Override
 	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) {
-		// TODO Auto-generated method stub
 		return getDaoService().getSituationUniversitaireByNumeroEtudiantAndAnnee(numeroEtudiant, annee);
+	}
+
+	@Override
+	public void addFermeture(Fermeture myFermeture) {
+		getDaoService().addFermeture(myFermeture);
+	}
+
+	@Override
+	public List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee) {
+		return getDaoService().getListeFermeturesBySourceAndAnnee(source, annee);
+	}
+
+	@Override
+	public List<Fermeture> addPeriodeFermetures(List<Fermeture> lFermetures) {
+		return getDaoService().addPeriodeFermetures(lFermetures);
+	}
+
+	@Override
+	public void deletePeriodeFermeture(String id) {
+		getDaoService().deletePeriodeFermeture(id);
+	}
+
+	@Override
+	public Fermeture getFermetureFromId(String id) {
+		return getDaoService().getFermetureFromId(id);
 	}
 }

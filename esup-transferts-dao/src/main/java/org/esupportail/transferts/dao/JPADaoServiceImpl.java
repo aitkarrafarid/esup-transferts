@@ -34,6 +34,7 @@ import org.esupportail.transferts.domain.beans.DecisionDossier;
 import org.esupportail.transferts.domain.beans.EtatDossier;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.EtudiantRefPK;
+import org.esupportail.transferts.domain.beans.Fermeture;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.domain.beans.FichierPK;
 import org.esupportail.transferts.domain.beans.IndOpi;
@@ -331,8 +332,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public void addFichier(Fichier f) {
 		if (logger.isDebugEnabled()){
-			logger.debug("addFichier(Fichier f)");
-			logger.debug("Fichier --> "+f);
+			logger.debug("===>addFichier(Fichier f)<===");
+			logger.debug("Fichier===>"+f+"<===");
 		}		
 		entityManager.merge(f);
 	}
@@ -2195,6 +2196,80 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return null;
 			else
 				return ret;
+		}
+		catch(NoResultException e){
+			return null;
+		}
+	}
+
+	@Override
+	public void addFermeture(Fermeture myFermeture) {
+//		if (logger.isDebugEnabled()){
+			logger.info("===>public void addFermeture(Fermeture myFermeture) {<===");
+			logger.info("Fermeture===>"+myFermeture+"<===");
+//		}		
+		entityManager.merge(myFermeture);
+	}
+
+	@Override
+	public List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee) {
+//		if (logger.isDebugEnabled()){
+			logger.info("===>public List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee) {<===");
+			logger.info("source===>"+source+"-----annee===>"+annee+"<===");
+//		}		
+			try{		
+				Query q = entityManager.createNamedQuery("getListeFermeturesBySourceAndAnnee");
+				q.setParameter("source", source);
+				q.setParameter("annee", annee);
+				@SuppressWarnings("unchecked")
+				List<Fermeture> ret = (List<Fermeture>)q.getResultList();
+				if(ret.isEmpty())
+					return null;
+				else
+					return ret;
+			}
+			catch(NoResultException e){
+				return null;
+			}
+	}
+
+	@Override
+	public List<Fermeture> addPeriodeFermetures(List<Fermeture> lFermetures) {
+//		if (logger.isDebugEnabled()){
+			logger.info("===>public void addFermeture(Fermeture myFermeture) {<===");
+//			logger.info("Fermeture===>"+myFermeture+"<===");
+//		}		
+		for(Fermeture f : lFermetures ){
+			entityManager.merge(f);
+		}
+		return this.getListeFermeturesBySourceAndAnnee("D", 2016);
+//		return entityManager.merge(lFermetures);
+	}
+
+	@Override
+	public void deletePeriodeFermeture(String id) {
+		logger.info("===>public List<Fermeture> deletePeriodeFermeture(Fermeture periodeFermetureASupprimer)<===");
+		try
+		{
+			Fermeture myFermeture = entityManager.find(Fermeture.class, id);
+			logger.info("myFermeture===>"+myFermeture+"<===");
+			entityManager.remove(myFermeture);
+//			return myFermeture;
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+//			return null;
+		}
+	}
+
+	@Override
+	public Fermeture getFermetureFromId(String id) {
+		logger.info("===>public Fermeture getFermetureFromId(String id) {<===");
+		try
+		{
+			Fermeture myFermeture = entityManager.find(Fermeture.class, id);
+			logger.info("myFermeture===>"+myFermeture+"<===");
+			return myFermeture;
 		}
 		catch(NoResultException e){
 			return null;

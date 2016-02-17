@@ -32,13 +32,14 @@
 		<property name="validationAutomatique" value="${validation.automatique}" />
 		<property name="regleGestionTE02" value="${regle.gestion.TE02}" />
 		<property name="nbJourAvantAlertSilenceVautAccord" value="${nb.jour.avant.alert.silence.vaut.accord}" />
-		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"	value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
-		<!-- <property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}"/> --> 
+		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"
+			value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
+		<!-- <property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}"/> -->
 		<property name="useCandidatures" value="${use.candidatures}" />
-	    <property name="wsCandidaturesWsdl" value="${ws.candidatures.wsdl}" />
-        <property name="wsCandidaturesUser" value="${ws.candidatures.user}" />
-        <property name="wsCandidaturesPwd" value="${ws.candidatures.pwd}" />
-        <property name="timezone" value="${timezone}" />
+		<property name="wsCandidaturesWsdl" value="${ws.candidatures.wsdl}" />
+		<property name="wsCandidaturesUser" value="${ws.candidatures.user}" />
+		<property name="wsCandidaturesPwd" value="${ws.candidatures.pwd}" />
+		<property name="timezone" value="${timezone}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"
@@ -132,6 +133,12 @@
 
 	<bean id="testController"
 		class="org.esupportail.transferts.web.controllers.TestController"
+		parent="abstractContextAwareController" scope="session">
+		<description>A bean to manage ODF.</description>
+	</bean>
+
+	<bean id="scheduleController"
+		class="org.esupportail.transferts.web.controllers.ScheduleController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage ODF.</description>
 	</bean>

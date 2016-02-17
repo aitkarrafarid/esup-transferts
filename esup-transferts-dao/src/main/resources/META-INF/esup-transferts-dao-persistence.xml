@@ -43,6 +43,7 @@
 		<class>org.esupportail.transferts.domain.beans.Versions</class>
 		<class>org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef</class>
 		<class>org.esupportail.transferts.domain.beans.Correspondance</class>
+		<class>org.esupportail.transferts.domain.beans.Fermeture</class>
 		<properties>
 			<property name="hibernate.ejb.naming_strategy" value="org.esupportail.transferts.dao.NamingStrategy"/>
 		</properties>

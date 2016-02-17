@@ -42,6 +42,11 @@
 	font-size: 90% !important;
 }
 
+/* .panel2 { */
+/* 	width: 100%; */
+/* 	font-size: 90% !important; */
+/* } */
+
 .noBordersVap tr, .noBordersVap td {
 	background: none !important;
 	border: none !important;

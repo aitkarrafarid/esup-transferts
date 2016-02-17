@@ -16,26 +16,30 @@
 		value="Connecté en tant que : #{userController.currentEtudiant.nomPatronymique} (Transferts année #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}) "
 		style="float:right;" />
 
-<!-- 	<p:tabMenu activeIndex="#{param.i}" -->
-<!-- 		rendered="#{userController.verifDateNaisApogee}"> -->
-<!-- 		<p:menuitem value="Accueil" outcome="goToRecapitulatif" -->
-<!-- 			icon="ui-icon-star"> -->
-<!-- 			<f:param name="i" value="0" /> -->
-<!-- 		</p:menuitem> -->
-<!-- 		<p:menuitem value="Correspondance" outcome="goToCorrespondance" -->
-<!-- 			icon="ui-icon-search"> -->
-<!-- 			<f:param name="i" value="1" /> -->
-<!-- 		</p:menuitem> -->
-<!-- 		<p:menuitem value="Imprimer les formulaires" -->
-<!-- 			action="#{userController.imprimerDemandeTransfert}" -->
-<!-- 			icon="ui-icon-search"> -->
-<!-- 			<f:param name="i" value="1" /> -->
-<!-- 		</p:menuitem> -->
-<!-- 		<p:menuitem value="Déconnexion" outcome="goToWelcomeApogee" -->
-<!-- 			icon="ui-icon-document"> -->
-<!-- 			<f:param name="i" value="2" /> -->
-<!-- 		</p:menuitem> -->
-<!-- 	</p:tabMenu> -->
+	<p:tabMenu activeIndex="#{param.i}"
+		rendered="#{userController.presentBdd}">
+		<p:menuitem value="Accueil" outcome="goToRecapitulatif"
+			icon="ui-icon-star">
+			<f:param name="i" value="0" />
+		</p:menuitem>
+		<p:menuitem rendered="#{!userController.verifDateNaisApogee}" value="Correspondance" outcome="goToCorrespondance"
+			icon="ui-icon-search">
+			<f:param name="i" value="1" />
+		</p:menuitem>		
+		<p:menuitem rendered="#{userController.verifDateNaisApogee}" value="Correspondance" outcome="goToCorrespondanceApogee"
+			icon="ui-icon-search">
+			<f:param name="i" value="1" />
+		</p:menuitem>
+		<p:menuitem value="Imprimer les formulaires"
+			action="#{userController.imprimerDemandeTransfert}"
+			icon="ui-icon-search">
+			<f:param name="i" value="1" />
+		</p:menuitem>
+		<p:menuitem value="Déconnexion" rendered="#{sessionController.boutonDeconnexion}"  action="#{sessionController.logout}"
+			icon="ui-icon-document">
+			<f:param name="i" value="2" />
+		</p:menuitem>
+	</p:tabMenu>
 
 	<p:ajaxStatus>
 		<f:facet name="start">

@@ -15,9 +15,13 @@
 		<center>
 			<h:form id="configuration"
 				rendered="#{administrationController.personnel}" styleClass="panel"
-				style="text-align:center;width:80%;">
-				<p:growl id="messages" showDetail="false" />
-				<p:messages id="msgs" />
+				style="text-align:left;width:80%;">
+				
+				<p:growl id="messages" showDetail="false"/>
+				<p:messages id="msgs" showDetail="false"/>
+
+<!-- 				<h:outputText style="color:blue" value="Flash Variable Without Keep: #{flash.keep.message.summary}" /> -->
+
 				<p:panel id="pnl"
 					header="Esup-transferts #{msgs['ABOUT.VERSION']} #{applicationService.version}"
 					toggleable="true" closable="false" toggleSpeed="500"
@@ -39,12 +43,20 @@
 					<h:outputText
 						value="Mise à jour automatique de l'offre de formation :" />
 					<p:inputSwitch value="#{sessionController.majOdfAuto}" />
-					<p:commandButton id="majOdfAutoButton" onclick="PF('majOdfAuto').show();"
-						type="button" icon="ui-icon-help" />
+					<p:commandButton id="majOdfAutoButton"
+						onclick="PF('majOdfAuto').show();" type="button"
+						icon="ui-icon-help" />
+
+					<h:outputText value="Planning des périodes de fermeture :" />
+					<p:inputSwitch value="#{sessionController.planningFermeturesAuto}" />
+					<p:commandButton id="planningFermetureAutoButton"
+						onclick="PF('planningFermetureAuto').show();" type="button"
+						icon="ui-icon-help" />
+
 				</h:panelGrid>
 
 				<p:commandButton value="Modifier"
-					update=":configuration,:configuration:messages,:configuration:msgs,:configuration:msgs2"
+					update=":configuration,:configuration:messages,:configuration:msgs,:configuration:msgs2" partialSubmit="true"
 					action="#{administrationController.updateConfiguration}" />
 
 				<p:messages id="msgs2" />
@@ -70,6 +82,15 @@
 					<center>
 						<h:outputText
 							value="Mise à jour automatique de l'offre de formation" />
+					</center>
+				</p:dialog>
+
+				<p:dialog id="planningFermetureAuto"
+					header="Planning des périodes de fermeture"
+					widgetVar="planningFermetureAuto" modal="true" height="640" width="850">
+					<center>
+						<h:outputText
+							value="Planning des périodes de fermeture" />
 					</center>
 				</p:dialog>
 
