@@ -351,7 +351,7 @@ public class IndOpi implements Serializable {
 	private String libAde;
 	
 //	@Column(name = "SYNCHRO", nullable=false, columnDefinition = "NUMBER(1) default 0")
-	@Column(name = "SYNCHRO", nullable=false, columnDefinition = "INTEGER(1) default 0")
+	@Column(name = "SYNCHRO", nullable=false, columnDefinition = "INTEGER default 0")
 //	@Column(name = "SYNCHRO", nullable=false)
 	private Integer synchro;	
 
