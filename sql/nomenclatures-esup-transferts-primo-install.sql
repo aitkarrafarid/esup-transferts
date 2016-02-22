@@ -79,6 +79,10 @@ Insert into PARAMETRES
    (CODE, ETAT, COMMENTAIRE)
  Values
    ('maj_odf_auto', 0, 'Mise à jour automatique de l''offre de formation par rapport au scheduller');
+Insert into PARAMETRES
+   (CODE, ETAT, COMMENTAIRE)
+ Values
+   ('planning_fermetures', 0, 'Choix de l''affichage et gestion manuelle ou automatique des périodes de fermeture');
    
 Insert into ACCUEIL_RESULTAT
    (ID_ACCUEIL_RESULTAT, LIBELLE)

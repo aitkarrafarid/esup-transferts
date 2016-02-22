@@ -27,7 +27,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @IdClass(EtudiantRefPK.class)
-@Table(name = "Transferts")
+//@Table(name = "Transferts")
+@Table(name = "TRANSFERTS")
 public class Transferts implements Serializable {
 
 	/**

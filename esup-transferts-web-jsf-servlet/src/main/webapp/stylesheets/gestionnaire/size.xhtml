@@ -72,23 +72,6 @@
 					</p:dataTable>
 					<p:spacer height="30px" />
 
-<!-- 					<p:commandButton value="Code sise par défaut" -->
-<!-- 						onclick="confirmation.show()" type="button" -->
-<!-- 						update=":size,:messages,:msgs,:msgs2" -->
-<!-- 						actionListener="#{administrationController.updateDefautCodeSize}" /> -->
-
-					<!-- 					<p:confirmDialog -->
-					<!-- 						message="Attention... Le code SISE et l'année par défaut correspondent à la campagne en cours" -->
-					<!-- 						header="Confirmation" severity="alert" widgetVar="confirmation"> -->
-					<!-- 						<p:commandButton value="Oui" -->
-					<!-- 							update=":size,:messages,:msgs,:msgs2" -->
-					<!-- 							oncomplete="confirmation.hide()" -->
-					<!-- 							action="#{administrationController.updateDefautCodeSize}" /> -->
-					<!-- 						<p:commandButton value="Non" onclick="confirmation.hide()" -->
-					<!-- 							actionListener="#{administrationController.destroyWorld}" -->
-					<!-- 							type="button" /> -->
-					<!-- 					</p:confirmDialog> -->
-
 					<p:commandButton value="Code sise par défaut"
 						actionListener="#{administrationController.updateDefautCodeSize}"
 						update=":size,:messages,:msgs,:msgs2">
@@ -96,6 +79,8 @@
 							message="Attention... Le code SISE et l'année par défaut correspondent à la campagne en cours"
 							icon="ui-icon-alert" />
 					</p:commandButton>
+
+				</h:form>
 
 					<p:confirmDialog global="true" showEffect="fade"
 						hideEffect="explode">
@@ -105,7 +90,6 @@
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
 
-				</h:form>
 			</p:panel>
 		</center>
 		<p:messages id="msgs2" showDetail="false" />

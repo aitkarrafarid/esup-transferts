@@ -33,7 +33,8 @@ import javax.persistence.Transient;
     )    
 })
 @IdClass(WsPubPK.class)
-@Table(name = "WsPub")
+//@Table(name = "WsPub")
+@Table(name = "WSPUB")
 public class WsPub implements Serializable {
 
 	/**

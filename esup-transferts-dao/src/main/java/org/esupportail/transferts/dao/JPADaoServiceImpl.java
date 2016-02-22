@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -45,6 +46,7 @@ import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.Parametres;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.PersonnelComposantePK;
+import org.esupportail.transferts.domain.beans.SequenceOpi;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.Test;
 import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
@@ -399,10 +401,15 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			if(!maj)
 			{
-				String sql = "select lpad(OPI_SEQ.NEXTVAL,4,'0') from DUAL";
-				@SuppressWarnings("rawtypes")
-				List results = entityManager.createNativeQuery(sql).getResultList();
-				String value = (String)results.iterator().next();
+//				String sql = "select lpad(OPI_SEQ.NEXTVAL,4,'0') from DUAL";
+//				String sql = "select SEQUENCE_NEXT_HI_VALUE from HIBERNATE_SEQUENCES where SEQUENCE_NAME='IND_OPI'";
+				
+				SequenceOpi so = new SequenceOpi();
+				SequenceOpi som = entityManager.merge(so);
+				
+//				@SuppressWarnings("rawtypes")
+//				List results = entityManager.createNativeQuery(sql).getResultList();
+				String value = Long.toString(som.getId());
 				if (logger.isDebugEnabled()){
 					logger.debug("Numero de sequence --> "+value);
 				}		
@@ -2177,7 +2184,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return opi;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}	
 	}

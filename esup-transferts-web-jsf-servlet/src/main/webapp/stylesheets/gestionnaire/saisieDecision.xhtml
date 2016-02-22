@@ -126,7 +126,8 @@
 					<p:spacer height="10px" />
 					<p:separator style="width:500px;height:10px" />
 
-					<p:fieldset id="listeDecisionDetails" legend="liste des décision pour : #{administrationController.currentOdf.libVersionEtape}"
+					<p:fieldset id="listeDecisionDetails"
+						legend="liste des décision pour : #{administrationController.currentOdf.libVersionEtape}"
 						styleClass="panel" collapsed="false" toggleable="true"
 						style="width:700px;" toggleSpeed="200">
 						<p:dataList emptyMessage="Aucune décision"
@@ -205,8 +206,7 @@
 									itemValue="A" />
 								<f:selectItem id="B" itemLabel="#{msgs['DECISION.DEFAVORABLE']}"
 									itemValue="B" />
-								<f:selectItem id="C" itemLabel="Autres"
-									itemValue="C" />
+								<f:selectItem id="C" itemLabel="Autres" itemValue="C" />
 								<f:ajax immediate="true" event="change"
 									render="textareaDecision" />
 							</h:selectOneRadio>
@@ -251,15 +251,17 @@
 				</p:panel>
 			</center>
 
-			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-				<p:commandButton value="Oui" type="button"
-					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-				<p:commandButton value="Non" type="button"
-					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-			</p:confirmDialog>
-
-
 		</h:form>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+			<p:commandButton value="Oui" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Non" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+
+
 	</ui:define>
 
 	<ui:define name="content">

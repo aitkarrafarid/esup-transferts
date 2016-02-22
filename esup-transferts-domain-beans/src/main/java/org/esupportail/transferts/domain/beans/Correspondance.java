@@ -39,8 +39,10 @@ public class Correspondance implements Serializable {
 	private static final long serialVersionUID = 121234597412121212L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CORRESPONDANCE_SEQ")
-	@SequenceGenerator(name="CORRESPONDANCE_SEQ", sequenceName="CORRESPONDANCE_SEQ", allocationSize=1)
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CORRESPONDANCE_SEQ")
+//	@SequenceGenerator(name="CORRESPONDANCE_SEQ", sequenceName="CORRESPONDANCE_SEQ", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.TABLE, generator="CORRESPONDANCE_SEQ")
+	@SequenceGenerator(name="CORRESPONDANCE_SEQ", sequenceName="CORRESPONDANCE_SEQ", allocationSize=1)	
 	private long id;		
 
 	@ManyToOne

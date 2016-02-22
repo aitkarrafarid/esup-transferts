@@ -39,7 +39,8 @@ import javax.persistence.Table;
 			query="SELECT codeSize.annee FROM CodeSizeAnnee codeSize"
 	)	
 })
-@Table(name = "Code_Size")
+//@Table(name = "Code_Size")
+@Table(name = "CODE_SIZE")
 public class CodeSizeAnnee implements Serializable {
 
 	/**

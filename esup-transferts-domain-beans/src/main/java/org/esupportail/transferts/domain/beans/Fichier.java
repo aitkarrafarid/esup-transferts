@@ -51,7 +51,8 @@ import org.hibernate.annotations.Type;
 									query="UPDATE Fichier fichier SET fichier.defaut=0 WHERE fichier.annee= :annee AND fichier.from=:from AND fichier.md5!='ETABLISSEMENT_PARTENAIRE'"
 									)
 })		    	    
-@Table(name = "Fichier")
+//@Table(name = "Fichier")
+@Table(name = "FICHIER")
 public class Fichier implements Serializable {
 
 	/**

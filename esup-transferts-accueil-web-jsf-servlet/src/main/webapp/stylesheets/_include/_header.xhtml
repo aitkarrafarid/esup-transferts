@@ -18,7 +18,7 @@
 	<!-- 	<p:spacer height="20px" /> -->
 
 	<p:tabMenu activeIndex="#{param.i}"
-		rendered="#{userController.verifDateNaisApogee and sessionController.boutonDeconnexion}">
+		rendered="#{userController.verifDateNaisApogee and sessionController.boutonDeconnexion and userController.presentBdd}">
 		<p:menuitem value="Accueil" outcome="goToRecapitulatifApogee"
 			icon="ui-icon-star">
 			<f:param name="i" value="0" />

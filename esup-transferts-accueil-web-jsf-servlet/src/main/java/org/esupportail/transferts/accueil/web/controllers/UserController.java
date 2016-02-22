@@ -1987,22 +1987,25 @@ public class UserController extends AbstractContextAwareController {
 	public List<TrSituationUniversitaire> getlTrSituationUniversitaire() 
 	{
 		List<TrSituationUniversitaire> lTrSU = new ArrayList<TrSituationUniversitaire>();
-		this.currentEtudiant.getAccueil().setSituationUniversitaire(getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(this.currentEtudiant.getNumeroEtudiant(), this.currentEtudiant.getAnnee()));
-		for(SituationUniversitaire su : this.currentEtudiant.getAccueil().getSituationUniversitaire())
-		{
-			String annee = "";
-			String resultat = "";
-			if(su.getAnnee().getIdAccueilAnnee()!=0)
-				annee = su.getAnnee().getLibelle();
-			else
-				annee = su.getLibAccueilAnnee();
-			if(su.getResultat().getIdAccueilResultat()!=0)
-				resultat = su.getResultat().getLibelle();
-			else
-				resultat = su.getLibAccueilResultat();				
-			lTrSU.add(new TrSituationUniversitaire(su.getId(), annee, su.getLibelle(), resultat));
-		}
-		return lTrSU;
+		//this.currentEtudiant.getAccueil().setSituationUniversitaire(getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(this.currentEtudiant.getNumeroEtudiant(), this.currentEtudiant.getAnnee()));
+		if(this.currentEtudiant.getAccueil()!=null && this.currentEtudiant.getAccueil().getSituationUniversitaire()!=null){
+			for(SituationUniversitaire su : this.currentEtudiant.getAccueil().getSituationUniversitaire())
+			{
+				String annee = "";
+				String resultat = "";
+				if(su.getAnnee().getIdAccueilAnnee()!=0)
+					annee = su.getAnnee().getLibelle();
+				else
+					annee = su.getLibAccueilAnnee();
+				if(su.getResultat().getIdAccueilResultat()!=0)
+					resultat = su.getResultat().getLibelle();
+				else
+					resultat = su.getLibAccueilResultat();				
+				lTrSU.add(new TrSituationUniversitaire(su.getId(), annee, su.getLibelle(), resultat));
+			}
+			return lTrSU;
+		}else
+			return null;
 	}
 
 	public void setlTrSituationUniversitaire(List<TrSituationUniversitaire> lTrSituationUniversitaire) 

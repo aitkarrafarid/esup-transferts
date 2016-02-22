@@ -1502,6 +1502,12 @@ public class AdministrationController extends AbstractContextAwareController {
 			String detail = getString("ENREGISTREMENT.CODE_SIZE_PAR_DEFAUT");
 			Severity severity = FacesMessage.SEVERITY_INFO;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//			String summary = getString("ENREGISTREMENT.CODE_SIZE_PAR_DEFAUT");
+//			String detail = getString("ENREGISTREMENT.CODE_SIZE_PAR_DEFAUT");
+//			Severity severity = FacesMessage.SEVERITY_INFO;
+//			FacesContext context = FacesContext.getCurrentInstance();
+//			context.addMessage(null, new FacesMessage(severity, summary, detail));
+//			context.getExternalContext().getFlash().setKeepMessages(true);
 			this.isDefaultCodeSizeAnnee();
 		} 
 		else 
@@ -1510,6 +1516,12 @@ public class AdministrationController extends AbstractContextAwareController {
 			String detail = getString("ERREUR.CODE_SIZE_PAR_DEFAUT");
 			Severity severity = FacesMessage.SEVERITY_ERROR;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//			String summary = getString("ERREUR.CODE_SIZE_PAR_DEFAUT");
+//			String detail = getString("ERREUR.CODE_SIZE_PAR_DEFAUT");
+//			Severity severity = FacesMessage.SEVERITY_INFO;
+//			FacesContext context = FacesContext.getCurrentInstance();
+//			context.addMessage(null, new FacesMessage(severity, summary, detail));
+//			context.getExternalContext().getFlash().setKeepMessages(true);
 		}
 		return "goToChangeCodeSize";
 	}	
@@ -4579,6 +4591,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				getDomainService().deleteSituationUniversitaireByNumeroEtudiantAndAnneeIsNull();
 				//				currentDemandeTransferts=getDomainService().getEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
 				currentDemandeTransferts=getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
+				this.currentDemandeTransferts.getAccueil().setSituationUniversitaire(getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee()));
 			}
 			String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 			String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
@@ -5045,7 +5058,11 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public CodeSizeDataModel getCodeSizeDataModel() {
-		return new CodeSizeDataModel(getDomainService().getAllCodeSize());
+		List<CodeSizeAnnee> lcsa = getDomainService().getAllCodeSize();
+		if(lcsa!=null)
+			return new CodeSizeDataModel(lcsa);
+		else
+			return null;
 	}	
 
 	public void setParametreAppli(Parametres parametreAppli) {

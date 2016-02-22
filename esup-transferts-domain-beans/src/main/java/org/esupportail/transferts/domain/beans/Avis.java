@@ -42,7 +42,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 			name="deleteAvisByNumeroEtudiantAndAnnee",
 			query="delete FROM Avis avis WHERE avis.numeroEtudiant = :numEtu AND avis.annee = :annee")			
 })
-@Table(name = "Avis")
+//@Table(name = "Avis")
+@Table(name = "AVIS")
 public class Avis implements Serializable {
 
 	/**
@@ -51,8 +52,10 @@ public class Avis implements Serializable {
 	private static final long serialVersionUID = 7427732897404494181L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AVIS_SEQ")
-	@SequenceGenerator(name="AVIS_SEQ", sequenceName="AVIS_SEQ", allocationSize=1)
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AVIS_SEQ")
+//	@SequenceGenerator(name="AVIS_SEQ", sequenceName="AVIS_SEQ", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.TABLE, generator="AVIS_SEQ")
+	@SequenceGenerator(name="AVIS_SEQ", sequenceName="AVIS_SEQ", allocationSize=1)	
 	private long id;	
 
 	@Column(name = "annee", nullable=false)

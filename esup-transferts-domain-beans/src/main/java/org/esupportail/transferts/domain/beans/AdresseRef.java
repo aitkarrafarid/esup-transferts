@@ -20,9 +20,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
-//@IdClass(AdresseRefPK.class)
 @IdClass(EtudiantRefPK.class)
-@Table(name="AdresseRef")
+//@Table(name="AdresseRef")
+@Table(name="ADRESSEREF")
 public class AdresseRef implements Serializable{
 	/**
 	 * 

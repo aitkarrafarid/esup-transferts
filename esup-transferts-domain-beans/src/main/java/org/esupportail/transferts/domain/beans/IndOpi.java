@@ -350,7 +350,8 @@ public class IndOpi implements Serializable {
 	@Column(name = "LIB_ADE", length = 32)
 	private String libAde;
 	
-	@Column(name = "SYNCHRO", nullable=false, columnDefinition = "NUMBER(1) default 0")
+//	@Column(name = "SYNCHRO", nullable=false, columnDefinition = "NUMBER(1) default 0")
+	@Column(name = "SYNCHRO", nullable=false, columnDefinition = "INTEGER(1) default 0")
 //	@Column(name = "SYNCHRO", nullable=false)
 	private Integer synchro;	
 
@@ -370,6 +371,10 @@ public class IndOpi implements Serializable {
 	@Column(name = "COD_IND_OPI")
 	private Integer codIndOpi;	
 	
+//	@GeneratedValue(strategy=GenerationType.TABLE, generator="OPI_SEQ")
+//	@SequenceGenerator(name="OPI_SEQ", sequenceName="OPI_SEQ", allocationSize=1)	
+//	private long sequenceIndOpi;	
+	
 	/**
 	 * Bean constructor.
 	 */
@@ -379,29 +384,20 @@ public class IndOpi implements Serializable {
 
 	@Override
 	public String toString() {
-		return "IndOpi [numeroOpi=" + numeroOpi + ", libEtabDepart="
-				+ libEtabDepart + ", etabDepart=" + etabDepart + ", annee="
-				+ annee + ", codPayNat=" + codPayNat + ", codEtb=" + codEtb
-				+ ", codNneIndOpi=" + codNneIndOpi + ", codCleNneIndOpi="
-				+ codCleNneIndOpi + ", dateNaiIndOpi=" + dateNaiIndOpi
-				+ ", temDateNaiRelOpi=" + temDateNaiRelOpi + ", daaEntEtbOpi="
-				+ daaEntEtbOpi + ", libNomPatIndOpi=" + libNomPatIndOpi
-				+ ", libNomUsuIndOpi=" + libNomUsuIndOpi + ", libPr1IndOpi="
-				+ libPr1IndOpi + ", libPr2IndOpi=" + libPr2IndOpi
-				+ ", libPr3IndOpi=" + libPr3IndOpi + ", LibVilNaiEtuOpi="
-				+ LibVilNaiEtuOpi + ", codDepPayNai=" + codDepPayNai
-				+ ", codTypDepPayNai=" + codTypDepPayNai + ", daaEnsSupOpi="
-				+ daaEnsSupOpi + ", adrMailOpi=" + adrMailOpi
-				+ ", numTelPorOpi=" + numTelPorOpi + ", daaEtrSup=" + daaEtrSup
-				+ ", codSexEtuOpi=" + codSexEtuOpi + ", codEtbBac=" + codEtbBac
-				+ ", codBac=" + codBac + ", codDep=" + codDep + ", codMnb="
-				+ codMnb + ", daabacObtOba=" + daabacObtOba + ", codTpe="
-				+ codTpe + ", numTel=" + numTel + ", codPay=" + codPay
-				+ ", codBdi=" + codBdi + ", codCom=" + codCom + ", libAd1="
-				+ libAd1 + ", libAd2=" + libAd2 + ", libAd3=" + libAd3
-				+ ", libAde=" + libAde + ", synchro=" + synchro + ", source="
-				+ source + ", voeux=" + voeux + ", codInd=" + codInd
-				+ ", codEtuLpa=" + codEtuLpa + ", codIndOpi=" + codIndOpi + "]";
+		return "IndOpi [numeroOpi=" + numeroOpi + ", libEtabDepart=" + libEtabDepart + ", etabDepart=" + etabDepart
+				+ ", annee=" + annee + ", codPayNat=" + codPayNat + ", codEtb=" + codEtb + ", codNneIndOpi="
+				+ codNneIndOpi + ", codCleNneIndOpi=" + codCleNneIndOpi + ", dateNaiIndOpi=" + dateNaiIndOpi
+				+ ", temDateNaiRelOpi=" + temDateNaiRelOpi + ", daaEntEtbOpi=" + daaEntEtbOpi + ", libNomPatIndOpi="
+				+ libNomPatIndOpi + ", libNomUsuIndOpi=" + libNomUsuIndOpi + ", libPr1IndOpi=" + libPr1IndOpi
+				+ ", libPr2IndOpi=" + libPr2IndOpi + ", libPr3IndOpi=" + libPr3IndOpi + ", LibVilNaiEtuOpi="
+				+ LibVilNaiEtuOpi + ", codDepPayNai=" + codDepPayNai + ", codTypDepPayNai=" + codTypDepPayNai
+				+ ", daaEnsSupOpi=" + daaEnsSupOpi + ", adrMailOpi=" + adrMailOpi + ", numTelPorOpi=" + numTelPorOpi
+				+ ", daaEtrSup=" + daaEtrSup + ", codSexEtuOpi=" + codSexEtuOpi + ", codEtbBac=" + codEtbBac
+				+ ", codBac=" + codBac + ", codDep=" + codDep + ", codMnb=" + codMnb + ", daabacObtOba=" + daabacObtOba
+				+ ", codTpe=" + codTpe + ", numTel=" + numTel + ", codPay=" + codPay + ", codBdi=" + codBdi
+				+ ", codCom=" + codCom + ", libAd1=" + libAd1 + ", libAd2=" + libAd2 + ", libAd3=" + libAd3
+				+ ", libAde=" + libAde + ", synchro=" + synchro + ", source=" + source + ", voeux=" + voeux
+				+ ", codInd=" + codInd + ", codEtuLpa=" + codEtuLpa + ", codIndOpi=" + codIndOpi + "]";
 	}
 
 	/**

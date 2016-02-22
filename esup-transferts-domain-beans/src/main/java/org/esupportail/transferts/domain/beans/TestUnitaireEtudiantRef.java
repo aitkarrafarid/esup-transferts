@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 	@NamedQuery(name = "getAllTestUnitaireEtudiantRefBySource", query = "SELECT etu FROM TestUnitaireEtudiantRef etu where etu.source = :source")
 })
-
-@Table(name = "TestUnitaireEtudiantRef")
+//@Table(name = "TestUnitaireEtudiantRef")
+@Table(name = "TESTUNITAIREETUDIANTREF")
 public class TestUnitaireEtudiantRef implements Serializable {
 	
 	private static final long serialVersionUID = 12455545478L;

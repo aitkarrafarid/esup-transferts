@@ -61,8 +61,9 @@
 		<param-value>false</param-value>
 	</context-param>
 	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>hot-sneaks</param-value>
+		<param-name>org.primefaces.themes</param-name>
+<!-- 		<param-value>hot-sneaks</param-value> -->
+		<param-value>eggplant</param-value>
 <!-- 		<param-value>artois</param-value> -->
 	</context-param>
 	<servlet>

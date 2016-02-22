@@ -168,41 +168,9 @@
 				</p:panel>
 			</center>
 
-			<!-- 			<p:confirmDialog -->
-			<!-- 				message="Êtes-vous sur de vouloir supprimer les informations OPI" -->
-			<!-- 				header="Confirmation de la supression" severity="alert" -->
-			<!-- 				widgetVar="confirmationSuppression"> -->
-			<!-- 				<p:commandButton value="Oui" update="form,growl" -->
-			<!-- 					oncomplete="confirmationSuppression.hide()" -->
-			<!-- 					action="#{administrationController.deleteSelectedOpi}" /> -->
-			<!-- 				<p:commandButton value="Non" -->
-			<!-- 					onclick="confirmationSuppression.hide()" type="button" /> -->
-			<!-- 			</p:confirmDialog> -->
-
-			<!-- 			<p:confirmDialog -->
-			<!-- 				message="Êtes-vous sur de vouloir envoyer les informations OPI dans votre outils de scolarité. Attention,  -->
-			<!-- 				le temps de chargement peut être assez élevé..." -->
-			<!-- 				header="Confirmation" severity="alert" widgetVar="confirmation"> -->
-			<!-- 				<p:commandButton value="Oui" update="form,growl" -->
-			<!-- 					oncomplete="confirmation.hide()" -->
-			<!-- 					action="#{administrationController.synchroOpi}" /> -->
-			<!-- 				<p:commandButton value="Non" onclick="confirmation.hide()" -->
-			<!-- 					type="button" /> -->
-			<!-- 			</p:confirmDialog> -->
-
-			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-				<p:commandButton value="Oui" type="button"
-					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-				<p:commandButton value="Non" type="button"
-					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-			</p:confirmDialog>
-
 			<p:dialog header="Détails transfert entrant" widgetVar="opiDialog"
 				height="300" resizable="true" id="carDlg" showEffect="explode"
 				hideEffect="explode" modal="true">
-
-				<!-- 					<h:panelGrid id="display" columns="2" cellpadding="4" -->
-				<!-- 						style="margin:0 auto;text-align:left;"> -->
 
 				<p:dataList id="display"
 					value="#{administrationController.selectedOpis}" var="selectedOpis">
@@ -369,7 +337,17 @@
 
 				</p:dataList>
 			</p:dialog>
+
+
 		</h:form>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="Oui" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Non" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
 	</ui:define>
 
 </ui:composition>

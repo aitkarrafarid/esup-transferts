@@ -39,8 +39,10 @@ public class AccueilDecision implements Serializable {
 	private static final long serialVersionUID = 1234512397404494181L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="DECISION_SEQ")
-	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="DECISION_SEQ")
+//	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.TABLE, generator="DECISION_SEQ")
+	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)	
 	private long id;		
 
 	@ManyToOne

@@ -179,7 +179,8 @@ import javax.persistence.TemporalType;
 })
 
 @IdClass(OffreDeFormationPK.class)
-@Table(name = "offre_formations")
+//@Table(name = "offre_formations")
+@Table(name = "OFFRE_FORMATIONS")
 public class OffreDeFormationsDTO implements Serializable {
 
 	/**
@@ -274,7 +275,8 @@ public class OffreDeFormationsDTO implements Serializable {
 	/**
 	 * Temoin de formation active
 	 */
-	@Column(name = "ACTIF", nullable=false, columnDefinition = "NUMBER(1) default 1")
+//	@Column(name = "ACTIF", nullable=false, columnDefinition = "NUMBER(1) default 1")
+	@Column(name = "ACTIF", nullable=false, columnDefinition = "INTEGER(1) default 1")
 	//	@Column(name = "ACTIF", nullable=false)
 	private Integer actif;	
 
