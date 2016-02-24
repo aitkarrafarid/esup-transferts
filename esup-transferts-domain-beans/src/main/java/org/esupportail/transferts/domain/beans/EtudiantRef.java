@@ -23,7 +23,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @author Farid AIT KARRA : farid.aitkarra@univ-artois.fr
@@ -40,6 +45,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "allDemandesTransfertsByAnneeAndNonTraite", query = "SELECT DISTINCT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueil.situationUniversitaire LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source AND (etu.transferts.temoinTransfertValide = 0 OR etu.transferts.temoinTransfertValide = 1 OR etu.transferts.temoinOPIWs = 2) ORDER BY etu.transferts.dateDemandeTransfert ASC"),
 		@NamedQuery(name = "getDemandeTransfert", query = "SELECT etu FROM EtudiantRef etu WHERE etu.numeroEtudiant = :numeroEtudiant"),
 		@NamedQuery(name = "getDemandeTransfertByAnneeAndNumeroEtudiantAndSource", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf LEFT JOIN FETCH etu.transferts.fichier LEFT JOIN FETCH etu.correspondances WHERE etu.numeroEtudiant = :numeroEtudiant AND etu.annee = :annee AND etu.source = :source"),
+		@NamedQuery(name = "getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf LEFT JOIN FETCH etu.transferts.fichier WHERE etu.numeroEtudiant = :numeroEtudiant AND etu.annee = :annee AND etu.source = :source"),
 		@NamedQuery(name = "getListeAnnees", query = "SELECT DISTINCT etu.annee FROM EtudiantRef etu"),
 		@NamedQuery(name = "getDemandesTransfertsByEnCoursAndAnnee", query = "SELECT etu FROM EtudiantRef etu WHERE etu.transferts.temoinTransfertValide = 0 AND etu.annee = :annee AND etu.source = :source"),
 		@NamedQuery(name = "getDemandesTransfertsByAvisSaisieAndAnnee", query = "SELECT etu FROM EtudiantRef etu WHERE etu.transferts.temoinTransfertValide = 1 AND etu.annee = :annee AND etu.source = :source"),
@@ -53,7 +59,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "getStatistiquesNombreTotalTransfertDepart", query = "select count(etu.numeroEtudiant) from EtudiantRef etu where etu.annee = :annee and etu.source='D'"),
 		@NamedQuery(name = "getStatistiquesNombreTotalTransfertAccueil", query = "select count(etu.numeroEtudiant) from EtudiantRef etu where etu.annee = :annee and etu.source='A'")
 		})
-@XmlRootElement(name = "EtudiantRef")
+@XmlRootElement(name = "ETUDIANTREF")
+//@XMLACCESSORTYPE()
 //@Table(name = "EtudiantRef")
 @Table(name = "ETUDIANTREF")
 public class EtudiantRef implements Serializable {

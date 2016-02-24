@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * The class that represent users.
@@ -45,6 +46,7 @@ public class AccueilDecision implements Serializable {
 	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)	
 	private long id;		
 
+//	@XmlTransient
 	@ManyToOne
 	@JoinColumns({
 		@JoinColumn(name = "numeroEtudiant", referencedColumnName = "numeroEtudiant"),

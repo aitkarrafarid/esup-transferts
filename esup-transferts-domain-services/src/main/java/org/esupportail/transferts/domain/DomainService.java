@@ -303,4 +303,7 @@ public interface DomainService extends Serializable {
 	public void deletePeriodeFermeture(String id);
 
 	public Fermeture getFermetureFromId(String id);
+
+	public org.esupportail.transferts.domain.beans.EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(
+			String numeroEtudiant, Integer currentAnnee, String source);
 }

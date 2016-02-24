@@ -1519,7 +1519,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public void deleteSituationUniversitaireByNumeroEtudiantAndAnneeIsNull() {
-		Query query = entityManager.createNativeQuery("delete FROM SITUATION_UNIVERSITAIRE su WHERE su.numeroEtudiant IS NULL AND su.annee IS NULL");  
+		Query query = entityManager.createNativeQuery("delete FROM SITUATION_UNIVERSITAIRE WHERE numeroEtudiant IS NULL AND annee IS NULL");  
 		int delete = query.executeUpdate();
 		if (logger.isDebugEnabled()){
 			logger.debug("delete ---> "+delete);
@@ -2281,5 +2281,23 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		catch(NoResultException e){
 			return null;
 		}
+	}
+
+	@Override
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(String numeroEtudiant, Integer currentAnnee, String source) {
+		if (logger.isDebugEnabled())
+			logger.debug("public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(String numeroEtudiant, int annee, String source)===>"+numeroEtudiant+"-----"+currentAnnee+"-----"+source+"<===");
+		try{
+			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance");
+			q.setParameter("numeroEtudiant", numeroEtudiant);
+			q.setParameter("annee", currentAnnee);
+			q.setParameter("source", source);
+			EtudiantRef etu = (EtudiantRef) q.getSingleResult();
+			return etu;
+		}
+		catch(NoResultException e){
+			e.printStackTrace();
+			return null;
+		}	
 	}
 }

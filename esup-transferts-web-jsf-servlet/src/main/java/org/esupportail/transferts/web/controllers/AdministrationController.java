@@ -3606,13 +3606,6 @@ public class AdministrationController extends AbstractContextAwareController {
 
 			for(AccueilDecision ad : lAd)
 			{
-				//				if(logger.isDebugEnabled()) 
-				//				{
-				//					logger.debug("1--ad.getEtudiant().getNomPatronymique()===>"+ad.getEtudiant().getNomPatronymique()+"<===");
-				//					logger.debug("1--ad.getId()===>"+ad.getId()+"<===");
-				//					logger.debug("1--ad.getAvis()===>"+ad.getAvis()+"<===");
-				//				}
-
 				tableau[i] = ad.getId();
 				i++;
 			}
@@ -3724,6 +3717,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				opi.setAdrMailOpi(this.currentDemandeTransferts.getAdresse().getEmail());
 				opi.setEtabDepart(this.currentDemandeTransferts.getAccueil().getCodeRneUnivDepart());
 				opi.setAnnee(getSessionController().getCurrentAnnee());
+				opi.setCodPayNat(this.currentDemandeTransferts.getAccueil().getCodePaysNat());
 
 				/* Debut des informations sur le baccalaureat */
 				opi.setCodBac(this.currentDemandeTransferts.getAccueil().getCodeBac());
@@ -4136,8 +4130,9 @@ public class AdministrationController extends AbstractContextAwareController {
 						logger.debug("monService-->"+monService);
 
 					//					EtudiantRef etu = getDomainService().getEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
-					EtudiantRef etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
-
+//					EtudiantRef etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
+					EtudiantRef etu = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
+					
 					if(etu!=null)
 					{		
 						etu.setNumeroEtudiant(etu.getNumeroIne());

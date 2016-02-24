@@ -743,4 +743,9 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	public Fermeture getFermetureFromId(String id) {
 		return getDaoService().getFermetureFromId(id);
 	}
+
+	@Override
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(String numeroEtudiant, Integer currentAnnee, String source) {
+		return getDaoService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(numeroEtudiant, currentAnnee, source);
+	}
 }

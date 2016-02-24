@@ -304,4 +304,7 @@ public interface DaoService extends Serializable {
 	void deletePeriodeFermeture(String id);
 
 	Fermeture getFermetureFromId(String id);
+
+	EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(String numeroEtudiant,
+			Integer currentAnnee, String source);
 }
