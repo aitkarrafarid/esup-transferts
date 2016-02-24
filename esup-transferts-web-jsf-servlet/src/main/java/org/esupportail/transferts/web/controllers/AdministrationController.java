@@ -4256,6 +4256,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						etu.getTransferts().getOdf().setRne(p.getRne());
 						/*Fin d'initialisation des variables pour TESTS*/
 
+						etu.setCorrespondances(null);
 						monService.addTransfertOpiToListeTransfertsAccueil(etu);
 
 						this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
