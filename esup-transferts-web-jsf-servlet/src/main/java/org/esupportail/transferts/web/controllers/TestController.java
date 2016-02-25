@@ -89,7 +89,7 @@ public class TestController extends AbstractContextAwareController {
 		setListeLibellesEtape(null);
 		setComposanteVide(true);
 	}
-	
+
 	public String goToTestSansReset()
 	{
 		String retour=null;
@@ -115,17 +115,17 @@ public class TestController extends AbstractContextAwareController {
 		return retour;
 	}
 
-	
+
 	public void resetGeneral()
 	{
 		if (logger.isDebugEnabled()) {
 			logger.debug("public void resetGeneral() --> "+ this.etu.getTransferts().getDept());
 		}
-		
+
 		setLibelleEtapeVide(true);
 		setAnneeEtudeVide(true);
 		setLibelleDiplomeVide(true);		
-		
+
 		if(this.etu.getTransferts().getDept() !=null && !this.etu.getTransferts().getDept().equals(""))  
 		{
 			setDeptVide(false);
@@ -155,10 +155,14 @@ public class TestController extends AbstractContextAwareController {
 			setLibelleDiplomeVide(true);
 		boolean partenaire = false;
 		List<WsPub> listeEtablissementsPartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
-		for(WsPub eu : listeEtablissementsPartenaires)
+		
+		if(listeEtablissementsPartenaires!=null)
 		{
-			if(this.etu.getTransferts().getRne().equals(eu.getRne()))
-				partenaire = true;
+			for(WsPub eu : listeEtablissementsPartenaires)
+			{
+				if(this.etu.getTransferts().getRne().equals(eu.getRne()))
+					partenaire = true;
+			}
 		}
 
 		if(this.etu.getTransferts().getRne() !=null && !this.etu.getTransferts().getRne().equals("") && partenaire==true) 
@@ -182,7 +186,7 @@ public class TestController extends AbstractContextAwareController {
 			this.listeTypesDiplome=null;
 		}
 	}		
-	
+
 	public void resetAnneeEtude()
 	{
 		if (logger.isDebugEnabled())
@@ -197,7 +201,7 @@ public class TestController extends AbstractContextAwareController {
 			setLibelleEtapeVide(true);
 			setAnneeEtudeVide(false);
 			if(getSessionController().isChoixDuVoeuParComposante())
-						setComposanteVide(true);
+				setComposanteVide(true);
 			else
 				setLibelleDiplomeVide(true);
 			this.getListeAnneesEtude();  
@@ -225,7 +229,7 @@ public class TestController extends AbstractContextAwareController {
 		setCodeComposante(null);
 		setLibelleDiplomeVide(true); 
 	}	
-	
+
 	public void resetLibelleDiplome()
 	{
 		setTypesDiplomeAutreVide(true);
@@ -291,7 +295,7 @@ public class TestController extends AbstractContextAwareController {
 			}			
 		}
 	}	
-	
+
 	public List<SelectItem> getListeDepartements() {
 		if (logger.isDebugEnabled()) {
 			logger.debug("public List<SelectItem> getListeDepartements()");
@@ -337,11 +341,11 @@ public class TestController extends AbstractContextAwareController {
 						if (logger.isDebugEnabled())
 							logger.debug("etablissementDTO : " + etablissementDTO);
 
-//						if (!eDTO.getCodeEtb().equals(getSessionController().getRne())) 
-//						{
-							SelectItem option = new SelectItem(eDTO.getCodeEtb(), eDTO.getLibEtb());
-							listeEtablissements.add(option);
-//						}
+						//						if (!eDTO.getCodeEtb().equals(getSessionController().getRne())) 
+						//						{
+						SelectItem option = new SelectItem(eDTO.getCodeEtb(), eDTO.getLibEtb());
+						listeEtablissements.add(option);
+						//						}
 					}
 					Collections.sort(listeEtablissements, new ComparatorSelectItem());
 				} else {
@@ -363,23 +367,23 @@ public class TestController extends AbstractContextAwareController {
 			if(listeTypesDiplome==null)
 				logger.debug("if(listeTypesDiplome==null) --> " + listeTypesDiplome);		
 			listeTypesDiplome = new ArrayList<SelectItem>();
-//			List<TypeDiplome> listeTypesDiplomeDTO = getDomainService().getTypesDiplomeByRneAndAnnee(etu.getTransferts().getRne(), getSessionController().getCurrentAnnee().toString());
+			//			List<TypeDiplome> listeTypesDiplomeDTO = getDomainService().getTypesDiplomeByRneAndAnnee(etu.getTransferts().getRne(), getSessionController().getCurrentAnnee().toString());
 			Map<String, String> listeTypesDiplomeDTO = getDomainService().getOdfTypesDiplomeByRneAndAnnee(etu.getTransferts().getRne(), 
-																											  getSessionController().getCurrentAnnee(), 
-																											  true,
-																											  getSource());			
-			
+					getSessionController().getCurrentAnnee(), 
+					true,
+					getSource());			
+
 			if(listeTypesDiplomeDTO!=null && !listeTypesDiplomeDTO.isEmpty())
 			{
 				if (logger.isDebugEnabled()) {
 					logger.debug("listeTypesDiplomeDTO : "+listeTypesDiplomeDTO);
 				}
-//				for(OffreDeFormationsDTO ltd : listeTypesDiplomeDTO)
-//				{
-//					//				SelectItem option = new SelectItem(ltd.getIdTypeDiplome(), ltd.getIdTypeDiplome() + "-" + ltd.getLibelleTypeDiplome());
-//					SelectItem option = new SelectItem(ltd.getCodeDiplome(), ltd.getCodeDiplome());
-//					listeTypesDiplome.add(option);
-//				}			
+				//				for(OffreDeFormationsDTO ltd : listeTypesDiplomeDTO)
+				//				{
+				//					//				SelectItem option = new SelectItem(ltd.getIdTypeDiplome(), ltd.getIdTypeDiplome() + "-" + ltd.getLibelleTypeDiplome());
+				//					SelectItem option = new SelectItem(ltd.getCodeDiplome(), ltd.getCodeDiplome());
+				//					listeTypesDiplome.add(option);
+				//				}			
 				for (String mapKey : listeTypesDiplomeDTO.keySet()) {
 					// utilise ici hashMap.get(mapKey) pour acc�der aux valeurs
 					SelectItem option = new SelectItem(mapKey, listeTypesDiplomeDTO.get(mapKey));
@@ -463,7 +467,7 @@ public class TestController extends AbstractContextAwareController {
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("listeAnneesEtudeDTO : "+listeAnneesEtudeDTO);
-			
+
 			for(Integer mapKey : listeAnneesEtudeDTO.keySet())
 			{
 				SelectItem option = new SelectItem(mapKey, listeAnneesEtudeDTO.get(mapKey));
@@ -475,7 +479,7 @@ public class TestController extends AbstractContextAwareController {
 		else
 			return null;
 	}		
-	
+
 	public void setListeAnneesEtude(List<SelectItem> listeAnneesEtude) {
 		this.listeAnneesEtude = listeAnneesEtude;
 	}
@@ -509,12 +513,12 @@ public class TestController extends AbstractContextAwareController {
 	}
 
 	public List<OffreDeFormationsDTO> getListeLibellesEtape() {
-//		if (logger.isDebugEnabled())
-//		{
-//			logger.debug("public List<SelectItem> getListeLibellesEtape()");
-//			logger.debug("(etu.getTransferts() --> "+etu.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome());
-//		}
-//		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(), getSource());
+		//		if (logger.isDebugEnabled())
+		//		{
+		//			logger.debug("public List<SelectItem> getListeLibellesEtape()");
+		//			logger.debug("(etu.getTransferts() --> "+etu.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome());
+		//		}
+		//		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(), getSource());
 		if(getSessionController().isChoixDuVoeuParComposante())
 		{
 			if (logger.isDebugEnabled())
@@ -536,7 +540,7 @@ public class TestController extends AbstractContextAwareController {
 			return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(),getSource());
 		}	
 	}	
-	
+
 	public void setListeLibellesEtape(List<OffreDeFormationsDTO> listeLibellesEtape) {
 		this.listeLibellesEtape = listeLibellesEtape;
 	}
@@ -622,30 +626,30 @@ public class TestController extends AbstractContextAwareController {
 		this.codeComposante = codeComposante;
 	}
 
-//	public List<SelectItem> getListeComposantes() {
-//		if (logger.isDebugEnabled())
-//			logger.debug("getListeComposantes");
-//
-//		listeComposantes = new ArrayList<SelectItem>();
-//		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-//		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
-//		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
-//		{
-//			if (logger.isDebugEnabled()) {
-//				logger.debug("listeComposantesDTO : "+listeComposantesDTO);
-//			}
-//			for(String mapKey : listeComposantesDTO.keySet())
-//			{
-//				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
-//				listeComposantes.add(option);
-//			}			
-//			Collections.sort(listeComposantes,new ComparatorSelectItem());
-//			return listeComposantes;
-//		}
-//		else
-//			return null;
-//	}
+	//	public List<SelectItem> getListeComposantes() {
+	//		if (logger.isDebugEnabled())
+	//			logger.debug("getListeComposantes");
+	//
+	//		listeComposantes = new ArrayList<SelectItem>();
+	//		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+	//		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+	//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+	//		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
+	//		{
+	//			if (logger.isDebugEnabled()) {
+	//				logger.debug("listeComposantesDTO : "+listeComposantesDTO);
+	//			}
+	//			for(String mapKey : listeComposantesDTO.keySet())
+	//			{
+	//				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
+	//				listeComposantes.add(option);
+	//			}			
+	//			Collections.sort(listeComposantes,new ComparatorSelectItem());
+	//			return listeComposantes;
+	//		}
+	//		else
+	//			return null;
+	//	}
 
 	public List<SelectItem> getListeComposantes() {
 		if (logger.isDebugEnabled())
@@ -655,11 +659,11 @@ public class TestController extends AbstractContextAwareController {
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActif(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		//		Map<String, String> listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArrivee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 		Map<String, String> listeComposantesDTO=null;
-//		if(getSessionController().isChoixDuVeuParComposante())
-//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
-			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
-//		else
-//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		//		if(getSessionController().isChoixDuVeuParComposante())
+		//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		//		else
+		//			listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndActifAndArriveeAndCodTypDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled()) {
@@ -676,7 +680,7 @@ public class TestController extends AbstractContextAwareController {
 		else
 			return null;
 	}	
-	
+
 	public void setListeComposantes(List<SelectItem> listeComposantes) {
 		this.listeComposantes = listeComposantes;
 	}
