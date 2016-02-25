@@ -32,9 +32,9 @@
 				selection="#{administrationController.currentDemandeTransferts}"
 				filteredValue="#{administrationController.filteredEtudiantAccueil}"
 				rowStyleClass="#{transferts.transferts.temoinTransfertValide == 2 ? 'default' : 
-				(administrationController.aujourdhui lt transferts.alertSilenceVautAccord) ? 'default' : 
-				((administrationController.aujourdhui gt transferts.alertSilenceVautAccord) and 
-				(administrationController.aujourdhui lt transferts.alertDepassementSilenceVautAccord)) ? 'alertSilenceVautAccord' : 'alertDepassementSilenceVautAccord'}">
+				(administrationController.aujourdhui lt transferts.alertSilenceVautAccord ? 'default' : 
+				((administrationController.aujourdhui gt transferts.alertSilenceVautAccord and 
+				administrationController.aujourdhui lt transferts.alertDepassementSilenceVautAccord) ? 'alertSilenceVautAccord' : 'alertDepassementSilenceVautAccord'))}">
 
 				<f:facet name="header">  
             Liste des demandes de transferts accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1} 
@@ -58,7 +58,7 @@
 				<p:column headerText="" style="width:3%;"
 					sortBy="#{transferts.accueil.from_source}" id="partenaire">
 					<h:graphicImage alt="partenaire" title="Partenaire"
-						value="/media/images/partenaire_petit.jpg" 
+						value="/media/images/partenaire_petit.jpg"
 						rendered="#{transferts.accueil.from_source == 'P'}" />
 				</p:column>
 
@@ -68,7 +68,8 @@
 					sortBy="#{transferts.transferts.dateDemandeTransfert}"
 					filterMatchMode="contains">
 					<h:outputText value="#{transferts.transferts.dateDemandeTransfert}">
-						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}" />
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="#{sessionController.timezone}" />
 					</h:outputText>
 				</p:column>
 
@@ -114,7 +115,7 @@
 					<p:commandButton value="Voir la demande" icon="ui-icon-search"
 						update=":display:msgs"
 						action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" />
-<!-- 					<p:commandButton value="Voir la demande 2" />						 -->
+					<!-- 					<p:commandButton value="Voir la demande 2" />						 -->
 					<p:spacer width="20px" />
 					<p:selectBooleanButton
 						value="#{administrationController.switchTraiteNontraite}"
