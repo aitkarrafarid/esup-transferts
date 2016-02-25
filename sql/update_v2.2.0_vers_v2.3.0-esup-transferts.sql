@@ -24,4 +24,9 @@ modify
    SYNCHRO    integer
 );
 
+Insert into PARAMETRES
+   (CODE, ETAT, COMMENTAIRE)
+ Values
+   ('planning_fermetures', 0, 'Choix de l''affichage et gestion manuelle ou automatique des périodes de fermeture');
+
 COMMIT;
