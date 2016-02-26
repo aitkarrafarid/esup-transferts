@@ -60,4 +60,9 @@ public class GestionDate {
 		cal.add(Calendar.HOUR, nbHeure);
 		return cal.getTime();
 	}
+	
+	public static boolean verificationDateCompriseEntre2Dates(Date min, Date max, Date date){
+		return !(date.before(min) || date.after(max));
+	}
+	
 }

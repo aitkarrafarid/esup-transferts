@@ -60,6 +60,7 @@ import org.esupportail.transferts.domain.beans.TrInfosAdmEtu;
 import org.esupportail.transferts.domain.beans.TrPaysDTO;
 import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
 import org.esupportail.transferts.domain.beans.WsPub;
+import org.esupportail.transferts.utils.GestionDate;
 import org.esupportail.transferts.utils.RneModuleBase36;
 import org.esupportail.transferts.web.comparator.ComparatorSelectItem;
 import org.esupportail.transferts.web.utils.MyAuthenticator;
@@ -2027,10 +2028,10 @@ public class UserController extends AbstractContextAwareController {
 		this.parametreAppli = parametreAppli;
 	}
 
-	public boolean isDateInBetweenIncludingEndPoints(Date min, Date max, Date date){
-		logger.info("===>isDateInBetweenIncludingEndPoints<===");
-		return !(date.before(min) || date.after(max));
-	}
+//	public boolean verificationDateCompriseEntre2Dates(Date min, Date max, Date date){
+//		logger.info("===>isDateInBetweenIncludingEndPoints<===");
+//		return !(date.before(min) || date.after(max));
+//	}
 
 	public Parametres getParametreAppli() {
 
@@ -2059,7 +2060,7 @@ public class UserController extends AbstractContextAwareController {
 			{
 				int i;
 				boolean ret=false;
-				for(i=0 ; i<fermetures.size() && !(ret = this.isDateInBetweenIncludingEndPoints(fermetures.get(i).getDateDebut(),fermetures.get(i).getDateFin(),new Date())); i++)	
+				for(i=0 ; i<fermetures.size() && !(ret = GestionDate.verificationDateCompriseEntre2Dates(fermetures.get(i).getDateDebut(),fermetures.get(i).getDateFin(),new Date())); i++)	
 				{
 					//					if (logger.isDebugEnabled()) {
 					logger.info("getIdScheduler()===>"+fermetures.get(i).getIdScheduler()+"<===");

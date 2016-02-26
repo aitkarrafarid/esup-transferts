@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -40,6 +41,7 @@ import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
 import org.esupportail.transferts.domain.beans.Correspondance;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.EtudiantRefImp;
+import org.esupportail.transferts.domain.beans.Fermeture;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.domain.beans.IndOpi;
 import org.esupportail.transferts.domain.beans.InfosAccueil;
@@ -58,6 +60,7 @@ import org.esupportail.transferts.domain.beans.TrSituationUniversitaire;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.CheckBEA23;
 import org.esupportail.transferts.utils.CheckNNE36;
+import org.esupportail.transferts.utils.GestionDate;
 import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeCorrespondance;
 import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeAccueilDecision;
 import org.esupportail.transferts.accueil.web.comparator.ComparatorSelectItem;
@@ -1255,27 +1258,108 @@ public class UserController extends AbstractContextAwareController {
 		this.verifDateNaisApogee = verifDateNaisApogee;
 	}
 
+//	public Parametres getParametreAppli() {
+//		this.parametreAppli=getDomainService().getParametreByCode("ouvertureAccueil");
+//		if(this.parametreAppli!=null)
+//		{
+//			if (logger.isDebugEnabled()) {
+//				logger.debug("this.parametreAppli.getCodeParametre --> "+this.parametreAppli.getCodeParametre());
+//				logger.debug("this.parametreAppli.getBool() --> "+this.parametreAppli.isBool());
+//				logger.debug("this.parametreAppli.getCommentaire() --> "+this.parametreAppli.getCommentaire());
+//			}
+//		}
+//		else
+//		{
+//			if (logger.isDebugEnabled()) {
+//				logger.debug("Aucun parametre nome 'ouverture' trouve dans la table parametre");
+//			}
+//			this.parametreAppli=new Parametres();
+//			this.parametreAppli.setBool(false);
+//		}
+//		return parametreAppli;
+//	}
+
 	public Parametres getParametreAppli() {
-		this.parametreAppli=getDomainService().getParametreByCode("ouvertureAccueil");
-		if(this.parametreAppli!=null)
+
+		if(getSessionController().getCurrentAnnee()==null)
+			this.isDefaultCodeSizeAnnee();
+
+		this.parametreAppli=getDomainService().getParametreByCode("planning_fermetures");
+
+		if(this.parametreAppli!=null && this.parametreAppli.isBool())
 		{
 			if (logger.isDebugEnabled()) {
 				logger.debug("this.parametreAppli.getCodeParametre --> "+this.parametreAppli.getCodeParametre());
 				logger.debug("this.parametreAppli.getBool() --> "+this.parametreAppli.isBool());
 				logger.debug("this.parametreAppli.getCommentaire() --> "+this.parametreAppli.getCommentaire());
 			}
+
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(new Date());
+			int year = c.get(Calendar.YEAR); //A vérifier!!!!
+
+			logger.info("date et heure===>"+c+"<===");
+			logger.info("annee===>"+year+"<===");
+
+			List<Fermeture> fermetures = getDomainService().getListeFermeturesBySourceAndAnnee("D", year);
+			if(fermetures!=null)
+			{
+				int i;
+				boolean ret=false;
+				for(i=0 ; i<fermetures.size() && !(ret = GestionDate.verificationDateCompriseEntre2Dates(fermetures.get(i).getDateDebut(),fermetures.get(i).getDateFin(),new Date())); i++)	
+				{
+					//					if (logger.isDebugEnabled()) {
+					logger.info("getIdScheduler()===>"+fermetures.get(i).getIdScheduler()+"<===");
+					logger.info("getSource()===>"+fermetures.get(i).getSource()+"<===");
+					logger.info("getAnnee()===>"+fermetures.get(i).getAnnee()+"<===");
+					logger.info("getTitre()===>"+fermetures.get(i).getTitre()+"<===");
+					logger.info("getDateDebut()===>"+fermetures.get(i).getDateDebut()+"<===");
+					logger.info("getDateFin()===>"+fermetures.get(i).getDateFin()+"<===");
+					logger.info("ret boucle===>"+ret+"<===");
+				}
+				logger.info("ret===>"+ret+"<===");
+				this.parametreAppli=new Parametres();
+				if(ret)
+				{
+					this.parametreAppli.setBool(false);
+					this.parametreAppli.setCommentaire(fermetures.get(i).getTitre());
+				}
+				else
+					this.parametreAppli.setBool(true);
+			}
+			else
+			{
+				//				if (logger.isDebugEnabled()) {
+				logger.info("===>fermetures == null<===");
+				//				}
+				this.parametreAppli=new Parametres();
+				this.parametreAppli.setBool(false);
+			}
 		}
 		else
 		{
-			if (logger.isDebugEnabled()) {
-				logger.debug("Aucun parametre nome 'ouverture' trouve dans la table parametre");
+			this.parametreAppli=getDomainService().getParametreByCode("ouvertureDepart");
+			if(this.parametreAppli!=null)
+			{
+				if (logger.isDebugEnabled()) {
+					logger.debug("this.parametreAppli.getCodeParametre --> "+this.parametreAppli.getCodeParametre());
+					logger.debug("this.parametreAppli.getBool() --> "+this.parametreAppli.isBool());
+					logger.debug("this.parametreAppli.getCommentaire() --> "+this.parametreAppli.getCommentaire());
+				}
 			}
-			this.parametreAppli=new Parametres();
-			this.parametreAppli.setBool(false);
+			else
+			{
+				if (logger.isDebugEnabled()) {
+					logger.debug("Aucun parametre nome 'ouverture' trouve dans la table parametre");
+				}
+				this.parametreAppli=new Parametres();
+				this.parametreAppli.setBool(false);
+			}			
 		}
 		return parametreAppli;
 	}
-
+	
+	
 	public void setParametreAppli(Parametres parametreAppli) {
 		this.parametreAppli = parametreAppli;
 	}
