@@ -12,6 +12,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.esupportail.transferts.domain.beans.Parametres;
 import org.esupportail.transferts.domain.beans.User;
 import org.esupportail.transferts.services.auth.Authenticator;
 import org.esupportail.commons.services.logging.Logger;

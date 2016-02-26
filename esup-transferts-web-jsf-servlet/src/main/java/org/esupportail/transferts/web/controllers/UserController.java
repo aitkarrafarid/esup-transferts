@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,7 @@ import org.esupportail.transferts.domain.beans.Composante;
 import org.esupportail.transferts.domain.beans.Correspondance;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.EtudiantRefImp;
+import org.esupportail.transferts.domain.beans.Fermeture;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
 import org.esupportail.transferts.domain.beans.IndOpi;
@@ -795,110 +797,110 @@ public class UserController extends AbstractContextAwareController {
 		getDomainService().addDemandeTransferts(this.currentEtudiant);
 	}	
 
-//	public void addTransfertOpi() 
-//	{
-//		if (logger.isDebugEnabled()) 
-//		{
-//			logger.debug("Cle OPI depart : " + RneModuleBase36.genereCle(getSessionController().getRne()));
-//			logger.debug("Cle OPI accueil : "+ RneModuleBase36.genereCle(currentEtudiant.getTransferts().getRne()));
-//		}
-//		WsPub p = getDomainService().getWsPubByRneAndAnnee(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee());
-//		// Appel du WebService de l'universite d'accueil
-//		if (p != null) 
-//		{
-//			Authenticator.setDefault(new MyAuthenticator(p.getIdentifiant(), p.getPassword()));
-//
-//			if (this.testUrl(p.getUrl())) {
-//				try {
-//					String address = p.getUrl();
-//					JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
-//					factoryBean.setServiceClass(DomainServiceOpi.class);
-//					factoryBean.setAddress(address);
-//					DomainServiceOpi monService = (DomainServiceOpi) factoryBean.create();
-//
-//					this.currentEtudiant.getTransferts().setTemoinOPIWs(1);
-//					IndOpi opi = getDomainServiceScolarite().getInfosOpi(this.currentEtudiant.getNumeroEtudiant());
-//
-//					String cleOpi = getDomainService().getCodeSizeByAnnee(getSessionController().getCurrentAnnee()).getCode()	+ RneModuleBase36.genereCle(getSessionController().getRne());
-//					opi.setNumeroOpi(cleOpi);
-//					opi.setCodPay(this.currentEtudiant.getAdresse().getCodPay());
-//					opi.setCodBdi(this.currentEtudiant.getAdresse().getCodePostal());
-//					opi.setCodCom(this.currentEtudiant.getAdresse().getCodeCommune());
-//					opi.setLibAd1(this.currentEtudiant.getAdresse().getLibAd1());
-//					opi.setLibAd2(this.currentEtudiant.getAdresse().getLibAd2());
-//					opi.setLibAd3(this.currentEtudiant.getAdresse().getLibAd3());
-//					opi.setLibAde(this.currentEtudiant.getAdresse().getCodeVilleEtranger());
-//					opi.setNumTel(this.currentEtudiant.getAdresse().getNumTel());
-//					opi.setNumTelPorOpi(this.currentEtudiant.getAdresse().getNumTelPortable());
-//					opi.setAdrMailOpi(this.currentEtudiant.getAdresse().getEmail());
-//					opi.setEtabDepart(getSessionController().getRne());
-//					opi.setAnnee(getSessionController().getCurrentAnnee());
-//
-//					opi.getVoeux().setLibNomPatIndOpi(this.currentEtudiant.getNomPatronymique());
-//					opi.getVoeux().setLibPr1IndOpi(this.currentEtudiant.getPrenom1());
-//
-//					opi.getVoeux().setCodDip(currentEtudiant.getTransferts().getOdf().getCodeDiplome());
-//					opi.getVoeux().setCodVrsVdi(currentEtudiant.getTransferts().getOdf().getCodeVersionDiplome());
-//					opi.getVoeux().setCodCge(currentEtudiant.getTransferts().getOdf().getCodeCentreGestion());
-//					opi.getVoeux().setCodEtp(currentEtudiant.getTransferts().getOdf().getCodeEtape());
-//					opi.getVoeux().setCodVrsVet(currentEtudiant.getTransferts().getOdf().getCodeVersionEtape());
-//					opi.getVoeux().setCodDemDos("C");
-//					opi.getVoeux().setNumCls("1");
-//					opi.getVoeux().setCodCmp(currentEtudiant.getTransferts().getOdf().getCodeComposante());
-//
-//					if (logger.isDebugEnabled()) 
-//					{
-//						logger.debug("IndOpi: " + opi);
-//						logger.debug("WsPub p : " + p);
-//					}
-//					monService.addIndOpi(opi);
-//					this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
-//					String summary = getString("ENVOI.OPI");
-//					String detail = getString("ENVOI.OPI");
-//					Severity severity = FacesMessage.SEVERITY_INFO;
-//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-//				} 
-//				catch (Exception e) 
-//				{
-//					if (logger.isDebugEnabled()) {
-//						logger.debug("WebServiceException RNE : " + p.getRne());
-//						logger.debug("-----------------");
-//						logger.debug(e.getCause().getMessage());
-//						logger.debug("-----------------");
-//					}
-//					e.printStackTrace();
-//					this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
-//					this.currentEtudiant.getTransferts().setTemoinOPIWs(2);
-//					String summary = getString("ERREUR.ACCES_OPI2");
-//					String detail = getString("ERREUR.ACCES_OPI2");
-//					Severity severity = FacesMessage.SEVERITY_ERROR;
-//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-//				}
-//				if (logger.isDebugEnabled()) {
-//					logger.debug("getDomainServiceWS : " + p);
-//					logger.debug("domainServiceWSOpiExt : "	+ domainServiceWSOpiExt);
-//				}
-//			} 
-//			else 
-//			{
-//				this.currentEtudiant.getTransferts().setTemoinOPIWs(2);
-//				this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
-//				String summary = getString("ERREUR.ACCES_OPI3");
-//				String detail = getString("ERREUR.ACCES_OPI3");
-//				Severity severity = FacesMessage.SEVERITY_ERROR;
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-//			}
-//		} 
-//		else 
-//		{
-//			this.currentEtudiant.getTransferts().setTemoinOPIWs(0);
-//			String summary = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
-//			String detail = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
-//			Severity severity = FacesMessage.SEVERITY_WARN;
-//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-//		}
-//		getDomainService().addDemandeTransferts(this.currentEtudiant);
-//	}	
+	//	public void addTransfertOpi() 
+	//	{
+	//		if (logger.isDebugEnabled()) 
+	//		{
+	//			logger.debug("Cle OPI depart : " + RneModuleBase36.genereCle(getSessionController().getRne()));
+	//			logger.debug("Cle OPI accueil : "+ RneModuleBase36.genereCle(currentEtudiant.getTransferts().getRne()));
+	//		}
+	//		WsPub p = getDomainService().getWsPubByRneAndAnnee(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee());
+	//		// Appel du WebService de l'universite d'accueil
+	//		if (p != null) 
+	//		{
+	//			Authenticator.setDefault(new MyAuthenticator(p.getIdentifiant(), p.getPassword()));
+	//
+	//			if (this.testUrl(p.getUrl())) {
+	//				try {
+	//					String address = p.getUrl();
+	//					JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
+	//					factoryBean.setServiceClass(DomainServiceOpi.class);
+	//					factoryBean.setAddress(address);
+	//					DomainServiceOpi monService = (DomainServiceOpi) factoryBean.create();
+	//
+	//					this.currentEtudiant.getTransferts().setTemoinOPIWs(1);
+	//					IndOpi opi = getDomainServiceScolarite().getInfosOpi(this.currentEtudiant.getNumeroEtudiant());
+	//
+	//					String cleOpi = getDomainService().getCodeSizeByAnnee(getSessionController().getCurrentAnnee()).getCode()	+ RneModuleBase36.genereCle(getSessionController().getRne());
+	//					opi.setNumeroOpi(cleOpi);
+	//					opi.setCodPay(this.currentEtudiant.getAdresse().getCodPay());
+	//					opi.setCodBdi(this.currentEtudiant.getAdresse().getCodePostal());
+	//					opi.setCodCom(this.currentEtudiant.getAdresse().getCodeCommune());
+	//					opi.setLibAd1(this.currentEtudiant.getAdresse().getLibAd1());
+	//					opi.setLibAd2(this.currentEtudiant.getAdresse().getLibAd2());
+	//					opi.setLibAd3(this.currentEtudiant.getAdresse().getLibAd3());
+	//					opi.setLibAde(this.currentEtudiant.getAdresse().getCodeVilleEtranger());
+	//					opi.setNumTel(this.currentEtudiant.getAdresse().getNumTel());
+	//					opi.setNumTelPorOpi(this.currentEtudiant.getAdresse().getNumTelPortable());
+	//					opi.setAdrMailOpi(this.currentEtudiant.getAdresse().getEmail());
+	//					opi.setEtabDepart(getSessionController().getRne());
+	//					opi.setAnnee(getSessionController().getCurrentAnnee());
+	//
+	//					opi.getVoeux().setLibNomPatIndOpi(this.currentEtudiant.getNomPatronymique());
+	//					opi.getVoeux().setLibPr1IndOpi(this.currentEtudiant.getPrenom1());
+	//
+	//					opi.getVoeux().setCodDip(currentEtudiant.getTransferts().getOdf().getCodeDiplome());
+	//					opi.getVoeux().setCodVrsVdi(currentEtudiant.getTransferts().getOdf().getCodeVersionDiplome());
+	//					opi.getVoeux().setCodCge(currentEtudiant.getTransferts().getOdf().getCodeCentreGestion());
+	//					opi.getVoeux().setCodEtp(currentEtudiant.getTransferts().getOdf().getCodeEtape());
+	//					opi.getVoeux().setCodVrsVet(currentEtudiant.getTransferts().getOdf().getCodeVersionEtape());
+	//					opi.getVoeux().setCodDemDos("C");
+	//					opi.getVoeux().setNumCls("1");
+	//					opi.getVoeux().setCodCmp(currentEtudiant.getTransferts().getOdf().getCodeComposante());
+	//
+	//					if (logger.isDebugEnabled()) 
+	//					{
+	//						logger.debug("IndOpi: " + opi);
+	//						logger.debug("WsPub p : " + p);
+	//					}
+	//					monService.addIndOpi(opi);
+	//					this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
+	//					String summary = getString("ENVOI.OPI");
+	//					String detail = getString("ENVOI.OPI");
+	//					Severity severity = FacesMessage.SEVERITY_INFO;
+	//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+	//				} 
+	//				catch (Exception e) 
+	//				{
+	//					if (logger.isDebugEnabled()) {
+	//						logger.debug("WebServiceException RNE : " + p.getRne());
+	//						logger.debug("-----------------");
+	//						logger.debug(e.getCause().getMessage());
+	//						logger.debug("-----------------");
+	//					}
+	//					e.printStackTrace();
+	//					this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
+	//					this.currentEtudiant.getTransferts().setTemoinOPIWs(2);
+	//					String summary = getString("ERREUR.ACCES_OPI2");
+	//					String detail = getString("ERREUR.ACCES_OPI2");
+	//					Severity severity = FacesMessage.SEVERITY_ERROR;
+	//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+	//				}
+	//				if (logger.isDebugEnabled()) {
+	//					logger.debug("getDomainServiceWS : " + p);
+	//					logger.debug("domainServiceWSOpiExt : "	+ domainServiceWSOpiExt);
+	//				}
+	//			} 
+	//			else 
+	//			{
+	//				this.currentEtudiant.getTransferts().setTemoinOPIWs(2);
+	//				this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
+	//				String summary = getString("ERREUR.ACCES_OPI3");
+	//				String detail = getString("ERREUR.ACCES_OPI3");
+	//				Severity severity = FacesMessage.SEVERITY_ERROR;
+	//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+	//			}
+	//		} 
+	//		else 
+	//		{
+	//			this.currentEtudiant.getTransferts().setTemoinOPIWs(0);
+	//			String summary = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
+	//			String detail = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
+	//			Severity severity = FacesMessage.SEVERITY_WARN;
+	//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+	//		}
+	//		getDomainService().addDemandeTransferts(this.currentEtudiant);
+	//	}	
 
 	private boolean testUrl(String host) {
 		try {
@@ -2025,23 +2027,87 @@ public class UserController extends AbstractContextAwareController {
 		this.parametreAppli = parametreAppli;
 	}
 
+	public boolean isDateInBetweenIncludingEndPoints(Date min, Date max, Date date){
+		logger.info("===>isDateInBetweenIncludingEndPoints<===");
+		return !(date.before(min) || date.after(max));
+	}
+
 	public Parametres getParametreAppli() {
-		this.parametreAppli=getDomainService().getParametreByCode("ouvertureDepart");
-		if(this.parametreAppli!=null)
+
+		if(getSessionController().getCurrentAnnee()==null)
+			this.isDefaultCodeSizeAnnee();
+
+		this.parametreAppli=getDomainService().getParametreByCode("planning_fermetures");
+
+		if(this.parametreAppli!=null && this.parametreAppli.isBool())
 		{
 			if (logger.isDebugEnabled()) {
 				logger.debug("this.parametreAppli.getCodeParametre --> "+this.parametreAppli.getCodeParametre());
 				logger.debug("this.parametreAppli.getBool() --> "+this.parametreAppli.isBool());
 				logger.debug("this.parametreAppli.getCommentaire() --> "+this.parametreAppli.getCommentaire());
 			}
+
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(new Date());
+			int year = c.get(Calendar.YEAR); //A vérifier!!!!
+
+			logger.info("date et heure===>"+c+"<===");
+			logger.info("annee===>"+year+"<===");
+
+			List<Fermeture> fermetures = getDomainService().getListeFermeturesBySourceAndAnnee("D", year);
+			if(fermetures!=null)
+			{
+				int i;
+				boolean ret=false;
+				for(i=0 ; i<fermetures.size() && !(ret = this.isDateInBetweenIncludingEndPoints(fermetures.get(i).getDateDebut(),fermetures.get(i).getDateFin(),new Date())); i++)	
+				{
+					//					if (logger.isDebugEnabled()) {
+					logger.info("getIdScheduler()===>"+fermetures.get(i).getIdScheduler()+"<===");
+					logger.info("getSource()===>"+fermetures.get(i).getSource()+"<===");
+					logger.info("getAnnee()===>"+fermetures.get(i).getAnnee()+"<===");
+					logger.info("getTitre()===>"+fermetures.get(i).getTitre()+"<===");
+					logger.info("getDateDebut()===>"+fermetures.get(i).getDateDebut()+"<===");
+					logger.info("getDateFin()===>"+fermetures.get(i).getDateFin()+"<===");
+					logger.info("ret boucle===>"+ret+"<===");
+				}
+				logger.info("ret===>"+ret+"<===");
+				this.parametreAppli=new Parametres();
+				if(ret)
+				{
+					this.parametreAppli.setBool(false);
+					this.parametreAppli.setCommentaire(fermetures.get(i).getTitre());
+				}
+				else
+					this.parametreAppli.setBool(true);
+			}
+			else
+			{
+				//				if (logger.isDebugEnabled()) {
+				logger.info("===>fermetures == null<===");
+				//				}
+				this.parametreAppli=new Parametres();
+				this.parametreAppli.setBool(false);
+			}
 		}
 		else
 		{
-			if (logger.isDebugEnabled()) {
-				logger.debug("Aucun parametre nome 'ouverture' trouve dans la table parametre");
+			this.parametreAppli=getDomainService().getParametreByCode("ouvertureDepart");
+			if(this.parametreAppli!=null)
+			{
+				if (logger.isDebugEnabled()) {
+					logger.debug("this.parametreAppli.getCodeParametre --> "+this.parametreAppli.getCodeParametre());
+					logger.debug("this.parametreAppli.getBool() --> "+this.parametreAppli.isBool());
+					logger.debug("this.parametreAppli.getCommentaire() --> "+this.parametreAppli.getCommentaire());
+				}
 			}
-			this.parametreAppli=new Parametres();
-			this.parametreAppli.setBool(false);
+			else
+			{
+				if (logger.isDebugEnabled()) {
+					logger.debug("Aucun parametre nome 'ouverture' trouve dans la table parametre");
+				}
+				this.parametreAppli=new Parametres();
+				this.parametreAppli.setBool(false);
+			}			
 		}
 		return parametreAppli;
 	}

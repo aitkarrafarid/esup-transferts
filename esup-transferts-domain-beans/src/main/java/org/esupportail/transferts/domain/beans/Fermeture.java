@@ -26,13 +26,9 @@ import org.esupportail.transferts.domain.beans.Fermeture;
  */
 @Entity
 @NamedQueries({
-//	@NamedQuery(
-//			name="getListeCGEFromBddByAnneeAndSource",
-//			query="SELECT c FROM CGE c WHERE c.annee = :annee AND c.source = :source)"
-//			)//,
 	@NamedQuery(
 			name="getListeFermeturesBySourceAndAnnee",
-			query="SELECT f FROM Fermeture f WHERE f.annee = :annee AND f.source = :source)"
+			query="SELECT f FROM Fermeture f WHERE (f.annee = :annee OR f.annee = :annee - 1) AND f.source = :source)"
 			)			
 })
 @Table(name = "FERMETURE")
@@ -43,11 +39,6 @@ public class Fermeture implements Serializable {
 	 */
 	private static final long serialVersionUID = 1234532897404494181L;
 
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FERMETURE_SEQ")
-//	@SequenceGenerator(name="FERMETURE_SEQ", sequenceName="FERMETURE_SEQ", allocationSize=1)
-//	private long id;	
-	
 	@Id
 	@Column(name = "id",  nullable=false)
 	private String idScheduler;		
@@ -58,7 +49,7 @@ public class Fermeture implements Serializable {
 	@Column(name = "annee",  nullable=false)
 	private Integer annee;			
 	
-	@Column(name = "Titre",  length = 2000, nullable=false)
+	@Column(name = "Titre",  length = 2000)
 	private String titre;	
 
 	@Column(name = "date_debut")
