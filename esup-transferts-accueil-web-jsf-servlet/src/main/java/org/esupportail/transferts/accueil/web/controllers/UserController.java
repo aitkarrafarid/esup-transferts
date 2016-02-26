@@ -1300,8 +1300,9 @@ public class UserController extends AbstractContextAwareController {
 
 			logger.info("date et heure===>"+c+"<===");
 			logger.info("annee===>"+year+"<===");
+			logger.info("getSource()===>A<===");
 
-			List<Fermeture> fermetures = getDomainService().getListeFermeturesBySourceAndAnnee("D", year);
+			List<Fermeture> fermetures = getDomainService().getListeFermeturesBySourceAndAnnee("A", year);
 			if(fermetures!=null)
 			{
 				int i;

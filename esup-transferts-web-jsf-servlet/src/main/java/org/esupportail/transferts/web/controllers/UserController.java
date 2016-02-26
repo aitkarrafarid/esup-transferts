@@ -2054,6 +2054,7 @@ public class UserController extends AbstractContextAwareController {
 
 			logger.info("date et heure===>"+c+"<===");
 			logger.info("annee===>"+year+"<===");
+			logger.info("getSource()===>D<===");
 
 			List<Fermeture> fermetures = getDomainService().getListeFermeturesBySourceAndAnnee("D", year);
 			if(fermetures!=null)
@@ -2087,7 +2088,7 @@ public class UserController extends AbstractContextAwareController {
 				logger.info("===>fermetures == null<===");
 				//				}
 				this.parametreAppli=new Parametres();
-				this.parametreAppli.setBool(false);
+				this.parametreAppli.setBool(true);
 			}
 		}
 		else

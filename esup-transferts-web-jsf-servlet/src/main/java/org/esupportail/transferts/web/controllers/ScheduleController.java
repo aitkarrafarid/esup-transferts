@@ -46,8 +46,10 @@ public class ScheduleController extends AbstractContextAwareController implement
 	private List<Fermeture> listeFermetures;
 	
 	private String source;
+	
+	private Integer anneeEnCours;
 
-	@PostConstruct
+//	@PostConstruct
 	public void init() {
 		logger.info("===>@PostConstruct---public void init() {<===");
 		eventModel = new DefaultScheduleModel();
@@ -75,6 +77,7 @@ public class ScheduleController extends AbstractContextAwareController implement
 //		if (logger.isDebugEnabled())
 			logger.info("goToFermetureAppliSchedulerDepart");
 		setSource("D");
+		this.init();
 		return "goToFermetureAppli";
 	}		
 
@@ -83,6 +86,7 @@ public class ScheduleController extends AbstractContextAwareController implement
 		if (logger.isDebugEnabled())
 			logger.debug("goToFermetureAppliSchedulerAccueil");
 		setSource("A");
+		this.init();
 		return "goToFermetureAppli";
 	}	
 	
@@ -97,8 +101,8 @@ public class ScheduleController extends AbstractContextAwareController implement
 
 			Fermeture tmp = new Fermeture();
 			tmp.setIdScheduler(eventModel.getEvents().get(i).getId());
-			tmp.setSource("D");
-			tmp.setAnnee(2016);
+			tmp.setSource(this.getSource());
+			tmp.setAnnee(this.getAnneeEnCours());
 			tmp.setTitre(eventModel.getEvents().get(i).getTitle());
 			tmp.setDateDebut(eventModel.getEvents().get(i).getStartDate());
 			tmp.setDateFin(eventModel.getEvents().get(i).getEndDate());
@@ -169,7 +173,17 @@ public class ScheduleController extends AbstractContextAwareController implement
 
 
 	public List<Fermeture> getFermetures() {
-		return getDomainService().getListeFermeturesBySourceAndAnnee("D", 2016);
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(new Date());
+		int year = c.get(Calendar.YEAR); //A vérifier!!!!
+
+		logger.info("date et heure===>"+c+"<===");
+		logger.info("annee===>"+year+"<===");
+		logger.info("getSource()===>"+getSource()+"<===");
+		
+		this.setAnneeEnCours(year);
+		
+		return getDomainService().getListeFermeturesBySourceAndAnnee(getSource(), year);
 	}
 
 
@@ -183,5 +197,13 @@ public class ScheduleController extends AbstractContextAwareController implement
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public Integer getAnneeEnCours() {
+		return anneeEnCours;
+	}
+
+	public void setAnneeEnCours(Integer anneeEnCours) {
+		this.anneeEnCours = anneeEnCours;
 	}
 }
