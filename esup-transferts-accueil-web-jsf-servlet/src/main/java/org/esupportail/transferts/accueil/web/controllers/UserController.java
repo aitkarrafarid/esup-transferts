@@ -1334,7 +1334,7 @@ public class UserController extends AbstractContextAwareController {
 				logger.info("===>fermetures == null<===");
 				//				}
 				this.parametreAppli=new Parametres();
-				this.parametreAppli.setBool(false);
+				this.parametreAppli.setBool(true);
 			}
 		}
 		else
