@@ -24,6 +24,10 @@ import javax.persistence.Table;
     @NamedQuery(
     name="getVersionByNumero",
     query="SELECT version FROM Versions version WHERE version.numero = :numero"
+		    ),
+    @NamedQuery(
+    name="getVersionByEtat",
+    query="SELECT version FROM Versions version WHERE etat = :etat"    
     )
 })
 @Table(name = "VERSIONS")
@@ -45,7 +49,7 @@ public class Versions implements Serializable {
 	 * Valeur vrai ou faux pour le code paramètre
 	 */
 	@Column(name = "etat")
-	private boolean etat;		
+	private Integer etat;		
 	
 	/**
 	 * Commentaire
@@ -94,11 +98,11 @@ public class Versions implements Serializable {
 		this.numero = numero;
 	}
 
-	public boolean isEtat() {
+	public Integer isEtat() {
 		return etat;
 	}
 
-	public void setEtat(boolean etat) {
+	public void setEtat(Integer etat) {
 		this.etat = etat;
 	}
 }

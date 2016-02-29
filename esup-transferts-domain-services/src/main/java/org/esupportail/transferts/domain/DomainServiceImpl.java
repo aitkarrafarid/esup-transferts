@@ -34,6 +34,7 @@ import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
 import org.esupportail.transferts.domain.beans.Transferts;
 import org.esupportail.transferts.domain.beans.User;
+import org.esupportail.transferts.domain.beans.Versions;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -747,5 +748,10 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	@Override
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(String numeroEtudiant, Integer currentAnnee, String source) {
 		return getDaoService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(numeroEtudiant, currentAnnee, source);
+	}
+
+	@Override
+	public Versions getVersionByEtat(Integer etat) {
+		return getDaoService().getVersionByEtat(etat);
 	}
 }

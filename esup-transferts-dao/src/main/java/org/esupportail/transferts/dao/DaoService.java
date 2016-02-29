@@ -31,6 +31,7 @@ import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.Test;
 import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
+import org.esupportail.transferts.domain.beans.Versions;
 import org.esupportail.transferts.domain.beans.WsPub;
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2016
@@ -307,4 +308,6 @@ public interface DaoService extends Serializable {
 
 	EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(String numeroEtudiant,
 			Integer currentAnnee, String source);
+
+	Versions getVersionByEtat(Integer etat);
 }

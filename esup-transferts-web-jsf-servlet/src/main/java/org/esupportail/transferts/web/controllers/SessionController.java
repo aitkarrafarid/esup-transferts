@@ -5,16 +5,25 @@
 package org.esupportail.transferts.web.controllers;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
 import org.esupportail.transferts.domain.beans.Parametres;
 import org.esupportail.transferts.domain.beans.User;
+import org.esupportail.transferts.domain.beans.Versions;
 import org.esupportail.transferts.services.auth.Authenticator;
+import org.hibernate.exception.SQLGrammarException;
+import org.primefaces.context.RequestContext;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
@@ -71,8 +80,11 @@ public class SessionController extends AbstractDomainAwareBean {
 	private String wsCandidaturesUser;
 	private String wsCandidaturesPwd;
 	private String timezone;
+	private Date aujourdhui;
+	private boolean defaultCodeSizeAnnee = false;
+	private CodeSizeAnnee defaultCodeSize;
 	private Logger logger = new LoggerImpl(getClass());
-	
+
 	/*
 	 ******************* INIT ******************** */
 	/**
@@ -99,7 +111,7 @@ public class SessionController extends AbstractDomainAwareBean {
 				+ this.getClass().getName() + " can not be null");	
 		Assert.notNull(this.transfertsAccueil, "property transfertsAccueil of class " 
 				+ this.getClass().getName() + " can not be null");	
-		
+
 		if(this.superGestionnaire!=null && this.superGestionnaire!="" && ((this.superGestionnaire.split(",")).length>1))
 		{
 			String[] tokens = this.superGestionnaire.split(",");
@@ -108,31 +120,133 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		else
 			this.listSuperGestionnaire.add(this.superGestionnaire);		
-		
+
 		Assert.notNull(this.nbJourAvantAlertSilenceVautAccord, "property nbJourAvantAlertSilenceVautAccord of class " 
 				+ this.getClass().getName() + " can not be null");	
-		
+
 		Assert.notNull(this.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord, "property nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord of class " 
 				+ this.getClass().getName() + " can not be null");	
-		
+
 		Assert.notNull(this.useCandidatures, "property useCandidatures of class " 
 				+ this.getClass().getName() + " can not be null");	
-		
+
 		if(this.isUseCandidatures())
 		{
 			Assert.hasText(wsCandidaturesWsdl, "property wsCandidaturesWsdl of class "
 					+ this.getClass().getName() + " can not be null");	
-			
+
 			Assert.hasText(wsCandidaturesUser, "property wsCandidaturesUser of class "
 					+ this.getClass().getName() + " can not be null");	
-			
+
 			Assert.hasText(wsCandidaturesPwd, "property wsCandidaturesPwd of class "
 					+ this.getClass().getName() + " can not be null");	
 		}
-		
+
 		Assert.hasText(timezone, "property timezone of class "
 				+ this.getClass().getName() + " can not be null");	
 	}
+
+	@PostConstruct
+	public void init() {
+		setAujourdhui(new Date());
+		Enumeration<?> liste = System.getProperties().propertyNames();
+		String cle;
+
+		while( liste.hasMoreElements() ) {
+			cle = (String)liste.nextElement();
+			logger.info("===>"+cle + " = " + System.getProperty(cle)+"<===");	
+		} 		
+
+		Versions version = null;
+		Parametres choixDuVoeuParComposante = null;
+		String text="";
+		text = "Liste des erreurs : <BR /><BR />";
+
+		try{
+			version = getDomainService().getVersionByEtat(1);
+		}
+		catch(Exception  e)
+		{
+			if(e.getCause()!=null && e.getCause().getCause()!=null)
+				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (Versions) ===> NOK <BR />";
+			else
+				text += "- Erreurs : "+e.getMessage()+" ===> NOK <BR />";
+		}
+			
+		try{
+			defaultCodeSize = getDomainService().getCodeSizeDefaut();
+			if (defaultCodeSize != null)
+			{
+				setDefaultCodeSizeAnnee(true);
+				setNumeroSerieImmatriculation(this.defaultCodeSize.getCode());
+				setAnnee(this.defaultCodeSize.getAnnee());
+				setCurrentAnnee(this.defaultCodeSize.getAnnee());
+			}
+		}
+		catch(Exception  e)
+		{
+			if(e.getCause()!=null && e.getCause().getCause()!=null)
+				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (code_size) ===> NOK <BR />";
+			else
+				text += "- Erreurs : "+e.getMessage()+" ===> NOK <BR />";
+		}
+			
+		try{
+			choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
+			if(choixDuVoeuParComposante!=null)
+				setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
+			else
+				setChoixDuVoeuParComposante(true);
+
+			Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
+			if(maj_odf_auto!=null)
+				setMajOdfAuto(maj_odf_auto.isBool());
+			else
+				setMajOdfAuto(true);
+
+			Parametres planning_fermetures_auto = getDomainService().getParametreByCode("planning_fermetures");
+
+			if(planning_fermetures_auto!=null)
+				setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
+			else
+				setPlanningFermeturesAuto(true);				
+		}
+		catch(Exception  e)
+		{
+			if(e.getCause()!=null && e.getCause().getCause()!=null)
+				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (parametres) ===> NOK <BR />";
+			else
+				text += "- Erreurs : "+e.getMessage()+" ===> NOK <BR />";
+		}
+	
+		
+		String v = getApplicationService().getVersion().toString();
+		logger.info("Version Application ===>"+v.toString()+"<===");
+
+		text += "- Version de l'application : "+v.toString()+" ===> OK <BR />";
+
+		if(version==null)
+		{
+			logger.info("===>if(version==null)<===");
+			text += "- Version de la base de données est null ===> NOK (initialiser les nomenclatures ou vérifier l'état à 1 dans la table version)<BR />";
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "L'application a rencontré des erreurs lors de son lancement", text);
+			RequestContext.getCurrentInstance().showMessageInDialog(message);
+		}
+		else
+		{	
+			logger.info("toto");
+			if(!version.getNumero().equals(v.toString()))
+			{
+				text += "- Version de la base de données : "+version.getNumero()+" est différente de la version de l'application ("+v.toString()+"), veuillez passer le script de migration correspondant ===> NOK <BR />";
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "L'application a rencontré des erreurs lors de son lancement", text);
+				RequestContext.getCurrentInstance().showMessageInDialog(message);
+				logger.info("Version BDD ===>"+version.toString()+"<===");
+				logger.info("Version Application ===>"+v.toString()+"<===");
+			}
+
+		}
+	}	
+
 
 	/**
 	 * @return the current user, or null if guest.
@@ -166,7 +280,7 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		return user;
 	}
-	
+
 	/**
 	 * JSF callback.
 	 * @return a String.
@@ -468,5 +582,29 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setPlanningFermeturesAuto(boolean planningFermeturesAuto) {
 		this.planningFermeturesAuto = planningFermeturesAuto;
+	}
+
+	public Date getAujourdhui() {
+		return aujourdhui;
+	}
+
+	public void setAujourdhui(Date aujourdhui) {
+		this.aujourdhui = aujourdhui;
+	}
+
+	public boolean isDefaultCodeSizeAnnee() {
+		return defaultCodeSizeAnnee;
+	}
+
+	public void setDefaultCodeSizeAnnee(boolean defaultCodeSizeAnnee) {
+		this.defaultCodeSizeAnnee = defaultCodeSizeAnnee;
+	}
+
+	public CodeSizeAnnee getDefaultCodeSize() {
+		return defaultCodeSize;
+	}
+
+	public void setDefaultCodeSize(CodeSizeAnnee defaultCodeSize) {
+		this.defaultCodeSize = defaultCodeSize;
 	}
 }

@@ -50,6 +50,7 @@ import org.esupportail.transferts.domain.beans.SequenceOpi;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.Test;
 import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
+import org.esupportail.transferts.domain.beans.Versions;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.domain.beans.WsPubPK;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -247,7 +248,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public EtatDossier getEtatDossierById(Integer idEtatDossier) {
 		if (logger.isDebugEnabled()){
-			logger.debug("getEtatDossierById(Integer idEtatDossier)");
+			logger.debug("===>getEtatDossierById(Integer idEtatDossier)<===");
 		}
 		try{
 			Query q = entityManager.createNamedQuery("getEtatDossierByIdEtatDossier");
@@ -2299,5 +2300,21 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			e.printStackTrace();
 			return null;
 		}	
+	}
+
+	@Override
+	public Versions getVersionByEtat(Integer etat) {
+		if (logger.isDebugEnabled()){
+			logger.debug("public Versions getVersionByEtat(Integer etat) ===>"+etat+"<===");
+		}
+		try{
+			Query q = entityManager.createNamedQuery("getVersionByEtat");
+			q.setParameter("etat", etat);
+			Versions v = (Versions) q.getSingleResult();
+			return v;
+		}
+		catch(NoResultException e){
+			return null;
+		}
 	}
 }

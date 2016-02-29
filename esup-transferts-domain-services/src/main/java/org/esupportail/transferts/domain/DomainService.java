@@ -33,6 +33,7 @@ import org.esupportail.transferts.domain.beans.PersonnelComposantePK;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
 import org.esupportail.transferts.domain.beans.User;
+import org.esupportail.transferts.domain.beans.Versions;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -306,4 +307,6 @@ public interface DomainService extends Serializable {
 
 	public org.esupportail.transferts.domain.beans.EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSourceSansCorrespondance(
 			String numeroEtudiant, Integer currentAnnee, String source);
+
+	public Versions getVersionByEtat(Integer etat);
 }

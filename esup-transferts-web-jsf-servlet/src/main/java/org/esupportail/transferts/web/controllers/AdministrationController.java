@@ -72,6 +72,7 @@ import org.esupportail.transferts.domain.beans.TrInfosAdmEtu;
 import org.esupportail.transferts.domain.beans.TrPaysDTO;
 import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
 import org.esupportail.transferts.domain.beans.TrSituationUniversitaire;
+import org.esupportail.transferts.domain.beans.Versions;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.GestionDate;
 import org.esupportail.transferts.utils.RneModuleBase36;
@@ -116,7 +117,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private Fichier defautFichier;
 	private String codePaysItems;
 	private boolean rneVide = false;
-	private boolean defaultCodeSizeAnnee = false;
+//	private boolean defaultCodeSizeAnnee = false;
 	private CodeSizeAnnee codeSizeAnnee;
 	private CodeSizeAnnee defaultCodeSize;
 	private CodeSizeAnnee selectedCodeSizeAnnee;
@@ -203,8 +204,8 @@ public class AdministrationController extends AbstractContextAwareController {
 	private boolean repriseEtudes;
 	private IndOpi selectedOpiForDelete;
 	private String aideChoixVoeuParComposante;
-	private String variablesEnvironnement;
-	private Date aujourdhui;
+//	private String variablesEnvironnement;
+//	private Date aujourdhui;
 	private String selectedmd5;
 	List<Fichier> listeFichiers;
 	private List<Correspondance> listeCorrespondances = null;
@@ -221,25 +222,38 @@ public class AdministrationController extends AbstractContextAwareController {
 				+ this.getClass().getName() + " can not be null");		
 		Assert.notNull(this.modeSynchro, "property modeSynchro of class " 
 				+ this.getClass().getName() + " can not be null");
-		this.isDefaultCodeSizeAnnee();	
+//		this.isDefaultCodeSizeAnnee();	
 	}	
 
-	@PostConstruct
-	public void init() {
-		setAujourdhui(new Date());
-		String userHome = System.getProperty("user.home");
-		String userDir = System.getProperty("user.dir");
-		String javaClassPath = System.getProperty("java.class.path");
-		String javaVendorUrl = System.getProperty("java.vendor.url");
-		setVariablesEnvironnement("user.home="+userHome+"-----user.dir="+userDir+"-----java.class.path="+javaClassPath+"-----java.vendor.url="+javaVendorUrl);
-		java.util.Enumeration liste = System.getProperties().propertyNames();
-		String cle;
-		while( liste.hasMoreElements() ) {
-			cle = (String)liste.nextElement();
-			if (logger.isDebugEnabled())
-				logger.debug("===>"+cle + " = " + System.getProperty(cle)+"<===");	
-		} 
-	}	
+//	@PostConstruct
+//	public void init() {
+//		setAujourdhui(new Date());
+//		String userHome = System.getProperty("user.home");
+//		String userDir = System.getProperty("user.dir");
+//		String javaClassPath = System.getProperty("java.class.path");
+//		String javaVendorUrl = System.getProperty("java.vendor.url");
+//		setVariablesEnvironnement("user.home="+userHome+"-----user.dir="+userDir+"-----java.class.path="+javaClassPath+"-----java.vendor.url="+javaVendorUrl);
+//		java.util.Enumeration liste = System.getProperties().propertyNames();
+//		String cle;
+//		
+//		Versions version = getDomainService().getVersionByEtat(1);
+//		
+//		while( liste.hasMoreElements() ) {
+//			cle = (String)liste.nextElement();
+////			if (logger.isDebugEnabled())
+//				logger.info("===>"+cle + " = " + System.getProperty(cle)+"<===");	
+//		} 
+//		
+//		if(version==null)
+//		{
+//	        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Les nomenclatures n'ont pas ete insérées", "Les nomenclatures n'ont pas ete insérées");
+//	        RequestContext.getCurrentInstance().showMessageInDialog(message);
+//		}
+//		else
+//		{	
+//			logger.info("Versions===>"+version.toString()+"<===");
+//		}
+//	}	
 
 	public String goToSaisirCorrespondance()
 	{
@@ -1508,7 +1522,7 @@ public class AdministrationController extends AbstractContextAwareController {
 //			FacesContext context = FacesContext.getCurrentInstance();
 //			context.addMessage(null, new FacesMessage(severity, summary, detail));
 //			context.getExternalContext().getFlash().setKeepMessages(true);
-			this.isDefaultCodeSizeAnnee();
+			getSessionController().isDefaultCodeSizeAnnee();
 		} 
 		else 
 		{
@@ -1544,7 +1558,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		Severity severity = FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 		this.codeSizeAnnee = new CodeSizeAnnee();
-		this.isDefaultCodeSizeAnnee();
+		getSessionController().isDefaultCodeSizeAnnee();
 	}	
 
 	public String goToChangeCodeSize() {
@@ -2030,7 +2044,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					{
 						if (logger.isDebugEnabled())
 						{
-							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+							logger.debug("getAujourdhui()===>" +getSessionController().getAujourdhui()+"<===");
 							logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
@@ -2076,7 +2090,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					{
 						if (logger.isDebugEnabled())
 						{
-							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+							logger.debug("getAujourdhui()===>" +getSessionController().getAujourdhui()+"<===");
 							logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
@@ -2146,7 +2160,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					{
 						if (logger.isDebugEnabled())
 						{
-							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+							logger.debug("getAujourdhui()===>" +getSessionController().getAujourdhui()+"<===");
 							logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
@@ -2215,7 +2229,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					{
 						if (logger.isDebugEnabled())
 						{
-							logger.debug("getAujourdhui()===>" +getAujourdhui()+"<===");
+							logger.debug("getAujourdhui()===>" +getSessionController().getAujourdhui()+"<===");
 							logger.debug("GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord()+"===>" +GestionDate.ajouterMois(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord())+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), 0)+"<===");
 							logger.debug("GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), "+getSessionController().getNbJourAvantAlertSilenceVautAccord()+")===>" +GestionDate.ajouterJour(etu.getTransferts().getDateDemandeTransfert(), getSessionController().getNbJourAvantAlertSilenceVautAccord())+"<===");						
@@ -2469,38 +2483,38 @@ public class AdministrationController extends AbstractContextAwareController {
 		return listeEtablissements;
 	}		
 
-	public boolean isDefaultCodeSizeAnnee() {
-		if (logger.isDebugEnabled())
-			logger.debug("isDefaultCodeSizeAnnee----->SoSo");		
-		this.defaultCodeSize = getDomainService().getCodeSizeDefaut();
-
-		Parametres choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
-		if(choixDuVoeuParComposante!=null)
-			getSessionController().setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
-		else
-			getSessionController().setChoixDuVoeuParComposante(true);
-
-		Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
-		if(maj_odf_auto!=null)
-			getSessionController().setMajOdfAuto(maj_odf_auto.isBool());
-		else
-			getSessionController().setMajOdfAuto(true);
-
-		Parametres planning_fermetures_auto = getDomainService().getParametreByCode("planning_fermetures");
-		if(planning_fermetures_auto!=null)
-			getSessionController().setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
-		else
-			getSessionController().setPlanningFermeturesAuto(true);		
-
-		if (this.defaultCodeSize != null)
-		{
-			this.setDefaultCodeSizeAnnee(true);
-			this.getSessionController().setNumeroSerieImmatriculation(this.defaultCodeSize.getCode());
-			this.getSessionController().setAnnee(this.defaultCodeSize.getAnnee());
-			this.getSessionController().setCurrentAnnee(this.defaultCodeSize.getAnnee());
-		}
-		return defaultCodeSizeAnnee;
-	}	
+//	public boolean isDefaultCodeSizeAnnee() {
+//		if (logger.isDebugEnabled())
+//			logger.debug("isDefaultCodeSizeAnnee----->SoSo");		
+//		this.defaultCodeSize = getDomainService().getCodeSizeDefaut();
+//
+//		Parametres choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
+//		if(choixDuVoeuParComposante!=null)
+//			getSessionController().setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
+//		else
+//			getSessionController().setChoixDuVoeuParComposante(true);
+//
+//		Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
+//		if(maj_odf_auto!=null)
+//			getSessionController().setMajOdfAuto(maj_odf_auto.isBool());
+//		else
+//			getSessionController().setMajOdfAuto(true);
+//
+//		Parametres planning_fermetures_auto = getDomainService().getParametreByCode("planning_fermetures");
+//		if(planning_fermetures_auto!=null)
+//			getSessionController().setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
+//		else
+//			getSessionController().setPlanningFermeturesAuto(true);		
+//
+//		if (this.defaultCodeSize != null)
+//		{
+//			this.setDefaultCodeSizeAnnee(true);
+//			this.getSessionController().setNumeroSerieImmatriculation(this.defaultCodeSize.getCode());
+//			this.getSessionController().setAnnee(this.defaultCodeSize.getAnnee());
+//			this.getSessionController().setCurrentAnnee(this.defaultCodeSize.getAnnee());
+//		}
+//		return defaultCodeSizeAnnee;
+//	}	
 
 	public List<SelectItem> getListeTypesDiplome() {
 		if (logger.isDebugEnabled()) {
@@ -3439,9 +3453,9 @@ public class AdministrationController extends AbstractContextAwareController {
 		this.listeLibellesEtape = list;
 	}
 
-	public void setDefaultCodeSizeAnnee(boolean defaultCodeSizeAnnee) {
-		this.defaultCodeSizeAnnee = defaultCodeSizeAnnee;
-	}
+//	public void setDefaultCodeSizeAnnee(boolean defaultCodeSizeAnnee) {
+//		this.defaultCodeSizeAnnee = defaultCodeSizeAnnee;
+//	}
 
 	public CodeSizeAnnee getCodeSizeAnnee() {
 		return codeSizeAnnee;
@@ -5572,21 +5586,21 @@ public class AdministrationController extends AbstractContextAwareController {
 		this.aideChoixVoeuParComposante = aideChoixVoeuParComposante;
 	}
 
-	public String getVariablesEnvironnement() {
-		return variablesEnvironnement;
-	}
+//	public String getVariablesEnvironnement() {
+//		return variablesEnvironnement;
+//	}
+//
+//	public void setVariablesEnvironnement(String variablesEnvironnement) {
+//		this.variablesEnvironnement = variablesEnvironnement;
+//	}
 
-	public void setVariablesEnvironnement(String variablesEnvironnement) {
-		this.variablesEnvironnement = variablesEnvironnement;
-	}
-
-	public Date getAujourdhui() {
-		return aujourdhui;
-	}
-
-	public void setAujourdhui(Date aujourdhui) {
-		this.aujourdhui = aujourdhui;
-	}
+//	public Date getAujourdhui() {
+//		return aujourdhui;
+//	}
+//
+//	public void setAujourdhui(Date aujourdhui) {
+//		this.aujourdhui = aujourdhui;
+//	}
 
 	public String getSelectedmd5() {
 		return selectedmd5;
