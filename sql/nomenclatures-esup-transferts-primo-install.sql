@@ -1,5 +1,3 @@
-SET DEFINE OFF; 
-
 Insert into ETAT_DOSSIER
    (ID_ETAT_DOSSIER, LIB_COURT, LIB_LONG)
  Values

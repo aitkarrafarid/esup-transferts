@@ -1512,30 +1512,23 @@ public class AdministrationController extends AbstractContextAwareController {
 		{
 			this.selectedCodeSizeAnnee.setDefaut(true);
 			getDomainService().updateDefautCodeSize(this.selectedCodeSizeAnnee);
+			getSessionController().setDefaultCodeSize(this.selectedCodeSizeAnnee);
+			getSessionController().setCurrentAnnee(this.selectedCodeSizeAnnee.getAnnee());
 			String summary = getString("ENREGISTREMENT.CODE_SIZE_PAR_DEFAUT");
 			String detail = getString("ENREGISTREMENT.CODE_SIZE_PAR_DEFAUT");
 			Severity severity = FacesMessage.SEVERITY_INFO;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-//			String summary = getString("ENREGISTREMENT.CODE_SIZE_PAR_DEFAUT");
-//			String detail = getString("ENREGISTREMENT.CODE_SIZE_PAR_DEFAUT");
-//			Severity severity = FacesMessage.SEVERITY_INFO;
-//			FacesContext context = FacesContext.getCurrentInstance();
-//			context.addMessage(null, new FacesMessage(severity, summary, detail));
-//			context.getExternalContext().getFlash().setKeepMessages(true);
-			getSessionController().isDefaultCodeSizeAnnee();
-		} 
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(severity, summary, detail));
+			context.getExternalContext().getFlash().setKeepMessages(true);
+		}
 		else 
 		{
 			String summary = getString("ERREUR.CODE_SIZE_PAR_DEFAUT");
 			String detail = getString("ERREUR.CODE_SIZE_PAR_DEFAUT");
 			Severity severity = FacesMessage.SEVERITY_ERROR;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-//			String summary = getString("ERREUR.CODE_SIZE_PAR_DEFAUT");
-//			String detail = getString("ERREUR.CODE_SIZE_PAR_DEFAUT");
-//			Severity severity = FacesMessage.SEVERITY_INFO;
-//			FacesContext context = FacesContext.getCurrentInstance();
-//			context.addMessage(null, new FacesMessage(severity, summary, detail));
-//			context.getExternalContext().getFlash().setKeepMessages(true);
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(severity, summary, detail));
+			context.getExternalContext().getFlash().setKeepMessages(true);
 		}
 		return "goToChangeCodeSize";
 	}	

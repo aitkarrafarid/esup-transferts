@@ -73,7 +73,7 @@
 					<p:spacer height="30px" />
 
 					<p:commandButton value="Code sise par défaut"
-						actionListener="#{administrationController.updateDefautCodeSize}"
+						action="#{administrationController.updateDefautCodeSize}"
 						update=":size,:messages,:msgs,:msgs2">
 						<p:confirm header="Confirmation"
 							message="Attention... Le code SISE et l'année par défaut correspondent à la campagne en cours"
@@ -81,7 +81,6 @@
 					</p:commandButton>
 
 				</h:form>
-
 					<p:confirmDialog global="true" showEffect="fade"
 						hideEffect="explode">
 						<p:commandButton value="Oui" type="button"
@@ -89,7 +88,6 @@
 						<p:commandButton value="Non" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
-
 			</p:panel>
 		</center>
 		<p:messages id="msgs2" showDetail="false" />
