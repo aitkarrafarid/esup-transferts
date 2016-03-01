@@ -10,12 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -407,6 +402,19 @@ public class UserController extends AbstractContextAwareController {
 			this.envoiMailInformations();
 	}
 
+	public void addCorrespondance(Correspondance corresp){
+		if(corresp!=null && this.currentEtudiant.getCorrespondances()!=null)
+		{
+			this.currentEtudiant.getCorrespondances().add(corresp);
+		}
+		else
+		{
+			Set<Correspondance> lc = new HashSet<Correspondance>();
+			lc.add(corresp);
+			this.currentEtudiant.setCorrespondances(lc);
+		}
+	}
+
 	public void addDemandeTransfertsSansValidationAuto() 
 	{
 		if(logger.isDebugEnabled())
@@ -494,7 +502,21 @@ public class UserController extends AbstractContextAwareController {
 
 		this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
 		getDomainService().addAvis(currentAvis);
+
+		Correspondance correspondance = new Correspondance();
+		try {
+			correspondance.setEtudiant(this.currentEtudiant);
+			correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
+			correspondance.setDateSaisie(new Date());
+			correspondance.setTitre(getString("TRANSFERT_MAIL_SUJET"));
+			correspondance.setMsg(getString("TRANSFERT_MAIL_BODY", this.currentEtudiant.getPrenom1(), this.currentEtudiant.getNomPatronymique()));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		this.addCorrespondance(correspondance);
 		this.addDemandeTransfertsFromAvis(2);
+		//Supression de la correspondance interne de l'établissement de départ avant envoi à l'établissement d'accueil
 		this.addTransfertOpiToListeTransfertsAccueil();
 		//		this.addTransfertOpi();
 
@@ -733,6 +755,7 @@ public class UserController extends AbstractContextAwareController {
 						//						etu.getTransferts().setFichier(f);
 
 						etu.getTransferts().setFichier(null);
+						etu.setCorrespondances(null);
 
 						etu.getTransferts().setRne(p.getRne());
 						etu.getTransferts().setTemoinTransfertValide(0);
@@ -796,112 +819,7 @@ public class UserController extends AbstractContextAwareController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 		}
 		getDomainService().addDemandeTransferts(this.currentEtudiant);
-	}	
-
-	//	public void addTransfertOpi() 
-	//	{
-	//		if (logger.isDebugEnabled()) 
-	//		{
-	//			logger.debug("Cle OPI depart : " + RneModuleBase36.genereCle(getSessionController().getRne()));
-	//			logger.debug("Cle OPI accueil : "+ RneModuleBase36.genereCle(currentEtudiant.getTransferts().getRne()));
-	//		}
-	//		WsPub p = getDomainService().getWsPubByRneAndAnnee(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee());
-	//		// Appel du WebService de l'universite d'accueil
-	//		if (p != null) 
-	//		{
-	//			Authenticator.setDefault(new MyAuthenticator(p.getIdentifiant(), p.getPassword()));
-	//
-	//			if (this.testUrl(p.getUrl())) {
-	//				try {
-	//					String address = p.getUrl();
-	//					JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
-	//					factoryBean.setServiceClass(DomainServiceOpi.class);
-	//					factoryBean.setAddress(address);
-	//					DomainServiceOpi monService = (DomainServiceOpi) factoryBean.create();
-	//
-	//					this.currentEtudiant.getTransferts().setTemoinOPIWs(1);
-	//					IndOpi opi = getDomainServiceScolarite().getInfosOpi(this.currentEtudiant.getNumeroEtudiant());
-	//
-	//					String cleOpi = getDomainService().getCodeSizeByAnnee(getSessionController().getCurrentAnnee()).getCode()	+ RneModuleBase36.genereCle(getSessionController().getRne());
-	//					opi.setNumeroOpi(cleOpi);
-	//					opi.setCodPay(this.currentEtudiant.getAdresse().getCodPay());
-	//					opi.setCodBdi(this.currentEtudiant.getAdresse().getCodePostal());
-	//					opi.setCodCom(this.currentEtudiant.getAdresse().getCodeCommune());
-	//					opi.setLibAd1(this.currentEtudiant.getAdresse().getLibAd1());
-	//					opi.setLibAd2(this.currentEtudiant.getAdresse().getLibAd2());
-	//					opi.setLibAd3(this.currentEtudiant.getAdresse().getLibAd3());
-	//					opi.setLibAde(this.currentEtudiant.getAdresse().getCodeVilleEtranger());
-	//					opi.setNumTel(this.currentEtudiant.getAdresse().getNumTel());
-	//					opi.setNumTelPorOpi(this.currentEtudiant.getAdresse().getNumTelPortable());
-	//					opi.setAdrMailOpi(this.currentEtudiant.getAdresse().getEmail());
-	//					opi.setEtabDepart(getSessionController().getRne());
-	//					opi.setAnnee(getSessionController().getCurrentAnnee());
-	//
-	//					opi.getVoeux().setLibNomPatIndOpi(this.currentEtudiant.getNomPatronymique());
-	//					opi.getVoeux().setLibPr1IndOpi(this.currentEtudiant.getPrenom1());
-	//
-	//					opi.getVoeux().setCodDip(currentEtudiant.getTransferts().getOdf().getCodeDiplome());
-	//					opi.getVoeux().setCodVrsVdi(currentEtudiant.getTransferts().getOdf().getCodeVersionDiplome());
-	//					opi.getVoeux().setCodCge(currentEtudiant.getTransferts().getOdf().getCodeCentreGestion());
-	//					opi.getVoeux().setCodEtp(currentEtudiant.getTransferts().getOdf().getCodeEtape());
-	//					opi.getVoeux().setCodVrsVet(currentEtudiant.getTransferts().getOdf().getCodeVersionEtape());
-	//					opi.getVoeux().setCodDemDos("C");
-	//					opi.getVoeux().setNumCls("1");
-	//					opi.getVoeux().setCodCmp(currentEtudiant.getTransferts().getOdf().getCodeComposante());
-	//
-	//					if (logger.isDebugEnabled()) 
-	//					{
-	//						logger.debug("IndOpi: " + opi);
-	//						logger.debug("WsPub p : " + p);
-	//					}
-	//					monService.addIndOpi(opi);
-	//					this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
-	//					String summary = getString("ENVOI.OPI");
-	//					String detail = getString("ENVOI.OPI");
-	//					Severity severity = FacesMessage.SEVERITY_INFO;
-	//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-	//				} 
-	//				catch (Exception e) 
-	//				{
-	//					if (logger.isDebugEnabled()) {
-	//						logger.debug("WebServiceException RNE : " + p.getRne());
-	//						logger.debug("-----------------");
-	//						logger.debug(e.getCause().getMessage());
-	//						logger.debug("-----------------");
-	//					}
-	//					e.printStackTrace();
-	//					this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
-	//					this.currentEtudiant.getTransferts().setTemoinOPIWs(2);
-	//					String summary = getString("ERREUR.ACCES_OPI2");
-	//					String detail = getString("ERREUR.ACCES_OPI2");
-	//					Severity severity = FacesMessage.SEVERITY_ERROR;
-	//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-	//				}
-	//				if (logger.isDebugEnabled()) {
-	//					logger.debug("getDomainServiceWS : " + p);
-	//					logger.debug("domainServiceWSOpiExt : "	+ domainServiceWSOpiExt);
-	//				}
-	//			} 
-	//			else 
-	//			{
-	//				this.currentEtudiant.getTransferts().setTemoinOPIWs(2);
-	//				this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
-	//				String summary = getString("ERREUR.ACCES_OPI3");
-	//				String detail = getString("ERREUR.ACCES_OPI3");
-	//				Severity severity = FacesMessage.SEVERITY_ERROR;
-	//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-	//			}
-	//		} 
-	//		else 
-	//		{
-	//			this.currentEtudiant.getTransferts().setTemoinOPIWs(0);
-	//			String summary = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
-	//			String detail = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
-	//			Severity severity = FacesMessage.SEVERITY_WARN;
-	//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-	//		}
-	//		getDomainService().addDemandeTransferts(this.currentEtudiant);
-	//	}	
+	}
 
 	private boolean testUrl(String host) {
 		try {
@@ -948,6 +866,7 @@ public class UserController extends AbstractContextAwareController {
 					getSessionController().getCurrentUser().setAuthorized(true);
 					setEtudiant(true);
 					this.currentEtudiantInterdit = getDomainServiceScolarite().getCurrentEtudiant(getSessionController().getCurrentUser().getNumeroEtudiant());
+
 					if (logger.isDebugEnabled())
 						logger.debug("this.currentEtudiantInterdit -->"+this.currentEtudiantInterdit);
 

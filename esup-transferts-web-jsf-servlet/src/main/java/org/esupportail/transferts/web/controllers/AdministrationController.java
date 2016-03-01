@@ -4325,13 +4325,15 @@ public class AdministrationController extends AbstractContextAwareController {
 
 
 	public void addCorrespondance(Correspondance corresp){
-		if(corresp!=null)
+		if(corresp!=null && this.currentDemandeTransferts.getCorrespondances()!=null)
 		{
 			this.currentDemandeTransferts.getCorrespondances().add(corresp);
 		}
 		else
 		{
-			//			TODO
+			Set<Correspondance> lc = new HashSet<Correspondance>();
+			lc.add(corresp);
+			this.currentDemandeTransferts.setCorrespondances(lc);
 		}
 	}
 
@@ -4359,7 +4361,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
 		this.addCorrespondance(correspondance);
 		this.currentDemandeTransferts = this.addDemandeTransfertsFromAvis(2);
 		this.addTransfertOpi();
