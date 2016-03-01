@@ -101,7 +101,7 @@ public class TestController extends AbstractContextAwareController {
 				logger.debug("(currentOdf --> "+currentOdf.toString());
 			etu.getTransferts().setOdf(currentOdf);
 			if (logger.isDebugEnabled())
-				logger.debug("(etu.getTransferts().getOdf().toString() --> "+etu.getTransferts().getOdf().toString());			
+				logger.debug("(etu.getTransferts().getOdf().toString() --> "+etu.getTransferts().getOdf().toString());
 			retour="goToTest";
 		}
 		else
@@ -181,11 +181,18 @@ public class TestController extends AbstractContextAwareController {
 		}
 		else
 		{
+			if(getSessionController().getRne().equals(this.etu.getTransferts().getRne())){
+				String summary = "Vous devez définir votre établissement en tant que partenaire afin de visualiser votre offre de formation";
+				String detail = "Vous devez définir votre établissement en tant que partenaire afin de visualiser votre offre de formation";
+				Severity severity=FacesMessage.SEVERITY_WARN;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
+			}
+
 			setTypesDiplomeVide(true);
 			setTypesDiplomeAutreVide(false);
 			this.listeTypesDiplome=null;
 		}
-	}		
+	}
 
 	public void resetAnneeEtude()
 	{

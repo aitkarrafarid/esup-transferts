@@ -1531,6 +1531,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			context.getExternalContext().getFlash().setKeepMessages(true);
 		}
 		return "goToChangeCodeSize";
+
 	}	
 
 	public void addCodeSize() {

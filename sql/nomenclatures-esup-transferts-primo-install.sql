@@ -151,5 +151,9 @@ Insert into ACCUEIL_ANNEE
    (ID_ACCUEIL_ANNEE, LIBELLE)
  Values
    (13, '2014/2015');      
-   
+
+Insert into VERSIONS (NUMERO, COMMENTAIRE, ETAT)
+ Values
+   ('2.3.0', '', 1);
+
 COMMIT;

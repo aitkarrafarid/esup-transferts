@@ -247,7 +247,6 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 	}	
 
-
 	/**
 	 * @return the current user, or null if guest.
 	 * @throws Exception 
