@@ -31,7 +31,7 @@
 				emptyMessage="Auncune demande de transferts accueil"
 				selection="#{administrationController.currentDemandeTransferts}"
 				filteredValue="#{administrationController.filteredEtudiantAccueil}"
-				rowStyleClass="#{transferts.transferts.temoinTransfertValide == 2 ? 'default' : 
+				rowStyleClass="#{transferts.transferts.temoinTransfertValide == 2 or !sessionController.transfertsAccueil ? 'default' :
 				(sessionController.aujourdhui lt transferts.alertSilenceVautAccord ? 'default' :
 				((sessionController.aujourdhui gt transferts.alertSilenceVautAccord and
 				sessionController.aujourdhui lt transferts.alertDepassementSilenceVautAccord) ? 'alertSilenceVautAccord' : 'alertDepassementSilenceVautAccord'))}">

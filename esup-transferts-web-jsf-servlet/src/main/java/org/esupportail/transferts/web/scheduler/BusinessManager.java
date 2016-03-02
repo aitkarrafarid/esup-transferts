@@ -48,6 +48,7 @@ public class BusinessManager {
 	private Integer timeOutConnexionWs;
 	private Integer nbJourAvantAlertSilenceVautAccord;	
 	private Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
+	private boolean transfertsAccueil;
 	private Logger logger = new LoggerImpl(getClass());
 
 	public void runAction() 
@@ -65,7 +66,8 @@ public class BusinessManager {
 		{
 			List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "A");
 			List<EtudiantRef> lEtuDepart = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "D");
-			this.envoiMail(lEtuAccueil, "A");
+			if(this.isTransfertsAccueil())
+				this.envoiMail(lEtuAccueil, "A");
 			this.envoiMail(lEtuDepart, "D");
 			if(this.isMajOdfAutoForScheduler())
 				this.refreshAllPartenaire();
@@ -461,6 +463,14 @@ public class BusinessManager {
 
 	public void setCurrentMail(String currentMail) {
 		this.currentMail = currentMail;
+	}
+
+	public boolean isTransfertsAccueil() {
+		return transfertsAccueil;
+	}
+
+	public void setTransfertsAccueil(boolean transfertsAccueil) {
+		this.transfertsAccueil = transfertsAccueil;
 	}
 }
 

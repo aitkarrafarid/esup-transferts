@@ -304,7 +304,7 @@ public class UserController extends AbstractContextAwareController {
 		return "goToAuthApogee";
 	}
 
-	public void addDemandeTransferts()
+	public String addDemandeTransferts()
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("===>public void addDemandeTransferts()<===");
@@ -400,6 +400,8 @@ public class UserController extends AbstractContextAwareController {
 		}
 		if(!this.getMailInformation().equals(""))
 			this.envoiMailInformations();
+
+		return "goToRecapitulatif";
 	}
 
 	public void addCorrespondance(Correspondance corresp){

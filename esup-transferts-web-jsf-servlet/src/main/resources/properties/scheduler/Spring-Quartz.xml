@@ -14,6 +14,7 @@
 		<property name="domainService" ref="domainService" />
 		<property name="i18nService" ref="i18nService" />
 		<property name="currentRne" value="${etab.rne}" />
+		<property name="transfertsAccueil" value="${transferts.accueil}" />
 		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />
 		<property name="nbJourAvantAlertSilenceVautAccord" value="${nb.jour.avant.alert.silence.vaut.accord}" />
 		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"

@@ -30,7 +30,7 @@ Insert into DECISION_DOSSIER
 Insert into DECISION_DOSSIER
    (ID_DECISION_DOSSIER, LIB_COURT, LIB_LONG)
  Values
-   (6, 'AP', 'En attente de pi�ces');
+   (6, 'AP', 'En attente de pièces');
 
 Insert into LOCALISATION_DOSSIER
    (ID_LOCALISATION_DOSSIER, LIB_COURT, LIB_LONG)

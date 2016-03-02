@@ -272,33 +272,12 @@
 				rendered="#{userController.verifDateNaisApogee}"
 				action="#{userController.goToVoeuxOrientationApogee}"
 				immediate="true" />
-			<p:commandButton value="Enregistrer la demande"
+			<p:commandButton value="Enregistrer la demande" partialSubmit="true"
 				update=":formVoeux:voeux,:formVoeux:msgs,:formVoeux:msgsBas,:formVoeux:growl"
-				actionListener="#{userController.addDemandeTransferts}" />
-			<!-- 			<p:commandButton value="Enregistrer la demande" -->
-			<!-- 				actionListener="#{userController.addDemandeTransferts}" /> -->
+				action="#{userController.addDemandeTransferts}" />
 		</h:panelGrid>
 		<p:spacer height="20px" />
-
-		<!-- 		<h:panelGrid columns="3" cellpadding="5"> -->
-		<!-- 			<h:outputText value="Content:  " /> -->
-		<!-- 			<h:outputLink id="lnk" value="#"> -->
-		<!-- 				<h:outputText value="PrimeFaces" /> -->
 		<h:selectOneRadio value="test" />
-		<!-- 			</h:outputLink> -->
-		<!-- 			<p:tooltip for="lnk"> -->
-		<!-- 				<p:graphicImage value="/media/images/finder.png" /> -->
-		<!-- 			</p:tooltip> -->
-		<!-- 		</h:panelGrid> -->
-
-		<!-- 		<p:spacer height="20px" /> -->
-
-<!-- 		<h:panelGrid columns="1" -->
-<!-- 			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2}"> -->
-<!-- 			<p:commandButton value="Imprimer les formulaires" -->
-<!-- 				update="voeux,msgs,msgsBas,growl" -->
-<!-- 				action="#{userController.imprimerDemandeTransfert}" /> -->
-<!-- 		</h:panelGrid> -->
 	</p:panel>
 	<p:messages id="msgsBas" showDetail="false" />
 </h:form>

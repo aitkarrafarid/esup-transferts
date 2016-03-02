@@ -18,8 +18,12 @@
 
 	<p:tabMenu activeIndex="#{param.i}"
 		rendered="#{userController.presentBdd}">
-		<p:menuitem value="Accueil" outcome="goToRecapitulatif"
+		<p:menuitem rendered="#{!userController.verifDateNaisApogee}" value="Accueil" outcome="goToRecapitulatif"
 			icon="ui-icon-star">
+			<f:param name="i" value="0" />
+		</p:menuitem>
+		<p:menuitem rendered="#{userController.verifDateNaisApogee}" value="Accueil" outcome="goToRecapitulatifApogee"
+					icon="ui-icon-star">
 			<f:param name="i" value="0" />
 		</p:menuitem>
 		<p:menuitem rendered="#{!userController.verifDateNaisApogee}" value="Correspondance" outcome="goToCorrespondance"
