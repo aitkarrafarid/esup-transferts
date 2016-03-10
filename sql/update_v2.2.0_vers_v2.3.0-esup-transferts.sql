@@ -27,6 +27,7 @@ Insert into PARAMETRES
  Values
    ('planning_fermetures', 0, 'Choix de l''affichage et gestion manuelle ou automatique des périodes de fermeture');
 
+Update VERSIONS set ETAT=0;
 Insert into VERSIONS (NUMERO, COMMENTAIRE, ETAT)
  Values
    ('2.3.0', '', 1);
