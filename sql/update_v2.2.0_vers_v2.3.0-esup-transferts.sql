@@ -32,4 +32,6 @@ Insert into VERSIONS (NUMERO, COMMENTAIRE, ETAT)
  Values
    ('2.3.0', '', 1);
 
+Update PERSONNEL_COMPOSANTE set DROIT_AVIS_DEFINITIF='oui';
+
 COMMIT;
