@@ -68,8 +68,7 @@ public class PersonnelComposante implements Serializable {
 	private String displayName;
 	
 	@Column(name = "LIB_CMP", nullable=false)
-	private String libelleComposante;	
-	
+	private String libelleComposante;
 	/*
 	 * 0 ==> Transferts départ uniquement
 	 * 1 ==> Personnel de scolarite
@@ -88,7 +87,10 @@ public class PersonnelComposante implements Serializable {
 	private String droitEditionPdf;
 	
 	@Column(name = "DROIT_AVIS", nullable=false)	
-	private String droitAvis;		
+	private String droitAvis;
+
+	@Column(name = "DROIT_AVIS_DEFINITIF", nullable=false)
+	private String droitAvisDefinitif;
 
 	@Column(name = "DROIT_DECISION", nullable=false)	
 	private String droitDecision;	
@@ -136,8 +138,9 @@ public class PersonnelComposante implements Serializable {
 							   String droitSuppression,
 							   String droitEditionPdf,
 							   String droitAvis,
+							   String droitAvisDefinitif,
 							   String droitDecision,
-							   String droitDeverrouiller) 
+							   String droitDeverrouiller)
 	{
 		super();
 		this.uid = uid;
@@ -150,21 +153,29 @@ public class PersonnelComposante implements Serializable {
 		this.droitSuppression=droitSuppression;
 		this.droitEditionPdf=droitEditionPdf;
 		this.droitAvis=droitAvis;
+		this.droitAvisDefinitif=droitAvisDefinitif;
 		this.droitDecision=droitDecision;
 		this.droitDeverrouiller=droitDeverrouiller;
-	}	
-	
+	}
+
 	@Override
 	public String toString() {
-		return "PersonnelComposante [uid=" + uid + ", codeComposante="
-				+ codeComposante + ", source=" + source + ", annee=" + annee
-				+ ", displayName=" + displayName + ", libelleComposante="
-				+ libelleComposante + ", typePersonnel=" + typePersonnel
-				+ ", libelleTypePersonnel=" + libelleTypePersonnel
-				+ ", droitSuppression=" + droitSuppression
-				+ ", droitEditionPdf=" + droitEditionPdf + ", droitAvis="
-				+ droitAvis + ", droitDecision=" + droitDecision
-				+ ", droitDeverrouiller=" + droitDeverrouiller + "]";
+		return "PersonnelComposante{" +
+				"uid='" + uid + '\'' +
+				", codeComposante='" + codeComposante + '\'' +
+				", source='" + source + '\'' +
+				", annee=" + annee +
+				", displayName='" + displayName + '\'' +
+				", libelleComposante='" + libelleComposante + '\'' +
+				", typePersonnel=" + typePersonnel +
+				", libelleTypePersonnel='" + libelleTypePersonnel + '\'' +
+				", droitSuppression='" + droitSuppression + '\'' +
+				", droitEditionPdf='" + droitEditionPdf + '\'' +
+				", droitAvis='" + droitAvis + '\'' +
+				", droitAvisDefinitif='" + droitAvisDefinitif + '\'' +
+				", droitDecision='" + droitDecision + '\'' +
+				", droitDeverrouiller='" + droitDeverrouiller + '\'' +
+				'}';
 	}
 
 	/**
@@ -280,5 +291,13 @@ public class PersonnelComposante implements Serializable {
 
 	public void setDroitDeverrouiller(String droitDeverrouiller) {
 		this.droitDeverrouiller = droitDeverrouiller;
+	}
+
+	public String getDroitAvisDefinitif() {
+		return droitAvisDefinitif;
+	}
+
+	public void setDroitAvisDefinitif(String droitAvisDefinitif) {
+		this.droitAvisDefinitif = droitAvisDefinitif;
 	}
 }

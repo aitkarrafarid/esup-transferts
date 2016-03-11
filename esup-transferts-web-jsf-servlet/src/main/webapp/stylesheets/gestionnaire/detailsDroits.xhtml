@@ -46,7 +46,7 @@
 				            #{PCDetailsDroits.uid}  
 				        </p:column>
 
-				<p:column headerText="Code composante">
+				<p:column headerText="Code composante" filterBy="#{PCDetailsDroits.codeComposante}" sortBy="#{PCDetailsDroits.codeComposante}">
 				            #{PCDetailsDroits.codeComposante}  
 				        </p:column>
 
@@ -111,6 +111,21 @@
 						<f:facet name="input">
 							<h:selectOneMenu value="#{PCDetailsDroits.droitAvis}"
 								style="width:100%">
+								<f:selectItem itemLabel="oui" itemValue="oui" />
+								<f:selectItem itemLabel="non" itemValue="non" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Avis Définitif" rendered="#{managerController.from=='D'}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{PCDetailsDroits.droitAvisDefinitif}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{PCDetailsDroits.droitAvisDefinitif}"
+											 style="width:100%">
 								<f:selectItem itemLabel="oui" itemValue="oui" />
 								<f:selectItem itemLabel="non" itemValue="non" />
 							</h:selectOneMenu>

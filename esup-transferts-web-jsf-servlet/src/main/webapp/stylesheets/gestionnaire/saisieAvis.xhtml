@@ -300,13 +300,15 @@
 							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" />
 						<p:commandButton
 							value="Enregistrer l'avis Favorable ou défavorable"
-							rendered="#{((sessionController.currentUser.admin) or (administrationController.droitPC!=null and administrationController.droitPC.droitAvis=='oui')) and (administrationController.currentAvis.idDecisionDossier == 2 or administrationController.currentAvis.idDecisionDossier == 1) and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2 }"
+							rendered="#{((sessionController.currentUser.admin) or (administrationController.droitPC!=null and administrationController.droitPC.droitAvisDefinitif=='oui')) and (administrationController.currentAvis.idDecisionDossier == 2 or administrationController.currentAvis.idDecisionDossier == 1) and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2 }"
 							actionListener="#{administrationController.addAvisFavorable}"
 							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton">
 							<p:confirm header="Confirmation"
 								message="Attention, la saisie d'un avis favorable ou défavorable enverra un mél à l'étudiant et lui permettra d'imprimer sa demande de transferts"
 								icon="ui-icon-alert" />
 						</p:commandButton>
+						<!--<p:commandButton value="test : (#{administrationController.droitPC.droitAvis}) === (#{sessionController.currentUser.admin})" immediate="true"-->
+										 <!--action="#{administrationController.goToCurrentDemandeTransferts}" />-->
 					</h:panelGrid>
 				</p:panel>
 			</center>

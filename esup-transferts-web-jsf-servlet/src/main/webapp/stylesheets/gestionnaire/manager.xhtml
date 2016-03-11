@@ -34,7 +34,7 @@
 							value="Liste des gestionnaires de transferts accueil" />
 					</f:facet>
 
-					<p:column>
+					<p:column sortBy="#{personnel.login}" filterBy="#{personnel.login}">
 						<f:facet name="header">
 							<h:outputText style="width:100px; display:block;" value="UID" />
 						</f:facet>

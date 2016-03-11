@@ -185,6 +185,7 @@ public class ManagerController extends AbstractContextAwareController {
 					listeComposantesDetailsDroits.get(i).getDroitSuppression(),
 					listeComposantesDetailsDroits.get(i).getDroitEditionPdf(),
 					listeComposantesDetailsDroits.get(i).getDroitAvis(),
+					listeComposantesDetailsDroits.get(i).getDroitAvisDefinitif(),
 					listeComposantesDetailsDroits.get(i).getDroitDecision(),
 					listeComposantesDetailsDroits.get(i).getDroitDeverrouiller());
 
@@ -395,7 +396,7 @@ public class ManagerController extends AbstractContextAwareController {
 		if(getListeComposantesFermeSplit()!=null)
 		{
 			for(String comp : listeComposantesFermeSplit)
-				lpSource.add(new PersonnelComposante(this.personnelChoisi.getLogin(), comp.substring(0, comp.indexOf("||")), getFrom(), getSessionController().getCurrentAnnee(), this.personnelChoisi.getDisplayName(), comp.substring(comp.indexOf("||")+2,comp.length()),0,"oui","oui","oui","oui","oui"));
+				lpSource.add(new PersonnelComposante(this.personnelChoisi.getLogin(), comp.substring(0, comp.indexOf("||")), getFrom(), getSessionController().getCurrentAnnee(), this.personnelChoisi.getDisplayName(), comp.substring(comp.indexOf("||")+2,comp.length()),0,"oui","oui","oui","oui","oui","oui"));
 		}
 
 		List<PersonnelComposante> lpTarget = this.getTarget();

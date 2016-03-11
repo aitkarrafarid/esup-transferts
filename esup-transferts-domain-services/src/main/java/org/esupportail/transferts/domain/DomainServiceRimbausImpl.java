@@ -815,10 +815,10 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 		if(comp.length!=0)
 		{
 			List<PersonnelComposante> pc = new ArrayList<PersonnelComposante>();
-			pc.add(new PersonnelComposante(uid, codeComposanteInconnue, source, annee, diplayName, "Inconnue",0,"oui","oui","oui","oui","oui"));
+			pc.add(new PersonnelComposante(uid, codeComposanteInconnue, source, annee, diplayName, "Inconnue",0,"oui","oui","oui","oui","oui","oui"));
 			for(int i=0;i<comp.length;i++)
 			{
-				pc.add(new PersonnelComposante(uid, comp[i].getCode(), source, annee, diplayName, comp[i].getLibelle(),0,"oui","oui","oui","oui","oui"));
+				pc.add(new PersonnelComposante(uid, comp[i].getCode(), source, annee, diplayName, comp[i].getLibelle(),0,"oui","oui","oui","oui","oui","oui"));
 			}
 			return pc;
 		}

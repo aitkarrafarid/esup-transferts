@@ -33,6 +33,7 @@ public class PersonnelComposanteConverter implements Converter{
 		String.valueOf(((PersonnelComposante) value).getDroitSuppression())+"|"+
 		String.valueOf(((PersonnelComposante) value).getDroitEditionPdf())+"|"+
 		String.valueOf(((PersonnelComposante) value).getDroitAvis())+"|"+
+		String.valueOf(((PersonnelComposante) value).getDroitAvisDefinitif())+"|"+
 		String.valueOf(((PersonnelComposante) value).getDroitDecision())+"|"+
 		String.valueOf(((PersonnelComposante) value).getDroitDeverrouiller()));		
 	}
@@ -56,7 +57,8 @@ public class PersonnelComposanteConverter implements Converter{
 			logger.debug("##################### tokens[8] #####################--> " + tokens[8]);	
 			logger.debug("##################### tokens[9] #####################--> " + tokens[9]);
 			logger.debug("##################### tokens[10] #####################--> " + tokens[10]);	
-			logger.debug("##################### tokens[10] #####################--> " + tokens[11]);	
+			logger.debug("##################### tokens[10] #####################--> " + tokens[11]);
+			logger.debug("##################### tokens[10] #####################--> " + tokens[12]);
 
 		}
 		category.setUid(tokens[0]);
@@ -69,8 +71,9 @@ public class PersonnelComposanteConverter implements Converter{
 		category.setDroitSuppression(tokens[7]);
 		category.setDroitEditionPdf(tokens[8]);
 		category.setDroitAvis(tokens[9]);
-		category.setDroitDecision(tokens[10]);		
-		category.setDroitDeverrouiller(tokens[11]);
+		category.setDroitAvisDefinitif(tokens[10]);
+		category.setDroitDecision(tokens[11]);
+		category.setDroitDeverrouiller(tokens[12]);
 //		category.setCodeComposante(value);
 		return category;
 	}
