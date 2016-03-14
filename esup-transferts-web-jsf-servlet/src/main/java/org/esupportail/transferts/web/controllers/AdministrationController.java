@@ -1138,8 +1138,9 @@ public class AdministrationController extends AbstractContextAwareController {
 							decision="Défavorable";
 
 						String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
-						String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
+						String body = getString("SYNCHRO.MAIL.PRIMO.BODY",
 								opi.getLibPr1IndOpi(),
+								opi.getLibNomPatIndOpi(),
 								decision,
 								this.texteInterditNiveau3);
 						try {
@@ -1178,8 +1179,9 @@ public class AdministrationController extends AbstractContextAwareController {
 							decision="Défavorable";
 
 						String sujet = getString("SYNCHRO.MAIL.PRIMO.SUJET");
-						String body = getString("SYNCHRO.MAIL.PRIMO.BODY",opi.getLibNomPatIndOpi(),
+						String body = getString("SYNCHRO.MAIL.PRIMO.BODY",
 								opi.getLibPr1IndOpi(),
+								opi.getLibNomPatIndOpi(),
 								decision,
 								opi.getNumeroOpi());
 						try {
@@ -1291,8 +1293,9 @@ public class AdministrationController extends AbstractContextAwareController {
 					else
 						decision="Défavorable";
 					String sujet = getString("SYNCHRO.MAIL.REINS.SUJET");
-					String body = getString("SYNCHRO.MAIL.REINS.BODY",opi.getLibNomPatIndOpi(),
+					String body = getString("SYNCHRO.MAIL.REINS.BODY",
 							opi.getLibPr1IndOpi(),
+							opi.getLibNomPatIndOpi(),
 							decision,
 							opi.getCodEtuLpa().toString().trim());
 					try {
