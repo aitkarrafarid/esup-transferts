@@ -1143,29 +1143,32 @@ public class AdministrationController extends AbstractContextAwareController {
 								opi.getLibNomPatIndOpi(),
 								decision,
 								this.texteInterditNiveau3);
-						try {
-							getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
-						} 
-						catch (AddressException e) 
-						{
-							String summary = getString("ERREUR.ENVOI_MAIL");
-							String detail = getString("ERREUR.ENVOI_MAIL");
-							Severity severity = FacesMessage.SEVERITY_INFO;
-							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-						}
-						if(this.currentDemandeTransferts!=null)
-						{
-							try {
-								correspondance.setEtudiant(this.currentDemandeTransferts);
-								correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
-								correspondance.setDateSaisie(new Date());
-								correspondance.setTitre(sujet);
-								correspondance.setMsg(body);
-							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
+
+						this.envoiMail(opi, sujet, body, correspondance);
+
+//						try {
+//							getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
+//						}
+//						catch (AddressException e)
+//						{
+//							String summary = getString("ERREUR.ENVOI_MAIL");
+//							String detail = getString("ERREUR.ENVOI_MAIL");
+//							Severity severity = FacesMessage.SEVERITY_INFO;
+//							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//						}
+//						if(this.currentDemandeTransferts!=null)
+//						{
+//							try {
+//								correspondance.setEtudiant(this.currentDemandeTransferts);
+//								correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
+//								correspondance.setDateSaisie(new Date());
+//								correspondance.setTitre(sujet);
+//								correspondance.setMsg(body);
+//							} catch (Exception e1) {
+//								// TODO Auto-generated catch block
+//								e1.printStackTrace();
+//							}
+//						}
 					}
 					else
 					{
@@ -1184,30 +1187,34 @@ public class AdministrationController extends AbstractContextAwareController {
 								opi.getLibNomPatIndOpi(),
 								decision,
 								opi.getNumeroOpi());
-						try {
-							getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
-						} 
-						catch (AddressException e) 
-						{
-							String summary = getString("ERREUR.ENVOI_MAIL");
-							String detail = getString("ERREUR.ENVOI_MAIL");
-							Severity severity = FacesMessage.SEVERITY_INFO;
-							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-						}			
-						if(this.currentDemandeTransferts!=null)
-						{	
-							try {
 
-								correspondance.setEtudiant(this.currentDemandeTransferts);
-								correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
-								correspondance.setDateSaisie(new Date());
-								correspondance.setTitre(sujet);
-								correspondance.setMsg(body);
-							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
+						this.envoiMail(opi, sujet, body, correspondance);
+
+//						try {
+//							getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
+//						}
+//						catch (AddressException e)
+//						{
+//							String summary = getString("ERREUR.ENVOI_MAIL");
+//							String detail = getString("ERREUR.ENVOI_MAIL");
+//							Severity severity = FacesMessage.SEVERITY_INFO;
+//							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//						}
+//						if(this.currentDemandeTransferts!=null)
+//						{
+//							try {
+//
+//								correspondance.setEtudiant(this.currentDemandeTransferts);
+//								correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
+//								correspondance.setDateSaisie(new Date());
+//								correspondance.setTitre(sujet);
+//								correspondance.setMsg(body);
+//							} catch (Exception e1) {
+//								// TODO Auto-generated catch block
+//								e1.printStackTrace();
+//							}
+//						}
+
 					}	
 					//Ajout d'une nouvelle correspondance
 					if(this.currentDemandeTransferts!=null)
@@ -1298,29 +1305,33 @@ public class AdministrationController extends AbstractContextAwareController {
 							opi.getLibNomPatIndOpi(),
 							decision,
 							opi.getCodEtuLpa().toString().trim());
-					try {
-						getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
-					} 
-					catch (AddressException e) 
-					{
-						String summary = getString("ERREUR.ENVOI_MAIL");
-						String detail = getString("ERREUR.ENVOI_MAIL");
-						Severity severity = FacesMessage.SEVERITY_INFO;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-					}
-					if(this.currentDemandeTransferts!=null)
-					{	
-						try {
-							correspondance.setEtudiant(this.currentDemandeTransferts);
-							correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
-							correspondance.setDateSaisie(new Date());
-							correspondance.setTitre(sujet);
-							correspondance.setMsg(body);
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
+
+					this.envoiMail(opi, sujet, body, correspondance);
+
+//					try {
+//						getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
+//					}
+//					catch (AddressException e)
+//					{
+//						String summary = getString("ERREUR.ENVOI_MAIL");
+//						String detail = getString("ERREUR.ENVOI_MAIL");
+//						Severity severity = FacesMessage.SEVERITY_INFO;
+//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//					}
+//					if(this.currentDemandeTransferts!=null)
+//					{
+//						try {
+//							correspondance.setEtudiant(this.currentDemandeTransferts);
+//							correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
+//							correspondance.setDateSaisie(new Date());
+//							correspondance.setTitre(sujet);
+//							correspondance.setMsg(body);
+//						} catch (Exception e1) {
+//							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+//						}
+//					}
+
 					//Ajout d'une nouvelle correspondance
 					if(this.currentDemandeTransferts!=null)
 					{	
@@ -1346,6 +1357,32 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		transfertDataModelOpi=null;
 	}		
+
+	public void envoiMail(IndOpi opi, String sujet, String body, Correspondance correspondance){
+		try {
+			getSmtpService().send(new InternetAddress(opi.getAdrMailOpi()), sujet, body, body);
+		}
+		catch (AddressException e)
+		{
+			String summary = getString("ERREUR.ENVOI_MAIL");
+			String detail = getString("ERREUR.ENVOI_MAIL");
+			Severity severity = FacesMessage.SEVERITY_INFO;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+		}
+		if(this.currentDemandeTransferts!=null)
+		{
+			try {
+				correspondance.setEtudiant(this.currentDemandeTransferts);
+				correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
+				correspondance.setDateSaisie(new Date());
+				correspondance.setTitre(sujet);
+				correspondance.setMsg(body);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
 
 	private List<IndOpi> getOpiByFiltre(List<IndOpi> opis, boolean synchro)
 	{
@@ -3840,10 +3877,13 @@ public class AdministrationController extends AbstractContextAwareController {
 										libEtab,
 										etab.getLibOffEtb());	
 							}
+
+							this.envoiMail(opi, sujet, body, correspondance);
+
 							try {
 								getSmtpService().send(new InternetAddress(this.currentDemandeTransferts.getAdresse().getEmail()), sujet, body, body);
-							} 
-							catch (AddressException e) 
+							}
+							catch (AddressException e)
 							{
 								summary = getString("ERREUR.ENVOI_MAIL");
 								detail = getString("ERREUR.ENVOI_MAIL");
@@ -3859,7 +3899,7 @@ public class AdministrationController extends AbstractContextAwareController {
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
-							}	
+							}
 							//Ajout d'une nouvelle correspondance
 							this.addCorrespondance(correspondance);
 							getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
