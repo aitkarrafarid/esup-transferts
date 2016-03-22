@@ -24,34 +24,35 @@
 					header="Esup-transferts #{msgs['ABOUT.VERSION']} #{applicationService.version}"
 					toggleable="true" closable="false" toggleSpeed="500"
 					closeSpeed="2000" widgetVar="panel">
-					<h:panelGrid columns="1" id="p1">
-						<h:outputText
-							value="- Liste des paramètres de l'application transferts." />
-					</h:panelGrid>
 				</p:panel>
+					<p:panelGrid style="width: 100%">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="3">Liste des paramètres de l'application transferts</p:column>
+						</p:row>
+					</f:facet>
 
-				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
-					<h:outputText value="Choix de l'affichage du voeu par composante :" />
-					<p:inputSwitch
-						value="#{sessionController.choixDuVoeuParComposante}" />
-					<p:commandButton id="modalDialogButton"
-						onclick="PF('choixVoeuParComposante').show();" type="button"
-						icon="ui-icon-help" />
+					<p:row>
+						<p:column style="font-weight: bold;">Choix de l'affichage du voeu par composante</p:column>
+						<p:column><p:inputSwitch value="#{sessionController.choixDuVoeuParComposante}" /></p:column>
+						<p:column><p:commandButton id="modalDialogButton" onclick="PF('choixVoeuParComposante').show();" type="button" icon="ui-icon-help" /></p:column>
+					</p:row>
 
-					<h:outputText
-						value="Mise à jour automatique de l'offre de formation :" />
-					<p:inputSwitch value="#{sessionController.majOdfAuto}" />
-					<p:commandButton id="majOdfAutoButton"
-						onclick="PF('majOdfAuto').show();" type="button"
-						icon="ui-icon-help" />
+						<p:row>
+							<p:column style="font-weight: bold;">Mise à jour automatique de l'offre de formation</p:column>
+							<p:column><p:inputSwitch value="#{sessionController.majOdfAuto}" /></p:column>
+							<p:column><p:commandButton id="majOdfAutoButton" onclick="PF('majOdfAuto').show();" type="button" icon="ui-icon-help" /></p:column>
+						</p:row>
 
-					<h:outputText value="Planning des périodes de fermeture :" />
-					<p:inputSwitch value="#{sessionController.planningFermeturesAuto}" />
-					<p:commandButton id="planningFermetureAutoButton"
-						onclick="PF('planningFermetureAuto').show();" type="button"
-						icon="ui-icon-help" />
+						<p:row>
+							<p:column style="font-weight: bold;">Planning des périodes de fermeture</p:column>
+							<p:column><p:inputSwitch value="#{sessionController.planningFermeturesAuto}" /></p:column>
+							<p:column><p:commandButton id="planningFermetureAutoButton" onclick="PF('planningFermetureAuto').show();" type="button" icon="ui-icon-help" /></p:column>
+						</p:row>
 
-				</h:panelGrid>
+					</p:panelGrid>
+
+				<p:spacer style="padding-top: 3%"/>
 
 				<p:commandButton value="Modifier"
 					update=":configuration,:configuration:messages,:configuration:msgs,:configuration:msgs2" partialSubmit="true"
@@ -95,10 +96,5 @@
 			</h:form>
 		</center>
 	</ui:define>
-
-	<!-- 	<ui:define name="content"> -->
-	<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
-	<!-- 	</ui:define> -->
-
 </ui:composition>
 </html>

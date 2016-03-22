@@ -48,6 +48,11 @@ public class User implements Serializable {
 	private boolean admin;
 
 	/**
+	 * True for administrators.
+	 */
+	private boolean informaticien;
+
+	/**
 	 * The prefered language.
 	 */
 	private String language;
@@ -188,5 +193,13 @@ public class User implements Serializable {
 
 	public String getMsg() {
 		return msg;
+	}
+
+	public boolean isInformaticien() {
+		return informaticien;
+	}
+
+	public void setInformaticien(boolean informaticien) {
+		this.informaticien = informaticien;
 	}
 }

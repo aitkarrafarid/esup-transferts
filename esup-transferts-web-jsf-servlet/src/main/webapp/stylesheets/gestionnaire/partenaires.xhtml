@@ -107,11 +107,15 @@
 							<h:outputText value="#{car.mailCorrespondantTechnique}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText id="mailTechnique"
+							<p:inputText id="mailTechnique" rendered="#{administrationController.personnel and sessionController.currentAnnee!=null and sessionController.currentUser.informaticien}"
 								value="#{car.mailCorrespondantTechnique}" style="width:100%"
 								label="mailTechnique">
 								<f:validator binding="#{mailValidator}" />
 							</p:inputText>
+							<h:outputText rendered="#{administrationController.personnel and sessionController.currentAnnee!=null and !sessionController.currentUser.informaticien}"
+										 value="#{car.mailCorrespondantTechnique}" style="width:100%"
+										 label="mailTechnique">
+								</h:outputText>
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -122,8 +126,10 @@
 							<h:outputText value="#{car.url}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText id="url" value="#{car.url}" style="width:100%"
+							<p:inputText id="url" value="#{car.url}" style="width:100%" rendered="#{administrationController.personnel and sessionController.currentAnnee!=null and sessionController.currentUser.informaticien}"
 								label="url" />
+							<h:outputText value="#{car.url}" style="width:100%" rendered="#{administrationController.personnel and sessionController.currentAnnee!=null and !sessionController.currentUser.informaticien}"
+										 label="url" />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -134,8 +140,10 @@
 							<h:outputText value="#{car.identifiant}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText id="identifiant" value="#{car.identifiant}"
+							<p:inputText id="identifiant" value="#{car.identifiant}" rendered="#{administrationController.personnel and sessionController.currentAnnee!=null and sessionController.currentUser.informaticien}"
 								style="width:100%" label="identifiant" />
+							<h:outputText value="#{car.identifiant}" rendered="#{administrationController.personnel and sessionController.currentAnnee!=null and !sessionController.currentUser.informaticien}"
+										 style="width:100%" label="identifiant" />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
@@ -146,22 +154,23 @@
 							<h:outputText value="#{car.password}" />
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText id="password" value="#{car.password}"
+							<p:inputText id="password" value="#{car.password}" rendered="#{administrationController.personnel and sessionController.currentAnnee!=null and sessionController.currentUser.informaticien}"
 								style="width:100%" label="password" />
+							<h:outputText value="#{car.password}" rendered="#{administrationController.personnel and sessionController.currentAnnee!=null and !sessionController.currentUser.informaticien}"
+										 style="width:100%" label="password" />
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
 
 				<p:column headerText="Options" style="width:50px">
 					<p:rowEditor />
-					<!-- 						<p:rowEditor>qsdqsdqsd</p:rowEditor> -->
 				</p:column>
 
 			</p:dataTable>
 		</h:form>
 		<p:spacer height="20" />
 		<center>
-			<h:form id="form2" rendered="#{sessionController.currentUser.admin}">
+			<h:form id="form2" rendered="#{sessionController.currentUser.informaticien}">
 				<p:panel id="avis" header="Ajouter un partenaire" toggleable="true"
 					style="width:80%;" collapsed="true" closable="true"
 					toggleSpeed="500" closeSpeed="500" widgetVar="avis">

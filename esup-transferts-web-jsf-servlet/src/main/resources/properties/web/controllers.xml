@@ -29,6 +29,7 @@
 		<property name="boutonDeconnexion" value="${bouton.deconnexion}" />
 		<property name="transfertsAccueil" value="${transferts.accueil}" />
 		<property name="superGestionnaire" value="${init.superGestionnaire}" />
+		<property name="informaticiens" value="${init.informaticiens}" />
 		<property name="validationAutomatique" value="${validation.automatique}" />
 		<property name="regleGestionTE02" value="${regle.gestion.TE02}" />
 		<property name="nbJourAvantAlertSilenceVautAccord" value="${nb.jour.avant.alert.silence.vaut.accord}" />

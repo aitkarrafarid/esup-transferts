@@ -67,7 +67,9 @@ public class SessionController extends AbstractDomainAwareBean {
 	private boolean boutonDeconnexion;
 	private boolean transfertsAccueil;
 	private String superGestionnaire;
-	private List<String> listSuperGestionnaire = new ArrayList<String>();	
+	private List<String> listSuperGestionnaire = new ArrayList<String>();
+	private String informaticiens;
+	private List<String> listInformaticiens = new ArrayList<String>();
 	private String validationAutomatique;
 	private Integer regleGestionTE02;
 	private boolean choixDuVoeuParComposante;
@@ -143,7 +145,16 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 
 		Assert.hasText(timezone, "property timezone of class "
-				+ this.getClass().getName() + " can not be null");	
+				+ this.getClass().getName() + " can not be null");
+
+		if(this.informaticiens!=null && this.informaticiens!="" && ((this.informaticiens.split(",")).length>1))
+		{
+			String[] tokens = this.informaticiens.split(",");
+			for(int i=0; i<tokens.length; i++)
+				this.listInformaticiens.add(tokens[i]);
+		}
+		else
+			this.listInformaticiens.add(this.informaticiens);
 	}
 
 	@PostConstruct
@@ -263,7 +274,7 @@ public class SessionController extends AbstractDomainAwareBean {
 					if (ident.equals(user.getLogin()))
 					{
 						if (logger.isDebugEnabled()) {
-							logger.debug("SuperGestionnaire --> "+ user.getLogin()+" est un super gestionnaire");
+							logger.debug("SuperGestionnaire===>"+ user.getLogin()+" est un super gestionnaire<===");
 						}							
 						user.setAdmin(true);
 						break;
@@ -271,8 +282,25 @@ public class SessionController extends AbstractDomainAwareBean {
 					else
 					{
 						if (logger.isDebugEnabled()) {
-							logger.debug("SuperGestionnaire --> "+ user.getLogin()+" n'est pas un super gestionnaire");
+							logger.debug("SuperGestionnaire===>"+ user.getLogin()+" n'est pas un super gestionnaire<===");
 						}													
+					}
+				}
+				user.setInformaticien(false);
+				for (String ident : listInformaticiens) {
+					if (ident.equals(user.getLogin()))
+					{
+						if (logger.isDebugEnabled()) {
+							logger.debug("Informaticien===>"+ user.getLogin()+" est un informaticien<===");
+						}
+						user.setInformaticien(true);
+						break;
+					}
+					else
+					{
+						if (logger.isDebugEnabled()) {
+							logger.debug("Informaticien===>"+ user.getLogin()+" n'est pas un informaticien<===");
+						}
 					}
 				}
 			}
@@ -606,4 +634,21 @@ public class SessionController extends AbstractDomainAwareBean {
 	public void setDefaultCodeSize(CodeSizeAnnee defaultCodeSize) {
 		this.defaultCodeSize = defaultCodeSize;
 	}
+
+	public List<String> getListInformaticiens() {
+		return listInformaticiens;
+	}
+
+	public void setListInformaticiens(List<String> listInformaticiens) {
+		this.listInformaticiens = listInformaticiens;
+	}
+
+	public String getInformaticiens() {
+		return informaticiens;
+	}
+
+	public void setInformaticiens(String informaticiens) {
+		this.informaticiens = informaticiens;
+	}
+
 }
