@@ -294,6 +294,7 @@ public class SessionController extends AbstractDomainAwareBean {
 							logger.debug("Informaticien===>"+ user.getLogin()+" est un informaticien<===");
 						}
 						user.setInformaticien(true);
+						user.setAdmin(true);
 						break;
 					}
 					else
