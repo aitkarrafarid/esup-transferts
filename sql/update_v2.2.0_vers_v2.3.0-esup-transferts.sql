@@ -26,6 +26,10 @@ Insert into PARAMETRES
    (CODE, ETAT, COMMENTAIRE)
  Values
    ('planning_fermetures', 0, 'Choix de l''affichage et gestion manuelle ou automatique des périodes de fermeture');
+Insert into PARAMETRES
+   (CODE, ETAT, COMMENTAIRE)
+ Values
+   ('ajout_etablissement_manuellement', 0, '');
 
 Update VERSIONS set ETAT=0;
 Insert into VERSIONS (NUMERO, COMMENTAIRE, ETAT)
@@ -33,5 +37,10 @@ Insert into VERSIONS (NUMERO, COMMENTAIRE, ETAT)
    ('2.3.0', '', 1);
 
 Update PERSONNEL_COMPOSANTE set DROIT_AVIS_DEFINITIF='oui';
+
+Insert into ACCUEIL_ANNEE
+   (ID_ACCUEIL_ANNEE, LIBELLE)
+ Values
+   (14, '2015/2016');
 
 COMMIT;

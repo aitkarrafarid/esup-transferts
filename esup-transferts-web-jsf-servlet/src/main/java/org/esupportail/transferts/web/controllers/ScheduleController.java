@@ -51,7 +51,8 @@ public class ScheduleController extends AbstractContextAwareController implement
 
 //	@PostConstruct
 	public void init() {
-		logger.info("===>@PostConstruct---public void init() {<===");
+		if (logger.isDebugEnabled())
+			logger.debug("===>@PostConstruct---public void init() {<===");
 		eventModel = new DefaultScheduleModel();
 		listeFermetures = getFermetures();
 
@@ -59,23 +60,25 @@ public class ScheduleController extends AbstractContextAwareController implement
 		{
 			for(Fermeture f : listeFermetures)
 			{
-				logger.info("fermetures---f.getIdScheduler()===>"+f.getIdScheduler()+"<===");
+				if (logger.isDebugEnabled())
+					logger.debug("fermetures---f.getIdScheduler()===>"+f.getIdScheduler()+"<===");
 				ScheduleEvent e = new DefaultScheduleEvent(f.getTitre(), f.getDateDebut(), f.getDateFin());
 				e.setId(f.getIdScheduler());
-				//				eventModel.addEvent(e);
 				eventModel.getEvents().add(e);
 			}
 
-			for(int i = 0;i<eventModel.getEventCount();i++){
-				logger.info("eventModel---eventModel.getEvents().get(i).getId()===>"+eventModel.getEvents().get(i).getId()+"<===");
-			}    
+			if (logger.isDebugEnabled()) {
+				for (int i = 0; i < eventModel.getEventCount(); i++) {
+					logger.debug("eventModel---eventModel.getEvents().get(i).getId()===>" + eventModel.getEvents().get(i).getId() + "<===");
+				}
+			}
 		}
 	}
 
 	public String goToFermetureAppliSchedulerDepart() 
 	{
-//		if (logger.isDebugEnabled())
-			logger.info("goToFermetureAppliSchedulerDepart");
+		if (logger.isDebugEnabled())
+			logger.debug("goToFermetureAppliSchedulerDepart");
 		setSource("D");
 		this.init();
 		return "goToFermetureAppli";
@@ -91,14 +94,15 @@ public class ScheduleController extends AbstractContextAwareController implement
 	}	
 	
 	public void addPeriodeFermeture(){
-		logger.info("===> public void addPeriodeFermeture(){<===");
+		if (logger.isDebugEnabled())
+			logger.debug("===> public void addPeriodeFermeture(){<===");
 		List<Fermeture> l1 = new ArrayList<Fermeture>();
 
-		logger.info("eventModel---getEventCount===>"+eventModel.getEventCount()+"<===");
+		if (logger.isDebugEnabled())
+			logger.debug("eventModel---getEventCount===>"+eventModel.getEventCount()+"<===");
 		for(int i = 0;i<eventModel.getEventCount();i++){
-			logger.info("eventModel---eventModel.getEvents().get(i).getId()===>"+eventModel.getEvents().get(i).getId()+"<===");
-			//			logger.info("eventModel---eventModel.getEvents().get(i).getStartDate()===>"+eventModel.getEvents().get(i).getStartDate()+"<===");
-
+			if (logger.isDebugEnabled())
+				logger.debug("eventModel---eventModel.getEvents().get(i).getId()===>"+eventModel.getEvents().get(i).getId()+"<===");
 			Fermeture tmp = new Fermeture();
 			tmp.setIdScheduler(eventModel.getEvents().get(i).getId());
 			tmp.setSource(this.getSource());
@@ -108,8 +112,10 @@ public class ScheduleController extends AbstractContextAwareController implement
 			tmp.setDateFin(eventModel.getEvents().get(i).getEndDate());
 			tmp.setAllDay(eventModel.getEvents().get(i).isAllDay());
 
-			logger.info("l1---eventModel.getEvents().get(i).getId()===>"+eventModel.getEvents().get(i).getId()+"<===");
-			logger.info("===>#####################################################################################################################<===");
+			if (logger.isDebugEnabled()) {
+				logger.debug("l1---eventModel.getEvents().get(i).getId()===>" + eventModel.getEvents().get(i).getId() + "<===");
+				logger.debug("===>#####################################################################################################################<===");
+			}
 			l1.add(tmp);
 		}    	
 		listeFermetures = getDomainService().addPeriodeFermetures(l1);
@@ -137,10 +143,12 @@ public class ScheduleController extends AbstractContextAwareController implement
 	}
 
 	public void deleteEvent(ActionEvent actionEvent) {
-		logger.info("===>public void deleteEvent(ActionEvent actionEvent) {<===");
+		if (logger.isDebugEnabled())
+			logger.debug("===>public void deleteEvent(ActionEvent actionEvent) {<===");
 		if(event.getId()!= null)
 		{
-			logger.info("===>event"+event.getTitle()+"<===");
+			if (logger.isDebugEnabled())
+				logger.debug("===>event"+event.getTitle()+"<===");
 			eventModel.deleteEvent(event);
 		}
 		getDomainService().deletePeriodeFermeture(event.getId());
@@ -177,10 +185,12 @@ public class ScheduleController extends AbstractContextAwareController implement
 		c.setTime(new Date());
 		int year = c.get(Calendar.YEAR); //A vérifier!!!!
 
-		logger.info("date et heure===>"+c+"<===");
-		logger.info("annee===>"+year+"<===");
-		logger.info("getSource()===>"+getSource()+"<===");
-		
+		if (logger.isDebugEnabled()) {
+			logger.debug("date et heure===>" + c + "<===");
+			logger.debug("annee===>" + year + "<===");
+			logger.debug("getSource()===>" + getSource() + "<===");
+		}
+
 		this.setAnneeEnCours(year);
 		
 		return getDomainService().getListeFermeturesBySourceAndAnnee(getSource(), year);

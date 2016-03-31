@@ -44,6 +44,11 @@
 		<property name="password" value="${password}" />		
 	</bean>
 
+	<bean id="domainServiceDTO" class="org.esupportail.transferts.domain.DomainServiceDTOImpl">
+		<property name="daoService" ref="daoService" />
+		<property name="domainServiceScolarite" ref="domainServiceScolarite" />
+	</bean>
+
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />

@@ -37,6 +37,7 @@ import javax.xml.bind.Marshaller;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.transferts.utils.Fonctions;
 import org.esupportail.transferts.web.dataModel.SituationUniversitaireDataModel;
 import org.esupportail.transferts.domain.DomainServiceOpi;
 import org.esupportail.transferts.domain.beans.AccueilAnnee;
@@ -222,38 +223,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				+ this.getClass().getName() + " can not be null");		
 		Assert.notNull(this.modeSynchro, "property modeSynchro of class " 
 				+ this.getClass().getName() + " can not be null");
-//		this.isDefaultCodeSizeAnnee();	
-	}	
-
-//	@PostConstruct
-//	public void init() {
-//		setAujourdhui(new Date());
-//		String userHome = System.getProperty("user.home");
-//		String userDir = System.getProperty("user.dir");
-//		String javaClassPath = System.getProperty("java.class.path");
-//		String javaVendorUrl = System.getProperty("java.vendor.url");
-//		setVariablesEnvironnement("user.home="+userHome+"-----user.dir="+userDir+"-----java.class.path="+javaClassPath+"-----java.vendor.url="+javaVendorUrl);
-//		java.util.Enumeration liste = System.getProperties().propertyNames();
-//		String cle;
-//		
-//		Versions version = getDomainService().getVersionByEtat(1);
-//		
-//		while( liste.hasMoreElements() ) {
-//			cle = (String)liste.nextElement();
-////			if (logger.isDebugEnabled())
-//				logger.info("===>"+cle + " = " + System.getProperty(cle)+"<===");	
-//		} 
-//		
-//		if(version==null)
-//		{
-//	        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Les nomenclatures n'ont pas ete insérées", "Les nomenclatures n'ont pas ete insérées");
-//	        RequestContext.getCurrentInstance().showMessageInDialog(message);
-//		}
-//		else
-//		{	
-//			logger.info("Versions===>"+version.toString()+"<===");
-//		}
-//	}	
+	}
 
 	public String goToSaisirCorrespondance()
 	{
@@ -271,12 +241,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			RequestContext.getCurrentInstance().showMessageInDialog(message);			
 		}
 	}
-
-	//    public void onSelect(SelectEvent event) {
-	//        TagCloudItem item = (TagCloudItem) event.getObject();
-	//        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", item.getLabel());
-	//        FacesContext.getCurrentInstance().addMessage(null, msg);
-	//    }	
 
 	public String goToAdministration()
 	{
@@ -1482,7 +1446,21 @@ public class AdministrationController extends AbstractContextAwareController {
 			getSessionController().setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
 		}
 		else
-			getSessionController().setPlanningFermeturesAuto(true);		
+			getSessionController().setPlanningFermeturesAuto(true);
+
+		Parametres ajout_etablissement_manuellement = getDomainService().getParametreByCode("ajout_etablissement_manuellement");
+		if(ajout_etablissement_manuellement!=null)
+		{
+			ajout_etablissement_manuellement.setCommentaire(getSessionController().getAjoutEtablissementManuellement());
+			ajout_etablissement_manuellement.setBool(getSessionController().isActivEtablissementManuellement());
+			ajout_etablissement_manuellement = getDomainService().updateConfiguration(ajout_etablissement_manuellement);
+			getSessionController().setAjoutEtablissementManuellement(ajout_etablissement_manuellement.getCommentaire());
+		}
+		else
+		{
+			getSessionController().setAjoutEtablissementManuellement("");
+			getSessionController().setActivEtablissementManuellement(false);
+		}
 
 		String summary = getString("ENREGISTREMENT.CONFIGURATION");
 		String detail = getString("ENREGISTREMENT.CONFIGURATION");
@@ -1514,7 +1492,6 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public String goToFermetureAppliDepart() 
 	{
-		logger.info("===>goToFermetureAppliDepart<===");
 		if (logger.isDebugEnabled())
 			logger.debug("goToFermetureAppliDepart");
 		setSource("D");
@@ -2448,107 +2425,26 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		//		}
 		return listeDepartements;
-	}	
+	}
 
 	public List<SelectItem> getListeEtablissementsAccueil() {
-		if (logger.isDebugEnabled()) 
-			logger.debug("public List<SelectItem> getListeEtablissementsAccueil() --> " + this.currentDemandeTransferts.getAccueil().getCodeDepUnivDepart());
-
-		listeEtablissements = new ArrayList<SelectItem>();
-		for (String typesEtablissementSplit : getTypesEtablissementListSplit()) 
-		{
-			List<TrEtablissementDTO> etablissementDTO = getDomainServiceScolarite().getListeEtablissements(typesEtablissementSplit, this.currentDemandeTransferts.getAccueil().getCodeDepUnivDepart());
-			if (etablissementDTO != null) 
-			{
-				for (TrEtablissementDTO eDTO : etablissementDTO) 
-				{
-					if (logger.isDebugEnabled())
-						logger.debug("etablissementDTO : " + etablissementDTO);
-
-					if (!eDTO.getCodeEtb().equals(getSessionController().getRne())) 
-					{
-						SelectItem option = new SelectItem(eDTO.getCodeEtb(), eDTO.getLibEtb());
-						listeEtablissements.add(option);
-					}
-				}
-				Collections.sort(listeEtablissements, new ComparatorSelectItem());
-			} else {
-				if (logger.isDebugEnabled())
-					logger.debug("etablissementDTO == null");
-			}
+		if(!isDeptVide()) {
+			listeEtablissements = getDomainServiceDTO().getListeEtablissements("A", getSessionController().getRne(), getTypesEtablissementListSplit(),
+					this.currentDemandeTransferts.getAccueil().getCodeDepUnivDepart(), getSessionController().getAjoutEtablissementManuellement(), "," ,getSessionController().isActivEtablissementManuellement());
+			Collections.sort(listeEtablissements, new ComparatorSelectItem());
 		}
 		return listeEtablissements;
-	}			
+	}
+
 
 	public List<SelectItem> getListeEtablissements() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("public List<SelectItem> getListeEtablissements() --> " + currentDemandeTransferts.getTransferts().getDept());
-			logger.debug("getDomainServiceScolarite().getListeEtablissements(typesEtablissementSplit, currentDemandeTransferts.getTransferts().getDept());	");
-		}
-		if(!isDeptVide())
-		{
-			if (logger.isDebugEnabled())
-				logger.debug("if(listeEtablissements==null) --> " + listeEtablissements);
-
-			listeEtablissements = new ArrayList<SelectItem>();
-			for (String typesEtablissementSplit : getTypesEtablissementListSplit()) 
-			{
-				List<TrEtablissementDTO> etablissementDTO = getDomainServiceScolarite().getListeEtablissements(typesEtablissementSplit, this.currentDemandeTransferts.getTransferts().getDept());
-				if (etablissementDTO != null) 
-				{
-					for (TrEtablissementDTO eDTO : etablissementDTO) 
-					{
-						if (logger.isDebugEnabled())
-							logger.debug("etablissementDTO : " + etablissementDTO);
-
-						if (!eDTO.getCodeEtb().equals(getSessionController().getRne())) 
-						{
-							SelectItem option = new SelectItem(eDTO.getCodeEtb(), eDTO.getLibEtb());
-							listeEtablissements.add(option);
-						}
-					}
-					Collections.sort(listeEtablissements, new ComparatorSelectItem());
-				} else {
-					if (logger.isDebugEnabled())
-						logger.debug("etablissementDTO == null");
-				}
-			}
+		if(!isDeptVide()) {
+			listeEtablissements = getDomainServiceDTO().getListeEtablissements("D", getSessionController().getRne(), getTypesEtablissementListSplit(),
+					this.currentDemandeTransferts.getTransferts().getDept(), getSessionController().getAjoutEtablissementManuellement(), "," ,getSessionController().isActivEtablissementManuellement());
+			Collections.sort(listeEtablissements, new ComparatorSelectItem());
 		}
 		return listeEtablissements;
-	}		
-
-//	public boolean isDefaultCodeSizeAnnee() {
-//		if (logger.isDebugEnabled())
-//			logger.debug("isDefaultCodeSizeAnnee----->SoSo");		
-//		this.defaultCodeSize = getDomainService().getCodeSizeDefaut();
-//
-//		Parametres choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
-//		if(choixDuVoeuParComposante!=null)
-//			getSessionController().setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
-//		else
-//			getSessionController().setChoixDuVoeuParComposante(true);
-//
-//		Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
-//		if(maj_odf_auto!=null)
-//			getSessionController().setMajOdfAuto(maj_odf_auto.isBool());
-//		else
-//			getSessionController().setMajOdfAuto(true);
-//
-//		Parametres planning_fermetures_auto = getDomainService().getParametreByCode("planning_fermetures");
-//		if(planning_fermetures_auto!=null)
-//			getSessionController().setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
-//		else
-//			getSessionController().setPlanningFermeturesAuto(true);		
-//
-//		if (this.defaultCodeSize != null)
-//		{
-//			this.setDefaultCodeSizeAnnee(true);
-//			this.getSessionController().setNumeroSerieImmatriculation(this.defaultCodeSize.getCode());
-//			this.getSessionController().setAnnee(this.defaultCodeSize.getAnnee());
-//			this.getSessionController().setCurrentAnnee(this.defaultCodeSize.getAnnee());
-//		}
-//		return defaultCodeSizeAnnee;
-//	}	
+	}
 
 	public List<SelectItem> getListeTypesDiplome() {
 		if (logger.isDebugEnabled()) {
@@ -3722,8 +3618,8 @@ public class AdministrationController extends AbstractContextAwareController {
 
 				if(opi==null)
 				{
-					//					if(logger.isDebugEnabled()) 
-					logger.info("maj opi===>"+maj+"<===");
+					if(logger.isDebugEnabled())
+						logger.debug("maj opi===>"+maj+"<===");
 					opi = new IndOpi();
 					cleOpi = getDomainService().getCodeSizeByAnnee(getSessionController().getCurrentAnnee()).getCode()	+ RneModuleBase36.genereCle(this.currentDemandeTransferts.getAccueil().getCodeRneUnivDepart());
 					opi.setNumeroOpi(cleOpi);
@@ -3732,8 +3628,8 @@ public class AdministrationController extends AbstractContextAwareController {
 				else
 				{
 					maj = true;
-					//					if(logger.isDebugEnabled()) 
-					logger.info("maj opi===>"+maj+"<===");
+					if(logger.isDebugEnabled())
+						logger.debug("maj opi===>"+maj+"<===");
 				}
 
 				/*Ajout des données obligatoires saisies l'étudiant*/
@@ -4082,13 +3978,13 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void addAccueilDecision()
 	{
-		//			if (logger.isDebugEnabled()) 
-		logger.info("===>public void addAccueilDecision()<===");		
+		if (logger.isDebugEnabled())
+			logger.debug("===>public void addAccueilDecision()<===");
 
 		if(this.currentAccueilDecision!=null && this.currentAccueilDecision.getAvis()!="")
 		{
-			//			if (logger.isDebugEnabled()) 
-			logger.info("===>if(this.currentAccueilDecision!=null && this.currentAccueilDecision.getAvis()!='')<===");
+			if (logger.isDebugEnabled())
+				logger.debug("===>if(this.currentAccueilDecision!=null && this.currentAccueilDecision.getAvis()!='')<===");
 
 			try {
 				currentAccueilDecision.setEtudiant(this.currentDemandeTransferts);
@@ -4096,27 +3992,12 @@ public class AdministrationController extends AbstractContextAwareController {
 				currentAccueilDecision.setDateSaisie(new Date());
 				this.currentDemandeTransferts.getAccueilDecision().add(this.currentAccueilDecision);
 
-				//				Correspondance correspondance = new Correspondance();
-				//				try {
-				//					correspondance.setEtudiant(this.currentDemandeTransferts);
-				//					correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
-				//					correspondance.setDateSaisie(new Date());
-				//					correspondance.setTitre(getString("ENREGISTREMENT.ACCUEIL_DECISION"));
-				//					correspondance.setMsg(getString("ENREGISTREMENT.ACCUEIL_DECISION"));
-				//				} catch (Exception e1) {
-				//					// TODO Auto-generated catch block
-				//					e1.printStackTrace();
-				//				}
-
-				//				this.addDemandeTransfertsFromAvis(1);
-				//				currentDemandeTransferts=getDomainService().getPresenceEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
-				//				this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
-				//				this.addCorrespondance(correspondance);
 				this.currentDemandeTransferts = this.addDemandeTransfertsFromAvis(1);
 
 				this.currentAccueilDecision = new AccueilDecision();
-				//			if (logger.isDebugEnabled()) 
-				logger.info("===>this.currentAccueilDecision = new AccueilDecision();<===");				
+
+				if (logger.isDebugEnabled())
+					logger.debug("===>this.currentAccueilDecision = new AccueilDecision();<===");
 
 				String summary = getString("ENREGISTREMENT.ACCUEIL_DECISION");
 				String detail = getString("ENREGISTREMENT.ACCUEIL_DECISION");

@@ -7,6 +7,7 @@ package org.esupportail.transferts.accueil.web.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.esupportail.transferts.domain.DomainServiceDTO;
 import org.esupportail.transferts.domain.DomainServiceScolarite;
 import org.esupportail.transferts.domain.beans.User;
 import org.esupportail.commons.services.smtp.SmtpService;
@@ -35,6 +36,7 @@ public abstract class AbstractContextAwareController extends AbstractDomainAware
 	 */
 	private SessionController sessionController;
 	private DomainServiceScolarite domainServiceScolarite;
+	private DomainServiceDTO domainServiceDTO;
 	private String typesEtablissement;
 	private List<String> typesEtablissementListSplit = new ArrayList<String>();	
 	private SmtpService smtpService;
@@ -58,7 +60,9 @@ public abstract class AbstractContextAwareController extends AbstractDomainAware
 		Assert.notNull(this.sessionController, "property sessionController of class " 
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.domainServiceScolarite, "property domainServiceScolarite of class " 
-				+ this.getClass().getName() + " can not be null");		
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.domainServiceDTO, "property domainServiceDTO of class "
+				+ this.getClass().getName() + " can not be null");
 		Assert.hasText(typesEtablissement, "property typesEtablissement of class "
 				+ this.getClass().getName() + " can not be null");		
 		Assert.notNull(smtpService, "property smtpService of class "
@@ -154,5 +158,13 @@ public abstract class AbstractContextAwareController extends AbstractDomainAware
 
 	public void setTempPath(String tempPath) {
 		this.tempPath = tempPath;
+	}
+
+	public DomainServiceDTO getDomainServiceDTO() {
+		return domainServiceDTO;
+	}
+
+	public void setDomainServiceDTO(DomainServiceDTO domainServiceDTO) {
+		this.domainServiceDTO = domainServiceDTO;
 	}
 }

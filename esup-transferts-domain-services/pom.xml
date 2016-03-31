@@ -75,6 +75,16 @@
 			<artifactId>ehcache-spring-annotations</artifactId>
 			<version>1.2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.esupportail.transferts</groupId>
+			<artifactId>esup-transferts-utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esupportail.transferts</groupId>
+			<artifactId>esup-transferts-utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.esupportail</groupId> -->
 		<!-- <artifactId>esup-commons2-annotations</artifactId> -->

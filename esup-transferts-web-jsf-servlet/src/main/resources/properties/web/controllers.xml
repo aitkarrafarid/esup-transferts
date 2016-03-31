@@ -53,6 +53,7 @@
 			<description>The session controller.</description>
 		</property>
 		<property name="domainServiceScolarite" ref="domainServiceScolarite" />
+		<property name="domainServiceDTO" ref="domainServiceDTO" />
 		<property name="typesEtablissement" value="${etab.type}" />
 		<property name="xmlXslPath" value="${xmlxslpath}" />
 		<property name="tempPath" value="${temppath}" />

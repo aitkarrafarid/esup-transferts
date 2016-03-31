@@ -53,6 +53,7 @@ public class BusinessManager {
 
 	public void runAction() 
 	{
+		logger.info("===>Déclenchement du scheduler<===");
 		CodeSizeAnnee csa = getDomainService().getCodeSizeDefaut();
 		setCurrentAnnee(csa.getAnnee());
 		this.setCurrentMail(getDomainService().getWsPubByRneAndAnnee(this.getCurrentRne(), this.getCurrentAnnee()).getMailCorrespondantFonctionnel());
@@ -83,8 +84,8 @@ public class BusinessManager {
 			Date now = new Date();
 			String sujet="";
 			String body="";
-			if (logger.isDebugEnabled())
-				logger.debug("lEtu.size()===>"+lEtu.size()+"<===");
+//			if (logger.isDebugEnabled())
+				logger.info("lEtu.size()===>"+lEtu.size()+" / "+source+"<===");
 
 			for(EtudiantRef etu : lEtu)
 			{
@@ -117,8 +118,8 @@ public class BusinessManager {
 					sujet = "[transferts départ] Silence vaut accord (délai de 6 semaines dépassés)";
 					body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR />\r\n";
 				}
-				if (logger.isDebugEnabled())
-					logger.debug("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
+//				if (logger.isDebugEnabled())
+					logger.info("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
 				String libComp="";
 				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertSilenceVautAccord)
@@ -147,11 +148,11 @@ public class BusinessManager {
 							repeat=false;
 						}
 					}
-					if (logger.isDebugEnabled()){
-						logger.debug("libComp===>"+libComp+"<===");		
-						logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-						logger.debug("===>#################################################################################################################<===");
-					}
+//					if (logger.isDebugEnabled()){
+						logger.info("libComp===>"+libComp+"<===");
+						logger.info("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
+						logger.info("===>#################################################################################################################<===");
+//					}
 					if(!repeat)
 						body+="<BR />\r\n"+libComp+"<BR />\r\n";
 					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
@@ -162,17 +163,17 @@ public class BusinessManager {
 				} 
 				catch (AddressException e) 
 				{
-					if (logger.isDebugEnabled())
-						logger.debug("===>Echec envoi de mail<===");
+//					if (logger.isDebugEnabled())
+						logger.info("===>Echec envoi de mail<===");
 					e.printStackTrace();
 				}	
 			}
 			else
 			{
-				if (logger.isDebugEnabled()){
-					logger.debug("===>Aucun étudiant<===");
-					logger.debug("===>#################################################################################################################<===");
-				}
+//				if (logger.isDebugEnabled()){
+					logger.info("===>Aucun étudiant<===");
+					logger.info("===>#################################################################################################################<===");
+//				}
 			}
 
 			if(listeEtudiantRefAlertDepassementSilenceVautAccord!=null && !listeEtudiantRefAlertDepassementSilenceVautAccord.isEmpty())
@@ -189,8 +190,8 @@ public class BusinessManager {
 					sujet = "[transferts départ] Silence vaut accord (délai des 2 mois dépassés)";
 					body = "Liste des des demande de transferts départ dépassant le délai des 2 mois : <BR /><BR />\r\n\r\n";					
 				}
-				if (logger.isDebugEnabled())
-					logger.debug("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");				
+//				if (logger.isDebugEnabled())
+					logger.info("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");
 				String libComp="";
 				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertDepassementSilenceVautAccord)
@@ -219,11 +220,11 @@ public class BusinessManager {
 							repeat=false;
 						}
 					}
-					if (logger.isDebugEnabled()){
-						logger.debug("libComp===>"+libComp+"<===");		
-						logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");		
-						logger.debug("===>#################################################################################################################<===");
-					}
+//					if (logger.isDebugEnabled()){
+						logger.info("libComp===>"+libComp+"<===");
+						logger.info("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
+						logger.info("===>#################################################################################################################<===");
+//					}
 					if(!repeat)
 						body+="<BR />\r\n"+libComp+"<BR />\r\n";
 					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
@@ -233,17 +234,17 @@ public class BusinessManager {
 				} 
 				catch (AddressException e) 
 				{
-					if (logger.isDebugEnabled())
-						logger.debug("===>Echec envoi de mail<===");
+//					if (logger.isDebugEnabled())
+						logger.info("===>Echec envoi de mail<===");
 					e.printStackTrace();
 				}				
 			}
 			else
 			{
-				if (logger.isDebugEnabled()){
-					logger.debug("===>Aucun étudiant<===");
-					logger.debug("===>#################################################################################################################<===");
-				}
+//				if (logger.isDebugEnabled()){
+					logger.info("===>Aucun étudiant<===");
+					logger.info("===>#################################################################################################################<===");
+//				}
 			}			
 		}
 		else
@@ -266,7 +267,8 @@ public class BusinessManager {
 			{
 				if (part.getUrl() != null) 
 				{
-					logger.info("===>"+part.getUrl()+"<===");
+					if (logger.isDebugEnabled())
+						logger.debug("===>"+part.getUrl()+"<===");
 					Authenticator.setDefault(new MyAuthenticator(part.getIdentifiant(), part.getPassword()));
 					if (this.testUrl(part.getUrl())) 
 					{
@@ -323,14 +325,18 @@ public class BusinessManager {
 							{
 								part.setSyncOdf(1);
 							}
-							logger.info("===>Mise à jour de l'ODF des partenaires réussie<===");
+
+							if (logger.isDebugEnabled())
+								logger.debug("===>Mise à jour de l'ODF des partenaires réussie<===");
 						}
 						catch (Exception e) 
 						{
-							logger.info("WebServiceException RNE : " + part.getRne());
-							logger.info("-----------------");
-							logger.info(e.getCause().getMessage());
-							logger.info("-----------------");
+							if (logger.isDebugEnabled()) {
+								logger.debug("WebServiceException RNE : " + part.getRne());
+								logger.debug("-----------------");
+								logger.debug(e.getCause().getMessage());
+								logger.debug("-----------------");
+							}
 							e.printStackTrace();
 							part.setOnline(0);
 							part.setSyncOdf(0);
@@ -340,7 +346,8 @@ public class BusinessManager {
 					{
 						part.setOnline(0);
 						part.setSyncOdf(0);
-						logger.info("===>Echec dela mise à jour de l'ODF du partenaire===>"+part.getRne()+"<===");
+						if (logger.isDebugEnabled())
+							logger.debug("===>Echec dela mise à jour de l'ODF du partenaire===>"+part.getRne()+"<===");
 					}
 					AuthCacheValue.setAuthCache(new AuthCacheImpl());
 					Authenticator.setDefault(null);
@@ -354,7 +361,8 @@ public class BusinessManager {
 		}
 		else
 		{
-			logger.info("===>Aucun établissement partenaire<===");	
+			if (logger.isDebugEnabled())
+				logger.debug("===>Aucun établissement partenaire<===");
 		}
 	}
 
@@ -365,19 +373,25 @@ public class BusinessManager {
 			conn.connect();
 			return conn.getResponseCode() == HttpURLConnection.HTTP_OK;
 		} catch (MalformedURLException e) {
-			logger.info("MalformedURLException");
-			logger.info("host : " + host);
+			if (logger.isDebugEnabled()) {
+				logger.debug("MalformedURLException");
+				logger.debug("host : " + host);
+			}
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			logger.info("IOException");
-			logger.info("host : " + host);
+			if (logger.isDebugEnabled()) {
+				logger.debug("IOException");
+				logger.debug("host : " + host);
+			}
 			e.printStackTrace();
 			return false;
 		}
 		catch (Exception e) {
-			logger.info("Exception");
-			logger.info("host : " + host);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Exception");
+				logger.debug("host : " + host);
+			}
 			e.printStackTrace();
 			return false;				
 		}

@@ -21,34 +21,61 @@
 				<p:messages id="msgs" showDetail="false"/>
 
 				<p:panel id="pnl"
-					header="Esup-transferts #{msgs['ABOUT.VERSION']} #{applicationService.version}"
-					toggleable="true" closable="false" toggleSpeed="500"
-					closeSpeed="2000" widgetVar="panel">
+					header="Esup-transferts #{msgs['ABOUT.VERSION']} #{applicationService.version}">
 				</p:panel>
 					<p:panelGrid style="width: 100%">
 					<f:facet name="header">
 						<p:row>
-							<p:column colspan="3">Liste des paramètres de l'application transferts</p:column>
+							<p:column colspan="4">Liste des paramètres de l'application transferts</p:column>
 						</p:row>
 					</f:facet>
 
 					<p:row>
 						<p:column style="font-weight: bold;">Choix de l'affichage du voeu par composante</p:column>
 						<p:column><p:inputSwitch value="#{sessionController.choixDuVoeuParComposante}" /></p:column>
+						<p:column />
 						<p:column><p:commandButton id="modalDialogButton" onclick="PF('choixVoeuParComposante').show();" type="button" icon="ui-icon-help" /></p:column>
 					</p:row>
 
 						<p:row>
 							<p:column style="font-weight: bold;">Mise à jour automatique de l'offre de formation</p:column>
 							<p:column><p:inputSwitch value="#{sessionController.majOdfAuto}" /></p:column>
+							<p:column />
 							<p:column><p:commandButton id="majOdfAutoButton" onclick="PF('majOdfAuto').show();" type="button" icon="ui-icon-help" /></p:column>
 						</p:row>
 
 						<p:row>
 							<p:column style="font-weight: bold;">Planning des périodes de fermeture</p:column>
 							<p:column><p:inputSwitch value="#{sessionController.planningFermeturesAuto}" /></p:column>
+							<p:column />
 							<p:column><p:commandButton id="planningFermetureAutoButton" onclick="PF('planningFermetureAuto').show();" type="button" icon="ui-icon-help" /></p:column>
 						</p:row>
+
+						<p:row>
+							<p:column style="font-weight: bold;">Liste des établissements ajoutés manuellement</p:column>
+							<p:column>
+								<p:inputSwitch value="#{sessionController.activEtablissementManuellement}" />
+							</p:column>
+							<p:column>
+								<p:inplace id="ajax2" editor="true" emptyLabel="Ajoutez un établissement">
+									<p:inputText value="#{sessionController.ajoutEtablissementManuellement}" label="text" />
+								</p:inplace>
+							</p:column>
+							<p:column><p:commandButton id="ajoutEtablissementManuellementAutoButton" onclick="PF('ajoutEtablissementManuellementAuto').show();" type="button" icon="ui-icon-help" /></p:column>
+						</p:row>
+
+						<!--<p:row>-->
+							<!--<p:column style="font-weight: bold;">Type établissement</p:column>-->
+							<!--<p:column>-->
+								<!--<p:inputSwitch value="#{sessionController.activEtablissementManuellement}" />-->
+							<!--</p:column>-->
+							<!--<p:column>-->
+								<!--<p:inplace id="ajax2" editor="true" emptyLabel="Ajoutez un établissement">-->
+									<!--<p:inputText value="#{sessionController.ajoutEtablissementManuellement}" label="text" />-->
+								<!--</p:inplace>-->
+							<!--</p:column>-->
+							<!--<p:column><p:commandButton id="ajoutEtablissementManuellementAutoButton" onclick="PF('ajoutEtablissementManuellementAuto').show();" type="button" icon="ui-icon-help" /></p:column>-->
+						<!--</p:row>						-->
 
 					</p:panelGrid>
 
@@ -90,6 +117,15 @@
 					<center>
 						<h:outputText
 							value="Planning des périodes de fermeture" />
+					</center>
+				</p:dialog>
+
+				<p:dialog id="ajoutEtablissementManuellementAuto"
+						  header="Ajout d'un établissement"
+						  widgetVar="ajoutEtablissementManuellementAuto" modal="true" height="640" width="850">
+					<center>
+						<h:outputText
+								value="Ajout d'un établissement : RNE@Libellé" />
 					</center>
 				</p:dialog>
 

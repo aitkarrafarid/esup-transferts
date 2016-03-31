@@ -73,7 +73,11 @@ Insert into PARAMETRES
    (CODE, ETAT, COMMENTAIRE)
  Values
    ('planning_fermetures', 0, 'Choix de l''affichage et gestion manuelle ou automatique des périodes de fermeture');
-   
+Insert into PARAMETRES
+   (CODE, ETAT, COMMENTAIRE)
+ Values
+   ('ajout_etablissement_manuellement', 0, '');
+
 Insert into ACCUEIL_RESULTAT
    (ID_ACCUEIL_RESULTAT, LIBELLE)
  Values
@@ -151,6 +155,10 @@ Insert into ACCUEIL_ANNEE
    (ID_ACCUEIL_ANNEE, LIBELLE)
  Values
    (13, '2014/2015');      
+Insert into ACCUEIL_ANNEE
+   (ID_ACCUEIL_ANNEE, LIBELLE)
+ Values
+   (14, '2015/2016');
 
 Insert into VERSIONS (NUMERO, COMMENTAIRE, ETAT)
  Values

@@ -1,9 +1,6 @@
 package org.esupportail.transferts.web.controllers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -17,6 +14,7 @@ import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.TrDepartementDTO;
 import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
 import org.esupportail.transferts.domain.beans.WsPub;
+import org.esupportail.transferts.utils.Fonctions;
 import org.esupportail.transferts.web.dataModel.OdfDataModel;
 import org.esupportail.transferts.web.comparator.ComparatorSelectItem;
 
@@ -328,41 +326,13 @@ public class TestController extends AbstractContextAwareController {
 	}
 
 	public List<SelectItem> getListeEtablissements() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("public List<SelectItem> getListeEtablissements() --> " + etu.getTransferts().getDept());
-			logger.debug("getDomainServiceScolarite().getListeEtablissements(typesEtablissementSplit, currentDemandeTransferts.getTransferts().getDept());	");
-		}
-		if(!isDeptVide())
-		{
-			if (logger.isDebugEnabled())
-				logger.debug("if(listeEtablissements==null) --> " + listeEtablissements);
-
-			listeEtablissements = new ArrayList<SelectItem>();
-			for (String typesEtablissementSplit : getTypesEtablissementListSplit()) 
-			{
-				List<TrEtablissementDTO> etablissementDTO = getDomainServiceScolarite().getListeEtablissements(typesEtablissementSplit, etu.getTransferts().getDept());
-				if (etablissementDTO != null) 
-				{
-					for (TrEtablissementDTO eDTO : etablissementDTO) 
-					{
-						if (logger.isDebugEnabled())
-							logger.debug("etablissementDTO : " + etablissementDTO);
-
-						//						if (!eDTO.getCodeEtb().equals(getSessionController().getRne())) 
-						//						{
-						SelectItem option = new SelectItem(eDTO.getCodeEtb(), eDTO.getLibEtb());
-						listeEtablissements.add(option);
-						//						}
-					}
-					Collections.sort(listeEtablissements, new ComparatorSelectItem());
-				} else {
-					if (logger.isDebugEnabled())
-						logger.debug("etablissementDTO == null");
-				}
-			}
+		if(!isDeptVide()) {
+			listeEtablissements = getDomainServiceDTO().getListeEtablissements(getSource(), null, getTypesEtablissementListSplit(),
+					etu.getTransferts().getDept(), getSessionController().getAjoutEtablissementManuellement(), "," ,getSessionController().isActivEtablissementManuellement());
+			Collections.sort(listeEtablissements, new ComparatorSelectItem());
 		}
 		return listeEtablissements;
-	}		
+	}
 
 	public List<SelectItem> getListeTypesDiplome() {
 		if (logger.isDebugEnabled()) {
@@ -385,12 +355,6 @@ public class TestController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled()) {
 					logger.debug("listeTypesDiplomeDTO : "+listeTypesDiplomeDTO);
 				}
-				//				for(OffreDeFormationsDTO ltd : listeTypesDiplomeDTO)
-				//				{
-				//					//				SelectItem option = new SelectItem(ltd.getIdTypeDiplome(), ltd.getIdTypeDiplome() + "-" + ltd.getLibelleTypeDiplome());
-				//					SelectItem option = new SelectItem(ltd.getCodeDiplome(), ltd.getCodeDiplome());
-				//					listeTypesDiplome.add(option);
-				//				}			
 				for (String mapKey : listeTypesDiplomeDTO.keySet()) {
 					// utilise ici hashMap.get(mapKey) pour acc�der aux valeurs
 					SelectItem option = new SelectItem(mapKey, listeTypesDiplomeDTO.get(mapKey));

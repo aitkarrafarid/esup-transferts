@@ -12,17 +12,17 @@
 	<p:messages id="msgs" showDetail="false" />
 	<p:growl id="growl" showDetail="false" sticky="true" />
 	<p:panel id="voeux" header="Correspondance">
-		<p:fieldset legend="infos" toggleable="true" toggleSpeed="200"
-			rendered="#{userController.presentBdd}">
-			<h:panelGrid columns="2" columnClasses="column" cellpadding="5">
-				<h:outputText value="Demande de transfert effectuée le " />
-				<h:outputText
-					value="#{userController.currentEtudiant.transferts.dateDemandeTransfert}">
-					<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"
-						timeZone="#{sessionController.timezone}" />
-				</h:outputText>
-			</h:panelGrid>
-		</p:fieldset>
+		<!--<p:fieldset legend="infos" toggleable="true" toggleSpeed="200"-->
+			<!--rendered="#{userController.presentBdd}">-->
+			<!--<h:panelGrid columns="2" columnClasses="column" cellpadding="5">-->
+				<!--<h:outputText value="Demande de transfert effectuée le " />-->
+				<!--<h:outputText-->
+					<!--value="#{userController.currentEtudiant.transferts.dateDemandeTransfert}">-->
+					<!--<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"-->
+						<!--timeZone="#{sessionController.timezone}" />-->
+				<!--</h:outputText>-->
+			<!--</h:panelGrid>-->
+		<!--</p:fieldset>-->
 
 		<p:spacer height="10px"
 			rendered="#{userController.presentBdd and not empty userController.listeAvisByNumeroEtudiantAndAnnee}" />
@@ -30,7 +30,7 @@
 			rendered="#{userController.presentBdd and not empty userController.listeAvisByNumeroEtudiantAndAnnee}" />
 
 		<p:fieldset id="listeAvisDetails" legend="liste des correspondances"
-			rendered="#{userController.presentBdd and not empty userController.listeAvisByNumeroEtudiantAndAnnee}"
+			rendered="#{userController.presentBdd}"
 			toggleable="true" toggleSpeed="200">
 			<p:spacer height="10px" />
 			<p:dataTable id="basic" var="correspondance"

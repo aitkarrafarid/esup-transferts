@@ -25,8 +25,10 @@
 			<ui:include
 				src="/stylesheets/gestionnaire/_include/_unauthorized.xhtml"></ui:include>
 		</p:panel>
+
 		<h:form id="test"
 			rendered="#{administrationController.personnel and (administrationController.source eq 'D' and administrationController.droitsDepart || sessionController.currentUser.admin) || (administrationController.source eq 'A' and administrationController.droitsArrivee || sessionController.currentUser.admin)}">
+
 			<p:messages id="msgs" showDetail="false" />
 			<p:growl id="growl" showDetail="false" sticky="true" />
 

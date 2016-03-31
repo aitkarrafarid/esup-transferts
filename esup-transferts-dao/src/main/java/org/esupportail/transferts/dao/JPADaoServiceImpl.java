@@ -120,7 +120,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant) {
 		if (logger.isDebugEnabled())
-			logger.info("public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
+			logger.debug("public EtudiantRef addDemandeTransferts(EtudiantRef currentEtudiant)===>"+currentEtudiant+"<===");
 		return entityManager.merge(currentEtudiant);
 	}
 
@@ -2212,19 +2212,19 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public void addFermeture(Fermeture myFermeture) {
-//		if (logger.isDebugEnabled()){
-			logger.info("===>public void addFermeture(Fermeture myFermeture) {<===");
-			logger.info("Fermeture===>"+myFermeture+"<===");
-//		}		
+		if (logger.isDebugEnabled()){
+			logger.debug("===>public void addFermeture(Fermeture myFermeture) {<===");
+			logger.debug("Fermeture===>"+myFermeture+"<===");
+		}
 		entityManager.merge(myFermeture);
 	}
 
 	@Override
 	public List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee) {
-//		if (logger.isDebugEnabled()){
-			logger.info("===>public List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee) {<===");
-			logger.info("source===>"+source+"-----annee===>"+annee+"<===");
-//		}		
+		if (logger.isDebugEnabled()){
+			logger.debug("===>public List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee) {<===");
+			logger.debug("source===>"+source+"-----annee===>"+annee+"<===");
+		}
 			try{		
 				Query q = entityManager.createNamedQuery("getListeFermeturesBySourceAndAnnee");
 				q.setParameter("source", source);
@@ -2243,10 +2243,9 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public List<Fermeture> addPeriodeFermetures(List<Fermeture> lFermetures) {
-//		if (logger.isDebugEnabled()){
-			logger.info("===>public void addFermeture(Fermeture myFermeture) {<===");
-//			logger.info("Fermeture===>"+myFermeture+"<===");
-//		}		
+		if (logger.isDebugEnabled()){
+			logger.debug("===>public void addFermeture(Fermeture myFermeture) {<===");
+		}
 		for(Fermeture f : lFermetures ){
 			entityManager.merge(f);
 		}
@@ -2256,27 +2255,29 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public void deletePeriodeFermeture(String id) {
-		logger.info("===>public List<Fermeture> deletePeriodeFermeture(Fermeture periodeFermetureASupprimer)<===");
+		if (logger.isDebugEnabled())
+			logger.debug("===>public List<Fermeture> deletePeriodeFermeture(Fermeture periodeFermetureASupprimer)<===");
 		try
 		{
 			Fermeture myFermeture = entityManager.find(Fermeture.class, id);
-			logger.info("myFermeture===>"+myFermeture+"<===");
+			if (logger.isDebugEnabled())
+				logger.debug("myFermeture===>"+myFermeture+"<===");
 			entityManager.remove(myFermeture);
-//			return myFermeture;
 		}
 		catch(NoResultException e){
 			e.printStackTrace();
-//			return null;
 		}
 	}
 
 	@Override
 	public Fermeture getFermetureFromId(String id) {
-		logger.info("===>public Fermeture getFermetureFromId(String id) {<===");
+		if (logger.isDebugEnabled())
+			logger.debug("===>public Fermeture getFermetureFromId(String id) {<===");
 		try
 		{
 			Fermeture myFermeture = entityManager.find(Fermeture.class, id);
-			logger.info("myFermeture===>"+myFermeture+"<===");
+			if (logger.isDebugEnabled())
+				logger.debug("myFermeture===>"+myFermeture+"<===");
 			return myFermeture;
 		}
 		catch(NoResultException e){

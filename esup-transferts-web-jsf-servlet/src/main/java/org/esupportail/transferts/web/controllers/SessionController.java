@@ -75,6 +75,8 @@ public class SessionController extends AbstractDomainAwareBean {
 	private boolean choixDuVoeuParComposante;
 	private boolean majOdfAuto;
 	private boolean planningFermeturesAuto;
+	private String ajoutEtablissementManuellement;
+	private boolean activEtablissementManuellement;
 	private Integer nbJourAvantAlertSilenceVautAccord;	
 	private Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
 	private boolean useCandidatures;
@@ -165,7 +167,8 @@ public class SessionController extends AbstractDomainAwareBean {
 
 		while( liste.hasMoreElements() ) {
 			cle = (String)liste.nextElement();
-			logger.info("===>"+cle + " = " + System.getProperty(cle)+"<===");	
+			if (logger.isDebugEnabled())
+				logger.debug("===>"+cle + " = " + System.getProperty(cle)+"<===");
 		} 		
 
 		Versions version = null;
@@ -216,11 +219,21 @@ public class SessionController extends AbstractDomainAwareBean {
 				setMajOdfAuto(true);
 
 			Parametres planning_fermetures_auto = getDomainService().getParametreByCode("planning_fermetures");
-
 			if(planning_fermetures_auto!=null)
 				setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
 			else
-				setPlanningFermeturesAuto(true);				
+				setPlanningFermeturesAuto(true);
+
+			Parametres ajout_etablissement_manuellement = getDomainService().getParametreByCode("ajout_etablissement_manuellement");
+			if(ajout_etablissement_manuellement!=null) {
+				setActivEtablissementManuellement(ajout_etablissement_manuellement.isBool());
+				setAjoutEtablissementManuellement(ajout_etablissement_manuellement.getCommentaire());
+			}
+			else
+			{
+				setActivEtablissementManuellement(false);
+				setAjoutEtablissementManuellement("");
+			}
 		}
 		catch(Exception  e)
 		{
@@ -232,27 +245,30 @@ public class SessionController extends AbstractDomainAwareBean {
 	
 		
 		String v = getApplicationService().getVersion().toString();
-		logger.info("Version Application ===>"+v.toString()+"<===");
+		if (logger.isDebugEnabled())
+			logger.debug("Version Application ===>"+v.toString()+"<===");
 
 		text += "- Version de l'application : "+v.toString()+" ===> OK <BR />";
 
 		if(version==null)
 		{
-			logger.info("===>if(version==null)<===");
+			if (logger.isDebugEnabled())
+				logger.debug("===>if(version==null)<===");
 			text += "- Version de la base de données est null ===> NOK (initialiser les nomenclatures ou vérifier l'état à 1 dans la table version)<BR />";
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "L'application a rencontré des erreurs lors de son lancement", text);
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
 		else
 		{	
-			logger.info("toto");
 			if(!version.getNumero().equals(v.toString()))
 			{
 				text += "- Version de la base de données : "+version.getNumero()+" est différente de la version de l'application ("+v.toString()+"), veuillez passer le script de migration correspondant ===> NOK <BR />";
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "L'application a rencontré des erreurs lors de son lancement", text);
 				RequestContext.getCurrentInstance().showMessageInDialog(message);
-				logger.info("Version BDD ===>"+version.toString()+"<===");
-				logger.info("Version Application ===>"+v.toString()+"<===");
+				if (logger.isDebugEnabled()) {
+					logger.debug("Version BDD ===>" + version.toString() + "<===");
+					logger.debug("Version Application ===>" + v.toString() + "<===");
+				}
 			}
 
 		}
@@ -650,6 +666,22 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setInformaticiens(String informaticiens) {
 		this.informaticiens = informaticiens;
+	}
+
+	public String getAjoutEtablissementManuellement() {
+		return ajoutEtablissementManuellement;
+	}
+
+	public void setAjoutEtablissementManuellement(String ajoutEtablissementManuellement) {
+		this.ajoutEtablissementManuellement = ajoutEtablissementManuellement;
+	}
+
+	public boolean isActivEtablissementManuellement() {
+		return activEtablissementManuellement;
+	}
+
+	public void setActivEtablissementManuellement(boolean activEtablissementManuellement) {
+		this.activEtablissementManuellement = activEtablissementManuellement;
 	}
 
 }
