@@ -227,10 +227,13 @@
 				url="#" style="position:absolute;right:0;top:0;" />
 			<p:menuitem value="Super Gestionnaire" url="#"
 				style="position:absolute;right:0;top:35%;"
-				rendered="#{sessionController.currentUser.admin}" />
+				rendered="#{sessionController.currentUser.admin and !sessionController.currentUser.informaticien}" />
+			<p:menuitem value="Informaticien" url="#"
+						style="position:absolute;right:0;top:35%;"
+						rendered="#{sessionController.currentUser.admin and sessionController.currentUser.informaticien}" />
 			<p:menuitem value="Gestionnaire" url="#"
-				style="position:absolute;right:0;top:15px;"
-				rendered="#{!sessionController.currentUser.admin}" />
+						style="position:absolute;right:0;top:15px;"
+						rendered="#{!sessionController.currentUser.admin}" />
 		</p:megaMenu>
 	</center>
 
