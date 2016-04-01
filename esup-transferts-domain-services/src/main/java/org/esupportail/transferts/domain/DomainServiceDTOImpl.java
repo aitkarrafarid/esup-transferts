@@ -15,7 +15,7 @@ import java.util.*;
 
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2016
- * 
+ *
  */
 public class DomainServiceDTOImpl implements DomainServiceDTO, InitializingBean {
 
@@ -65,7 +65,6 @@ public class DomainServiceDTOImpl implements DomainServiceDTO, InitializingBean 
 			logger.debug("DomainServiceDTOImpl===>parametreActif===>" +parametreActif+"<===");
 			logger.debug("DomainServiceDTOImpl===>getDomainServiceScolarite()===>" +getDomainServiceScolarite()+"<===");
 		}
-
 		List<SelectItem> listeEtablissements = new ArrayList<SelectItem>();
 		Map <String, String> maps=null;
 
