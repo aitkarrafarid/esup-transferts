@@ -461,7 +461,11 @@ public class UserController extends AbstractContextAwareController {
 			String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 			String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 			Severity severity=FacesMessage.SEVERITY_INFO;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(severity, summary, detail));
+			context.getExternalContext().getFlash().setKeepMessages(true);
 
 			String summary2 = getString("MAIL.ETUDIANT.CONFIRMATION.ENVOI");
 			String detail2 = getString("MAIL.ETUDIANT.CONFIRMATION.ENVOI");

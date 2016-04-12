@@ -39,12 +39,12 @@
 
 					<p:chart type="bar"
 						model="#{statistiqueController.categoryModelDetailsDepartAndArrive}"
-						style="height:5000px;width:600px" animate="true">
+						style="min-height:500px;width:600px" animate="true">
 						<p:ajax event="itemSelect"
 							listener="#{statistiqueController.itemSelect}" update="messages" />
 					</p:chart>
 
-					<p:chart type="bar" model="#{statistiqueController.categoryModelTotalDepartAndArrive}" style="height:1000px"/>
+					<p:chart type="bar" model="#{statistiqueController.categoryModelTotalDepartAndArrive}" style="min-height:500px"/>
 
 <!-- 					<p:chart id="arrive" type="bar" -->
 <!-- 						value="#{statistiqueController.categoryModelTotalDepartAndArrive}" /> -->

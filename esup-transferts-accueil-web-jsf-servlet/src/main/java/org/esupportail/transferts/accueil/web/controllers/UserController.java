@@ -422,13 +422,20 @@ public class UserController extends AbstractContextAwareController {
 		}
 		String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT_ACCUEIL");
 		String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT_ACCUEIL");
-		Severity severity=FacesMessage.SEVERITY_INFO;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));	
+		Severity severity = FacesMessage.SEVERITY_INFO;
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage(severity, summary, detail));
+		context.getExternalContext().getFlash().setKeepMessages(true);
 
 		String summary2 = getString("MAIL.ETUDIANT.CONFIRMATION.ENVOI");
 		String detail2 = getString("MAIL.ETUDIANT.CONFIRMATION.ENVOI");
 		Severity severity2=FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity2,summary2, detail2));
+
+//		String summary3 = getString("MAIL.ETUDIANT.CORRESPOND");
+//		String detail3 = "Vous pourrez également consulter votre demande et retrouver notre correspondance en vous reconnectant";
+//		Severity severity3=FacesMessage.SEVERITY_INFO;
+//		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity3,summary3, detail3));
 
 		return "goToRecapitulatifApogee";
 	}	
@@ -1291,30 +1298,38 @@ public class UserController extends AbstractContextAwareController {
 			listePays.add(option);	
 		}
 		return listePays;
-	}	
+	}
 
 	public List<SelectItem> getListeBacOuEqu() {
 		if (logger.isDebugEnabled())
 			logger.debug("getDomainServiceScolarite().recupererBacOuEquWS()");
-
-		List<SelectItem> listeBac = new ArrayList<SelectItem>();
-		List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(null);
-		if(listeBacDTO!=null)
-		{
-			for(TrBac bacDTO : listeBacDTO)
-			{			
-				SelectItem option = new SelectItem(bacDTO.getCodeBac(),bacDTO.getLibBac());
-				listeBac.add(option);
-			}	
-			Collections.sort(listeBac,new ComparatorSelectItem());
-		}
-		else
-		{
-			SelectItem option = new SelectItem("", "");
-			listeBac.add(option);	
-		}
+		List<SelectItem> listeBac = getDomainServiceDTO().getListeBacOuEqu();
+		Collections.sort(listeBac,new ComparatorSelectItem());
 		return listeBac;
 	}
+
+//	public List<SelectItem> getListeBacOuEqu2() {
+//		if (logger.isDebugEnabled())
+//			logger.debug("getDomainServiceScolarite().recupererBacOuEquWS()");
+//
+//		List<SelectItem> listeBac = new ArrayList<SelectItem>();
+//		List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(null);
+//		if(listeBacDTO!=null)
+//		{
+//			for(TrBac bacDTO : listeBacDTO)
+//			{
+//				SelectItem option = new SelectItem(bacDTO.getCodeBac(),bacDTO.getLibBac());
+//				listeBac.add(option);
+//			}
+//			Collections.sort(listeBac,new ComparatorSelectItem());
+//		}
+//		else
+//		{
+//			SelectItem option = new SelectItem("", "");
+//			listeBac.add(option);
+//		}
+//		return listeBac;
+//	}
 
 	public void setListeCommunes(List<SelectItem> listeCommunes) {
 		this.listeCommunes = listeCommunes;

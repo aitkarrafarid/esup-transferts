@@ -450,23 +450,8 @@ public class AdministrationController extends AbstractContextAwareController {
 	public List<SelectItem> getListeBacOuEqu() {
 		if (logger.isDebugEnabled())
 			logger.debug("getDomainServiceScolarite().recupererBacOuEquWS()");
-
-		List<SelectItem> listeBac = new ArrayList<SelectItem>();
-		List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(null);
-		if(listeBacDTO!=null)
-		{
-			for(TrBac bacDTO : listeBacDTO)
-			{
-				SelectItem option = new SelectItem(bacDTO.getCodeBac(),bacDTO.getLibBac());
-				listeBac.add(option);
-			}
-			Collections.sort(listeBac,new ComparatorSelectItem());
-		}
-		else
-		{
-			SelectItem option = new SelectItem("", "");
-			listeBac.add(option);
-		}
+		List<SelectItem> listeBac = getDomainServiceDTO().getListeBacOuEqu();
+		Collections.sort(listeBac,new ComparatorSelectItem());
 		return listeBac;
 	}
 
@@ -1711,7 +1696,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		{
 			this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource());
 			this.currentDemandeTransferts.getAccueil().setSituationUniversitaire(getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee()));
-			setTexteInterditNiveau2("");
+			setTexteInterditNiveau2("Candidatures : ");
 			setTexteInterditNiveau3("");
 
 			List<DatasExterne> listeDatasEterneNiveau2=null;

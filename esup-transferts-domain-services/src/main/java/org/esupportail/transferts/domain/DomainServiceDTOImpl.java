@@ -122,4 +122,28 @@ public class DomainServiceDTOImpl implements DomainServiceDTO, InitializingBean 
 			/*Fin ajout des établissements manuellement*/
 		return listeEtablissements;
 	}
+
+	@Override
+	public List<SelectItem> getListeBacOuEqu() {
+		if (logger.isDebugEnabled())
+			logger.debug("getDomainServiceDTOImpl().recupererBacOuEquWS()");
+
+		List<SelectItem> listeBac = new ArrayList<SelectItem>();
+		List<TrBac> listeBacDTO = getDomainServiceScolarite().recupererBacOuEquWS(null);
+		if(listeBacDTO!=null)
+		{
+			for(TrBac bacDTO : listeBacDTO)
+			{
+				SelectItem option = new SelectItem(bacDTO.getCodeBac(),bacDTO.getLibBac());
+				listeBac.add(option);
+			}
+//			Collections.sort(listeBac,new ComparatorSelectItem());
+		}
+		else
+		{
+			SelectItem option = new SelectItem("", "");
+			listeBac.add(option);
+		}
+		return listeBac;
+	}
 }

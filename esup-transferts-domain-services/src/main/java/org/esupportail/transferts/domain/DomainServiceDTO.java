@@ -19,4 +19,5 @@ public interface DomainServiceDTO extends Serializable {
 
 	public List<SelectItem> getListeEtablissements(String source, String rneAppli, List<String> typeEtab, String dept, String stringAsSplit, String split, boolean parametreActif);
 
+	public List<SelectItem> getListeBacOuEqu();
 }
