@@ -10,32 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.esupportail.transferts.dao.DaoService;
-import org.esupportail.transferts.domain.beans.AccueilAnnee;
-import org.esupportail.transferts.domain.beans.AccueilDecision;
-import org.esupportail.transferts.domain.beans.AccueilResultat;
-import org.esupportail.transferts.domain.beans.Avis;
-import org.esupportail.transferts.domain.beans.CGE;
-import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
-import org.esupportail.transferts.domain.beans.Composante;
-import org.esupportail.transferts.domain.beans.DecisionDossier;
-import org.esupportail.transferts.domain.beans.EtatDossier;
-import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.esupportail.transferts.domain.beans.EtudiantRefExcel;
-import org.esupportail.transferts.domain.beans.EtudiantRefImp;
-import org.esupportail.transferts.domain.beans.Fermeture;
-import org.esupportail.transferts.domain.beans.Fichier;
-import org.esupportail.transferts.domain.beans.IndOpi;
-import org.esupportail.transferts.domain.beans.DatasExterne;
-import org.esupportail.transferts.domain.beans.LocalisationDossier;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.PersonnelComposante;
-import org.esupportail.transferts.domain.beans.SituationUniversitaire;
-import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
-import org.esupportail.transferts.domain.beans.Transferts;
-import org.esupportail.transferts.domain.beans.User;
-import org.esupportail.transferts.domain.beans.Versions;
-import org.esupportail.transferts.domain.beans.WsPub;
+import org.esupportail.transferts.domain.beans.*;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.springframework.beans.factory.InitializingBean;
@@ -711,6 +686,11 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	}
 
 	@Override
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee, String source) {
+		return getDaoService().getDemandeTransfertByAnneeAndNumeroIneAndSource(ine, annee, source);
+	}
+
+	@Override
 	public IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee) {
 		return getDaoService().getIndOpiByNneAndCleIneAndAnnee(nne, cleIne, annee);
 	}
@@ -754,4 +734,25 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	public Versions getVersionByEtat(Integer etat) {
 		return getDaoService().getVersionByEtat(etat);
 	}
+
+	@Override
+	public WebService updateWebService(WebService currentWs) {
+		return getDaoService().updateWebService(currentWs);
+	}
+
+	@Override
+	public WebService getWebServiceByCode(String code) {
+		return getDaoService().getWebServiceByCode(code);
+	}
+
+	@Override
+	public void addPersonnelComposanteFromImport(List<PersonnelComposante> newLpc) {
+		getDaoService().addPersonnelComposanteFromImport(newLpc);
+	}
+
+    @Override
+    public List<PersonnelComposante> getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(String source, Integer currentAnnee, String composante) {
+        return daoService.getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(source, currentAnnee, composante);
+    }
+
 }

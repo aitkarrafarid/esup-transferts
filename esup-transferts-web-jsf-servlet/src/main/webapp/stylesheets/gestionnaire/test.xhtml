@@ -125,11 +125,11 @@
 									<h:outputText value="* Niveau : " />
 								</p:column>
 								<p:column style="width:65%"
-									rendered="#{!testController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}">
+									rendered="#{!testController.anneeEtudeVide and !testController.choixDuVoeuParComposanteByPartenaire}">
 									<p:selectOneMenu id="niveauDiplome"
 										value="#{testController.codeNiveau}" required="true"
 										requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItem itemLabel="== Choix / diplome ==" itemValue="" />
 										<f:selectItems value="#{testController.listeAnneesEtude}" />
 										<!-- 																											<f:ajax event="change" render="vo" -->
 										<!-- 																												listener="#{testController.resetLibelleDiplome}" /> -->
@@ -138,11 +138,11 @@
 									</p:selectOneMenu>
 								</p:column>
 								<p:column style="width:65%"
-									rendered="#{!testController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}">
+									rendered="#{!testController.anneeEtudeVide and testController.choixDuVoeuParComposanteByPartenaire}">
 									<p:selectOneMenu id="niveauComposante"
 										value="#{testController.codeNiveau}" required="true"
 										requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItem itemLabel="== Choix / composante ==" itemValue="" />
 										<f:selectItems value="#{testController.listeAnneesEtude}" />
 										<p:ajax event="change" update="vo,msgs,msgs2,growl"
 											listener="#{testController.resetComposante}" />
@@ -154,7 +154,7 @@
 							</p:row>
 
 							<p:row
-								rendered="#{!testController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}">
+								rendered="#{!testController.libelleDiplomeVide and !testController.choixDuVoeuParComposanteByPartenaire}">
 								<p:column style="width:30%">
 									<h:outputText value="* Diplôme : " />
 								</p:column>
@@ -173,7 +173,7 @@
 								</p:column>
 							</p:row>
 							<p:row
-								rendered="#{!testController.composanteVide and sessionController.choixDuVoeuParComposante}">
+								rendered="#{!testController.composanteVide and testController.choixDuVoeuParComposanteByPartenaire}">
 								<p:column style="width:30%">
 									<h:outputText value="* Composante : " />
 								</p:column>
@@ -194,11 +194,11 @@
 
 							<p:row rendered="#{!testController.libelleEtapeVide}">
 								<p:column style="width:30%">
-									<h:outputText value="* Parcours : " />
+									<h:outputText value="* Version d'étape : " />
 								</p:column>
 								<p:column style="width:65%">
 									<p:dataTable var="vet" rowKey="#{vet.codeEtape}"
-										emptyMessage="Aucun parcours"
+										emptyMessage="Aucune version d'étape"
 										selection="#{testController.currentOdf}"
 										selectionMode="single" value="#{testController.odfDataModel}">
 										<p:column width="60">

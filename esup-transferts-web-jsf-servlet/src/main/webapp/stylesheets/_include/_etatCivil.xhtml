@@ -38,7 +38,7 @@
 			</h:panelGrid>
 			
 			<h:panelGrid columns="2" columnClasses="column" cellpadding="5"
-				style="margin-left:30%;text-align:left;">
+				style="margin-left:30%;text-align:left;width: 100%;">
 				<h:outputText value="Centre de gestion : " />
 				<h:outputText
 					value="#{userController.currentEtudiant.libCge} (#{userController.currentEtudiant.codCge})" />
@@ -57,9 +57,28 @@
 
 				<h:outputText value="Numéro I.N.E : " />
 				<h:outputText value="#{userController.currentEtudiant.numeroIne}" />
-
-			</h:panelGrid>			
+			</h:panelGrid>
 		</h:panelGrid>
+
+		<BR /><BR />
+		<p:treeTable value="#{userController.root}" var="document">
+			<f:facet name="header">
+				Dossier universitaire *
+			</f:facet>
+			<p:column headerText="Libellé">
+				<h:outputText value="#{document.name}" />
+			</p:column>
+			<p:column headerText="Mention">
+				<h:outputText value="#{document.size}" />
+			</p:column>
+			<p:column headerText="Résultat">
+				<h:outputText value="#{document.type}" />
+			</p:column>
+		</p:treeTable>
+		<BR /><BR />
+		<h:outputText value="* Il est conseillé d'attendre la délibération des jurys avant d'effectuer votre demande de transferts" style="font-style: italic"/>
+		<BR /><BR />
+
 		<h:panelGrid columns="1"
 			rendered="#{userController.currentEtudiant.numeroEtudiant!=null and !sessionController.error and userController.etudiant}">
 			<p:commandButton value="Suivant"

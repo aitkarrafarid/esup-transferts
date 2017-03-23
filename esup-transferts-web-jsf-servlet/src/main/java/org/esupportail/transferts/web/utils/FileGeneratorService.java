@@ -1,12 +1,11 @@
 package org.esupportail.transferts.web.utils;
 
-import java.util.List;
-
+import fr.univ.rennes1.cri.services.export.SpreadsheetObject;
 import org.esupportail.transferts.domain.beans.EtudiantRefExcel;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
 
-import fr.univ.rennes1.cri.services.export.SpreadsheetObject;
+import java.util.List;
 
 /**
  * @author dhouillo

@@ -1,10 +1,10 @@
 package org.esupportail.transferts.web.dataModel;
 
-import java.util.List;  
-import javax.faces.model.ListDataModel;  
-
 import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.primefaces.model.SelectableDataModel;  
+import org.primefaces.model.SelectableDataModel;
+
+import javax.faces.model.ListDataModel;
+import java.util.List;
   
 public class ListeTransfertDepartDataModel extends ListDataModel<EtudiantRef> implements SelectableDataModel<EtudiantRef> {    
   

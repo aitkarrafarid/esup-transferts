@@ -42,24 +42,21 @@
              Total #{administrationController.totalAccueil} demande(s) de transfert accueil.
         </f:facet>
 
-				<p:column headerText="Etat" style="width:5%;"
-					sortBy="#{transferts.transferts.temoinTransfertValide}" id="nb">
-					<h:graphicImage alt="avisSaisie" title="En cours"
-						value="/media/images/player_pause.png"
-						rendered="#{transferts.transferts.temoinTransfertValide==0 || transferts.transferts.temoinTransfertValide==null}" />
-					<h:graphicImage alt="avisSaisie" title="Avis saisie"
-						value="/media/images/tick.png"
-						rendered="#{transferts.transferts.temoinTransfertValide==1}" />
-					<h:graphicImage alt="avisSaisie" title="Bloquer"
-						value="/media/images/lock.png"
-						rendered="#{transferts.transferts.temoinTransfertValide==2}" />
+				<p:column headerText="Dossier" style="width:3%;"
+						  sortBy="#{transferts.transferts.temoinTransfertValide}" id="nb">
+					<p:commandButton icon="ui-icon-unlocked" rendered="#{transferts.transferts.temoinTransfertValide==1}" />
+					<p:commandButton icon="ui-icon-locked" rendered="#{transferts.transferts.temoinTransfertValide==2}" />
 				</p:column>
 
 				<p:column headerText="" style="width:3%;"
-					sortBy="#{transferts.accueil.from_source}" id="partenaire">
-					<h:graphicImage alt="partenaire" title="Partenaire"
-						value="/media/images/partenaire_petit.jpg"
-						rendered="#{transferts.accueil.from_source == 'P'}" />
+						  sortBy="#{transferts.accueil.from_source}" id="partenaire">
+					<p:commandButton icon="ui-icon-person" rendered="#{transferts.accueil.from_source == 'P'}" />
+				</p:column>
+
+				<p:column headerText="Retour" style="width:3%;"
+						  sortBy="#{transferts.transferts.temoinRetourTransfertAccueil}">
+					<p:commandButton icon="ui-icon-mail-closed" rendered="#{transferts.transferts.temoinOPIWs==1}" />
+					<p:commandButton icon="ui-icon-alert" rendered="#{transferts.transferts.temoinOPIWs==2}" />
 				</p:column>
 
 				<p:column headerText="Date demande"
@@ -115,7 +112,6 @@
 					<p:commandButton value="Voir la demande" icon="ui-icon-search"
 						update=":display:msgs"
 						action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" />
-					<!-- 					<p:commandButton value="Voir la demande 2" />						 -->
 					<p:spacer width="20px" />
 					<p:selectBooleanButton
 						value="#{administrationController.switchTraiteNontraite}"
@@ -127,43 +123,69 @@
 				</f:facet>
 			</p:dataTable>
 			<p:spacer height="40" />
-
-			<!-- 				<p:spacer height="30px" /> -->
-			<!-- 				<p:commandButton icon="ui-icon-disk" title="Export Excel"  -->
-			<!-- 					action="#{administrationController.exportDemandeTransferts}" /> -->
 		</h:form>
 		<center>
 			<p:panel header="Légende" toggleable="true" style="width:80%;"
-				collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
-				widgetVar="panel"
-				rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
+					 collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
+					 widgetVar="panel"
+					 rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
 				<h:panelGrid columns="6" cellpadding="10">
-					<h:panelGrid columns="6" cellpadding="10">
-						<p:graphicImage value="/media/images/player_pause.png" />
-						<h:outputText value="Non traité" />
-						<p:graphicImage value="/media/images/tick.png" />
-						<h:outputText value="En cours de traitement" />
-						<p:graphicImage value="/media/images/lock.png" />
-						<h:outputText value="Traité" />
-					</h:panelGrid>
-					<h:panelGrid columns="6" cellpadding="10">
-						<!-- 					<h:outputText value="Etablissements partenaires" -->
-						<!-- 						styleClass="highlightTableRow" /> -->
-						<h:outputText value="Silence vaut accord : " />
-						<h:outputText
-							value="le delai de #{sessionController.nbJourAvantAlertSilenceVautAccord/7} semaine(s) est écoulé"
-							styleClass="alertSilenceVautAccord">
-							<f:convertNumber pattern="#,0" />
-						</h:outputText>
-						<h:outputText
-							value="Le delai de #{sessionController.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord} mois est dépassé"
-							styleClass="alertDepassementSilenceVautAccord" />
-						<!-- 					<p:pieChart id="custom" -->
-						<!-- 						value="#{statistiqueController.pieModelAccueil}" -->
-						<!-- 						legendPosition="e" fill="false" showDataLabels="true" -->
-						<!-- 						title="Transferts Accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" -->
-						<!-- 						style="width:400px;height:300px" sliceMargin="5" diameter="150" /> -->
-					</h:panelGrid>
+					<p:panelGrid style="margin-top:20px; width: 100%;">
+						<p:row>
+							<p:column colspan="2" style="text-align: center;color: #0073EA;">Etat du dossier de transfert accueil</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Non traité</p:column>
+							<h:outputText value="" />
+						</p:row>
+						<p:row>
+							<p:column>En cours de traitement</p:column>
+							<p:column><p:commandButton icon="ui-icon-unlocked" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column>Traité</p:column>
+							<p:column><p:commandButton icon="ui-icon-locked" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2" style="text-align: center;color: #0073EA;">Type d'établissement d'accueil</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Partenaire</p:column>
+							<p:column><p:commandButton icon="ui-icon-person" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column>Non partenaire</p:column>
+							<p:column><h:outputText value="" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2" style="text-align: center;color: #0073EA;">Retour envoyé à l'établissement de départ (partenaire)</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Retour envoyé à l'établissement de départ</p:column>
+							<p:column><p:commandButton icon="ui-icon-mail-closed" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column>Problème d'envoi des données à l'établissement de départ</p:column>
+							<p:column><p:commandButton icon="ui-icon-alert" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column>Pas de retour à l'établissement de départ (non partenaire)</p:column>
+							<h:outputText value="" />
+						</p:row>
+						<p:row>
+							<p:column colspan="2" style="text-align: center;color: #0073EA;">Loi silence vaut accord (SVA)</p:column>
+						</p:row>
+						<p:row>
+							<p:column>						<h:outputText
+									value="le delai de #{sessionController.nbJourAvantAlertSilenceVautAccord/7} semaine(s) est écoulé"
+									styleClass="alertSilenceVautAccord">
+								<f:convertNumber pattern="#,0" />
+							</h:outputText></p:column>
+							<p:column>						<h:outputText
+									value="Le delai de #{sessionController.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord} mois est dépassé"
+									styleClass="alertDepassementSilenceVautAccord" /></p:column>
+						</p:row>
+					</p:panelGrid>
 				</h:panelGrid>
 			</p:panel>
 		</center>

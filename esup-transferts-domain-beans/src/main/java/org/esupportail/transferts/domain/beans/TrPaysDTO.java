@@ -21,7 +21,7 @@ public class TrPaysDTO implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427733497404494181L;
 
 	/**
 	 * Code Pays

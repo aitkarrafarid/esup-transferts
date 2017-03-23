@@ -180,6 +180,14 @@
 							action="#{administrationController.goToAdministration}" />
 					</p:submenu>
 				</p:column>
+				<p:column rendered="#{sessionController.currentUser.informaticien}">
+					<p:submenu rendered="#{sessionController.currentUser.informaticien}"
+							   label="Importer" icon="ui-icon-help">
+						<p:menuitem value="Données années précédentes"
+									rendered="#{sessionController.currentUser.informaticien}"
+									action="#{administrationController.goToImportDonneesAnneesPrecedentes}" />
+					</p:submenu>
+				</p:column>
 			</p:submenu>
 
 			<p:submenu label="Statistiques" icon="ui-icon-calculator"

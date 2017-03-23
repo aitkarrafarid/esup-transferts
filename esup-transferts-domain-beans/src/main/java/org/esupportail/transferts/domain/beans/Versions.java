@@ -36,7 +36,7 @@ public class Versions implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 1427732897404494181L;
 
 	/**
 	 * Numéro RNE de l'établissement

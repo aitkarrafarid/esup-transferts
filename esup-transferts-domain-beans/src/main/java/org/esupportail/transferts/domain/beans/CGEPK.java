@@ -4,7 +4,7 @@ import javax.persistence.Column;
 
 public class CGEPK implements java.io.Serializable {
 
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7422002897404494181L;
 
 	@Column(name = "annee")
 	private Integer annee;

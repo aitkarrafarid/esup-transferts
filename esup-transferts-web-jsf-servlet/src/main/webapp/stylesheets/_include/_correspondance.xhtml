@@ -12,18 +12,6 @@
 	<p:messages id="msgs" showDetail="false" />
 	<p:growl id="growl" showDetail="false" sticky="true" />
 	<p:panel id="voeux" header="Correspondance">
-		<!--<p:fieldset legend="infos" toggleable="true" toggleSpeed="200"-->
-			<!--rendered="#{userController.presentBdd}">-->
-			<!--<h:panelGrid columns="2" columnClasses="column" cellpadding="5">-->
-				<!--<h:outputText value="Demande de transfert effectuée le " />-->
-				<!--<h:outputText-->
-					<!--value="#{userController.currentEtudiant.transferts.dateDemandeTransfert}">-->
-					<!--<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"-->
-						<!--timeZone="#{sessionController.timezone}" />-->
-				<!--</h:outputText>-->
-			<!--</h:panelGrid>-->
-		<!--</p:fieldset>-->
-
 		<p:spacer height="10px"
 			rendered="#{userController.presentBdd and not empty userController.listeAvisByNumeroEtudiantAndAnnee}" />
 		<p:separator style="width:500px;height:10px"
@@ -56,7 +44,10 @@
 					<f:facet name="header">  
                     Message  
             </f:facet>
-					<h:outputText escape="false" value="#{correspondance.msg}" />
+					<t:div style="overflow: scroll;">
+					<h:outputText escape="false" value="#{correspondance.msg}"  />
+					</t:div>
+					<!--<p:inputTextarea  value="#{correspondance.msg}" style="width: 100%;" readonly="true" />-->
 				</p:column>
 			</p:dataTable>
 		</p:fieldset>
@@ -66,12 +57,6 @@
 		<p:spacer height="20px" />
 
 		<h:selectOneRadio value="test" />
-<!-- 		<h:panelGrid columns="1" -->
-<!-- 			rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2}"> -->
-<!-- 			<p:commandButton value="Imprimer les formulaires" -->
-<!-- 				update="voeux,msgs,msgsBas,growl" -->
-<!-- 				action="#{userController.imprimerDemandeTransfert}" /> -->
-<!-- 		</h:panelGrid> -->
 	</p:panel>
 	<p:messages id="msgsBas" showDetail="false" />
 </h:form>

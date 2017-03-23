@@ -32,7 +32,7 @@ public class Test implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427201197404494181L;
 
 	/**
 	 * Identifiant

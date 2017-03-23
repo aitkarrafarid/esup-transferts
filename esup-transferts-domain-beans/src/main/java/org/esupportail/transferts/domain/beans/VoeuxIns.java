@@ -26,7 +26,7 @@ public class VoeuxIns implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 745552897404494181L;
 
 	/**
 	 * Numero de l'OPI

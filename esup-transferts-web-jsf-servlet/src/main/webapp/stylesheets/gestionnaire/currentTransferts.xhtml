@@ -39,13 +39,13 @@
 										value="#{administrationController.currentDemandeTransferts.nomPatronymique}" />
 								</p:column>
 								<p:column style="width:50%">
-									<h:outputText value="Date de la demande : " />
+									<!--<h:outputText value="Date de la demande : " />-->
  									<p:calendar id="mask" value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}" pattern="dd-MM-yyyy" mask="true" />
-								<!--<h:outputText-->
-									<!--value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">-->
-									<!--<f:convertDateTime pattern="dd/MM/yyyy"-->
-										<!--timeZone="Europe/Paris" />-->
-								<!--</h:outputText>-->
+								<h:outputText
+									value="#{administrationController.currentDemandeTransferts.transferts.dateDemandeTransfert}">
+									<f:convertDateTime pattern="dd/MM/yyyy"
+										timeZone="Europe/Paris" />
+								</h:outputText>
 								</p:column>
 							</p:row>
 							<p:row>
@@ -370,13 +370,13 @@
 									<h:outputText value="* Niveau : " />
 								</p:column>
 								<p:column style="width:65%"
-									rendered="#{!administrationController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}">
+									rendered="#{!administrationController.anneeEtudeVide and !administrationController.choixDuVoeuParComposanteByPartenaire}">
 									<p:selectOneMenu id="niveauDiplome"
 										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-										rendered="#{!administrationController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}"
+										rendered="#{!administrationController.anneeEtudeVide and !administrationController.choixDuVoeuParComposanteByPartenaire}"
 										value="#{administrationController.codeNiveau}" required="true"
 										requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItem itemLabel="== Choix / Diplôme ==" itemValue="" />
 										<f:selectItems
 											value="#{administrationController.listeAnneesEtude}" />
 										<p:ajax event="change" update="vo,msgs,msgs2,growl"
@@ -384,13 +384,13 @@
 									</p:selectOneMenu>
 								</p:column>
 								<p:column style="width:65%"
-									rendered="#{!administrationController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}">
+									rendered="#{!administrationController.anneeEtudeVide and administrationController.choixDuVoeuParComposanteByPartenaire}">
 									<p:selectOneMenu id="niveauComposante"
 										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-										rendered="#{!administrationController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}"
+										rendered="#{!administrationController.anneeEtudeVide and administrationController.choixDuVoeuParComposanteByPartenaire}"
 										value="#{administrationController.codeNiveau}" required="true"
 										requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-										<f:selectItem itemLabel="== Choix ==" itemValue="" />
+										<f:selectItem itemLabel="== Choix / Composante ==" itemValue="" />
 										<f:selectItems
 											value="#{administrationController.listeAnneesEtude}" />
 										<p:ajax event="change" update="vo,msgs,msgs2,growl"
@@ -405,12 +405,12 @@
 							<p:row>
 								<p:column style="width:30%">
 									<h:outputText value="* Diplôme : "
-										rendered="#{!administrationController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
+										rendered="#{!administrationController.libelleDiplomeVide and !administrationController.choixDuVoeuParComposanteByPartenaire}" />
 								</p:column>
 								<p:column style="width:65%">
 									<p:selectOneMenu id="diplomes"
 										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-										rendered="#{!administrationController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}"
+										rendered="#{!administrationController.libelleDiplomeVide and !administrationController.choixDuVoeuParComposanteByPartenaire}"
 										value="#{administrationController.codeDiplome}"
 										required="true" requiredMessage="#{msgs['ERREUR.DIPLOME']}">
 										<f:selectItem itemLabel="== Choix ==" itemValue="" />
@@ -422,19 +422,19 @@
 								</p:column>
 								<p:column style="width:5%">
 									<h:outputText value=" "
-										rendered="#{!administrationController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
+										rendered="#{!administrationController.libelleDiplomeVide and !administrationController.choixDuVoeuParComposanteByPartenaire}" />
 								</p:column>
 							</p:row>
 
 							<p:row>
 								<p:column style="width:30%">
 									<h:outputText value="* Composante : "
-										rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}" />
+										rendered="#{!administrationController.composanteVide and administrationController.choixDuVoeuParComposanteByPartenaire}" />
 								</p:column>
 								<p:column style="width:65%">
 									<p:selectOneMenu id="composante"
 										disabled="#{administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2}"
-										rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}"
+										rendered="#{!administrationController.composanteVide and administrationController.choixDuVoeuParComposanteByPartenaire}"
 										value="#{administrationController.codeComposante}"
 										required="true" requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
 										<f:selectItem itemLabel="== Choix ==" itemValue="" />
@@ -448,19 +448,19 @@
 								</p:column>
 								<p:column style="width:5%">
 									<h:outputText value=" "
-										rendered="#{!administrationController.composanteVide and sessionController.choixDuVoeuParComposante}" />
+										rendered="#{!administrationController.composanteVide and administrationController.choixDuVoeuParComposanteByPartenaire}" />
 								</p:column>
 							</p:row>
 
 							<p:row>
 								<p:column style="width:30%">
-									<h:outputText value="* Parcours : " style="width:70%;"
+									<h:outputText value="* Version d'étape : " style="width:70%;"
 										rendered="#{!administrationController.libelleEtapeVide}" />
 								</p:column>
 								<p:column style="width:65%">
 									<p:dataTable var="vet" style="width:100%;"
 										rendered="#{!administrationController.libelleEtapeVide}"
-										emptyMessage="Aucun parcours"
+										emptyMessage="Aucune version d'étape"
 										selection="#{administrationController.currentOdf}"
 										selectionMode="single"
 										value="#{administrationController.odfDataModel}">
@@ -469,7 +469,7 @@
 						                   				Sélectionnez la formation 
 				        			    			</f:facet>
 											<h:outputText value="#{vet.libVersionEtape}" />
-											<h:outputText value=" - parcours désactivé"
+											<h:outputText value=" - Version d'étape désactivée"
 												style="color:red;font-style:italic;"
 												rendered="#{!administrationController.libelleEtapeVide and vet.actif==0}" />
 										</p:column>
@@ -482,6 +482,27 @@
 							</p:row>
 
 						</p:panelGrid>
+					</p:fieldset>
+
+					<p:spacer height="10px" />
+					<p:separator style="width:500px;height:10px" />
+
+					<p:fieldset id="ds" legend="Dossier scolaire" toggleable="true"
+								collapsed="false" toggleSpeed="200">
+						<p:treeTable value="#{administrationController.root}" var="document">
+							<f:facet name="header">
+								Dossier universitaire *
+							</f:facet>
+							<p:column headerText="Libellé">
+								<h:outputText value="#{document.name}" />
+							</p:column>
+							<p:column headerText="Mention">
+								<h:outputText value="#{document.size}" />
+							</p:column>
+							<p:column headerText="Résultat">
+								<h:outputText value="#{document.type}" />
+							</p:column>
+						</p:treeTable>
 					</p:fieldset>
 
 					<p:spacer height="10px" />

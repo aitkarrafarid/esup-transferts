@@ -32,7 +32,7 @@ public class DecisionDossier implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427733337404494181L;
 
 	/**
 	 * Identifiant de l'état du dossier

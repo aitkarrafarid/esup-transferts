@@ -154,9 +154,11 @@
 
 							<p:column>
 								<f:facet name="header">  
-                    Message  
-            </f:facet>
-								<h:outputText escape="false" value="#{correspondance.msg}" />
+                    Message
+            	</f:facet>
+								<t:div style="overflow: scroll;">
+									<h:outputText escape="false" value="#{correspondance.msg}" />
+								</t:div>
 							</p:column>
 						</p:dataTable>
 					</p:fieldset>

@@ -35,12 +35,16 @@ import javax.persistence.Transient;
 @IdClass(WsPubPK.class)
 //@Table(name = "WsPub")
 @Table(name = "WSPUB")
-public class WsPub implements Serializable {
+public class WsPub implements Serializable, Cloneable {
 
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427732897404478981L;
+
+	public Object clone()throws CloneNotSupportedException{
+		return super.clone();
+	}
 
 	/**
 	 * Numero RNE de l'etablissement
@@ -88,8 +92,15 @@ public class WsPub implements Serializable {
 	 * Email du correspondant technique 
 	 */
 	@Column(name = "mail_technique", nullable=false)
-	private String mailCorrespondantTechnique;	
-	
+	private String mailCorrespondantTechnique;
+
+
+	/**
+	 * Choix du voeu / compoosante ou diplome
+	 */
+	@Column(name = "choix_du_voeu_par_composante", nullable = false, columnDefinition = "INTEGER default 0")
+	private boolean choixDuVoeuParComposante;
+
 	@Transient
 	private Integer online;
 	
@@ -116,12 +127,19 @@ public class WsPub implements Serializable {
 
 	@Override
 	public String toString() {
-		return "WsPub [rne=" + rne + ", annee=" + annee + ", libEtab="
-				+ libEtab + ", url=" + url + ", identifiant=" + identifiant
-				+ ", password=" + password + ", mailCorrespondantFonctionnel="
-				+ mailCorrespondantFonctionnel
-				+ ", mailCorrespondantTechnique=" + mailCorrespondantTechnique
-				+ ", online=" + online + ", syncOdf=" + syncOdf + "]";
+		return "WsPub{" +
+				"rne='" + rne + '\'' +
+				", annee=" + annee +
+				", libEtab='" + libEtab + '\'' +
+				", url='" + url + '\'' +
+				", identifiant='" + identifiant + '\'' +
+				", password='" + password + '\'' +
+				", mailCorrespondantFonctionnel='" + mailCorrespondantFonctionnel + '\'' +
+				", mailCorrespondantTechnique='" + mailCorrespondantTechnique + '\'' +
+				", choixDuVoeuParComposante=" + choixDuVoeuParComposante +
+				", online=" + online +
+				", syncOdf=" + syncOdf +
+				'}';
 	}
 
 	public void setRne(String rne) {
@@ -204,4 +222,11 @@ public class WsPub implements Serializable {
 		this.mailCorrespondantTechnique = mailCorrespondantTechnique;
 	}
 
+	public boolean isChoixDuVoeuParComposante() {
+		return choixDuVoeuParComposante;
+	}
+
+	public void setChoixDuVoeuParComposante(boolean choixDuVoeuParComposante) {
+		this.choixDuVoeuParComposante = choixDuVoeuParComposante;
+	}
 }

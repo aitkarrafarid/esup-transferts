@@ -13,7 +13,7 @@ public class TrBlocageDTO implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427732894044494181L;
 
 	/**
 	 * Code du blocage

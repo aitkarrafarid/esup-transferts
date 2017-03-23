@@ -3,13 +3,9 @@
  */
 package org.esupportail.transferts.web.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.util.Comparator;
-
 import org.esupportail.transferts.domain.beans.EtudiantRef;
+
+import java.util.Comparator;
 
 /**
  * @author Farid AITKARRA
@@ -33,5 +29,5 @@ public class CompareByComposanteAccueil implements Comparator<EtudiantRef>{
         // TODO Auto-generated method stub
         return super.equals(obj);
     }
- 
+
 }

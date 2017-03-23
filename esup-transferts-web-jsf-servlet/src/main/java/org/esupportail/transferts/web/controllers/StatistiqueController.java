@@ -1,25 +1,18 @@
 package org.esupportail.transferts.web.controllers;
 
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
+import org.primefaces.event.ItemSelectEvent;
+import org.primefaces.model.chart.*;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
-import org.primefaces.event.ItemSelectEvent;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.HorizontalBarChartModel;
-import org.primefaces.model.chart.PieChartModel;  
 
 public class StatistiqueController extends AbstractContextAwareController implements Serializable {  
 

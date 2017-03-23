@@ -4,32 +4,32 @@
  */
 package org.esupportail.transferts.web.controllers;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-
-import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.User;
-import org.esupportail.transferts.domain.beans.Versions;
-import org.esupportail.transferts.services.auth.Authenticator;
-import org.hibernate.exception.SQLGrammarException;
-import org.primefaces.context.RequestContext;
+import artois.domain.beans.Interdit;
+import org.esupportail.commons.services.ldap.LdapUser;
+import org.esupportail.commons.services.ldap.LdapUserService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.commons.utils.strings.StringUtils;
 import org.esupportail.commons.web.controllers.ExceptionController;
+import org.esupportail.transferts.domain.beans.*;
+import org.esupportail.transferts.services.auth.Authenticator;
+import org.esupportail.transferts.utils.Fonctions;
+import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * A bean to memorize the context of the application.
@@ -62,7 +62,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	private String rne;
 	private String numeroSerieImmatriculation;
 	private Integer annee;
-	private Integer currentAnnee;	
+	private Integer currentAnnee;
 	private String htmlCssStyle;
 	private boolean boutonDeconnexion;
 	private boolean transfertsAccueil;
@@ -74,19 +74,30 @@ public class SessionController extends AbstractDomainAwareBean {
 	private Integer regleGestionTE02;
 	private boolean choixDuVoeuParComposante;
 	private boolean majOdfAuto;
+	private boolean reloadDemandeTransfertsDepartEchecAuto;
+	private boolean reloadDemandeTransfertsAccueilEchecAuto;
 	private boolean planningFermeturesAuto;
 	private String ajoutEtablissementManuellement;
 	private boolean activEtablissementManuellement;
-	private Integer nbJourAvantAlertSilenceVautAccord;	
+	private Integer nbJourAvantAlertSilenceVautAccord;
 	private Integer nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord;
-	private boolean useCandidatures;
-	private String wsCandidaturesWsdl;
-	private String wsCandidaturesUser;
-	private String wsCandidaturesPwd;
+	private boolean useWsCandidatures;
+	private boolean useWsBu;
+	private boolean useWsPostBac;
+	private boolean useSuperGestionnaire;
+	private boolean useRelanceDepartPersonnelConcerneSVA;
+	private boolean useRelanceAccueilPersonnelConcerneSVA;
+	private boolean useRelanceResumeSVA;
 	private String timezone;
 	private Date aujourdhui;
 	private boolean defaultCodeSizeAnnee = false;
 	private CodeSizeAnnee defaultCodeSize;
+	private boolean useTimeOutConnexionWs;
+	private Integer timeOutConnexionWs;
+	private String schedulerCronExpression;
+	private LdapUserService ldapUserService;
+	private String ldapDisplayNameAttribute;
+	private String ldapEmailAttribute;
 	private Logger logger = new LoggerImpl(getClass());
 
 	/*
@@ -103,60 +114,36 @@ public class SessionController extends AbstractDomainAwareBean {
 	 */
 	@Override
 	public void afterPropertiesSetInternal() {
-		Assert.notNull(this.exceptionController, "property exceptionController of class " 
+		Assert.notNull(this.ldapUserService, "property ldapUserService of class "
 				+ this.getClass().getName() + " can not be null");
-		Assert.notNull(this.authenticator, "property authenticator of class " 
+		Assert.hasText(ldapDisplayNameAttribute, "property ldapDisplayNameAttribute of class "
+				+ this.getClass().getName() + " can not be null");
+		Assert.hasText(ldapEmailAttribute, "property ldapEmailAttribute of class "
+				+ this.getClass().getName() + " can not be null");
+
+		Assert.notNull(this.exceptionController, "property exceptionController of class "
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.authenticator, "property authenticator of class "
 				+ this.getClass().getName() + " can not be null");
 		Assert.hasText(rne, "property rne of class "
-				+ this.getClass().getName() + " can not be null");		
+				+ this.getClass().getName() + " can not be null");
 		Assert.hasText(htmlCssStyle, "property htmlCssStyle of class "
-				+ this.getClass().getName() + " can not be null");	
-		Assert.notNull(this.boutonDeconnexion, "property boutonDeconnexion of class " 
-				+ this.getClass().getName() + " can not be null");	
-		Assert.notNull(this.transfertsAccueil, "property transfertsAccueil of class " 
-				+ this.getClass().getName() + " can not be null");	
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.boutonDeconnexion, "property boutonDeconnexion of class "
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.transfertsAccueil, "property transfertsAccueil of class "
+				+ this.getClass().getName() + " can not be null");
 
-		if(this.superGestionnaire!=null && this.superGestionnaire!="" && ((this.superGestionnaire.split(",")).length>1))
-		{
-			String[] tokens = this.superGestionnaire.split(",");
-			for(int i=0; i<tokens.length; i++)
-				this.listSuperGestionnaire.add(tokens[i]);
-		}
-		else
-			this.listSuperGestionnaire.add(this.superGestionnaire);		
+		Assert.notNull(this.nbJourAvantAlertSilenceVautAccord, "property nbJourAvantAlertSilenceVautAccord of class "
+				+ this.getClass().getName() + " can not be null");
 
-		Assert.notNull(this.nbJourAvantAlertSilenceVautAccord, "property nbJourAvantAlertSilenceVautAccord of class " 
-				+ this.getClass().getName() + " can not be null");	
-
-		Assert.notNull(this.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord, "property nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord of class " 
-				+ this.getClass().getName() + " can not be null");	
-
-		Assert.notNull(this.useCandidatures, "property useCandidatures of class " 
-				+ this.getClass().getName() + " can not be null");	
-
-		if(this.isUseCandidatures())
-		{
-			Assert.hasText(wsCandidaturesWsdl, "property wsCandidaturesWsdl of class "
-					+ this.getClass().getName() + " can not be null");	
-
-			Assert.hasText(wsCandidaturesUser, "property wsCandidaturesUser of class "
-					+ this.getClass().getName() + " can not be null");	
-
-			Assert.hasText(wsCandidaturesPwd, "property wsCandidaturesPwd of class "
-					+ this.getClass().getName() + " can not be null");	
-		}
+		Assert.notNull(this.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord, "property nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord of class "
+				+ this.getClass().getName() + " can not be null");
 
 		Assert.hasText(timezone, "property timezone of class "
 				+ this.getClass().getName() + " can not be null");
 
-		if(this.informaticiens!=null && this.informaticiens!="" && ((this.informaticiens.split(",")).length>1))
-		{
-			String[] tokens = this.informaticiens.split(",");
-			for(int i=0; i<tokens.length; i++)
-				this.listInformaticiens.add(tokens[i]);
-		}
-		else
-			this.listInformaticiens.add(this.informaticiens);
+		this.listInformaticiens=Fonctions.stringSplitToArrayList(this.informaticiens, ",");
 	}
 
 	@PostConstruct
@@ -169,10 +156,10 @@ public class SessionController extends AbstractDomainAwareBean {
 			cle = (String)liste.nextElement();
 			if (logger.isDebugEnabled())
 				logger.debug("===>"+cle + " = " + System.getProperty(cle)+"<===");
-		} 		
+		}
 
 		Versions version = null;
-		Parametres choixDuVoeuParComposante = null;
+		Parametres paramChoixDuVoeuParComposante = null;
 		String text="";
 		text = "Liste des erreurs : <BR /><BR />";
 
@@ -186,7 +173,7 @@ public class SessionController extends AbstractDomainAwareBean {
 			else
 				text += "- Erreurs : "+e.getMessage()+" ===> NOK <BR />";
 		}
-			
+
 		try{
 			defaultCodeSize = getDomainService().getCodeSizeDefaut();
 			if (defaultCodeSize != null)
@@ -204,36 +191,106 @@ public class SessionController extends AbstractDomainAwareBean {
 			else
 				text += "- Erreurs : "+e.getMessage()+" ===> NOK <BR />";
 		}
-			
+
 		try{
-			choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
-			if(choixDuVoeuParComposante!=null)
-				setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
+			paramChoixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
+			if(paramChoixDuVoeuParComposante!=null)
+				setChoixDuVoeuParComposante(paramChoixDuVoeuParComposante.isBool());
 			else
 				setChoixDuVoeuParComposante(true);
 
-			Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
-			if(maj_odf_auto!=null)
-				setMajOdfAuto(maj_odf_auto.isBool());
+			Parametres paramMajOdfAuto = getDomainService().getParametreByCode("maj_odf_auto");
+			if(paramMajOdfAuto!=null)
+				setMajOdfAuto(paramMajOdfAuto.isBool());
 			else
 				setMajOdfAuto(true);
 
-			Parametres planning_fermetures_auto = getDomainService().getParametreByCode("planning_fermetures");
-			if(planning_fermetures_auto!=null)
-				setPlanningFermeturesAuto(planning_fermetures_auto.isBool());
+			Parametres paramReloadDemandeTransfertsDepartEchecAuto = getDomainService().getParametreByCode("reload_demande_transferts_depart_echec_auto");
+			if(paramReloadDemandeTransfertsDepartEchecAuto!=null)
+				setReloadDemandeTransfertsDepartEchecAuto(paramReloadDemandeTransfertsDepartEchecAuto.isBool());
+			else
+				setReloadDemandeTransfertsDepartEchecAuto(true);
+
+			Parametres paramReloadDemandeTransfertsAccueilEchecAuto = getDomainService().getParametreByCode("reload_demande_transferts_accueil_echec_auto");
+			if(paramReloadDemandeTransfertsAccueilEchecAuto!=null)
+				setReloadDemandeTransfertsAccueilEchecAuto(paramReloadDemandeTransfertsAccueilEchecAuto.isBool());
+			else
+				setReloadDemandeTransfertsAccueilEchecAuto(true);
+
+			Parametres paramPlanningFermeturesAuto = getDomainService().getParametreByCode("planning_fermetures");
+			if(paramPlanningFermeturesAuto!=null)
+				setPlanningFermeturesAuto(paramPlanningFermeturesAuto.isBool());
 			else
 				setPlanningFermeturesAuto(true);
 
-			Parametres ajout_etablissement_manuellement = getDomainService().getParametreByCode("ajout_etablissement_manuellement");
-			if(ajout_etablissement_manuellement!=null) {
-				setActivEtablissementManuellement(ajout_etablissement_manuellement.isBool());
-				setAjoutEtablissementManuellement(ajout_etablissement_manuellement.getCommentaire());
+			Parametres paramAjoutEtablissementManuellement = getDomainService().getParametreByCode("ajout_etablissement_manuellement");
+			if(paramAjoutEtablissementManuellement!=null) {
+				setActivEtablissementManuellement(paramAjoutEtablissementManuellement.isBool());
+				setAjoutEtablissementManuellement(paramAjoutEtablissementManuellement.getCommentaire());
 			}
 			else
 			{
 				setActivEtablissementManuellement(false);
 				setAjoutEtablissementManuellement("");
 			}
+
+			Parametres paramWsBu = getDomainService().getParametreByCode("ws_bu");
+			if(paramWsBu!=null)
+				setUseWsBu(paramWsBu.isBool());
+			else
+				setUseWsBu(false);
+
+			Parametres paramWsCandidatures = getDomainService().getParametreByCode("ws_candidatures");
+			if(paramWsCandidatures!=null)
+				setUseWsCandidatures(paramWsCandidatures.isBool());
+			else
+				setUseWsCandidatures(false);
+
+			Parametres paramWsPostBac = getDomainService().getParametreByCode("ws_postbac");
+			if(paramWsPostBac!=null)
+				setUseWsPostBac(paramWsPostBac.isBool());
+			else
+				setUseWsPostBac(false);
+
+			Parametres paramTimeOutConnexionWs = getDomainService().getParametreByCode("time_out_connexion_ws");
+			if(paramTimeOutConnexionWs!=null && paramTimeOutConnexionWs.isBool()) {
+				setUseTimeOutConnexionWs(paramTimeOutConnexionWs.isBool());
+				setTimeOutConnexionWs(Integer.parseInt(paramTimeOutConnexionWs.getCommentaire()));
+			}
+			else
+			{
+				setUseTimeOutConnexionWs(false);
+				setTimeOutConnexionWs(0);
+			}
+
+			Parametres ajoutSuperGestionnaire = getDomainService().getParametreByCode("super_gestionnaire");
+			if(ajoutSuperGestionnaire!=null && ajoutSuperGestionnaire.isBool()) {
+				setUseSuperGestionnaire(ajoutSuperGestionnaire.isBool());
+				setSuperGestionnaire(ajoutSuperGestionnaire.getCommentaire());
+			}
+			else
+			{
+				setUseSuperGestionnaire(false);
+				setSuperGestionnaire(null);
+			}
+
+			Parametres paramRelanceDepartPersonnelConcerneSVA = getDomainService().getParametreByCode("relance_depart_sva");
+			if(paramRelanceDepartPersonnelConcerneSVA!=null)
+				setUseRelanceDepartPersonnelConcerneSVA(paramRelanceDepartPersonnelConcerneSVA.isBool());
+			else
+				setUseRelanceDepartPersonnelConcerneSVA(false);
+
+			Parametres paramRelanceAccueilPersonnelConcerneSVA = getDomainService().getParametreByCode("relance_accueil_sva");
+			if(paramRelanceAccueilPersonnelConcerneSVA!=null)
+				setUseRelanceAccueilPersonnelConcerneSVA(paramRelanceAccueilPersonnelConcerneSVA.isBool());
+			else
+				setUseRelanceAccueilPersonnelConcerneSVA(false);
+
+			Parametres paramRelanceResumeSVA = getDomainService().getParametreByCode("relance_resume_sva");
+			if(paramRelanceResumeSVA!=null)
+				setUseRelanceResumeSVA(paramRelanceResumeSVA.isBool());
+			else
+				setUseRelanceResumeSVA(false);
 		}
 		catch(Exception  e)
 		{
@@ -242,8 +299,8 @@ public class SessionController extends AbstractDomainAwareBean {
 			else
 				text += "- Erreurs : "+e.getMessage()+" ===> NOK <BR />";
 		}
-	
-		
+
+
 		String v = getApplicationService().getVersion().toString();
 		if (logger.isDebugEnabled())
 			logger.debug("Version Application ===>"+v.toString()+"<===");
@@ -259,7 +316,7 @@ public class SessionController extends AbstractDomainAwareBean {
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
 		else
-		{	
+		{
 			if(!version.getNumero().equals(v.toString()))
 			{
 				text += "- Version de la base de données : "+version.getNumero()+" est différente de la version de l'application ("+v.toString()+"), veuillez passer le script de migration correspondant ===> NOK <BR />";
@@ -272,63 +329,88 @@ public class SessionController extends AbstractDomainAwareBean {
 			}
 
 		}
-	}	
+	}
 
 	/**
 	 * @return the current user, or null if guest.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Override
 	public User getCurrentUser() throws Exception {
 		User user = authenticator.getUser();
-		// Verification du login authorise 
-		if (listSuperGestionnaire.size() > 0) {
+		// Verification du login authorise
+		if (listSuperGestionnaire!= null && !listSuperGestionnaire.isEmpty() && listSuperGestionnaire.size() > 0) {
 			if(user!=null)
 			{
 				user.setAdmin(false);
 				for (String ident : listSuperGestionnaire) {
 					if (ident.equals(user.getLogin()))
 					{
-						if (logger.isDebugEnabled()) {
+						if (logger.isDebugEnabled())
 							logger.debug("SuperGestionnaire===>"+ user.getLogin()+" est un super gestionnaire<===");
-						}							
 						user.setAdmin(true);
 						break;
 					}
 					else
 					{
-						if (logger.isDebugEnabled()) {
+						if (logger.isDebugEnabled())
 							logger.debug("SuperGestionnaire===>"+ user.getLogin()+" n'est pas un super gestionnaire<===");
-						}													
 					}
 				}
-				user.setInformaticien(false);
-				for (String ident : listInformaticiens) {
-					if (ident.equals(user.getLogin()))
-					{
-						if (logger.isDebugEnabled()) {
-							logger.debug("Informaticien===>"+ user.getLogin()+" est un informaticien<===");
-						}
-						user.setInformaticien(true);
-						user.setAdmin(true);
-						break;
-					}
-					else
-					{
-						if (logger.isDebugEnabled()) {
-							logger.debug("Informaticien===>"+ user.getLogin()+" n'est pas un informaticien<===");
-						}
-					}
+			}
+		}
+		if (listInformaticiens!= null && !listInformaticiens.isEmpty() && listInformaticiens.size() > 0) {
+			user.setInformaticien(false);
+			for (String ident : listInformaticiens) {
+				if (ident.equals(user.getLogin()))
+				{
+					if (logger.isDebugEnabled())
+						logger.debug("Informaticien===>"+ user.getLogin()+" est un informaticien<===");
+					user.setInformaticien(true);
+					user.setAdmin(true);
+					break;
+				}
+				else
+				{
+					if (logger.isDebugEnabled())
+						logger.debug("Informaticien===>"+ user.getLogin()+" n'est pas un informaticien<===");
 				}
 			}
 		}
 		return user;
 	}
 
+	public TreeNode constructTreeNode(TrResultatVdiVetDTO trResultatVdiVetDTO){
+		TreeNode root = new DefaultTreeNode(new DocumentResultats("Files", "-", "Folder"), null);
+
+		logger.info("trResultatVdiVetDTO===>"+trResultatVdiVetDTO+"<===");
+
+		if(trResultatVdiVetDTO!=null && trResultatVdiVetDTO.getEtapes().size()>0) {
+			for (ResultatEtape re : trResultatVdiVetDTO.getEtapes()) {
+				logger.info("re.getAnnee()===>" + re.getAnnee() + "<===");
+				logger.info("re.getLibEtape()===>" + re.getLibEtape() + "<===");
+
+				TreeNode treeNodeResultatEtape = new DefaultTreeNode(new DocumentResultats(re.getAnnee().toString() + "-" + re.getLibEtape(), "", ""), root);
+
+				if(re.getSession()!=null && re.getSession().size()>0) {
+					for (ResultatSession rs : re.getSession()) {
+						logger.info("rs.getLibSession()===>" + rs.getLibSession() + "<===");
+						logger.info("rs.getMention()===>" + rs.getMention() + "<===");
+						logger.info("rs.getResultat()===>" + rs.getResultat() + "<===");
+
+						TreeNode treeNodeResultatSession = new DefaultTreeNode(new DocumentResultats(rs.getLibSession(), rs.getMention(), rs.getResultat()), treeNodeResultatEtape);
+
+					}
+				}
+			}
+		}
+		return root;
+	}
+
 	/**
 	 * JSF callback.
 	 * @return a String.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String logout() throws IOException {
 		if (ContextUtils.isPortlet()) {
@@ -344,10 +426,10 @@ public class SessionController extends AbstractDomainAwareBean {
 		else if(test.contains("/stylesheets/depart/"))
 			returnUrl = request.getRequestURL().toString().replaceFirst("/stylesheets/.*", "/stylesheets/depart/welcome.xhtml");
 		else if(test.contains("/stylesheets/arrivee/"))
-			returnUrl = request.getRequestURL().toString().replaceFirst("/stylesheets/.*", "/stylesheets/arrivee/welcome.xhtml");				
+			returnUrl = request.getRequestURL().toString().replaceFirst("/stylesheets/.*", "/stylesheets/arrivee/welcome.xhtml");
 		String forwardUrl;
 		Assert.hasText(
-				casLogoutUrl, 
+				casLogoutUrl,
 				"property casLogoutUrl of class " + getClass().getName() + " is null");
 		forwardUrl = String.format(casLogoutUrl, StringUtils.utf8UrlEncode(returnUrl));
 		// note: the session beans will be kept even when invalidating 
@@ -364,23 +446,47 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	@Override
 	public String toString() {
-		return "SessionController [exceptionController=" + exceptionController
-				+ ", authenticator=" + authenticator + ", casLogoutUrl="
-				+ casLogoutUrl + ", error=" + error + ", rne=" + rne
-				+ ", numeroSerieImmatriculation=" + numeroSerieImmatriculation
-				+ ", annee=" + annee + ", currentAnnee=" + currentAnnee
-				+ ", htmlCssStyle=" + htmlCssStyle + ", boutonDeconnexion="
-				+ boutonDeconnexion + ", opiReinscription=" + ", transfertsAccueil="
-				+ transfertsAccueil + ", superGestionnaire="
-				+ superGestionnaire + ", listSuperGestionnaire="
-				+ listSuperGestionnaire + ", validationAutomatique="
-				+ validationAutomatique + ", logger=" + logger + "]";
+		return "SessionController{" +
+				"exceptionController=" + exceptionController +
+				", authenticator=" + authenticator +
+				", casLogoutUrl='" + casLogoutUrl + '\'' +
+				", error=" + error +
+				", rne='" + rne + '\'' +
+				", numeroSerieImmatriculation='" + numeroSerieImmatriculation + '\'' +
+				", annee=" + annee +
+				", currentAnnee=" + currentAnnee +
+				", htmlCssStyle='" + htmlCssStyle + '\'' +
+				", boutonDeconnexion=" + boutonDeconnexion +
+				", transfertsAccueil=" + transfertsAccueil +
+				", superGestionnaire='" + superGestionnaire + '\'' +
+				", listSuperGestionnaire=" + listSuperGestionnaire +
+				", informaticiens='" + informaticiens + '\'' +
+				", listInformaticiens=" + listInformaticiens +
+				", validationAutomatique='" + validationAutomatique + '\'' +
+				", regleGestionTE02=" + regleGestionTE02 +
+				", choixDuVoeuParComposante=" + choixDuVoeuParComposante +
+				", majOdfAuto=" + majOdfAuto +
+				", planningFermeturesAuto=" + planningFermeturesAuto +
+				", ajoutEtablissementManuellement='" + ajoutEtablissementManuellement + '\'' +
+				", activEtablissementManuellement=" + activEtablissementManuellement +
+				", nbJourAvantAlertSilenceVautAccord=" + nbJourAvantAlertSilenceVautAccord +
+				", nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord=" + nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord +
+				", useWsCandidatures=" + useWsCandidatures +
+				", useWsBu=" + useWsBu +
+				", useWsPostBac=" + useWsPostBac +
+				", useSuperGestionnaire=" + useSuperGestionnaire +
+				", timezone='" + timezone + '\'' +
+				", aujourdhui=" + aujourdhui +
+				", defaultCodeSizeAnnee=" + defaultCodeSizeAnnee +
+				", defaultCodeSize=" + defaultCodeSize +
+				", logger=" + logger +
+				'}';
 	}
 
 	/**
 	 * JSF callback.
 	 * @return a String.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String logout2() throws IOException {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -399,29 +505,66 @@ public class SessionController extends AbstractDomainAwareBean {
 		externalContext.redirect(forwardUrl);
 		facesContext.responseComplete();
 		return null;
-	}	
+	}
 
 	public void resetController()
 	{
 		// calling this method will reset all the beans of the application
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = facesContext.getExternalContext();
-		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();		
+		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
 		request.getSession().invalidate();
-		request.getSession(true);		
-		exceptionController.restart();	
+		request.getSession(true);
+		exceptionController.restart();
 	}
 
+	/**/
+	public List<User> rechercherLdap(String filtre){
+		logger.info("public void rechercherLdap(String filtre, String by)===>"+filtre+"<===");
 
+		List<User> personnelsRecherche = new ArrayList<User>();
 
+		List<LdapUser> resultList = ldapUserService.getLdapUsersFromFilter(filtre);
 
+		// Via l'objet User on utilise DisplayName pour stocker le nom et Language pour stocker le prenom...
+		for(LdapUser ldapUser : resultList){
+			User u = new User();
+			u.setLogin(ldapUser.getAttribute(ldapUserService.getIdAttribute()));
+			u.setDisplayName(ldapUser.getAttribute(getLdapDisplayNameAttribute()));
+			u.setMail(ldapUser.getAttribute(getLdapEmailAttribute()));
+
+			logger.warn("u===>"+u+"<===");
+
+			if (!personnelsRecherche.contains(u)){
+				personnelsRecherche.add(u);
+			}
+		}
+		return personnelsRecherche;
+	}
+
+	public List<DatasExterne> convertListInterditsToListDatasExterne(List<Interdit> lInterdits)
+	{
+		List<DatasExterne> listeDatasEterneNiveau2=null;
+		if(lInterdits!=null && lInterdits.size()>0) {
+			listeDatasEterneNiveau2 = new ArrayList<DatasExterne>();
+			for (Interdit c : lInterdits) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("WebServices.Interdits===>" + c.getIdentifiant() + "<===");
+					logger.debug("WebServices.Interdits===>" + c.getLibInterdit() + "<===");
+				}
+				DatasExterne de = new DatasExterne();
+				de.setCode(c.getSource());
+				de.setIdentifiant(c.getIdentifiant());
+				de.setNiveau(c.getCodeNiveauInterdit());
+				de.setLibInterdit(c.getLibInterdit());
+				listeDatasEterneNiveau2.add(de);
+			}
+		}
+		return listeDatasEterneNiveau2;
+	}
 
 	/*
 	 ******************* ACCESSORS ******************** */
-
-
-
-
 	/**
 	 * @param exceptionController the exceptionController to set
 	 */
@@ -512,6 +655,8 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setSuperGestionnaire(String superGestionnaire) {
 		this.superGestionnaire = superGestionnaire;
+		if(this.superGestionnaire!=null)
+			setListSuperGestionnaire(Fonctions.stringSplitToArrayList(this.superGestionnaire, ","));
 	}
 
 	public List<String> getListSuperGestionnaire() {
@@ -578,38 +723,6 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setMajOdfAuto(boolean majOdfAuto) {
 		this.majOdfAuto = majOdfAuto;
-	}
-
-	public boolean isUseCandidatures() {
-		return useCandidatures;
-	}
-
-	public void setUseCandidatures(boolean useCandidatures) {
-		this.useCandidatures = useCandidatures;
-	}
-
-	public String getWsCandidaturesWsdl() {
-		return wsCandidaturesWsdl;
-	}
-
-	public void setWsCandidaturesWsdl(String wsCandidaturesWsdl) {
-		this.wsCandidaturesWsdl = wsCandidaturesWsdl;
-	}
-
-	public String getWsCandidaturesUser() {
-		return wsCandidaturesUser;
-	}
-
-	public void setWsCandidaturesUser(String wsCandidaturesUser) {
-		this.wsCandidaturesUser = wsCandidaturesUser;
-	}
-
-	public String getWsCandidaturesPwd() {
-		return wsCandidaturesPwd;
-	}
-
-	public void setWsCandidaturesPwd(String wsCandidaturesPwd) {
-		this.wsCandidaturesPwd = wsCandidaturesPwd;
 	}
 
 	public String getTimezone() {
@@ -684,4 +797,123 @@ public class SessionController extends AbstractDomainAwareBean {
 		this.activEtablissementManuellement = activEtablissementManuellement;
 	}
 
+	public boolean isUseWsBu() {
+		return useWsBu;
+	}
+
+	public void setUseWsBu(boolean useWsBu) {
+		this.useWsBu = useWsBu;
+	}
+
+	public boolean isUseWsCandidatures() {
+		return useWsCandidatures;
+	}
+
+	public void setUseWsCandidatures(boolean useWsCandidatures) {
+		this.useWsCandidatures = useWsCandidatures;
+	}
+
+	public boolean isUseWsPostBac() {
+		return useWsPostBac;
+	}
+
+	public void setUseWsPostBac(boolean useWsPostBac) {
+		this.useWsPostBac = useWsPostBac;
+	}
+
+	public boolean isUseSuperGestionnaire() {
+		return useSuperGestionnaire;
+	}
+
+	public void setUseSuperGestionnaire(boolean useSuperGestionnaire) {
+		this.useSuperGestionnaire = useSuperGestionnaire;
+	}
+
+	public boolean isUseTimeOutConnexionWs() {
+		return useTimeOutConnexionWs;
+	}
+
+	public void setUseTimeOutConnexionWs(boolean useTimeOutConnexionWs) {
+		this.useTimeOutConnexionWs = useTimeOutConnexionWs;
+	}
+
+	public Integer getTimeOutConnexionWs() {
+		return timeOutConnexionWs;
+	}
+
+	public void setTimeOutConnexionWs(Integer timeOutConnexionWs) {
+		this.timeOutConnexionWs = timeOutConnexionWs;
+	}
+
+	public boolean isReloadDemandeTransfertsDepartEchecAuto() {
+		return reloadDemandeTransfertsDepartEchecAuto;
+	}
+
+	public void setReloadDemandeTransfertsDepartEchecAuto(boolean reloadDemandeTransfertsDepartEchecAuto) {
+		this.reloadDemandeTransfertsDepartEchecAuto = reloadDemandeTransfertsDepartEchecAuto;
+	}
+
+	public String getSchedulerCronExpression() {
+		return schedulerCronExpression;
+	}
+
+	public void setSchedulerCronExpression(String schedulerCronExpression) {
+		this.schedulerCronExpression = schedulerCronExpression;
+	}
+
+	public boolean isReloadDemandeTransfertsAccueilEchecAuto() {
+		return reloadDemandeTransfertsAccueilEchecAuto;
+	}
+
+	public void setReloadDemandeTransfertsAccueilEchecAuto(boolean reloadDemandeTransfertsAccueilEchecAuto) {
+		this.reloadDemandeTransfertsAccueilEchecAuto = reloadDemandeTransfertsAccueilEchecAuto;
+	}
+
+	public LdapUserService getLdapUserService() {
+		return ldapUserService;
+	}
+
+	public void setLdapUserService(LdapUserService ldapUserService) {
+		this.ldapUserService = ldapUserService;
+	}
+
+	public String getLdapDisplayNameAttribute() {
+		return ldapDisplayNameAttribute;
+	}
+
+	public void setLdapDisplayNameAttribute(String ldapDisplayNameAttribute) {
+		this.ldapDisplayNameAttribute = ldapDisplayNameAttribute;
+	}
+
+	public String getLdapEmailAttribute() {
+		return ldapEmailAttribute;
+	}
+
+	public void setLdapEmailAttribute(String ldapEmailAttribute) {
+		this.ldapEmailAttribute = ldapEmailAttribute;
+	}
+
+	public boolean isUseRelanceResumeSVA() {
+		return useRelanceResumeSVA;
+	}
+
+	public void setUseRelanceResumeSVA(boolean useRelanceResumeSVA) {
+		this.useRelanceResumeSVA = useRelanceResumeSVA;
+	}
+
+	public boolean isUseRelanceDepartPersonnelConcerneSVA() {
+		return useRelanceDepartPersonnelConcerneSVA;
+	}
+
+	public void setUseRelanceDepartPersonnelConcerneSVA(boolean useRelanceDepartPersonnelConcerneSVA) {
+		this.useRelanceDepartPersonnelConcerneSVA = useRelanceDepartPersonnelConcerneSVA;
+	}
+
+	public boolean isUseRelanceAccueilPersonnelConcerneSVA() {
+		return useRelanceAccueilPersonnelConcerneSVA;
+	}
+
+	public void setUseRelanceAccueilPersonnelConcerneSVA(boolean useRelanceAccueilPersonnelConcerneSVA) {
+		this.useRelanceAccueilPersonnelConcerneSVA = useRelanceAccueilPersonnelConcerneSVA;
+	}
 }

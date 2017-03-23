@@ -1,11 +1,11 @@
 package org.esupportail.transferts.web.utils;
 
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+
 import java.net.Authenticator;
 import java.net.InetAddress;
 import java.net.PasswordAuthentication;
-
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
 
 public class MyAuthenticator extends Authenticator {
 

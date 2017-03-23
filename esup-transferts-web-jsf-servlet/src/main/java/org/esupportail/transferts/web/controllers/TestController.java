@@ -1,22 +1,22 @@
 package org.esupportail.transferts.web.controllers;
 
-import java.util.*;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.TrDepartementDTO;
-import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
 import org.esupportail.transferts.domain.beans.WsPub;
-import org.esupportail.transferts.utils.Fonctions;
-import org.esupportail.transferts.web.dataModel.OdfDataModel;
 import org.esupportail.transferts.web.comparator.ComparatorSelectItem;
+import org.esupportail.transferts.web.dataModel.OdfDataModel;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class TestController extends AbstractContextAwareController {
 
@@ -49,6 +49,7 @@ public class TestController extends AbstractContextAwareController {
 	private OffreDeFormationsDTO currentOdf;
 	private OdfDataModel odfDataModel;
 	private String source;
+	private boolean choixDuVoeuParComposanteByPartenaire;
 
 
 	@Override
@@ -140,6 +141,7 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetTypeDiplome()
 	{
+		logger.warn("===>public void resetTypeDiplome()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetTypeDiplome()");
 
@@ -147,10 +149,17 @@ public class TestController extends AbstractContextAwareController {
 		etu.getTransferts().setOdf(currentOdf);		
 		setLibelleEtapeVide(true);
 		setAnneeEtudeVide(true);
-		if(getSessionController().isChoixDuVoeuParComposante())
-			setComposanteVide(true);
+		setLibelleDiplomeVide(true);
+
+		WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee());
+
+		logger.fatal("===>"+wp+"<===");
+
+		if(wp!=null)
+				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
 		else
-			setLibelleDiplomeVide(true);
+			this.setChoixDuVoeuParComposanteByPartenaire(getSessionController().isChoixDuVoeuParComposante());
+
 		boolean partenaire = false;
 		List<WsPub> listeEtablissementsPartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
 		
@@ -194,6 +203,7 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetAnneeEtude()
 	{
+		logger.warn("===>public void resetAnneeEtude()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetAnneeEtude()");		
 
@@ -205,11 +215,14 @@ public class TestController extends AbstractContextAwareController {
 			setCodeNiveau(null);
 			setLibelleEtapeVide(true);
 			setAnneeEtudeVide(false);
-			if(getSessionController().isChoixDuVoeuParComposante())
+
+			if(this.isChoixDuVoeuParComposanteByPartenaire())
 				setComposanteVide(true);
 			else
 				setLibelleDiplomeVide(true);
-			this.getListeAnneesEtude();  
+
+
+			this.getListeAnneesEtude();
 		}
 		else
 		{
@@ -224,6 +237,7 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetComposante()
 	{
+		logger.warn("===>public void resetComposante()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetComposante()");
 		setTypesDiplomeVide(false);
@@ -237,8 +251,10 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetLibelleDiplome()
 	{
+		logger.warn("===>public void resetLibelleDiplome()<===");
 		setTypesDiplomeAutreVide(true);
-		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))  
+//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))
+		if(getCodeNiveau() !=null)
 		{
 			setDeptVide(false);
 			setTypesDiplomeVide(false);
@@ -258,7 +274,8 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetLibelleEtape()
 	{
-		if(getSessionController().isChoixDuVoeuParComposante())
+		logger.warn("===>public void resetLibelleEtape()<===");
+		if(this.isChoixDuVoeuParComposanteByPartenaire())
 		{
 			if(getCodeComposante() !=null && !getCodeComposante().equals(""))  
 			{
@@ -486,11 +503,12 @@ public class TestController extends AbstractContextAwareController {
 	public List<OffreDeFormationsDTO> getListeLibellesEtape() {
 		//		if (logger.isDebugEnabled())
 		//		{
-		//			logger.debug("public List<SelectItem> getListeLibellesEtape()");
-		//			logger.debug("(etu.getTransferts() --> "+etu.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome());
+					logger.info("public List<SelectItem> getListeLibellesEtape()");
+					logger.info("(etu.getTransferts() --> "+etu.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome());
 		//		}
 		//		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(), getSource());
-		if(getSessionController().isChoixDuVoeuParComposante())
+//		if(getSessionController().isChoixDuVoeuParComposante())
+		if(this.isChoixDuVoeuParComposanteByPartenaire())
 		{
 			if (logger.isDebugEnabled())
 			{
@@ -654,5 +672,13 @@ public class TestController extends AbstractContextAwareController {
 
 	public void setListeComposantes(List<SelectItem> listeComposantes) {
 		this.listeComposantes = listeComposantes;
+	}
+
+	public boolean isChoixDuVoeuParComposanteByPartenaire() {
+		return choixDuVoeuParComposanteByPartenaire;
+	}
+
+	public void setChoixDuVoeuParComposanteByPartenaire(boolean choixDuVoeuParComposanteByPartenaire) {
+		this.choixDuVoeuParComposanteByPartenaire = choixDuVoeuParComposanteByPartenaire;
 	}
 }

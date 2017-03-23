@@ -4,7 +4,7 @@ import javax.persistence.Column;
 
 public class PersonnelComposantePK implements java.io.Serializable {
 
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427732897404494123L;
 
 	@Column(name = "IDENTIFIANT")
 	private String uid;

@@ -3,6 +3,7 @@
  */
 package org.esupportail.transferts.domain;
 
+import com.googlecode.ehcache.annotations.Cacheable;
 import gouv.education.apogee.commun.client.utils.WSUtils;
 import gouv.education.apogee.commun.client.ws.administratifmetier.AdministratifMetierServiceInterfaceProxy;
 import gouv.education.apogee.commun.client.ws.etablissementmetier.EtablissementMetierServiceInterfaceProxy;
@@ -12,111 +13,26 @@ import gouv.education.apogee.commun.client.ws.offreformationmetier.OffreFormatio
 import gouv.education.apogee.commun.client.ws.opimetier.OpiMetierSoapBindingStub;
 import gouv.education.apogee.commun.client.ws.pedagogiquemetier.PedagogiqueMetierServiceInterfaceProxy;
 import gouv.education.apogee.commun.client.ws.referentielmetier.ReferentielMetierServiceInterfaceProxy;
-import gouv.education.apogee.commun.client.ws.scolaritemetier.ScolariteMetierServiceInterface;
 import gouv.education.apogee.commun.client.ws.scolaritemetier.ScolariteMetierServiceInterfaceProxy;
-import gouv.education.apogee.commun.servicesmetiers.AdministratifMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.EtablissementMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.EtudiantMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.GeographieMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.OffreFormationMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.PedagogiqueMetierServiceInterface;
-import gouv.education.apogee.commun.servicesmetiers.ReferentielMetierServiceInterface;
-import gouv.education.apogee.commun.transverse.dto.administratif.InsAdmEtpDTO;
 import gouv.education.apogee.commun.transverse.dto.administratif.InsAdmEtpDTO2;
-import gouv.education.apogee.commun.transverse.dto.etablissement.EtablissementCompletDTO;
 import gouv.education.apogee.commun.transverse.dto.etablissement.EtablissementCompletDTO2;
-import gouv.education.apogee.commun.transverse.dto.etudiant.AdresseDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.AdresseDTO2;
-import gouv.education.apogee.commun.transverse.dto.etudiant.BlocageDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.CommuneDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.CommuneDTO2;
-import gouv.education.apogee.commun.transverse.dto.etudiant.CoordonneesDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.CoordonneesDTO2;
-import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantCritereDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantCritereListeDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.EtudiantDTO2;
-import gouv.education.apogee.commun.transverse.dto.etudiant.IdentifiantsEtudiantDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.IndBacDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.InfoAdmEtuDTO;
-import gouv.education.apogee.commun.transverse.dto.etudiant.NationaliteDTO;
+import gouv.education.apogee.commun.transverse.dto.etudiant.*;
 import gouv.education.apogee.commun.transverse.dto.etudiant.PaysDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.DepartementDTO;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.ComposanteCentreGestionDTO;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.DiplomeDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.DiplomeDTO3;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.EtapeDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.EtapeDTO3;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.SECritereDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionDiplomeDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionDiplomeDTO3;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionEtapeDTO2;
-import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.VersionEtapeDTO3;
-import gouv.education.apogee.commun.transverse.dto.opi.DonneesOpiDTO3;
-import gouv.education.apogee.commun.transverse.dto.opi.DonneesOpiDTO4;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJConvocationDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJDernierDiplObtDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJDernierEtbFrequenteDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJDonneesNaissanceDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJDonneesPersonnellesDTO3;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJEtatCivilDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJInscriptionParalleleDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiAdresseDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiBacDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiDacDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiIndDTO3;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJOpiVoeuDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJPremiereInscriptionDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJPrgEchangeDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJSituationAnnPreDTO;
-import gouv.education.apogee.commun.transverse.dto.opi.MAJTitreAccesExterneDTO;
-import gouv.education.apogee.commun.transverse.dto.pedagogique.CentreGestionDTO2;
-import gouv.education.apogee.commun.transverse.dto.pedagogique.ComposanteDTO3;
-import gouv.education.apogee.commun.transverse.dto.pedagogique.ContratPedagogiqueResultatVdiVetDTO;
-import gouv.education.apogee.commun.transverse.dto.pedagogique.EtapeResVdiVetDTO;
-import gouv.education.apogee.commun.transverse.dto.pedagogique.ResultatVdiDTO;
-import gouv.education.apogee.commun.transverse.dto.pedagogique.ResultatVetDTO;
+import gouv.education.apogee.commun.transverse.dto.offreformation.recupererse.*;
+import gouv.education.apogee.commun.transverse.dto.opi.*;
+import gouv.education.apogee.commun.transverse.dto.pedagogique.*;
 import gouv.education.apogee.commun.transverse.dto.scolarite.BacOuEquDTO;
 import gouv.education.apogee.commun.transverse.exception.WebBaseException;
-
-import java.rmi.RemoteException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.transferts.domain.beans.AdresseRef;
-import org.esupportail.transferts.domain.beans.CGE;
-import org.esupportail.transferts.domain.beans.Composante;
-import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.esupportail.transferts.domain.beans.IdentifiantEtudiant;
-import org.esupportail.transferts.domain.beans.IndOpi;
-import org.esupportail.transferts.domain.beans.InfosAccueil;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.PersonnelComposante;
-import org.esupportail.transferts.domain.beans.ResultatEtape;
-import org.esupportail.transferts.domain.beans.ResultatSession;
-import org.esupportail.transferts.domain.beans.TrBac;
-import org.esupportail.transferts.domain.beans.TrBlocageDTO;
-import org.esupportail.transferts.domain.beans.TrCommuneDTO;
-import org.esupportail.transferts.domain.beans.TrDepartementDTO;
-import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
-import org.esupportail.transferts.domain.beans.TrInfosAdmEtu;
-import org.esupportail.transferts.domain.beans.TrPaysDTO;
-import org.esupportail.transferts.domain.beans.TrResultatVdiVetDTO;
-import org.esupportail.transferts.domain.beans.Transferts;
-import org.esupportail.transferts.domain.beans.VoeuxIns;
-import org.hibernate.annotations.Cache;
-import org.hibernate.validator.constraints.Length;
+import org.esupportail.transferts.domain.beans.*;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import gouv.education.apogee.commun.transverse.dto.geographie.DepartementDTO;
 
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2012
@@ -309,8 +225,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			etudiant.setAccueil(infosAccueil);
 			return etudiant;			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -344,9 +259,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		// Recuperation des infos de l'etudiant dans Apogee	
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		try {
-			if (logger.isDebugEnabled()) {
-				logger.debug("ine --> " + ine);
-			}	
+			if (logger.isDebugEnabled())
+				logger.debug("ine===>" + ine + "<===");
 			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(null, null, ineSansCle, cleIne, null, null, null, null, null, null);
 			infoAdmEtuDTO = etudiantMetierService.recupererInfosAdmEtu(identifiantEtudiant.getCodEtu().toString());
 
@@ -361,7 +275,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			if(dateFormat.format(dateNaissance).equals(dateFormat.format(infoAdmEtuDTO.getDateNaissance())))
 			{
 				if (logger.isDebugEnabled())
-					logger.debug("Compare date OK");
+					logger.debug("===>Compare date OK<===");
 
 				BlocageDTO[] listeBlocagesDTO = infoAdmEtuDTO.getListeBlocages();
 				if (logger.isDebugEnabled())
@@ -505,86 +419,13 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			return etudiant;
 
 		} catch (WebBaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 			return null;			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}	
-
-	//	@Override
-	//	public String getNumeroEtudiantByIne(String ine, Date dateNaissance){
-	//		// appel au WS AMUE
-	//		if (logger.isDebugEnabled())
-	//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
-	//		String ineSansCle = ine.substring(0, ine.length()-1);
-	//		String cleIne = ine.substring(ine.length()-1, ine.length());
-	//
-	//		if (logger.isDebugEnabled()) {
-	//			logger.debug("ineSansCle --> "+ ineSansCle);
-	//			logger.debug("cleIne --> "+ cleIne);
-	//			logger.debug("dateNaissance --> "+ dateNaissance);
-	//		}	
-	//		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	//
-	//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
-	//		// Recuperation des infos de l'etudiant dans Apogee	
-	//		InfoAdmEtuDTO infoAdmEtuDTO;
-	//		try {
-	//			if (logger.isDebugEnabled())
-	//				logger.debug("ine --> " + ine);
-	//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(null, null, ineSansCle, cleIne, null, null, null, null, null, null);
-	//			infoAdmEtuDTO = etudiantMetierService.recupererInfosAdmEtu(identifiantEtudiant.getCodEtu().toString());
-	//
-	//			if(dateFormat.format(dateNaissance).equals(dateFormat.format(infoAdmEtuDTO.getDateNaissance())))
-	//			{
-	//				if (logger.isDebugEnabled())
-	//					logger.debug("Compare date OK - getNumeroEtudiantByIne");
-	//				return infoAdmEtuDTO.getNumEtu().toString();
-	//			}
-	//			else
-	//			{
-	//				if (logger.isDebugEnabled())
-	//					logger.debug("Compare date FAUX - getNumeroEtudiantByIne !!!");
-	//				return "";
-	//			}
-	//
-	//
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			return null;
-	//		}
-	//	}		
-
-	//	@Override
-	//	public Integer getCleIndByIne(String ine){
-	//		// appel au WS AMUE
-	//		if (logger.isDebugEnabled())
-	//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
-	//		String ineSansCle = ine.substring(0, ine.length()-1);
-	//		String cleIne = ine.substring(ine.length()-1, ine.length());
-	//
-	//		if (logger.isDebugEnabled()) 
-	//		{
-	//			logger.debug("public Integer getCleIndByIne(String ine)");
-	//			logger.debug("ineSansCle --> "+ ineSansCle);
-	//			logger.debug("cleIne --> "+ cleIne);
-	//		}	
-	//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
-	//		// Recuperation des infos de l'etudiant dans Apogee	
-	//		InfoAdmEtuDTO infoAdmEtuDTO;
-	//		try {
-	//			if (logger.isDebugEnabled())
-	//				logger.debug("ine --> " + ine);
-	//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(null, null, ineSansCle, cleIne, null, null, null, null, null, null);
-	//			return identifiantEtudiant.getCodInd();
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			return null;
-	//		}
-	//	}		
 
 	@Override
 	//	public Integer getCleIndByCodAndCle(String codNneIndOpi, String codCleNneIndOpi) 
@@ -608,33 +449,10 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			IdentifiantEtudiant ie = new IdentifiantEtudiant(identifiantEtudiant.getCodEtu(), identifiantEtudiant.getCodInd(), identifiantEtudiant.getNumeroINE()+identifiantEtudiant.getCleINE());
 			return ie;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}		
-
-	//	@Override
-	//	public Integer getCleIndByNumeroEtudiant(String numeroEtudiant){
-	//		// appel au WS AMUE
-	//		if (logger.isDebugEnabled()) {
-	//			logger.debug("Je suis dans le WS AMUE - AUTH Apogee");
-	//			logger.debug("numeroEtudiant --> "+ numeroEtudiant);
-	//		}	
-	//		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	//
-	//		EtudiantMetierServiceInterface etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();	
-	//		// Recuperation des infos de l'etudiant dans Apogee	
-	//		InfoAdmEtuDTO infoAdmEtuDTO;
-	//		try {
-	//			if (logger.isDebugEnabled())
-	//				logger.debug("numeroEtudiant --> " + numeroEtudiant);
-	//			IdentifiantsEtudiantDTO identifiantEtudiant =  etudiantMetierService.recupererIdentifiantsEtudiant(numeroEtudiant, null, null, null, null, null, null, null, null, null);
-	//			return identifiantEtudiant.getCodInd();
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			return null;
-	//		}
-	//	}		
 
 	public List<TrCommuneDTO> getCommunes(String codePostal){
 		// appel au WS AMUE
@@ -652,7 +470,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
-			//e.printStackTrace();
 			listTrCommuneDTO = null;
 		}
 		return listTrCommuneDTO;
@@ -676,7 +493,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
-			//e.printStackTrace();
 			listTrPaysDTO = null;
 		}
 		return listTrPaysDTO;		
@@ -696,7 +512,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			logger.error(e);
 		}
 		return trPaysDTO;		
 	}	
@@ -718,7 +534,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			logger.error(e);
 			listTrDepartementDTO = null;
 		}
 		return listTrDepartementDTO;			
@@ -741,7 +557,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
-			//e.printStackTrace();
 			listTrEtablissementDTO = null;
 		}
 		return listTrEtablissementDTO;			
@@ -762,7 +577,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						typeEtablissementDTO[0].getDepartement().getCodeDept(),
 						typeEtablissementDTO[0].getDepartement().getLibDept(),
 						typeEtablissementDTO[0].getAcademie().getLibAcd(),
-						typeEtablissementDTO[0].getLibArtOffEtb().toLowerCase()+""+typeEtablissementDTO[0].getLibOffEtb(),
+//						typeEtablissementDTO[0].getLibArtOffEtb().toLowerCase()+""+typeEtablissementDTO[0].getLibOffEtb(),
+						typeEtablissementDTO[0].getLibOffEtb(),
 						typeEtablissementDTO[0].getAdresse().getLibAd1Etb(),
 						typeEtablissementDTO[0].getAdresse().getLibAd2Etb(),
 						typeEtablissementDTO[0].getAdresse().getLibAd3Etb(),
@@ -773,7 +589,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			logger.error(e);
 			typeEtablissementDTO = null;
 		}
 		return trEtablissement;			
@@ -804,7 +620,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
-			//e.printStackTrace();
 			typeEtablissementDTO = null;
 		}
 		return trEtablissement;			
@@ -846,7 +661,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					etabBac);
 			return infosBac;			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}	
@@ -862,7 +677,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			TrInfosAdmEtu trInfosAdmEtu = new TrInfosAdmEtu(nationaliteDTO.getCodeNationalite(), nationaliteDTO.getLibNationalite());
 			return trInfosAdmEtu;			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}		
@@ -900,9 +715,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				}					
 			}
 			return ret;
-			//return "";			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return codeComposanteInconnue;
 		}
 	}		
@@ -945,7 +759,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			}
 			return map;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("libWebVet", "Inconnue");
 			map.put("codeCGE", "Inconnue");
@@ -959,23 +773,24 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	@Override
 	public TrResultatVdiVetDTO getSessionsResultats(String supannEtuId, String source)
 	{
-		if (logger.isDebugEnabled())
-		{
-			logger.debug("getSessionsResultats ----- supannEtuId===>" + supannEtuId+"<===");
-			logger.debug("getSessionsResultats ----- source===>" + source+"<===");
-		}
+//		if (logger.isDebugEnabled())
+//		{
+			logger.info("getSessionsResultats ----- supannEtuId===>" + supannEtuId+"<===");
+			logger.info("getSessionsResultats ----- source===>" + source+"<===");
+//		}
 
 		int max=MAX_SESSIONS_RESULTAT_DEPART;
 		if(source.equals("A"))
 			max=MAX_SESSIONS_RESULTAT_ACCUEIL;
 
 		PedagogiqueMetierServiceInterfaceProxy pedagogiqueMetierServiceInterface = new PedagogiqueMetierServiceInterfaceProxy();
-		ContratPedagogiqueResultatVdiVetDTO[] contratPedagogiqueResultatVdiVetDTO;
+		ContratPedagogiqueResultatVdiVetDTO2[] contratPedagogiqueResultatVdiVetDTO;
 		try
 		{
-			contratPedagogiqueResultatVdiVetDTO = pedagogiqueMetierServiceInterface.recupererContratPedagogiqueResultatVdiVet(supannEtuId, "toutes", "Apogee", "AET", "toutes", null);
-			
-			ContratPedagogiqueResultatVdiVetDTO[] tab = new ContratPedagogiqueResultatVdiVetDTO[9];
+//			contratPedagogiqueResultatVdiVetDTO = pedagogiqueMetierServiceInterface.recupererContratPedagogiqueResultatVdiVet(supannEtuId, "toutes", "Apogee", "AET", "toutes", null);
+			contratPedagogiqueResultatVdiVetDTO = pedagogiqueMetierServiceInterface.recupererContratPedagogiqueResultatVdiVet_v2(supannEtuId, "toutes", "Apogee", "AET", "toutes", null, "E");
+
+			ContratPedagogiqueResultatVdiVetDTO2[] tab = new ContratPedagogiqueResultatVdiVetDTO2[9];
 
 			if (logger.isDebugEnabled())
 				logger.debug("contratPedagogiqueResultatVdiVetDTO.length -----> " + contratPedagogiqueResultatVdiVetDTO.length);
@@ -1003,14 +818,13 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			}
 		}
 		catch (WebBaseException a) {
-			a.printStackTrace();
-			if (logger.isDebugEnabled()) {
+			logger.error(a);
+			if (logger.isDebugEnabled())
 				logger.debug("contratPedagogiqueResultatVdiVetDTO.length -----> NULL (Erreur !!!)");
-			}	
 			contratPedagogiqueResultatVdiVetDTO=null;
 		}		
 		catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			contratPedagogiqueResultatVdiVetDTO=null;
 
 		}
@@ -1026,7 +840,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		{
 			for(int i=contratPedagogiqueResultatVdiVetDTO.length-1;i>=0;i--)
 			{
-				EtapeResVdiVetDTO[] etapeResVdiVetDTO = contratPedagogiqueResultatVdiVetDTO[i].getEtapes();
+				EtapeResVdiVetDTO2[] etapeResVdiVetDTO = contratPedagogiqueResultatVdiVetDTO[i].getEtapes();
 				ResultatVdiDTO[] resultatVdiDTO = contratPedagogiqueResultatVdiVetDTO[i].getResultatVdi();
 
 				if (logger.isDebugEnabled()) {
@@ -1041,17 +855,20 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					{
 						logger.debug("année --> " + etapeResVdiVetDTO[j].getCodAnu() + "/" + (Integer.parseInt(etapeResVdiVetDTO[j].getCodAnu())+1));	
 						logger.debug("etape --> " + etapeResVdiVetDTO[j].getEtape().getLibEtp());
-						logger.debug("Code état inscription administrative --> " + etapeResVdiVetDTO[j].getCodEtaIae());
-						logger.debug("Libellé état inscription administrative --> " + etapeResVdiVetDTO[j].getLibEtaIae());
+//						logger.debug("Code état inscription administrative --> " + etapeResVdiVetDTO[j].getCodEtaIae());
+//						logger.debug("Libellé état inscription administrative --> " + etapeResVdiVetDTO[j].getLibEtaIae());
 						logger.debug("etapeResVdiVetDTO[j].getCodTypIpe() --> " + etapeResVdiVetDTO[j].getCodTypIpe());
 						//logger.debug("année --> " + etapeResVdiVetDTO[j].get);
 					}	
 
 					re = new ResultatEtape();
 					ResultatVetDTO[] resultatVetDTO = etapeResVdiVetDTO[j].getResultatVet();
-					listResultatSession = new ArrayList<ResultatSession>(); 
+					listResultatSession = new ArrayList<ResultatSession>();
 
-					if(resultatVetDTO != null && etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=max)
+					/*Modification apporté par le apo-webservicesclient470lba (Attribut supplémentaire "E" comme en cours)
+					* 			contratPedagogiqueResultatVdiVetDTO = pedagogiqueMetierServiceInterface.recupererContratPedagogiqueResultatVdiVet_v2(supannEtuId, "toutes", "Apogee", "AET", "toutes", null, "E");*/
+//					if(resultatVetDTO != null && etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=max)
+					if(resultatVetDTO != null && nb<=max)
 						//if(resultatVetDTO != null)
 					{
 						if (logger.isDebugEnabled()) 
@@ -1067,12 +884,13 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 								if (logger.isDebugEnabled()) {
 									logger.debug("session --> " + resultatVetDTO[k].getSession().getLibSes());
 									logger.debug("Note au version etape --> " + resultatVetDTO[k].getNotVet());
+//									logger.debug("Note au version etape --> " + resultatVetDTO[k].getEtatDelib().getLibEtaAvc();
 								}
 								//r.setCodeSession(Integer.parseInt(resultatVetDTO[k].getSession().getCodSes()));
 								r.setLibSession(resultatVetDTO[k].getSession().getLibSes());
 							}
 							else
-								r.setLibSession("zzz");
+								r.setLibSession("");
 
 							if(resultatVetDTO[k].getTypResultat() != null && resultatVetDTO[k].getEtatDelib().getCodEtaAvc().equals("T"))
 							{
@@ -1114,14 +932,14 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						{
 							ResultatSession tmp = new ResultatSession();
 
-							tmp.setLibSession("zzz");
+							tmp.setLibSession("");
 							tmp.setResultat("");
 							listResultatSession.add(tmp);
 						}						
 					}		
 					else if(resultatVdiDTO != null && etapeResVdiVetDTO[j].getEtape().getTemDipVet().equals("O") 
-							&& etapeResVdiVetDTO[j].getCodEtaIae()!=null 
-							&& etapeResVdiVetDTO[j].getCodEtaIae().equals("E")
+//							&& etapeResVdiVetDTO[j].getCodEtaIae()!=null
+//							&& etapeResVdiVetDTO[j].getCodEtaIae().equals("E")
 							&& nb<=max)
 					{
 						r = new ResultatSession();
@@ -1141,7 +959,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 								r.setLibSession(resultatVdiDTO[l].getSession().getLibSes());
 							}
 							else
-								r.setLibSession("zzz");
+								r.setLibSession("");
 
 							if(resultatVdiDTO[l].getTypResultat() != null && resultatVdiDTO[l].getEtatDelib().getCodEtaAvc().equals("T"))
 							{
@@ -1182,7 +1000,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						if(resultatVdiDTO==null || resultatVdiDTO.length!=2)
 						{
 							ResultatSession tmp = new ResultatSession();
-							tmp.setLibSession("zzz");
+							tmp.setLibSession("");
 							tmp.setResultat("");
 							listResultatSession.add(tmp);
 						}	
@@ -1204,7 +1022,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						r.setMention("");
 						listResultatSession.add(r);					
 					}
-					if(etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=max)
+//					if(etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=max)
+					if(nb<=max)
 					{
 						listResultatEtape.add(new ResultatEtape(etapeResVdiVetDTO[j].getCodAnu() + "/" + (Integer.parseInt(etapeResVdiVetDTO[j].getCodAnu())+1),
 								etapeResVdiVetDTO[j].getEtape().getLibEtp(), 
@@ -1292,8 +1111,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			indOpi.setVoeux(voeuxIns);
 			return indOpi;			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}	
@@ -1415,8 +1233,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			}		
 			return odfs;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1449,7 +1266,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		{
 			//OpiMetierServiceInterface opiMetierServiceInterface = new OpiMetierServiceInterfaceProxy();
 			//			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
-			DonneesOpiDTO4 donneesOpiDTO = new DonneesOpiDTO4();
+			DonneesOpiDTO5 donneesOpiDTO = new DonneesOpiDTO5();
 
 			/*Initialisation de l'objet DonneesOpiDTO2 d'apogee a partir de l'objet OPI de esup-transferts*/
 
@@ -1494,12 +1311,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			/* MAJOpiIndDTO*/
 			/*#################################################*/	
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			if (logger.isDebugEnabled()) {
+//			if (logger.isDebugEnabled()) {
 				logger.debug("##################################### MAJOpiIndDTO #################################################");
 				logger.debug("##################################### MAJEtatCivilDTO #################################################");
 				logger.debug("!!! OBLIGATOIRE !!! opi.getNumeroOpi() --> "+opi.getNumeroOpi());
-				logger.debug("opi.getCodCleNneIndOpi() --> "+opi.getCodCleNneIndOpi());
-				logger.debug("opi.getCodNneIndOpi() --> "+opi.getCodNneIndOpi());
+				logger.warn("opi.getCodCleNneIndOpi() --> "+opi.getCodCleNneIndOpi());
+				logger.warn("opi.getCodNneIndOpi() --> "+opi.getCodNneIndOpi());
 				logger.debug("opi.getCodSexEtuOpi() --> "+opi.getCodSexEtuOpi());
 				logger.debug("!!! OBLIGATOIRE !!! opi.getLibNomPatIndOpi() --> "+opi.getLibNomPatIndOpi());
 				logger.debug("opi.getLibNomUsuIndOpi() --> "+opi.getLibNomUsuIndOpi());
@@ -1514,9 +1331,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				logger.debug("opi.getLibVilNaiEtuOpi() --> "+opi.getLibVilNaiEtuOpi());
 				logger.debug("!!! OBLIGATOIRE !!! opi.getTemDateNaiRelOpi() --> "+opi.getTemDateNaiRelOpi());				
 				logger.debug("####################################################################################################");				
-			}			
+//			}
 			//			MAJOpiIndDTO2 indDTO = new MAJOpiIndDTO2();
-			MAJOpiIndDTO3 indDTO = new MAJOpiIndDTO3();
+			MAJOpiIndDTO4 indDTO = new MAJOpiIndDTO4();
 
 			indDTO.setCodEtuOpi(opi.getCodEtuLpa());
 			indDTO.setCodOpiIntEpo(opi.getNumeroOpi()); // !!! OBLIGATOIRE !!!
@@ -1637,7 +1454,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			/*#################################################*/ 
 			/* MAJInscriptionParalleleDTO */
 			/*#################################################*/
-			MAJInscriptionParalleleDTO inscriptionParalleleDTO = new MAJInscriptionParalleleDTO();
+			MAJInscriptionParalleleDTO2 inscriptionParalleleDTO = new MAJInscriptionParalleleDTO2();
 			if (logger.isDebugEnabled()) {
 				logger.debug("##################################### MAJInscriptionParalleleDTO ######################################################");
 				logger.debug("OBJET VIDE");
@@ -1739,19 +1556,18 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			/*APPEL DE LA METHODE DU WS APOGEE*/
 			try {
-				opiMetierServiceInterface3.mettreajourDonneesOpi_v4(donneesOpiDTO);
+				opiMetierServiceInterface3.mettreajourDonneesOpi_v5(donneesOpiDTO);
 				// Traitement des exceptions
 			}catch (WebBaseException _ex) {
 				listeErreurs.add(opi);
 				System.err.println("ApoWeb Exception levee de type " + _ex);
 				System.err.println(_ex.getLastErrorMsg());
-				_ex.printStackTrace();
+				logger.error(_ex);
 			} catch (Exception _ex) {
 				listeErreurs.add(opi);
 				System.err.println("Java Exception levee de type " + _ex);
-				_ex.printStackTrace();
+				logger.error(_ex);
 			}
-			//technical.data.toomanyrows.indopi
 		}
 		return listeErreurs;
 	}
@@ -1770,13 +1586,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			return lBac;
 		} catch (WebBaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}	
 
-	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String source, Integer annee)
+	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String mail, String source, Integer annee)
 	{
 		ReferentielMetierServiceInterfaceProxy referentielMetierService = new ReferentielMetierServiceInterfaceProxy();
 		ComposanteDTO3[] comp = referentielMetierService.recupererComposante_v2(null, null);
@@ -1784,10 +1599,10 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		if(comp.length!=0)
 		{
 			List<PersonnelComposante> pc = new ArrayList<PersonnelComposante>();
-			pc.add(new PersonnelComposante(uid, codeComposanteInconnue, source, annee, diplayName, "Inconnue",0,"oui","oui","oui","oui","oui","oui"));
+			pc.add(new PersonnelComposante(uid, codeComposanteInconnue, source, annee, diplayName, mail, "Inconnue",0,"oui","oui","oui","oui","oui","oui","non","non"));
 			for(int i=0;i<comp.length;i++)
 			{
-				pc.add(new PersonnelComposante(uid, comp[i].getCodCmp(), source, annee, diplayName, comp[i].getLibCmp(),0,"oui","oui","oui","oui","oui","oui"));
+				pc.add(new PersonnelComposante(uid, comp[i].getCodCmp(), source, annee, diplayName, mail, comp[i].getLibCmp(),0,"oui","oui","oui","oui","oui","oui","non","non"));
 			}
 			return pc;
 		}
@@ -1855,7 +1670,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			return retour;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			retour=2;
 			return retour;
 		}
@@ -1908,11 +1723,11 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	@Override
 	public List<EtudiantRef> recupererListeEtudiants(String myAnnee, String codeDiplome, String versionDiplome, String codeEtape, String versionEtape) 
 	{
-		if (logger.isDebugEnabled())
-		{
-			logger.debug("===>Je suis dans le WS AMUE<===");
-			logger.debug("public EtudiantRef recupererListeEtudiants(String myAnnee, String codeDiplome, String versionDiplome, String codeEtape, String versionEtape)===>"+myAnnee+"---"+codeDiplome+"---"+versionDiplome+"---"+codeEtape+"---"+versionEtape+"<===");
-		}
+//		if (logger.isDebugEnabled())
+//		{
+			logger.info("===>Je suis dans le WS AMUE<===");
+			logger.info("public EtudiantRef recupererListeEtudiants(String myAnnee, String codeDiplome, String versionDiplome, String codeEtape, String versionEtape)===>"+myAnnee+"---"+codeDiplome+"---"+versionDiplome+"---"+codeEtape+"---"+versionEtape+"<===");
+//		}
 
 		List<EtudiantRef> listeEtu = new ArrayList<EtudiantRef>();
 
@@ -1950,12 +1765,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 		}catch (WebBaseException w) 
 		{
-			w.printStackTrace();
+			logger.error(w);
 			return null;
 		}		
 		catch (Exception e) 
 		{
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}	
 		return listeEtu;

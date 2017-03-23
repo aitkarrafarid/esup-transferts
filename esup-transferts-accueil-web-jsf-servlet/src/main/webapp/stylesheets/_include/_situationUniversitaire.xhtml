@@ -49,11 +49,11 @@
 
 
 				<p:spacer height="10px" />
-				<!-- 			<p:spacer height="10px" /> -->
+				<p:spacer height="10px" />
 
 			</h:panelGrid>
 		</p:fieldset>
-
+		<p:spacer height="20px" />
 		<h:panelGrid columns="3" columnClasses="column" cellpadding="5">
 
 			<h:outputText value="* Nationalité : " />
@@ -69,7 +69,7 @@
 			<p:inputText id="annee_bac" size="4" maxlength="4" required="true"
 				requiredMessage="#{msgs['ERREUR.ANNEE_BAC']}"
 				value="#{userController.currentEtudiant.accueil.anneeBac}" />
-			<p:commandButton id="modalDialogButton5" onclick="dlg5.show();"
+			<p:commandButton id="modalDialogButton5" onclick="PF('dlg5').show();"
 				type="button" icon="ui-icon-help" />
 
 			<h:outputText value="* Série du baccalauréat : " />
@@ -91,7 +91,7 @@
 					update="situationUniversitaire:etablissements"
 					listener="#{userController.resetGeneral}" />
 			</p:selectOneMenu>
-			<p:commandButton id="modalDialogButton2" onclick="dlg2.show();"
+			<p:commandButton id="modalDialogButton2" onclick="PF('dlg2').show();"
 				type="button" icon="ui-icon-help" />
 
 
@@ -118,12 +118,12 @@
 				<f:selectItem itemLabel="Oui" itemValue="1" />
 				<f:selectItem itemLabel="Non" itemValue="2" />
 			</p:selectOneMenu>
-			<p:commandButton id="modalDialogButton4" onclick="dlg4.show();"
+			<p:commandButton id="modalDialogButton4" onclick="PF('dlg4').show();"
 				type="button" icon="ui-icon-help" />
 
 			<h:outputText value=" SITUATION UNIVERSITAIRE ANTERIEURE" />
 			<p:separator style="width:100%;height:20px" />
-			<p:commandButton id="modalDialogButton3" onclick="dlg3.show();"
+			<p:commandButton id="modalDialogButton3" onclick="PF('dlg3').show();"
 				type="button" icon="ui-icon-help" />
 
 		</h:panelGrid>

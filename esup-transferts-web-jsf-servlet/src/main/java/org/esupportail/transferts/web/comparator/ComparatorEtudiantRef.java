@@ -2,15 +2,21 @@
  * 
  */
 package org.esupportail.transferts.web.comparator;
-import java.util.Comparator;
 
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.primefaces.model.SortOrder;
 
+import java.util.Comparator;
+
 public class ComparatorEtudiantRef implements Comparator<EtudiantRef> {
 
+    /**
+     * A logger.
+     */
+    private final Logger logger = new LoggerImpl(this.getClass());
     private String sortField;
-   
     private SortOrder sortOrder;
    
     public ComparatorEtudiantRef(String sortField, SortOrder sortOrder) {
@@ -29,10 +35,11 @@ public class ComparatorEtudiantRef implements Comparator<EtudiantRef> {
             return SortOrder.ASCENDING.equals(sortOrder) ? value : -1 * value;
         }
         catch(Exception e) {
-            throw new RuntimeException();
+            logger.error(e);
+//            throw new RuntimeException();
+            return 0;
         }
 	}
-
 }
 
 

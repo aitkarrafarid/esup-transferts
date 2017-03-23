@@ -28,11 +28,11 @@
 					styleClass="panel" header="Ouverture et fermeture de l'application">
 					<p:spacer height="10px" />
 					<p:panelGrid columns="1"
-						rendered="#{administrationController.source=='D'}">
+						rendered="#{scheduleController.source=='D'}">
 						<h:outputText value="Transferts départ" />
 					</p:panelGrid>
 					<p:panelGrid columns="1"
-						rendered="#{administrationController.source=='A'}">
+						rendered="#{scheduleController.source=='A'}">
 						<h:outputText value="Transferts accueil" />
 					</p:panelGrid>
 
@@ -64,12 +64,18 @@
 					<!-- 						action="#{scheduleController.addPeriodeFermeture}" />						 -->
 				</p:panel>
 
-				<p:dialog widgetVar="eventDialog" header="Event Details"
+				<p:dialog widgetVar="eventDialog" header="Périodes de fermeture"
 					showEffect="clip" hideEffect="clip">
 					<h:panelGrid id="eventDetails" columns="2">
 						<p:outputLabel for="title" value="Titre:" />
-						<p:inputText id="title" value="#{scheduleController.event.title}"
-							required="false" />
+						<!--<p:inputText id="title" value="#{scheduleController.event.title}"-->
+							<!--required="false" />-->
+
+						<p:inputTextarea id="title" value="#{scheduleController.event.title}" placeholder="Veuillez saisir votre message"
+										 required="true" />
+
+						<!--<p:editor id="title" value="#{scheduleController.event.title}"-->
+								  <!--required="true" />-->
 
 						<p:outputLabel for="from" value="Du:" />
 						<p:calendar id="from"
@@ -79,12 +85,6 @@
 						<p:outputLabel for="to" value="Au:" />
 						<p:calendar id="to" value="#{scheduleController.event.endDate}"
 							locale="fr" timeZone="GMT+1" pattern="dd/MM/yyyy HH:mm" />
-
-						<!-- 						<p:outputLabel for="allDay" value="All Day:" /> -->
-						<!-- 						<h:selectBooleanCheckbox id="allDay" -->
-						<!-- 							value="#{scheduleController.event.allDay}" /> -->
-
-						<!-- 						<p:commandButton type="reset" value="Reset" /> -->
 						<p:commandButton id="addButton" value="Enregistrer"
 							actionListener="#{scheduleController.addEvent}"
 							oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
@@ -99,31 +99,6 @@
 		<p:messages id="msgs2" showDetail="false" />
 
 		<script type="text/javascript">
-			// 			PrimeFaces.locales['fr'] = {
-			// 				closeText : 'kapat',
-			// 				prevText : 'geri',
-			// 				nextText : 'ileri',
-			// 				currentText : 'Date actuelle',
-			// 				monthNames : [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai',
-			// 						'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre',
-			// 						'Novembre', 'Décembre' ],
-			// 				monthNamesShort : [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai',
-			// 									'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre',
-			// 									'Novembre', 'Décembre' ],
-			// 				dayNames : [ 'Samedi', 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi' ],
-			// 				dayNamesShort : [ 'Samedi', 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi' ],
-			// 				dayNamesMin : [ 'Samedi', 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi' ],
-			// 				weekHeader : 'Hf',
-			// 				firstDay : 1,
-			// 				isRTL : false,
-			// 				showMonthAfterYear : false,
-			// 				yearSuffix : '',
-			// 				month : 'Mois',
-			// 				week : 'Weekend',
-			// 				day : 'Jour',
-			// 				allDayText : 'Tüm Gün'
-			// 			};
-
 			// JavaScript Document
 			PrimeFaces.locales['fr'] = {
 				closeText : 'Fermer',
@@ -165,12 +140,4 @@
 	width: 1000px;
 }
 </style>
-
-<!-- 	</ui:define> -->
-
-<!-- 	<ui:define name="content"> -->
-<!-- 		<ui:include src="/stylesheets/gestionnaire/_include/_footer.xhtml"></ui:include> -->
-<!-- 	</ui:define> -->
-
-<!-- </ui:composition> -->
 </html>

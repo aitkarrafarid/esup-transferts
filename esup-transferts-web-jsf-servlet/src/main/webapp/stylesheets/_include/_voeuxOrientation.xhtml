@@ -80,7 +80,7 @@
 				type="button" icon="ui-icon-help" />
 
 			<h:outputText value="* Département : " />
-			<p:selectOneMenu id="departements" filter="true" filterMatchMode="contains" 
+			<p:selectOneMenu id="departements" filter="true" filterMatchMode="contains"
 				value="#{userController.currentEtudiant.transferts.dept}"
 				required="true" requiredMessage="#{msgs['ERREUR.DEPARTEMENT']}">
 				<f:selectItem itemLabel="== Choix ==" itemValue="" />
@@ -133,10 +133,10 @@
 			<h:outputText value="* Niveau : "
 				rendered="#{!userController.anneeEtudeVide}" />
 			<p:selectOneMenu id="niveauDiplome"
-				rendered="#{!userController.anneeEtudeVide and !sessionController.choixDuVoeuParComposante}"
+				rendered="#{!userController.anneeEtudeVide and !userController.choixDuVoeuParComposanteByPartenaire}"
 				value="#{userController.codeNiveau}" required="true"
 				requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-				<f:selectItem itemLabel="== Choix ==" itemValue="" />
+				<f:selectItem itemLabel="== Choix / Diplôme ==" itemValue="" />
 				<f:selectItems value="#{userController.listeAnneesEtude}" />
 				<!-- 				<f:ajax event="change" render="formVoeux" -->
 				<!-- 					listener="#{userController.resetLibelleDiplome}" /> -->
@@ -144,10 +144,10 @@
 					listener="#{userController.resetLibelleDiplome}" />
 			</p:selectOneMenu>
 			<p:selectOneMenu id="niveauComposante"
-				rendered="#{!userController.anneeEtudeVide and sessionController.choixDuVoeuParComposante}"
+				rendered="#{!userController.anneeEtudeVide and userController.choixDuVoeuParComposanteByPartenaire}"
 				value="#{userController.codeNiveau}" required="true"
 				requiredMessage="#{msgs['ERREUR.NIVEAU']}">
-				<f:selectItem itemLabel="== Choix ==" itemValue="" />
+				<f:selectItem itemLabel="== Choix / Composante ==" itemValue="" />
 				<f:selectItems value="#{userController.listeAnneesEtude}" />
 				<!-- 				<f:ajax event="change" render="formVoeux" -->
 				<!-- 					listener="#{userController.resetLibelleDiplome}" /> -->
@@ -157,9 +157,9 @@
 			<h:outputText value=" " rendered="#{!userController.anneeEtudeVide}" />
 
 			<h:outputText value="* Diplôme : "
-				rendered="#{!userController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
+				rendered="#{!userController.libelleDiplomeVide and !userController.choixDuVoeuParComposanteByPartenaire}" />
 			<p:selectOneMenu id="diplomes"
-				rendered="#{!userController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}"
+				rendered="#{!userController.libelleDiplomeVide and !userController.choixDuVoeuParComposanteByPartenaire}"
 				value="#{userController.codeDiplome}" required="true"
 				requiredMessage="#{msgs['ERREUR.DIPLOME']}">
 				<f:selectItem itemLabel="== Choix ==" itemValue="" />
@@ -170,12 +170,12 @@
 					listener="#{userController.resetLibelleEtape}" />
 			</p:selectOneMenu>
 			<h:outputText value=" "
-				rendered="#{!userController.libelleDiplomeVide and !sessionController.choixDuVoeuParComposante}" />
+				rendered="#{!userController.libelleDiplomeVide and !userController.choixDuVoeuParComposanteByPartenaire}" />
 
 			<h:outputText value="* Composante : "
-				rendered="#{!userController.composanteVide and sessionController.choixDuVoeuParComposante}" />
+				rendered="#{!userController.composanteVide and userController.choixDuVoeuParComposanteByPartenaire}" />
 			<p:selectOneMenu id="composante"
-				rendered="#{!userController.composanteVide and sessionController.choixDuVoeuParComposante}"
+				rendered="#{!userController.composanteVide and userController.choixDuVoeuParComposanteByPartenaire}"
 				value="#{userController.codeComposante}" required="true"
 				requiredMessage="#{msgs['ERREUR.COMPOSANTE']}">
 				<f:selectItem itemLabel="== Choix ==" itemValue="" />
@@ -186,43 +186,29 @@
 					listener="#{userController.resetLibelleEtape}" />
 			</p:selectOneMenu>
 			<h:outputText value=" "
-				rendered="#{!userController.composanteVide and sessionController.choixDuVoeuParComposante}" />
+				rendered="#{!userController.composanteVide and userController.choixDuVoeuParComposanteByPartenaire}" />
 
-			<h:outputText value="* Parcours : "
+			<h:outputText value="* Version d'étape : "
 				rendered="#{!userController.libelleEtapeVide}" />
-			<p:dataTable var="vet" rendered="#{!userController.libelleEtapeVide}"
-				rowKey="#{vet}" emptyMessage="Aucun parcours"
+			<p:dataTable var="vet" rendered="#{!userController.libelleEtapeVide}" style="width: 600px;"
+				rowKey="#{vet}" emptyMessage="Aucune version d'étape"
 				selection="#{userController.currentOdf}" selectionMode="single"
 				value="#{userController.odfDataModel}">
-				<!-- 								<p:ajax event="rowSelect" update=":form:display"  -->
-				<!-- 									oncomplete="carDialog.show()" /> -->
+				<p:column style="width: 50px;">
+					<f:facet name="header">
+						Code version d'étape
+					</f:facet>
+					<h:outputText value="#{vet.codeVersionEtape}" />
+				</p:column>
 				<p:column>
 					<f:facet name="header">  
 		                   				Sélectionnez la formation 
         			    			</f:facet>
 					<h:outputText value="#{vet.libVersionEtape}" />
 				</p:column>
-				<p:column>
-					<f:facet name="header">  
-		                   				Code version d'étape
-        			    			</f:facet>				
-					<h:outputText value="#{vet.codeVersionEtape}" />
-				</p:column>
 			</p:dataTable>
 			<h:outputText value=" "
 				rendered="#{!userController.libelleEtapeVide}" />
-
-			<!-- 			<h:outputText value="* Parcours : " -->
-			<!-- 				rendered="#{!userController.libelleEtapeVide}" /> -->
-			<!-- 			<p:selectOneMenu id="etapes" -->
-			<!-- 				rendered="#{!userController.libelleEtapeVide}" -->
-			<!-- 				value="#{userController.currentEtudiant.transferts.idEtape}" -->
-			<!-- 				required="true" requiredMessage="#{msgs['ERREUR.PARCOURS']}"> -->
-			<!-- 				<f:selectItem itemLabel="== Choix ==" itemValue="" /> -->
-			<!-- 				<f:selectItems value="#{userController.listeLibellesEtape}" /> -->
-			<!-- 			</p:selectOneMenu> -->
-			<!-- 			<h:outputText value=" " -->
-			<!-- 				rendered="#{!userController.libelleEtapeVide}" /> -->
 
 		</h:panelGrid>
 

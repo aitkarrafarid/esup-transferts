@@ -1,39 +1,30 @@
 package org.esupportail.transferts.web.controllers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
-import javax.faces.context.FacesContext;
-
-import org.apache.commons.collections.ListUtils;
 import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.commons.services.ldap.LdapUserService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.CGE;
 import org.esupportail.transferts.domain.beans.Composante;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.User;
-import org.hibernate.mapping.Array;
-import org.hibernate.validator.util.NewInstance;
-import org.primefaces.event.CellEditEvent;
+import org.esupportail.transferts.utils.Fonctions;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.util.Assert;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ManagerController extends AbstractContextAwareController {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -1084617895906407867L;
 	/**
@@ -46,9 +37,9 @@ public class ManagerController extends AbstractContextAwareController {
 	private String nomRecherche;
 	private String prenomRecherche;
 	private List<User> personnelsRecherche;
-	private DualListModel<PersonnelComposante> players;  
-	List<PersonnelComposante> source;  
-	List<PersonnelComposante> target;  
+	private DualListModel<PersonnelComposante> players;
+	List<PersonnelComposante> source;
+	List<PersonnelComposante> target;
 	/*Permet de r�soudre le probleme avec le p:ajaxStatus dans le header*/
 	private boolean use = false;
 	private Integer typePersonnel;
@@ -56,38 +47,47 @@ public class ManagerController extends AbstractContextAwareController {
 	private String employeeAffiliation;
 	private String ldapAffiliation;
 	private String listeComposantesFerme;
-	private List<String> listeComposantesFermeSplit = new ArrayList<String>();	
-	private List<Composante> listeComposantes; 
+	private List<String> listeComposantesFermeSplit = new ArrayList<String>();
+	private List<Composante> listeComposantes;
 	private List<Composante> listeComposantesMerge;
-	private List<CGE> listeCGE; 
+	private List<CGE> listeCGE;
 	private List<CGE> listeCGEMerge;
-	private List<Composante> filteredComposantes;  
-	private List<CGE> filteredCGE; 
+	private List<Composante> filteredComposantes;
+	private List<CGE> filteredCGE;
 	private List<PersonnelComposante> listeComposantesDetailsDroits;
 	private List<PersonnelComposante> listeComposantesDetailsDroitsMerge;
 	private List<PersonnelComposante> listePlayersDetailsDroits;
 	private List<PersonnelComposante> filteredDetailsDroits;
+//	private String ldapDisplayNameAttribute;
+//	private String ldapEmailAttribute;
 
 
 	/**
 	 * LdapUserService
 	 */
-	private LdapUserService ldapUserService;
+//	private LdapUserService ldapUserService;
 
 	@Override
 	public void afterPropertiesSetInternal()
 	{
 		super.afterPropertiesSetInternal();
-		Assert.notNull(this.ldapUserService, "property ldapUserService of class " 
-				+ this.getClass().getName() + " can not be null");		
+//		Assert.notNull(this.ldapUserService, "property ldapUserService of class "
+//				+ this.getClass().getName() + " can not be null");
 		Assert.hasText(employeeAffiliation, "property employeeAffiliation of class "
-				+ this.getClass().getName() + " can not be null");			
+				+ this.getClass().getName() + " can not be null");
 		Assert.hasText(ldapAffiliation, "property ldapAffiliation of class "
-				+ this.getClass().getName() + " can not be null");				
-	}	
+				+ this.getClass().getName() + " can not be null");
+//		Assert.hasText(ldapDisplayNameAttribute, "property ldapDisplayNameAttribute of class "
+//				+ this.getClass().getName() + " can not be null");
+//		Assert.hasText(ldapEmailAttribute, "property ldapEmailAttribute of class "
+//				+ this.getClass().getName() + " can not be null");
+	}
 
 	public String goToDetailDroits()
 	{
+		logger.warn("===>public String goToDetailDroits()<===");
+		logger.warn("personnelChoisi===>"+personnelChoisi+"<===");
+		this.setFilteredDetailsDroits(null);
 		if (logger.isDebugEnabled())
 			logger.debug("public String goToDetailDroits()");
 		//		setFrom("D");
@@ -95,7 +95,7 @@ public class ManagerController extends AbstractContextAwareController {
 		//listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
 		//this.addPersonnelComposante();
 		//listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());		
-		return "goToDetailDroits"; 		
+		return "goToDetailDroits";
 	}
 
 	public void addValidationAutoByComposante()
@@ -107,8 +107,8 @@ public class ManagerController extends AbstractContextAwareController {
 		}
 		getDomainService().addValidationAutoByComposante(this.listeComposantesMerge);
 		this.listeComposantesMerge=null;
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Vos modifications ont bien ete prises en compte", "Vos modifications ont bien ete prises en compte");  
-		FacesContext.getCurrentInstance().addMessage(null, msg);  
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Vos modifications ont bien ete prises en compte", "Vos modifications ont bien ete prises en compte");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void addValidationAutoByCGE()
@@ -120,14 +120,14 @@ public class ManagerController extends AbstractContextAwareController {
 		}
 		getDomainService().addValidationAutoByCGE(this.listeCGEMerge);
 		this.listeCGEMerge=null;
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Vos modifications ont bien ete prises en compte", "Vos modifications ont bien ete prises en compte");  
-		FacesContext.getCurrentInstance().addMessage(null, msg);  
-	}	
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Vos modifications ont bien ete prises en compte", "Vos modifications ont bien ete prises en compte");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 
 	public String goToValidationComposantesAutoTransfertsDepart()
 	{
 		if (logger.isDebugEnabled())
-			logger.debug("public String goToValidationTransfertsDepart()");
+			logger.debug("===>public String goToValidationTransfertsDepart()<===");
 		setFrom("D");
 		if(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getFrom())!=null)
 		{
@@ -137,8 +137,8 @@ public class ManagerController extends AbstractContextAwareController {
 			return "goToValidationComposantesAutoTransfertsDepart";
 		}
 		else
-			return "goToSignatureParDefautObligatoire";		
-	}    
+			return "goToSignatureParDefautObligatoire";
+	}
 
 	public String goToValidationCGEAutoTransfertsDepart()
 	{
@@ -155,78 +155,95 @@ public class ManagerController extends AbstractContextAwareController {
 
 	public void addPersonnelComposante()
 	{
-		if(listeComposantesDetailsDroits!=null && listeComposantesDetailsDroits.size()>0)
-			if (logger.isDebugEnabled())
-				logger.debug("################ listeComposantesDetailsDroits #################### --> "+listeComposantesDetailsDroits.size());			
+		logger.info("===>public void addPersonnelComposante()<===");
+		if(listeComposantesDetailsDroits!=null && listeComposantesDetailsDroits.size()>0) {
+//			if (logger.isDebugEnabled())
+				logger.info("################ listeComposantesDetailsDroits #################### --> " + listeComposantesDetailsDroits.size());
+			List<PersonnelComposante> lPc = new ArrayList<PersonnelComposante>();
+			for (int i = 0; i < listeComposantesDetailsDroits.size(); i++) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("##########################################################################################");
+					logger.debug("################ listeComposantesDetailsDroits.get(i).getUid() #################### --> " + listeComposantesDetailsDroits.get(i).getUid());
+					logger.debug("################ listeComposantesDetailsDroits.get(i).getCodeComposante() #################### --> " + listeComposantesDetailsDroits.get(i).getCodeComposante());
+					logger.debug("################ listeComposantesDetailsDroits.get(i).getLibelleComposante() #################### --> " + listeComposantesDetailsDroits.get(i).getLibelleComposante());
+					logger.debug("################ listeComposantesDetailsDroits.get(i).getSource() #################### --> " + listeComposantesDetailsDroits.get(i).getSource());
+					logger.debug("##########################################################################################");
+				}
 
-		List<PersonnelComposante> lPc = new ArrayList<PersonnelComposante>();
-		for(int i=0;i<listeComposantesDetailsDroits.size();i++)
-		{
-			if (logger.isDebugEnabled())
-			{
-				logger.debug("##########################################################################################");
-				logger.debug("################ listeComposantesDetailsDroits.get(i).getUid() #################### --> "+listeComposantesDetailsDroits.get(i).getUid());
-				logger.debug("################ listeComposantesDetailsDroits.get(i).getCodeComposante() #################### --> "+listeComposantesDetailsDroits.get(i).getCodeComposante());
-				logger.debug("################ listeComposantesDetailsDroits.get(i).getLibelleComposante() #################### --> "+listeComposantesDetailsDroits.get(i).getLibelleComposante());
-				logger.debug("################ listeComposantesDetailsDroits.get(i).getSource() #################### --> "+listeComposantesDetailsDroits.get(i).getSource());
-				logger.debug("##########################################################################################");					
+				if ("D".equals(getFrom()))
+					typePersonnel = 0;
+
+//				String mail=listeComposantesDetailsDroits.get(i).getMailPersonnel();
+//				if(mail==null || mail.equals("") || mail.equalsIgnoreCase("null"))
+//					mail=personnelChoisi.getMail();
+
+				PersonnelComposante p = new PersonnelComposante(listeComposantesDetailsDroits.get(i).getUid(),
+						listeComposantesDetailsDroits.get(i).getCodeComposante(),
+						listeComposantesDetailsDroits.get(i).getSource(),
+						getSessionController().getCurrentAnnee(),
+						listeComposantesDetailsDroits.get(i).getDisplayName(),
+						listeComposantesDetailsDroits.get(i).getMailPersonnel(),
+						listeComposantesDetailsDroits.get(i).getLibelleComposante(),
+						typePersonnel,
+						listeComposantesDetailsDroits.get(i).getDroitSuppression(),
+						listeComposantesDetailsDroits.get(i).getDroitEditionPdf(),
+						listeComposantesDetailsDroits.get(i).getDroitAvis(),
+						listeComposantesDetailsDroits.get(i).getDroitAvisDefinitif(),
+						listeComposantesDetailsDroits.get(i).getDroitDecision(),
+						listeComposantesDetailsDroits.get(i).getDroitDeverrouiller(),
+						listeComposantesDetailsDroits.get(i).getAlertMailDemandeTransfert(),
+						listeComposantesDetailsDroits.get(i).getAlertMailSva());
+
+				lPc.add(p);
+
+
 			}
-
-			if(getFrom().equals("D"))
-				typePersonnel=0;
-
-			PersonnelComposante p = new PersonnelComposante(listeComposantesDetailsDroits.get(i).getUid(), 
-					listeComposantesDetailsDroits.get(i).getCodeComposante(),
-					listeComposantesDetailsDroits.get(i).getSource(), 
-					getSessionController().getCurrentAnnee(),
-					listeComposantesDetailsDroits.get(i).getDisplayName(),
-					listeComposantesDetailsDroits.get(i).getLibelleComposante(),
-					typePersonnel,
-					listeComposantesDetailsDroits.get(i).getDroitSuppression(),
-					listeComposantesDetailsDroits.get(i).getDroitEditionPdf(),
-					listeComposantesDetailsDroits.get(i).getDroitAvis(),
-					listeComposantesDetailsDroits.get(i).getDroitAvisDefinitif(),
-					listeComposantesDetailsDroits.get(i).getDroitDecision(),
-					listeComposantesDetailsDroits.get(i).getDroitDeverrouiller());
-
-			lPc.add(p);						
-
-
+			getDomainService().addPersonnelComposante(personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee(), lPc);
+			listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
+			String summary = "L'affectation de vos composantes a bien ete prise en compte";
+			String detail = "L'affectation de vos composantes a bien ete prise en compte";
+			Severity severity = FacesMessage.SEVERITY_INFO;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 		}
-		getDomainService().addPersonnelComposante(personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee(), lPc);
-		listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());			
-		String summary = "L'affectation de vos composantes a bien ete prise en compte";
-		String detail = "L'affectation de vos composantes a bien ete prise en compte";
-		Severity severity=FacesMessage.SEVERITY_INFO;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));				
+		else{
+			String summary = "Aucune affectation n'est possible";
+			String detail = "Aucune affectation n'est possible";
+			Severity severity = FacesMessage.SEVERITY_WARN;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+		}
 	}
 
 	public void addPersonnelComposanteWithDetails()
 	{
 		if(logger.isDebugEnabled())
-			logger.debug("public void addPersonnelComposanteWithDetails()");	
+			logger.debug("public void addPersonnelComposanteWithDetails()");
 
 		getDomainService().addPersonnelComposante(personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee(), listeComposantesDetailsDroits);
 		listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
 		String summary = "L'affectation de vos composantes a bien ete prise en compte";
 		String detail = "L'affectation de vos composantes a bien ete prise en compte";
 		Severity severity=FacesMessage.SEVERITY_INFO;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));				
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 	}
 
-	public void onTransfer(TransferEvent event) {  
-		StringBuilder builder = new StringBuilder();  
-		for(Object item : event.getItems()) {  
-			builder.append(((PersonnelComposante) item).getCodeComposante()).append("<br />");  
-		}  
-	}  	
+	public void onTransfer(TransferEvent event) {
+		StringBuilder builder = new StringBuilder();
+		for(Object item : event.getItems()) {
+			builder.append(((PersonnelComposante) item).getCodeComposante()).append("<br />");
+		}
+	}
 
 	public String goToManagerChoixLicence()
 	{
-		if(logger.isDebugEnabled())
-			logger.debug("goToManagerChoixLicence");
+		logger.warn("===>public String goToManagerChoixLicence()<===");
+		logger.warn("personnelChoisi===>"+personnelChoisi+"<===");
+
+		if(personnelChoisi.getMail()==null || personnelChoisi.getMail().equals("") || personnelChoisi.getMail().equals("null"))
+			personnelChoisi.setMail(updateInfosLdapFromUser(personnelChoisi.getLogin()));
+
 		setUse(true);
 		listeComposantesFermeSplit=null;
+
 		if(this.getTarget()!=null)
 			players = new DualListModel<PersonnelComposante>(this.getSource(), this.getTarget());
 		else
@@ -237,78 +254,162 @@ public class ManagerController extends AbstractContextAwareController {
 	}
 
 	public String rechercherPersonnel(){
-		if(logger.isDebugEnabled())
-			logger.debug("rechercherPersonnel");
+		logger.debug("===>rechercherPersonnel<===");
 
-		String ret = null;
 		this.personnelsRecherche = new ArrayList<User>();
 
 		if ((this.prenomRecherche == null || this.prenomRecherche.isEmpty())
 				&& (this.nomRecherche == null || this.nomRecherche.isEmpty())){
-			FacesContext.getCurrentInstance().addMessage(null, 
+			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erreur : ", "Vous devez renseigner au moins un critere de recherche"));
 		} else {
-			if (this.prenomRecherche == null || this.prenomRecherche.isEmpty()){
+			if (this.prenomRecherche == null || this.prenomRecherche.isEmpty()) {
 				this.prenomRecherche = "";
 			}
-			if (this.nomRecherche == null || this.nomRecherche.isEmpty()){
+			if (this.nomRecherche == null || this.nomRecherche.isEmpty()) {
 				this.nomRecherche = "";
 			}
 
 			String filter = "";
 
-			if(this.employeeAffiliation!=null && this.employeeAffiliation!="")
-			{
+			if (this.employeeAffiliation != null && this.employeeAffiliation != "") {
 				String[] tokens = this.employeeAffiliation.split(",");
-				filter = "(&(givenName="+this.prenomRecherche+"*)(sn="+this.nomRecherche+"*)";
-				for(int i=0; i<tokens.length; i++)
-				{
-					if(i==0)
-						filter+="(|("+ldapAffiliation+"="+tokens[i]+")";
+				filter = "(&(givenName=" + this.prenomRecherche + "*)(sn=" + this.nomRecherche + "*)";
+				for (int i = 0; i < tokens.length; i++) {
+					if (i == 0)
+						filter += "(|(" + ldapAffiliation + "=" + tokens[i] + ")";
 					else
-						filter+="("+ldapAffiliation+"="+tokens[i]+")";
+						filter += "(" + ldapAffiliation + "=" + tokens[i] + ")";
 				}
-				filter+="))";
-			}
-			else
+				filter += "))";
+			} else
 				logger.error("Aucune affiliation d�finie pour un employe");
 
 			// creation du filtre sur le nom et le prenom
 			//			String filter = "(&(givenName="+this.prenomRecherche+"*)(sn="+this.nomRecherche+"*))";
 			//			String filter = "(&(givenName="+this.prenomRecherche+"*)(sn="+this.nomRecherche+"*)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)))";
 			String[] tokens2 = this.employeeAffiliation.split(",");
-			if(logger.isDebugEnabled())
-			{
-				logger.debug("tokens2-->"+ tokens2.length);	
-				logger.debug("filter -->"+ filter);
-			}
-			List<LdapUser> resultList = ldapUserService.getLdapUsersFromFilter(filter);
 
-			// Via l'objet User on utilise DisplayName pour stocker le nom et Language pour stocker le prenom...
-			for(LdapUser ldapUser : resultList){
-				User u = new User();
-				u.setLogin(ldapUser.getAttribute(ldapUserService.getIdAttribute()));
-				u.setDisplayName(ldapUser.getAttribute("displayName"));
-				if (!this.personnelsRecherche.contains(u)){
-					this.personnelsRecherche.add(u);
+//			if(logger.isDebugEnabled())
+//			{
+			logger.info("tokens2-->" + tokens2.length);
+			logger.info("filter -->" + filter);
+//			}
+
+			this.personnelsRecherche = getSessionController().rechercherLdap(filter);
+		}
+
+		return "goToManagerResultats";
+	}
+
+	public String updateInfosLdapFromUser(String uid){
+		logger.debug("public void updateInfosLdapFromUser()===>"+uid+"<===");
+		logger.info("from===>"+getFrom()+"<===");
+
+			String filter = "";
+			String mailRetour=null;
+
+			if (this.employeeAffiliation != null && this.employeeAffiliation != "") {
+				String[] tokens = this.employeeAffiliation.split(",");
+				filter = "(uid="+uid+")";
+				for (int i = 0; i < tokens.length; i++) {
+					if (i == 0)
+						filter += "(|(" + ldapAffiliation + "=" + tokens[i] + ")";
+					else
+						filter += "(" + ldapAffiliation + "=" + tokens[i] + ")";
+				}
+				filter += ")";
+			} else
+				logger.error("Aucune affiliation d�finie pour un employe");
+
+			// creation du filtre sur le nom et le prenom
+			//			String filter = "(uid=corinne.minjeau)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)(eduPersonPrimaryAffiliation=affiliate))";
+			String[] tokens2 = this.employeeAffiliation.split(",");
+
+//			if(logger.isDebugEnabled())
+//			{
+			logger.info("tokens2-->" + tokens2.length);
+			logger.info("filter -->" + filter);
+//			}
+
+			List<User> lUsers = getSessionController().rechercherLdap(filter);
+
+			if(lUsers!=null)
+				logger.info("lUsers.size() -->" + lUsers.size());
+
+			if(lUsers!=null && lUsers.size()==1 && lUsers.get(0).getMail()!=null && !lUsers.get(0).getMail().equals("") && !lUsers.get(0).getMail().equalsIgnoreCase("null"))
+				mailRetour=lUsers.get(0).getMail();
+
+			return mailRetour;
+	}
+
+	public void updateInfosLdap(){
+		logger.debug("===>public void updateInfosLdapDepart()<===");
+		logger.info("from===>"+getFrom()+"<===");
+		Integer compteur=0;
+		for(User u : users){
+			logger.info("===>"+u.getLogin()+"<===");
+
+			String filter = "";
+
+			if (this.employeeAffiliation != null && this.employeeAffiliation != "") {
+				String[] tokens = this.employeeAffiliation.split(",");
+				filter = "(uid="+u.getLogin()+")";
+				for (int i = 0; i < tokens.length; i++) {
+					if (i == 0)
+						filter += "(|(" + ldapAffiliation + "=" + tokens[i] + ")";
+					else
+						filter += "(" + ldapAffiliation + "=" + tokens[i] + ")";
+				}
+				filter += ")";
+			} else
+				logger.error("Aucune affiliation d�finie pour un employe");
+
+			// creation du filtre sur le nom et le prenom
+			//			String filter = "(uid=corinne.minjeau)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)(eduPersonPrimaryAffiliation=affiliate))";
+			String[] tokens2 = this.employeeAffiliation.split(",");
+
+//			if(logger.isDebugEnabled())
+//			{
+			logger.info("tokens2-->" + tokens2.length);
+			logger.info("filter -->" + filter);
+//			}
+
+			List<User> lUsers = getSessionController().rechercherLdap(filter);
+
+			if(lUsers!=null)
+				logger.info("lUsers.size() -->" + lUsers.size());
+
+			if(lUsers!=null && lUsers.size()==1 && lUsers.get(0).getMail()!=null && !lUsers.get(0).getMail().equals("") && !lUsers.get(0).getMail().equalsIgnoreCase("null")) {
+				List<PersonnelComposante> listPersComp = getDomainService().getListeComposantesByUidAndSourceAndAnnee(lUsers.get(0).getLogin(), getFrom(), getSessionController().getCurrentAnnee());
+				if (listPersComp != null && listPersComp.size() > 0) {
+					List<PersonnelComposante> lPcForUpdate = new ArrayList<PersonnelComposante>();
+					for (PersonnelComposante pc : listPersComp) {
+						pc.setMailPersonnel(lUsers.get(0).getMail());
+						lPcForUpdate.add(pc);
+					}
+					getDomainService().addPersonnelComposante(lUsers.get(0).getLogin(), getFrom(), getSessionController().getCurrentAnnee(), lPcForUpdate);
+					compteur++;
 				}
 			}
-			ret = "goToManagerResultats";
 		}
-		return ret;
-	}	
+		String summary = compteur+" mise(s) à jour des infos LDAP réussie(s)";
+		String detail = compteur+" mise(s) à jour des infos LDAP réussie(s)";
+		Severity severity=FacesMessage.SEVERITY_INFO;
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
+	}
 
 	public String goToManagerRecherche()
 	{
 		if(logger.isDebugEnabled())
-			logger.debug("goToManagerRecherche");		
+			logger.debug("goToManagerRecherche");
 		return "goToManagerRecherche";
 	}
 
 	public String goToListeManagerAccueil()
 	{
 		if(logger.isDebugEnabled())
-			logger.debug("goToListeManagerAccueil");		
+			logger.debug("goToListeManagerAccueil");
 
 		setFrom("A");
 		pc=null;
@@ -319,13 +420,13 @@ public class ManagerController extends AbstractContextAwareController {
 	public String goToListeManagerDepart()
 	{
 		if(logger.isDebugEnabled())
-			logger.debug("goToListeManagerDepart");		
+			logger.debug("goToListeManagerDepart");
 
 		setFrom("D");
 		pc=null;
 		users = new ArrayList<User>();
 		return "goToListeManagerDepart";
-	}	
+	}
 
 	public Logger getLogger() {
 		return logger;
@@ -381,22 +482,22 @@ public class ManagerController extends AbstractContextAwareController {
 		this.personnelsRecherche = personnelsRecherche;
 	}
 
-	public LdapUserService getLdapUserService() {
-		return ldapUserService;
-	}
-
-	public void setLdapUserService(LdapUserService ldapUserService) {
-		this.ldapUserService = ldapUserService;
-	}	
+//	public LdapUserService getLdapUserService() {
+//		return ldapUserService;
+//	}
+//
+//	public void setLdapUserService(LdapUserService ldapUserService) {
+//		this.ldapUserService = ldapUserService;
+//	}
 
 	public List<PersonnelComposante> getSource() {
 
-		List<PersonnelComposante> lpSource = getDomainServiceScolarite().recupererComposante(this.personnelChoisi.getLogin(), this.personnelChoisi.getDisplayName(), getFrom(), getSessionController().getCurrentAnnee());
+		List<PersonnelComposante> lpSource = getDomainServiceScolarite().recupererComposante(this.personnelChoisi.getLogin(), this.personnelChoisi.getDisplayName(), this.personnelChoisi.getMail(), getFrom(), getSessionController().getCurrentAnnee());
 
 		if(getListeComposantesFermeSplit()!=null)
 		{
 			for(String comp : listeComposantesFermeSplit)
-				lpSource.add(new PersonnelComposante(this.personnelChoisi.getLogin(), comp.substring(0, comp.indexOf("||")), getFrom(), getSessionController().getCurrentAnnee(), this.personnelChoisi.getDisplayName(), comp.substring(comp.indexOf("||")+2,comp.length()),0,"oui","oui","oui","oui","oui","oui"));
+				lpSource.add(new PersonnelComposante(this.personnelChoisi.getLogin(), comp.substring(0, comp.indexOf("||")), getFrom(), getSessionController().getCurrentAnnee(), this.personnelChoisi.getDisplayName(), this.personnelChoisi.getMail(), comp.substring(comp.indexOf("||")+2,comp.length()),0,"oui","oui","oui","oui","oui","oui","non","non"));
 		}
 
 		List<PersonnelComposante> lpTarget = this.getTarget();
@@ -449,7 +550,6 @@ public class ManagerController extends AbstractContextAwareController {
 	}
 
 	public List<User> getUsers() {
-		//		users = new ArrayList<User>();
 		if(users==null || users.isEmpty())
 		{
 			Map<String, String> lpc = new HashMap();
@@ -463,10 +563,10 @@ public class ManagerController extends AbstractContextAwareController {
 					User u = new User();
 					u.setLogin(mapKey);
 					u.setDisplayName(lpc.get(mapKey));
-					users.add(u);			
+					users.add(u);
 				}
 			}
-		}	
+		}
 		return users;
 	}
 
@@ -479,7 +579,7 @@ public class ManagerController extends AbstractContextAwareController {
 		if(lpc!=null && !lpc.isEmpty())
 			setTypePersonnel(lpc.get(0).getTypePersonnel());
 		else
-			setTypePersonnel(null);		
+			setTypePersonnel(null);
 		return typePersonnel;
 	}
 
@@ -530,11 +630,11 @@ public class ManagerController extends AbstractContextAwareController {
 				{
 					this.listeComposantesFermeSplit.add(tokens[i]);
 					if(logger.isDebugEnabled())
-						logger.debug("listeComposantesFermee-->"+tokens[i]);					
+						logger.debug("listeComposantesFermee-->"+tokens[i]);
 				}
 			}
 			else
-				this.listeComposantesFermeSplit.add(this.listeComposantesFerme);		
+				this.listeComposantesFermeSplit.add(this.listeComposantesFerme);
 		}
 		return listeComposantesFermeSplit;
 	}
@@ -558,10 +658,10 @@ public class ManagerController extends AbstractContextAwareController {
 			List<Composante> listeComposantesDistinct = new ArrayList<Composante>();
 
 			if(logger.isDebugEnabled())
-				logger.debug("getListeComposantesFermeSplit()-->"+getListeComposantesFermeSplit());			
+				logger.debug("getListeComposantesFermeSplit()-->"+getListeComposantesFermeSplit());
 
-			if(getListeComposantesFermeSplit()!=null && !getListeComposantesFermeSplit().equals(""))
-			{				
+			if(getListeComposantesFermeSplit()!=null && !getListeComposantesFermeSplit().isEmpty())
+			{
 				for(String s : listeComposantesFermeSplit)
 				{
 					if(logger.isDebugEnabled())
@@ -608,7 +708,7 @@ public class ManagerController extends AbstractContextAwareController {
 			{
 				if(logger.isDebugEnabled())
 					logger.debug("####################-->"+c3.toString());
-				listeComposantesMerge.add(c3);				
+				listeComposantesMerge.add(c3);
 			}
 		}
 		return listeComposantesMerge;
@@ -644,7 +744,10 @@ public class ManagerController extends AbstractContextAwareController {
 			if(logger.isDebugEnabled())
 			{
 				logger.debug("listeCGE.size()--->"+listeCGE.size());
-				logger.debug("listeCGEFromBdd.size()--->"+listeCGEFromBdd.size());
+				if(listeCGEFromBdd!=null)
+					logger.debug("listeCGEFromBdd.size()--->"+listeCGEFromBdd.size());
+				else
+					logger.debug("listeCGEFromBdd.size()--->null");
 			}
 
 			for(CGE c1 : listeCGE)
@@ -675,7 +778,7 @@ public class ManagerController extends AbstractContextAwareController {
 			{
 				if(logger.isDebugEnabled())
 					logger.debug("####################-->"+c3.toString());
-				listeCGEMerge.add(c3);				
+				listeCGEMerge.add(c3);
 			}
 		}
 		return listeCGEMerge;
@@ -687,7 +790,7 @@ public class ManagerController extends AbstractContextAwareController {
 
 	public List<CGE> getListeCGEMerge() {
 		if(this.listeCGEMerge==null)
-			this.getListeCGE();		
+			this.getListeCGE();
 		return listeCGEMerge;
 	}
 
@@ -711,7 +814,7 @@ public class ManagerController extends AbstractContextAwareController {
 		this.filteredCGE = filteredCGE;
 	}
 
-	public List<PersonnelComposante> getListeComposantesDetailsDroits() 
+	public List<PersonnelComposante> getListeComposantesDetailsDroits()
 	{
 		return listeComposantesDetailsDroits;
 	}
@@ -729,7 +832,7 @@ public class ManagerController extends AbstractContextAwareController {
 		this.filteredDetailsDroits = filteredDetailsDroits;
 	}
 
-	public List<PersonnelComposante> getListeComposantesDetailsDroitsMerge() 
+	public List<PersonnelComposante> getListeComposantesDetailsDroitsMerge()
 	{
 		return listeComposantesDetailsDroitsMerge;
 	}
@@ -747,4 +850,20 @@ public class ManagerController extends AbstractContextAwareController {
 			List<PersonnelComposante> listePlayersDetailsDroits) {
 		this.listePlayersDetailsDroits = listePlayersDetailsDroits;
 	}
+
+//	public String getLdapDisplayNameAttribute() {
+//		return ldapDisplayNameAttribute;
+//	}
+//
+//	public void setLdapDisplayNameAttribute(String ldapDisplayNameAttribute) {
+//		this.ldapDisplayNameAttribute = ldapDisplayNameAttribute;
+//	}
+//
+//	public String getLdapEmailAttribute() {
+//		return ldapEmailAttribute;
+//	}
+//
+//	public void setLdapEmailAttribute(String ldapEmailAttribute) {
+//		this.ldapEmailAttribute = ldapEmailAttribute;
+//	}
 }

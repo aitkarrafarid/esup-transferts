@@ -46,6 +46,10 @@
 				            #{PCDetailsDroits.uid}  
 				        </p:column>
 
+				<p:column headerText="Mail">
+					#{PCDetailsDroits.mailPersonnel}
+				</p:column>
+
 				<p:column headerText="Code composante" filterBy="#{PCDetailsDroits.codeComposante}" sortBy="#{PCDetailsDroits.codeComposante}">
 				            #{PCDetailsDroits.codeComposante}  
 				        </p:column>
@@ -146,7 +150,37 @@
 							</h:selectOneMenu>
 						</f:facet>
 					</p:cellEditor>
-				</p:column>				
+				</p:column>
+
+                <p:column headerText="Alert mail demande transfert">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{PCDetailsDroits.alertMailDemandeTransfert}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{PCDetailsDroits.alertMailDemandeTransfert}"
+                                             style="width:100%">
+                                <f:selectItem itemLabel="oui" itemValue="oui" />
+                                <f:selectItem itemLabel="non" itemValue="non" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+				<p:column headerText="Alert mail SVA">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{PCDetailsDroits.alertMailSva}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{PCDetailsDroits.alertMailSva}"
+											 style="width:100%">
+								<f:selectItem itemLabel="oui" itemValue="oui" />
+								<f:selectItem itemLabel="non" itemValue="non" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
 
 				<f:facet name="footer">
 					<p:commandButton value="Précedent"

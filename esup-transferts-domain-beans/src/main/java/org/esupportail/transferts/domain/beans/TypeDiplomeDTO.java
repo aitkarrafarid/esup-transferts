@@ -10,7 +10,7 @@ public class TypeDiplomeDTO implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427732666404494181L;
 
 	/**
 	 * Code type diplome

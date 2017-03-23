@@ -1,31 +1,18 @@
 package org.esupportail.transferts.web.controllers;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.activation.MimetypesFileTypeMap;
-import javax.faces.application.FacesMessage;  
-import javax.faces.application.FacesMessage.Severity;
-import javax.faces.context.FacesContext;  
-import javax.faces.model.SelectItem;
-
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.Fichier;
 import org.esupportail.transferts.web.dataModel.SignatureDataModel;
-import org.esupportail.transferts.web.comparator.ComparatorSelectItem;
 import org.esupportail.transferts.web.utils.FileHashSum;
-import org.primefaces.event.FileUploadEvent;  
-import org.primefaces.model.UploadedFile;  
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+
+import javax.activation.MimetypesFileTypeMap;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
+import java.io.*;
 
 
 public class FileUploadController extends AbstractContextAwareController implements Serializable {
@@ -102,7 +89,7 @@ public class FileUploadController extends AbstractContextAwareController impleme
 			}
 			else
 			{
-				e.printStackTrace();
+				logger.info(e.getMessage());
 			}
 		}		
 	}
@@ -181,7 +168,7 @@ public class FileUploadController extends AbstractContextAwareController impleme
 				}
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error(e);
 				String summary = getString("ERREUR.ENREGISTREMENT_SIGNATURE", result.getName());
 				String detail = getString("ERREUR.ENREGISTREMENT_SIGNATURE", result.getName());
 				Severity severity=FacesMessage.SEVERITY_ERROR;
@@ -196,50 +183,6 @@ public class FileUploadController extends AbstractContextAwareController impleme
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));			
 		}
 	} 	
-
-	public byte [] ImageToByte(String file) throws FileNotFoundException{
-		FileInputStream fis = new FileInputStream(file);
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		byte[] buf = new byte[1024];
-		try {
-			for (int readNum; (readNum = fis.read(buf)) != -1;) {
-				bos.write(buf, 0, readNum);     
-			}
-		} catch (IOException ex) {
-		}
-		byte[] bytes = bos.toByteArray();
-
-		return bytes;
-	}		
-
-//	public List<SelectItem> getListeFichiers() {
-//		if (logger.isDebugEnabled()) {
-//			logger.debug("public List<SelectItem> getListeFichiers()");
-//			logger.debug("getDomainServiceWS().getFichiers();");
-//		}
-//		List<SelectItem> fichiers = new ArrayList<SelectItem>();
-//		List<Fichier> listeFichiers = getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource());
-//
-//		if(listeFichiers!=null)
-//		{
-//			for(Fichier f : listeFichiers)
-//			{				
-//				SelectItem option = new SelectItem(f.getMd5(),f.getNomSignataire()+" - "+f.getNom());
-//				fichiers.add(option);
-//				if (logger.isDebugEnabled()) {
-//					logger.debug("listeFichiers - MD5 --> " + f.getMd5());
-//					logger.debug("listeFichiers - NOM --> " + f.getNom());					
-//				}						
-//			}		
-//			Collections.sort(fichiers,new ComparatorSelectItem());
-//		}
-//		else
-//		{
-//			SelectItem option = new SelectItem("", "");
-//			fichiers.add(option);				
-//		}
-//		return fichiers;
-//	}	
 
 	public SignatureDataModel getListeFichiers2() {
 		if(getDomainService().getFichiersByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource())!=null)

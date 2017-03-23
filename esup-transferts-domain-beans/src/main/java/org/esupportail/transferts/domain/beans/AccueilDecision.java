@@ -43,7 +43,7 @@ public class AccueilDecision implements Serializable {
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="DECISION_SEQ")
 //	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="DECISION_SEQ")
-	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)	
+	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)
 	private long id;		
 
 //	@XmlTransient

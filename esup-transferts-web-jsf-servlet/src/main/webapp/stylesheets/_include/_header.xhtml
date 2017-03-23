@@ -34,7 +34,7 @@
 			icon="ui-icon-search">
 			<f:param name="i" value="1" />
 		</p:menuitem>
-		<p:menuitem value="Imprimer les formulaires"
+		<p:menuitem value="Imprimer les formulaires" rendered="#{userController.currentEtudiant.transferts.temoinTransfertValide==2}"
 			action="#{userController.imprimerDemandeTransfert}"
 			icon="ui-icon-search">
 			<f:param name="i" value="1" />

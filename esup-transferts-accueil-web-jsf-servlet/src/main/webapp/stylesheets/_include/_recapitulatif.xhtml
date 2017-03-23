@@ -13,18 +13,6 @@
 	<p:growl id="growl" showDetail="false" sticky="true" />
 
 	<p:panel id="voeux" header="Récapitulatif">
-
-<!-- 		<h:panelGrid columns="1" -->
-<!-- 			rendered="#{userController.presentBdd and (userController.currentEtudiant.transferts.temoinTransfertValide==2 || sessionController.editionPdfAccueilSansDecision)}"> -->
-<!-- 			<p:commandButton value="Imprimer les formulaires" update="voeux,msgs,msgsBas,growl" -->
-<!-- 				action="#{userController.imprimerDemandeTransfert}" /> -->
-<!-- 		</h:panelGrid> -->
-
-<!-- 		<h:panelGrid columns="1"> -->
-<!-- 			<p:commandButton value="Imprimer" update="voeux,msgs,msgsBas,growl" -->
-<!-- 				action="#{userController.imprimerDemandeTransfert}" /> -->
-<!-- 		</h:panelGrid> -->
-
 		<p:spacer height="10px" />
 
 		<p:fieldset legend="infos" toggleable="true" toggleSpeed="200"
@@ -203,10 +191,7 @@
 				<h:outputText value="" />
 
 			</h:panelGrid>
-
 			<p:spacer height="10px" />
-
-<!-- 			<p:dataList value="#{userController.sudm}" var="situationUniv" -->
 			<p:dataList value="#{userController.lTrSituationUniversitaire}" var="situationUniv"
 				type="definition">  
     #{situationUniv.annee}, #{situationUniv.libelle}, résultat : #{situationUniv.resultat}   
@@ -214,36 +199,6 @@
 					<p:spacer height="5px" />
 				</f:facet>
 			</p:dataList>
-
-			<!-- 			<p:carousel id="basicCarousel" value="#{userController.sudm}"  -->
-			<!-- 				var="situationUniv" itemStyleClass="carItem"> -->
-			<!-- 				<h:panelGrid columns="1" style="width:100%" cellpadding="5"> -->
-			<!-- 					<h:outputText value="Année #{situationUniv.annee.libelle}" /> -->
-
-			<!-- 					<h:outputText value="Libellé #{situationUniv.libelle}" /> -->
-
-			<!-- 					<h:outputText value="Résultat #{situationUniv.resultat.libelle}" /> -->
-			<!-- 				</h:panelGrid> -->
-			<!-- 								<f:facet name="footer">   -->
-			<!-- 				            In total there are #{fn:length(userController.sudm)} cars.   -->
-			<!-- 				    </f:facet> -->
-			<!-- 			</p:carousel> -->
-
-			<!--     <p:dataGrid var="situationUniv" value="#{userController.sudm}" columns="3" paginator="true"  -->
-			<!--         rows="2">   -->
-
-			<!--         <p:panel header="#{car.model}" style="text-align:center">   -->
-			<!-- 				<h:panelGrid columns="1" style="width:100%" cellpadding="5"> -->
-			<!-- 					<h:outputText value="Année #{situationUniv.annee.libelle}" /> -->
-
-			<!-- 					<h:outputText value="Libellé #{situationUniv.libelle}" /> -->
-
-			<!-- 					<h:outputText value="Résultat #{situationUniv.resultat.libelle}" /> -->
-			<!-- 				</h:panelGrid> -->
-			<!--         </p:panel>   -->
-
-			<!--     </p:dataGrid>   -->
-
 		</p:fieldset>
 
 		<p:spacer height="10px" />
@@ -266,7 +221,7 @@
 
 				<h:outputText value="Composante : " />
 				<h:outputText
-					value="#{userController.currentEtudiant.transferts.odf.libComposante}" />
+					value="#{userController.currentEtudiant.transferts.odf.libComposante} (#{userController.currentEtudiant.transferts.odf.codeComposante})" />
 
 				<h:outputText value="Type de diplôme : "
 					rendered="#{userController.currentEtudiant.transferts.odf != null}" />
@@ -292,7 +247,7 @@
 					rendered="#{userController.currentEtudiant.transferts.odf != null}"
 					value="#{userController.currentEtudiant.transferts.odf.libDiplome}" />
 
-				<h:outputText value="Parcours : "
+				<h:outputText value="Version d'étape : "
 					rendered="#{userController.currentEtudiant.transferts.odf != null}" />
 				<h:outputText
 					rendered="#{userController.currentEtudiant.transferts.odf != null}"

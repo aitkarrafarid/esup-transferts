@@ -66,18 +66,10 @@
 					action="#{managerController.goToListeManagerAccueil}"
 					immediate="true" />
 				<p:spacer width="20" />
-				<!-- 				<p:commandButton id="pojoSubmit" value="Valider" -->
-				<!-- 					action="#{managerController.addPersonnelComposante}" -->
-				<!-- 					update="msgs,msgs2,growl" /> -->
 				<p:commandButton id="pojoSubmitdetails" value="Suivant"
 					action="#{managerController.goToDetailDroits}"
 					update="msgs,msgs2,growl" />
 			</center>
-			<!-- 			<p:spacer height="30" /> -->
-			<!-- 			<div style="padding-left: 300px;"> -->
-			<!-- 				<p:commandButton value="#{msgs['GENERAL.RETOUR']}" -->
-			<!-- 					action="goToManagerRecherche" immediate="true" /> -->
-			<!-- 			</div> -->
 			<p:messages id="msgs2" showDetail="false" />
 		</h:form>
 	</ui:define>

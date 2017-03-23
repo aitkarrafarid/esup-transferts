@@ -41,16 +41,24 @@ import org.esupportail.transferts.domain.beans.PersonnelComposante;
 	@NamedQuery(
 			name="getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante",
 			query="SELECT pc FROM PersonnelComposante pc WHERE pc.uid = :uid AND pc.source = :source AND pc.annee = :annee AND pc.codeComposante = :codeComposante)"
-			)	
+			),
+		@NamedQuery(
+				name="getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante",
+				query="SELECT pc FROM PersonnelComposante pc WHERE pc.source = :source AND pc.annee = :annee AND pc.codeComposante = :codeComposante)"
+		)
 })
 @IdClass(PersonnelComposantePK.class)
 @Table(name = "PERSONNEL_COMPOSANTE")
-public class PersonnelComposante implements Serializable {
+public class PersonnelComposante implements Serializable, Cloneable {
 
 	/**
 	 * For serialize.
 	 */
 	private static final long serialVersionUID = 1234532897404494181L;
+
+	public Object clone()throws CloneNotSupportedException{
+		return super.clone();
+	}
 
 	@Id
 	private String uid;	
@@ -75,8 +83,11 @@ public class PersonnelComposante implements Serializable {
 	 * 2 ==> Autres
 	 * */
 	@Column(name = "TYPE_PERSONNEL", nullable=false)
-	private Integer typePersonnel;	
-	
+	private Integer typePersonnel;
+
+	@Column(name = "MAIL", nullable=true)
+	private String mailPersonnel;
+
 	@Transient
 	private String libelleTypePersonnel;
 	
@@ -96,8 +107,14 @@ public class PersonnelComposante implements Serializable {
 	private String droitDecision;	
 	
 	@Column(name = "DROIT_DEVERROUILLER", nullable=false)	
-	private String droitDeverrouiller;	
-	
+	private String droitDeverrouiller;
+
+	@Column(name = "ALERT_MAIL_DEMANDE_TRANSFERT", nullable=false)
+	private String alertMailDemandeTransfert;
+
+	@Column(name = "ALERT_MAIL_SVA", nullable=false)
+	private String alertMailSva;
+
 	/**
 	 * Bean constructor.
 	 */
@@ -132,7 +149,8 @@ public class PersonnelComposante implements Serializable {
 							   String codeComposante, 
 							   String source, 
 							   Integer annee, 
-							   String displayName, 
+							   String displayName,
+							   String mailPersonnel,
 							   String libelleComposante, 
 							   Integer typePersonnel, 
 							   String droitSuppression,
@@ -140,13 +158,16 @@ public class PersonnelComposante implements Serializable {
 							   String droitAvis,
 							   String droitAvisDefinitif,
 							   String droitDecision,
-							   String droitDeverrouiller)
+							   String droitDeverrouiller,
+							   String alertMailDemandeTransfert,
+							   String alertMailSva)
 	{
 		super();
 		this.uid = uid;
 		this.codeComposante = codeComposante;
 		this.source = source;
 		this.displayName = displayName;
+		this.mailPersonnel= mailPersonnel;
 		this.libelleComposante = libelleComposante;
 		this.typePersonnel = typePersonnel;
 		this.annee=annee;
@@ -156,6 +177,8 @@ public class PersonnelComposante implements Serializable {
 		this.droitAvisDefinitif=droitAvisDefinitif;
 		this.droitDecision=droitDecision;
 		this.droitDeverrouiller=droitDeverrouiller;
+		this.alertMailDemandeTransfert=alertMailDemandeTransfert;
+		this.alertMailSva=alertMailSva;
 	}
 
 	@Override
@@ -168,6 +191,7 @@ public class PersonnelComposante implements Serializable {
 				", displayName='" + displayName + '\'' +
 				", libelleComposante='" + libelleComposante + '\'' +
 				", typePersonnel=" + typePersonnel +
+				", mailPersonnel='" + mailPersonnel + '\'' +
 				", libelleTypePersonnel='" + libelleTypePersonnel + '\'' +
 				", droitSuppression='" + droitSuppression + '\'' +
 				", droitEditionPdf='" + droitEditionPdf + '\'' +
@@ -175,6 +199,8 @@ public class PersonnelComposante implements Serializable {
 				", droitAvisDefinitif='" + droitAvisDefinitif + '\'' +
 				", droitDecision='" + droitDecision + '\'' +
 				", droitDeverrouiller='" + droitDeverrouiller + '\'' +
+				", alertMailDemandeTransfert='" + alertMailDemandeTransfert + '\'' +
+				", alertMailSva='" + alertMailSva + '\'' +
 				'}';
 	}
 
@@ -299,5 +325,29 @@ public class PersonnelComposante implements Serializable {
 
 	public void setDroitAvisDefinitif(String droitAvisDefinitif) {
 		this.droitAvisDefinitif = droitAvisDefinitif;
+	}
+
+	public String getMailPersonnel() {
+		return mailPersonnel;
+	}
+
+	public void setMailPersonnel(String mailPersonnel) {
+		this.mailPersonnel = mailPersonnel;
+	}
+
+	public String getAlertMailDemandeTransfert() {
+		return alertMailDemandeTransfert;
+	}
+
+	public void setAlertMailDemandeTransfert(String alertMailDemandeTransfert) {
+		this.alertMailDemandeTransfert = alertMailDemandeTransfert;
+	}
+
+	public String getAlertMailSva() {
+		return alertMailSva;
+	}
+
+	public void setAlertMailSva(String alertMailSva) {
+		this.alertMailSva = alertMailSva;
 	}
 }

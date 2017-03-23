@@ -4,15 +4,19 @@
  */
 package org.esupportail.transferts.accueil.web.controllers;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeAccueilDecision;
+import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeCorrespondance;
+import org.esupportail.transferts.accueil.web.comparator.ComparatorSelectItem;
+import org.esupportail.transferts.accueil.web.dataModel.OdfDataModel;
+import org.esupportail.transferts.accueil.web.dataModel.SituationUniversitaireDataModel;
+import org.esupportail.transferts.accueil.web.utils.PDFUtils;
+import org.esupportail.transferts.domain.beans.*;
+import org.esupportail.transferts.utils.CheckBEA23;
+import org.esupportail.transferts.utils.CheckNNE36;
+import org.esupportail.transferts.utils.GestionDate;
+import org.springframework.util.Assert;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -23,46 +27,10 @@ import javax.mail.internet.InternetAddress;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.transferts.domain.beans.AccueilAnnee;
-import org.esupportail.transferts.domain.beans.AccueilDecision;
-import org.esupportail.transferts.domain.beans.AccueilResultat;
-import org.esupportail.transferts.domain.beans.AdresseRef;
-import org.esupportail.transferts.domain.beans.Avis;
-import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
-import org.esupportail.transferts.domain.beans.Correspondance;
-import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.esupportail.transferts.domain.beans.EtudiantRefImp;
-import org.esupportail.transferts.domain.beans.Fermeture;
-import org.esupportail.transferts.domain.beans.Fichier;
-import org.esupportail.transferts.domain.beans.IndOpi;
-import org.esupportail.transferts.domain.beans.InfosAccueil;
-import org.esupportail.transferts.domain.beans.DatasExterne;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.PersonnelComposante;
-import org.esupportail.transferts.domain.beans.SituationUniversitaire;
-import org.esupportail.transferts.domain.beans.TrBac;
-import org.esupportail.transferts.domain.beans.TrBlocageDTO;
-import org.esupportail.transferts.domain.beans.TrCommuneDTO;
-import org.esupportail.transferts.domain.beans.TrDepartementDTO;
-import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
-import org.esupportail.transferts.domain.beans.TrPaysDTO;
-import org.esupportail.transferts.domain.beans.TrSituationUniversitaire;
-import org.esupportail.transferts.domain.beans.WsPub;
-import org.esupportail.transferts.utils.CheckBEA23;
-import org.esupportail.transferts.utils.CheckNNE36;
-import org.esupportail.transferts.utils.GestionDate;
-import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeCorrespondance;
-import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeAccueilDecision;
-import org.esupportail.transferts.accueil.web.comparator.ComparatorSelectItem;
-import org.esupportail.transferts.accueil.web.controllers.AbstractContextAwareController;
-import org.esupportail.transferts.accueil.web.dataModel.OdfDataModel;
-import org.esupportail.transferts.accueil.web.dataModel.SituationUniversitaireDataModel;
-import org.esupportail.transferts.accueil.web.utils.PDFUtils;
-import org.springframework.util.Assert;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * A bean to memorize the context of the application.
@@ -127,6 +95,7 @@ public class UserController extends AbstractContextAwareController {
 	private String aideTypeTransfert;
 	private List<TrSituationUniversitaire> lTrSituationUniversitaire;
 	private List<Correspondance> listeCorrespondances = null;
+	private boolean choixDuVoeuParComposanteByPartenaire;
 	/*
 	 ******************* INIT ******************** */
 
@@ -278,7 +247,7 @@ public class UserController extends AbstractContextAwareController {
 		} 
 		catch (JAXBException ex) 
 		{
-			ex.printStackTrace();
+			logger.error(ex);
 		}
 		return nameXml;
 	}		
@@ -308,7 +277,7 @@ public class UserController extends AbstractContextAwareController {
 			fileOutputStream.close();
 			inputStream.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 
@@ -325,7 +294,7 @@ public class UserController extends AbstractContextAwareController {
 		}
 	}
 
-	public String addDemandeTransferts() throws Exception
+	public String addDemandeTransferts()
 	{
 		this.currentEtudiant.setSource("A");
 
@@ -349,6 +318,7 @@ public class UserController extends AbstractContextAwareController {
 		this.currentEtudiant.setAnnee(getSessionController().getCurrentAnnee());
 		this.currentEtudiant.getAdresse().setAnnee(getSessionController().getCurrentAnnee());
 		this.currentEtudiant.getTransferts().setTemoinTransfertValide(0);
+		this.currentEtudiant.getTransferts().setTemoinRetourTransfertAccueil(0);
 		this.currentEtudiant.getTransferts().setDateDemandeTransfert(new Date());
 		this.currentEtudiant.getTransferts().setAnnee(getSessionController().getCurrentAnnee());
 		this.currentEtudiant.getTransferts().setFichier(null);
@@ -366,8 +336,7 @@ public class UserController extends AbstractContextAwareController {
 
 			this.addCorrespondance(correspondance);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			logger.error(e1);
 		}
 
 		getDomainService().addDemandeTransferts(this.getCurrentEtudiant());
@@ -395,7 +364,8 @@ public class UserController extends AbstractContextAwareController {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e1) {
-				e1.printStackTrace();
+				logger.error(e1);
+				Thread.currentThread().interrupt();
 			}			
 			String sujet2 = getString("MAIL.INFORMATION.SUJET");
 			String body2 = "";			
@@ -420,6 +390,29 @@ public class UserController extends AbstractContextAwareController {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));	
 			}		
 		}
+
+		if(this.currentEtudiant.getTransferts().getOdf().getCodeComposante()!=null && !this.currentEtudiant.getTransferts().getOdf().getCodeComposante().equals("")) {
+			Set listDestinataires=new HashSet(); // on crée notre Set
+			List<PersonnelComposante> lp = getDomainService().getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante("A", getSessionController().getCurrentAnnee(), this.currentEtudiant.getTransferts().getOdf().getCodeComposante());
+
+			logger.info("lp===>" + lp + "<===");
+
+			if (lp != null && lp.size() > 0) {
+				String sujet2="Nouvelle demande de transfert accueil";
+				String body2=getString("MAIL.INFORMATION.BODY",
+						this.currentEtudiant.getNumeroIne(),
+						this.currentEtudiant.getNumeroEtudiant(),
+						this.currentEtudiant.getPrenom1(),
+						this.currentEtudiant.getNomPatronymique(),
+						this.currentEtudiant.getDateNaissance());
+				for (PersonnelComposante pc : lp) {
+					if (pc.getAlertMailDemandeTransfert().equalsIgnoreCase("OUI") && pc.getMailPersonnel() != null && !pc.getMailPersonnel().equals(""))
+						listDestinataires.add(new String(pc.getMailPersonnel())); // on ajoute des string quelconques // oups, je l'ai déja ajouté, la fonction gère l'exception levée, et l'objet n'est pas ajouté
+				}
+				this.envoiMailMasse(listDestinataires, sujet2, body2);
+			}
+		}
+
 		String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT_ACCUEIL");
 		String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT_ACCUEIL");
 		Severity severity = FacesMessage.SEVERITY_INFO;
@@ -438,7 +431,35 @@ public class UserController extends AbstractContextAwareController {
 //		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity3,summary3, detail3));
 
 		return "goToRecapitulatifApogee";
-	}	
+	}
+
+	private void envoiMailMasse(Set listDestinataires, String sujet, String body)
+	{
+		try {
+			if(listDestinataires!=null)
+				logger.info("listDestinataires.size()===>"+listDestinataires.size()+"<===");
+			Iterator i = listDestinataires.iterator(); // on crée un Iterator pour parcourir notre HashSet
+			while (i.hasNext()) // tant qu'on a un suivant
+			{
+				String mail= (String) i.next();
+				logger.warn("body===>"+body+"<===");
+				InternetAddress emailAddr = new InternetAddress(mail);
+				getSmtpService().send(emailAddr, sujet, body, body);
+				if (logger.isDebugEnabled())
+					logger.info("===>#################################################################################################################<===");
+			}
+		}
+		catch (AddressException e)
+		{
+			if (logger.isDebugEnabled())
+				logger.error("===>Echec envoi de mail<===");
+			logger.error(e);
+		}
+		catch (Exception ex){
+			logger.error("===>Echec envoi de mail<===");
+			ex.printStackTrace();
+		}
+	}
 
 	public String goToRecapitulatifApogee()
 	{
@@ -554,6 +575,7 @@ public class UserController extends AbstractContextAwareController {
 
 		if(this.currentEtudiant.getAccueil().getCodeDepUnivDepart() !=null && !this.currentEtudiant.getAccueil().getCodeDepUnivDepart().equals(""))  
 		{
+
 			setDeptVide(false);
 			currentEtudiant.getAccueil().setCodeRneUnivDepart(null);
 		}
@@ -567,7 +589,17 @@ public class UserController extends AbstractContextAwareController {
 	public void resetAnneeEtude()
 	{
 		if (logger.isDebugEnabled())
-			logger.debug("public void resetAnneeEtude()");		
+			logger.debug("public void resetAnneeEtude()");
+
+//		WsPub wp = getDomainService().getWsPubByRneAndAnnee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+
+//		logger.fatal("wp===>"+wp+"<===");
+		logger.fatal("getSessionController().isChoixDuVoeuParComposante()===>"+getSessionController().isChoixDuVoeuParComposante()+"<===");
+
+//		if(wp!=null)
+//			this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
+//		else
+		this.setChoixDuVoeuParComposanteByPartenaire(getSessionController().isChoixDuVoeuParComposante());
 
 		if(getCodTypDip() !=null && !getCodTypDip().equals(""))  
 		{
@@ -606,34 +638,35 @@ public class UserController extends AbstractContextAwareController {
 		//this.getListeLibellesDiplome(); 
 	}
 
-	//	public void resetLibelleDiplome()
-	//	{
-	//		if (logger.isDebugEnabled())
-	//			logger.debug("public void resetLibelleDiplome()");
-	//
-	//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))  
-	//		{
-	//			setTypesDiplomeVide(false);
-	//			setAnneeEtudeVide(false);
-	//			setCodeDiplome(null);
-	//			setLibelleEtapeVide(true);	
-	//			setLibelleDiplomeVide(false);
-	//			this.getListeLibellesDiplome(); 
-	//		}
-	//		else
-	//		{
-	//			setLibelleDiplomeVide(true);
-	//			this.listeLibellesDiplome=null;
-	//			this.listeLibellesEtape=null;
-	//		}
-	//	}
+	public void resetLibelleDiplome()
+	{
+		logger.warn("===>public void resetLibelleDiplome()<===");
+//		setTypesDiplomeAutreVide(true);
+//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))
+		if(getCodeNiveau() !=null)
+		{
+			setDeptVide(false);
+			setTypesDiplomeVide(false);
+			setAnneeEtudeVide(false);
+			setCodeDiplome(null);
+			setLibelleEtapeVide(true);
+			setLibelleDiplomeVide(false);
+			this.getListeLibellesDiplome();
+		}
+		else
+		{
+			setLibelleDiplomeVide(true);
+			this.listeLibellesDiplome=null;
+			this.listeLibellesEtape=null;
+		}
+	}
 
 	public void resetLibelleEtape()
 	{
-		if (logger.isDebugEnabled())
-			logger.debug("public void resetLibelleEtape()");
+//		if (logger.isDebugEnabled())
+			logger.info("public void resetLibelleEtape()");
 
-		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))  
+		if(getCodeNiveau() !=null)
 		{
 			//setTypesDiplomeVide(false);
 			setAnneeEtudeVide(false);
@@ -1158,7 +1191,7 @@ public class UserController extends AbstractContextAwareController {
 		}
 		else
 		{
-			this.parametreAppli=getDomainService().getParametreByCode("ouvertureDepart");
+			this.parametreAppli=getDomainService().getParametreByCode("ouvertureAccueil");
 			if(this.parametreAppli!=null)
 			{
 				if (logger.isDebugEnabled()) {
@@ -1483,9 +1516,44 @@ public class UserController extends AbstractContextAwareController {
 		}
 		else
 			return null;
-	}		
+	}
 
 	public List<SelectItem> getListeLibellesDiplome() {
+		if (logger.isDebugEnabled())
+			logger.debug("public List<SelectItem> getListeLibellesDiplome()");
+		listeLibellesDiplome = new ArrayList<SelectItem>();
+		Map<String, String> listeLibellesDiplomeDTO = null;
+//		if (logger.isDebugEnabled())
+//		{
+			logger.debug("listeLibellesDiplomeDTO par diplome");
+			logger.debug("getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, D);");
+//			if (logger.isDebugEnabled())
+				logger.info("###################################### --> "+getSessionController().getRne()+"-----"+getSessionController().getCurrentAnnee()+"-----"+getCodTypDip()+"-----"+getCodeNiveau()+"-----"+true+"-----A");
+//		}
+		listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, "A");
+
+		if(listeLibellesDiplomeDTO!=null && !listeLibellesDiplomeDTO.isEmpty())
+		{
+			if (logger.isDebugEnabled())
+				logger.debug("listeLibellesDiplomeDTO : "+listeLibellesDiplomeDTO);
+			for(String mapKey : listeLibellesDiplomeDTO.keySet())
+			{
+				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
+				listeLibellesDiplome.add(option);
+			}
+			Collections.sort(listeLibellesDiplome,new ComparatorSelectItem());
+			return listeLibellesDiplome;
+		}
+		else
+		{
+			if (logger.isDebugEnabled())
+				logger.debug("listeLibellesDiplomeDTO = null !!!");
+			return null;
+		}
+
+	}
+
+	public List<SelectItem> getListeLibellesDiplome2() {
 		if (logger.isDebugEnabled()) {
 			logger.debug("public List<SelectItem> getListeLibellesDiplome()");
 			logger.debug("getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(),etu.getTransferts().getCodTypDip(), etu.getTransferts().getCodeNiveau());");
@@ -1510,13 +1578,26 @@ public class UserController extends AbstractContextAwareController {
 	}	
 
 	public List<OffreDeFormationsDTO> getListeLibellesEtape() {
-		if (logger.isDebugEnabled())
+		if(this.isChoixDuVoeuParComposanteByPartenaire())
 		{
-			logger.debug("public List<SelectItem> getListeLibellesEtape()");
-			logger.debug("(etu.getTransferts() --> "+currentEtudiant.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeComposante());
-			//			logger.debug("(getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip --> "+getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(),"A").size());
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("public List<SelectItem> getListeLibellesEtape()");
+				logger.debug("(etu.getTransferts() --> "+getSessionController().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeComposante()+"-----A");
+				logger.debug("(getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeComposante(), A)");
+			}
+			return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeComposante(), "A");
 		}
-		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeComposante(), "A");
+		else
+		{
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("public List<SelectItem> getListeLibellesEtape()");
+				logger.debug("(etu.getTransferts() --> "+getSessionController().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome()+"-----A");
+				logger.debug("(getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip --> "+getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(),"A").size());
+			}
+			return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(),"A");
+		}
 	}
 
 	public List<OffreDeFormationsDTO> getListeLibellesEtapeOld() {
@@ -1903,5 +1984,13 @@ public class UserController extends AbstractContextAwareController {
 
 	public void setListeCorrespondances(List<Correspondance> listeCorrespondances) {
 		this.listeCorrespondances = listeCorrespondances;
+	}
+
+	public boolean isChoixDuVoeuParComposanteByPartenaire() {
+		return choixDuVoeuParComposanteByPartenaire;
+	}
+
+	public void setChoixDuVoeuParComposanteByPartenaire(boolean choixDuVoeuParComposanteByPartenaire) {
+		this.choixDuVoeuParComposanteByPartenaire = choixDuVoeuParComposanteByPartenaire;
 	}
 }

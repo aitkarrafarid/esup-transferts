@@ -238,7 +238,7 @@
 							<p:commandButton value="Retour" immediate="true"
 								action="#{administrationController.goToCurrentDemandeTransfertsAccueil}" />
 							<p:commandButton value="Envoyer à l'étudiant"
-								rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui')}"
+								rendered="#{(sessionController.currentUser.admin and not empty administrationController.listeAccueilDecision) || (administrationController.droitPC!=null and administrationController.droitPC.droitDecision=='oui' and administrationController.droitPC.typePersonnel==1 and not empty administrationController.listeAccueilDecision)}"
 								actionListener="#{administrationController.addAccueilDecisionDefinitif}"
 								update="form_decision,msgs,msgs2,growl">
 								<p:confirm header="Confirmation"

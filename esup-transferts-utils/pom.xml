@@ -21,6 +21,49 @@
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-commons2-jsf2-exception</artifactId>
 			<version>${esupcommons.version}</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.esupportail.transferts</groupId>
+			<artifactId>esup-transferts-domain-beans</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.esupportail.transferts</groupId>-->
+			<!--<artifactId>esup-transferts-web-jsf-servlet</artifactId>-->
+			<!--<version>0.0.1-SNAPSHOT</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.esupportail.transferts</groupId>-->
+			<!--<artifactId>esup-transferts-web-jsf-servlet</artifactId>-->
+			<!--<version>0.0.1-SNAPSHOT</version>-->
+		<!--</dependency>-->
+		<dependency>
+			<groupId>local</groupId>
+			<artifactId>ws-mds-beans</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/beans/ws-mds-domain-beans-1.0.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>local</groupId>
+			<artifactId>ws-mds-ws</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/beans/ws-mds-domain-services-1.0.jar
+			</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.esupportail</groupId>
+			<artifactId>esup-commons2-ws-cxf</artifactId>
+			<version>${esupcommons.version}</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.esupportail</groupId>
+			<artifactId>esup-commons2-rs-cxf</artifactId>
+			<version>${esupcommons.version}</version>
+			<type>pom</type>
+		</dependency>
 	</dependencies>
 </project>

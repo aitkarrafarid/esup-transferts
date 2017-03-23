@@ -19,39 +19,23 @@
 	</ui:define>
 
 	<ui:define name="corps">
-<!-- 		<p:growl id="growl" showDetail="false" /> -->
-<!-- 		<p:messages id="msgs" showDetail="false" />	 -->
 		<center>
 			<p:panel
 				rendered="#{userController.etudiant and !userController.currentEtudiantInterdit.interdit and !userController.presentBdd and userController.currentEtudiant.source!='A'}"
 				style="text-align:left;" styleClass="panel">
 				<ui:include src="/stylesheets/_include/_etatCivil.xhtml"></ui:include>
 			</p:panel>
-
 			<p:panel
 				rendered="#{userController.etudiant and !userController.currentEtudiantInterdit.interdit and userController.presentBdd and userController.currentEtudiant.source!='A'}"
 				style="text-align:left;" styleClass="panel">
 				<ui:include src="/stylesheets/_include/_recapitulatif.xhtml"></ui:include>
 			</p:panel>
-
-<!-- 			<p:panel -->
-<!-- 				rendered="#{userController.currentEtudiant.source=='A'}" -->
-<!-- 				style="text-align:left;" styleClass="panel"> -->
-<!-- 				<ui:include src="/stylesheets/depart/welcome.xhtml" /> -->
-<!-- 			</p:panel> -->
-
 			<p:panel
 				rendered="#{!userController.etudiant or userController.currentEtudiantInterdit.interdit or userController.currentEtudiant.source=='A'}"
 				style="text-align:left;" styleClass="panel">
 				<ui:include src="/stylesheets/_include/_etatCivil.xhtml" />
 			</p:panel>
 		</center>
-<!-- 		<p:messages id="msgs2" showDetail="false" />		 -->
 	</ui:define>
-
-<!-- 	<ui:define name="content"> -->
-<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
-<!-- 	</ui:define> -->
-
 </ui:composition>
 </html>

@@ -28,19 +28,16 @@
 		<property name="htmlCssStyle" value="${html_css_style}" />
 		<property name="boutonDeconnexion" value="${bouton.deconnexion}" />
 		<property name="transfertsAccueil" value="${transferts.accueil}" />
-		<property name="superGestionnaire" value="${init.superGestionnaire}" />
 		<property name="informaticiens" value="${init.informaticiens}" />
 		<property name="validationAutomatique" value="${validation.automatique}" />
 		<property name="regleGestionTE02" value="${regle.gestion.TE02}" />
 		<property name="nbJourAvantAlertSilenceVautAccord" value="${nb.jour.avant.alert.silence.vaut.accord}" />
-		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord"
-			value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
-		<!-- <property name="choixDuVeuParComposante" value="${choixDuVeuParComposante}"/> -->
-		<property name="useCandidatures" value="${use.candidatures}" />
-		<property name="wsCandidaturesWsdl" value="${ws.candidatures.wsdl}" />
-		<property name="wsCandidaturesUser" value="${ws.candidatures.user}" />
-		<property name="wsCandidaturesPwd" value="${ws.candidatures.pwd}" />
+		<property name="nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord" value="${nb.mois.avant.accord.suite.nouvelle.loi.silence.vaut.accord}" />
 		<property name="timezone" value="${timezone}" />
+		<property name="schedulerCronExpression" value="${scheduler.cronExpression}" />
+		<property name="ldapUserService" ref="ldapUserService" />
+		<property name="ldapDisplayNameAttribute" value="${ldap.displayNameAttribute}" />
+		<property name="ldapEmailAttribute" value="${ldap.emailAttribute}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"
@@ -73,15 +70,12 @@
 		<property name="mailInformation" value="${mail.information}" />
 		<property name="ineToUpperCase" value="${ine.toUpperCase}" />
 		<property name="studentAffiliation" value="${ldap.student.affiliation}" />
-		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />
 	</bean>
 
 	<bean id="administrationController"
 		class="org.esupportail.transferts.web.controllers.AdministrationController"
 		parent="abstractContextAwareController" scope="session">
 		<property name="employeeAffiliation" value="${ldap.employee.affiliation}" />
-		<property name="superGestionnaire" value="${init.superGestionnaire}" />
-		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />
 		<property name="modeSynchro" value="${mode.synchro}" />
 		<property name="exclueEtpOpi" value="${exclue.etp.opi}" />
 		<property name="exclueBacOpi" value="${exclue.bac.opi}" />
@@ -92,7 +86,6 @@
 	<bean id="managerController"
 		class="org.esupportail.transferts.web.controllers.ManagerController"
 		parent="abstractContextAwareController" scope="session">
-		<property name="ldapUserService" ref="ldapUserService" />
 		<property name="employeeAffiliation" value="${ldap.employee.affiliation}" />
 		<property name="ldapAffiliation" value="${ldap.affiliation}" />
 		<property name="listeComposantesFerme" value="${liste.composantes.ferme}" />
@@ -130,7 +123,6 @@
 	<bean id="partenaireController"
 		class="org.esupportail.transferts.web.controllers.PartenaireController"
 		parent="abstractContextAwareController" scope="session">
-		<property name="timeOutConnexionWs" value="${timeOutConnexionWs}" />
 	</bean>
 
 	<bean id="testController"

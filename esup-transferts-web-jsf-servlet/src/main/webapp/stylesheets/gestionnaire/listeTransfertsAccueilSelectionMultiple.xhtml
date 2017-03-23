@@ -40,17 +40,21 @@
 
 				<p:column selectionMode="multiple" style="width:18px" />
 
-				<p:column headerText="Etat" style="width:7%;"
-					sortBy="transferts.temoinTransfertValide" id="nb">
-					<h:graphicImage alt="avisSaisie" title="En cours"
-						value="/media/images/player_pause.png"
-						rendered="#{transferts.transferts.temoinTransfertValide==0 || transferts.transferts.temoinTransfertValide==null}" />
-					<h:graphicImage alt="avisSaisie" title="Avis saisie"
-						value="/media/images/tick.png"
-						rendered="#{transferts.transferts.temoinTransfertValide==1}" />
-					<h:graphicImage alt="avisSaisie" title="Bloquer"
-						value="/media/images/lock.png"
-						rendered="#{transferts.transferts.temoinTransfertValide==2}" />
+				<p:column headerText="Dossier" style="width:3%;"
+						  sortBy="#{transferts.transferts.temoinTransfertValide}" id="nb">
+					<p:commandButton icon="ui-icon-unlocked" rendered="#{transferts.transferts.temoinTransfertValide==1}" />
+					<p:commandButton icon="ui-icon-locked" rendered="#{transferts.transferts.temoinTransfertValide==2}" />
+				</p:column>
+
+				<p:column headerText="" style="width:3%;"
+						  sortBy="#{transferts.accueil.from_source}" id="partenaire">
+					<p:commandButton icon="ui-icon-person" rendered="#{transferts.accueil.from_source == 'P'}" />
+				</p:column>
+
+				<p:column headerText="Retour" style="width:3%;"
+						  sortBy="#{transferts.transferts.temoinRetourTransfertAccueil}">
+					<p:commandButton icon="ui-icon-mail-closed" rendered="#{transferts.transferts.temoinOPIWs==1}" />
+					<p:commandButton icon="ui-icon-alert" rendered="#{transferts.transferts.temoinOPIWs==2}" />
 				</p:column>
 
 				<p:column headerText="Composante de la formation choisie"
@@ -97,7 +101,7 @@
 			<p:spacer height="20" />
 			<center>
 				<p:panel id="avis" header="Saisie d'une décision" toggleable="true"
-					style="width:80%;" collapsed="true" closable="true"
+					style="width:80%;" collapsed="false" closable="true"
 					toggleSpeed="500" closeSpeed="500" widgetVar="avis">
 					<h:panelGrid columns="1" columnClasses="column" cellpadding="5"
 						style="text-align:left;">
@@ -125,28 +129,6 @@
 					</h:panelGrid>
 
 					<p:spacer height="20" />
-
-					<!-- 					<h:outputText value="Barre de chargement : " style="width:7%;" /> -->
-
-					<!-- 					<p:progressBar widgetVar="pbAjax" ajax="true" style="width:50%" -->
-					<!-- 						value="#{administrationController.progress}" -->
-					<!-- 						labelTemplate="{value}%" styleClass="animated"> -->
-					<!-- 						<p:ajax event="complete" -->
-					<!-- 							listener="#{administrationController.onComplete}" -->
-					<!-- 							update=":multiple:msgs,:multiple:test" -->
-					<!-- 							oncomplete="startButton2.enable()" /> -->
-					<!-- 					</p:progressBar> -->
-
-					<!-- 					<p:spacer height="40" /> -->
-
-					<!-- 					<p:commandButton value="Valider" icon="ui-icon-search" -->
-					<!-- 						update="msgs" widgetVar="startButton2" -->
-					<!-- 						action="#{administrationController.addDecisionMultiple}" /> -->
-
-					<!-- 					<p:commandButton value="Cancel" -->
-					<!-- 						actionListener="#{administrationController.cancel}" -->
-					<!-- 						oncomplete="pbAjax.cancel();startButton2.enable();" /> -->
-
 					<p:commandButton value="Valider"
 						actionListener="#{administrationController.addAvisOuDecisionMultiple}"
 						update=":multiple:msgs,:multiple:test">
@@ -156,18 +138,6 @@
 					</p:commandButton>
 
 				</p:panel>
-
-				<!-- 				<p:confirmDialog -->
-				<!-- 					message="Attention, la validation en masse peut prendre quelques minutes..." -->
-				<!-- 					header="Confirmation" severity="alert" widgetVar="confirmation"> -->
-				<!-- 					<p:commandButton value="Oui" update=":multiple:msgs,:multiple:test" -->
-				<!-- 						oncomplete="confirmation.hide()" -->
-				<!-- 						action="#{administrationController.addAvisOuDecisionMultiple}" /> -->
-				<!-- 					<p:commandButton value="Non" onclick="confirmation.hide()" -->
-				<!-- 						actionListener="#{administrationController.destroyWorld}" -->
-				<!-- 						type="button" /> -->
-				<!-- 				</p:confirmDialog> -->
-
 				<p:confirmDialog global="true" showEffect="fade"
 					hideEffect="explode">
 					<p:commandButton value="Oui" type="button"
@@ -182,25 +152,66 @@
 		<p:spacer height="20" />
 		<center>
 			<p:panel header="Légende" toggleable="true" style="width:80%;"
-				collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
-				widgetVar="panel"
-				rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
-				<h:panelGrid columns="3" cellpadding="10">
-					<h:panelGrid columns="6" cellpadding="10">
-						<p:graphicImage value="/media/images/player_pause.png" />
-						<h:outputText value="Non traité" />
-						<p:graphicImage value="/media/images/tick.png" />
-						<h:outputText value="En cours de traitement" />
-						<p:graphicImage value="/media/images/lock.png" />
-						<h:outputText value="Traité" />
-					</h:panelGrid>
-					<h:outputText value="Etablissements partenaires"
-						styleClass="highlightTableRow" />
-					<!-- 					<p:pieChart id="custom" -->
-					<!-- 						value="#{statistiqueController.pieModelAccueil}" -->
-					<!-- 						legendPosition="e" fill="false" showDataLabels="true" -->
-					<!-- 						title="Transferts Accueil #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" -->
-					<!-- 						style="width:400px;height:300px" sliceMargin="5" diameter="150" /> -->
+					 collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500"
+					 widgetVar="panel"
+					 rendered="#{administrationController.personnel and (administrationController.droitsArrivee || sessionController.currentUser.admin)}">
+				<h:panelGrid columns="6" cellpadding="10">
+					<p:panelGrid style="margin-top:20px; width: 100%;">
+						<p:row>
+							<p:column colspan="2" style="text-align: center;color: #0073EA;">Etat du dossier de transfert accueil</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Non traité</p:column>
+							<h:outputText value="" />
+						</p:row>
+						<p:row>
+							<p:column>En cours de traitement</p:column>
+							<p:column><p:commandButton icon="ui-icon-unlocked" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column>Traité</p:column>
+							<p:column><p:commandButton icon="ui-icon-locked" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2" style="text-align: center;color: #0073EA;">Type d'établissement d'accueil</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Partenaire</p:column>
+							<p:column><p:commandButton icon="ui-icon-person" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column>Non partenaire</p:column>
+							<p:column><h:outputText value="" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2" style="text-align: center;color: #0073EA;">Retour envoyé à l'établissement de départ (partenaire)</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Retour envoyé à l'établissement de départ</p:column>
+							<p:column><p:commandButton icon="ui-icon-mail-closed" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column>Problème d'envoi des données à l'établissement de départ</p:column>
+							<p:column><p:commandButton icon="ui-icon-alert" /></p:column>
+						</p:row>
+						<p:row>
+							<p:column>Pas de retour à l'établissement de départ (non partenaire)</p:column>
+							<h:outputText value="" />
+						</p:row>
+						<p:row>
+							<p:column colspan="2" style="text-align: center;color: #0073EA;">Loi silence vaut accord (SVA)</p:column>
+						</p:row>
+						<p:row>
+							<p:column>						<h:outputText
+									value="le delai de #{sessionController.nbJourAvantAlertSilenceVautAccord/7} semaine(s) est écoulé"
+									styleClass="alertSilenceVautAccord">
+								<f:convertNumber pattern="#,0" />
+							</h:outputText></p:column>
+							<p:column>						<h:outputText
+									value="Le delai de #{sessionController.nbMoisAvantAccordSuiteNouvelleLoiSilenceVautAccord} mois est dépassé"
+									styleClass="alertDepassementSilenceVautAccord" /></p:column>
+						</p:row>
+					</p:panelGrid>
 				</h:panelGrid>
 			</p:panel>
 		</center>

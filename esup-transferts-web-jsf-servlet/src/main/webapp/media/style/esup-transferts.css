@@ -14,6 +14,16 @@
 /* 	font-size: 130% !important; */
 /* } */
 
+/*.ui-panelgrid td, .ui-panelgrid tr*/
+/*{*/
+	/*border-style: none !important*/
+/*}*/
+
+.panel {
+	width: 70%;
+	font-size: 90% !important;
+}
+
 .ui-panel-title, .ui-panel-titlebar {
     text-align: center !important;
 }
@@ -24,7 +34,3 @@
 	text-align:center;
 }
 
-.panel {
-	width:70%;
-	font-size: 80% !important;
-}

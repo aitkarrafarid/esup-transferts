@@ -29,6 +29,14 @@
 						paginator="true" value="#{managerController.personnelsRecherche}"
 						var="personnel">
 
+						<p:column sortBy="#{personnel.displayName}">
+							<f:facet name="header">
+								<h:outputText style="width:100px; display:block;"
+											  value="Identité" />
+							</f:facet>
+							<h:outputText value="#{personnel.displayName}" />
+						</p:column>
+
 						<p:column sortBy="#{personnel.login}">
 							<f:facet name="header">
 								<h:outputText style="width:100px; display:block;"
@@ -36,12 +44,13 @@
 							</f:facet>
 							<h:outputText value="#{personnel.login}" />
 						</p:column>
-						<p:column sortBy="#{personnel.displayName}">
+
+						<p:column sortBy="#{personnel.mail}">
 							<f:facet name="header">
 								<h:outputText style="width:100px; display:block;"
-									value="Identité" />
+											  value="Mail" />
 							</f:facet>
-							<h:outputText value="#{personnel.displayName}" />
+							<h:outputText value="#{personnel.mail}" />
 						</p:column>
 
 						<p:column>

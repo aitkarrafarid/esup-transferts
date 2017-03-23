@@ -20,7 +20,9 @@ public enum PersonnelsComposantesColonneEnumDepart {
 	col6("EXPORT.EXCEL.COLONNE.PERSONNEL_COMPOSANTE.DROIT_SUPPRESSION", "droitSuppression"),
 	col7("EXPORT.EXCEL.COLONNE.PERSONNEL_COMPOSANTE.DROIT_EDITION_PDF", "droitEditionPdf"),
 	col8("EXPORT.EXCEL.COLONNE.PERSONNEL_COMPOSANTE.DROIT_AVIS", "droitAvis"),	
-	col9("EXPORT.EXCEL.COLONNE.PERSONNEL_COMPOSANTE.DROIT_DEVERROUILLER", "droitDeverrouiller");
+	col9("EXPORT.EXCEL.COLONNE.PERSONNEL_COMPOSANTE.DROIT_DEVERROUILLER", "droitDeverrouiller"),
+	col10("EXPORT.EXCEL.COLONNE.PERSONNEL_COMPOSANTE.DROIT_ALERT_MAIL_TRANSFERT", "alertMailDemandeTransfert"),
+	col11("EXPORT.EXCEL.COLONNE.PERSONNEL_COMPOSANTE.DROIT_ALERT_MAIL_SVA", "alertMailSva");
 
 	/*
 	 ******************* PROPERTIES ******************* */
@@ -67,7 +69,7 @@ public enum PersonnelsComposantesColonneEnumDepart {
 	/**
 	 * @param keyLabel the keyLabel to set
 	 */
-	public void setKeyLabel(final String keyLabel) {
+	private void setKeyLabel(final String keyLabel) {
 		this.keyLabel = keyLabel;
 	}
 
@@ -81,7 +83,7 @@ public enum PersonnelsComposantesColonneEnumDepart {
 	/**
 	 * @param nameProperty the nameProperty to set
 	 */
-	public void setNameProperty(final String nameProperty) {
+	private void setNameProperty(final String nameProperty) {
 		this.nameProperty = nameProperty;
 	}
 	

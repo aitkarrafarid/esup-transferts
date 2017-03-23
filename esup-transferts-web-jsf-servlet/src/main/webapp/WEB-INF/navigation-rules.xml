@@ -253,5 +253,10 @@
 			<to-view-id>/stylesheets/gestionnaire/administration.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>goToImportDonneesAnneesPrecedentes</from-outcome>
+			<to-view-id>/stylesheets/gestionnaire/importDonneesAnneesPrecedentes.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
 	</navigation-rule>
 </faces-config>

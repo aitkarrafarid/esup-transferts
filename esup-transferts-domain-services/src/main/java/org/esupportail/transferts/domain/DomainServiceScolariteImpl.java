@@ -167,8 +167,8 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 	}	
 
 	@Override
-	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String source, Integer annee) {
-		return dss.recupererComposante(uid, diplayName, source, annee);
+	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String mail, String source, Integer annee) {
+		return dss.recupererComposante(uid, diplayName, mail, source, annee);
 	}	
 
 //	@Override

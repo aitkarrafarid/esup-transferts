@@ -5,7 +5,7 @@ import javax.persistence.Id;
 
 public class OffreDeFormationPK implements java.io.Serializable {
 
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 2327732897404494181L;
 
 	@Column(name = "COD_RNE", nullable=false, length=8)
 	private String rne;

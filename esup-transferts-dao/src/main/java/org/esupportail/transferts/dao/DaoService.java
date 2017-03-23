@@ -10,29 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.esupportail.transferts.domain.beans.AccueilAnnee;
-import org.esupportail.transferts.domain.beans.AccueilDecision;
-import org.esupportail.transferts.domain.beans.AccueilResultat;
-import org.esupportail.transferts.domain.beans.Avis;
-import org.esupportail.transferts.domain.beans.CGE;
-import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
-import org.esupportail.transferts.domain.beans.Composante;
-import org.esupportail.transferts.domain.beans.DecisionDossier;
-import org.esupportail.transferts.domain.beans.EtatDossier;
-import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.esupportail.transferts.domain.beans.Fermeture;
-import org.esupportail.transferts.domain.beans.Fichier;
-import org.esupportail.transferts.domain.beans.IndOpi;
-import org.esupportail.transferts.domain.beans.DatasExterne;
-import org.esupportail.transferts.domain.beans.LocalisationDossier;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.PersonnelComposante;
-import org.esupportail.transferts.domain.beans.SituationUniversitaire;
-import org.esupportail.transferts.domain.beans.Test;
-import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
-import org.esupportail.transferts.domain.beans.Versions;
-import org.esupportail.transferts.domain.beans.WsPub;
+import org.esupportail.transferts.domain.beans.*;
+
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2016
  * 
@@ -218,11 +197,11 @@ public interface DaoService extends Serializable {
 
 	Long getStatistiquesNombreTotalTransfertOPI(Integer currentAnnee);
 
-	Test getTest(Integer id);
-
-	List<Test> getListeTests();
-
-	void addTest(Test test);
+//	Test getTest(Integer id);
+//
+//	List<Test> getListeTests();
+//
+//	void addTest(Test test);
 
 	void addValidationAutoByComposante(List<Composante> listeComposantes);
 
@@ -292,6 +271,8 @@ public interface DaoService extends Serializable {
 
 	EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee);
 
+	EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee, String source);
+
 	IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee);
 
 	List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
@@ -310,4 +291,14 @@ public interface DaoService extends Serializable {
 			Integer currentAnnee, String source);
 
 	Versions getVersionByEtat(Integer etat);
+
+	WebService updateWebService(WebService currentWs);
+
+	WebService getWebServiceByCode(String code);
+
+	void addPersonnelComposanteFromImport(List<PersonnelComposante> newLpc);
+
+	Integer addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source, Integer temoinRetourTransfertAccueil);
+
+    List<PersonnelComposante> getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(String source, Integer currentAnnee, String composante);
 }

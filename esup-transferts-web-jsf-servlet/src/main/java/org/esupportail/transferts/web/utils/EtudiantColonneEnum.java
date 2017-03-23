@@ -74,7 +74,7 @@ public enum EtudiantColonneEnum {
 	/**
 	 * @param keyLabel the keyLabel to set
 	 */
-	public void setKeyLabel(final String keyLabel) {
+	private void setKeyLabel(final String keyLabel) {
 		this.keyLabel = keyLabel;
 	}
 
@@ -88,7 +88,7 @@ public enum EtudiantColonneEnum {
 	/**
 	 * @param nameProperty the nameProperty to set
 	 */
-	public void setNameProperty(final String nameProperty) {
+	private void setNameProperty(final String nameProperty) {
 		this.nameProperty = nameProperty;
 	}
 	

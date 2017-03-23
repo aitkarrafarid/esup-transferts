@@ -21,7 +21,7 @@ public class TrEtablissementDTO implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427732897404491011L;
 
 	/**
 	 * Code établissement

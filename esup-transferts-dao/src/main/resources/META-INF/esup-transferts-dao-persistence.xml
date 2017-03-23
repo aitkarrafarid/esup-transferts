@@ -16,8 +16,6 @@
 		<class>org.esupportail.transferts.domain.beans.DecisionDossier</class>
 		<class>org.esupportail.transferts.domain.beans.Fichier</class>
 		<class>org.esupportail.transferts.domain.beans.FichierPK</class>
-<!-- 		<class>org.esupportail.transferts.domain.beans.AdresseEtablissement</class> -->
-<!-- 		<class>org.esupportail.transferts.domain.beans.InterditBu</class> -->
 		<class>org.esupportail.transferts.domain.beans.CodeSizeAnnee</class>
 		<class>org.esupportail.transferts.domain.beans.Parametres</class>		
 		<class>org.esupportail.transferts.domain.beans.OffreDeFormationsDTO</class>
@@ -45,6 +43,7 @@
 		<class>org.esupportail.transferts.domain.beans.Correspondance</class>
 		<class>org.esupportail.transferts.domain.beans.Fermeture</class>
 		<class>org.esupportail.transferts.domain.beans.SequenceOpi</class>
+		<class>org.esupportail.transferts.domain.beans.WebService</class>
 		<properties>
 			<property name="hibernate.ejb.naming_strategy" value="org.esupportail.transferts.dao.NamingStrategy"/>
 		</properties>

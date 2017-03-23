@@ -18,13 +18,13 @@ public class User implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427562897404494181L;
 
 	/**
 	 * For Sorting.
 	 */
 	@SuppressWarnings("rawtypes")
-	public static Comparator<User> ORDER_DISPLAYNAME = new Comparator() {
+	public static final Comparator<User> ORDER_DISPLAYNAME = new Comparator() {
 		@Override
 		public int compare(Object o1, Object o2) {
 			return ((User) o1).getDisplayName().compareTo(
@@ -63,8 +63,10 @@ public class User implements Serializable {
 
 	private boolean authorized=false;
 	
-	private String msg;	
-	
+	private String msg;
+
+	private String mail;
+
 	/**
 	 * Bean constructor.
 	 */
@@ -90,11 +92,18 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [login=" + login + ", displayName=" + displayName
-				+ ", admin=" + admin + ", language=" + language
-				+ ", affiliation=" + affiliation + ", numeroEtudiant="
-				+ numeroEtudiant + ", authorized=" + authorized + ", msg="
-				+ msg + "]";
+		return "User{" +
+				"login='" + login + '\'' +
+				", displayName='" + displayName + '\'' +
+				", admin=" + admin +
+				", informaticien=" + informaticien +
+				", language='" + language + '\'' +
+				", affiliation='" + affiliation + '\'' +
+				", numeroEtudiant='" + numeroEtudiant + '\'' +
+				", authorized=" + authorized +
+				", msg='" + msg + '\'' +
+				", mail='" + mail + '\'' +
+				'}';
 	}
 
 	/**
@@ -201,5 +210,13 @@ public class User implements Serializable {
 
 	public void setInformaticien(boolean informaticien) {
 		this.informaticien = informaticien;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 }

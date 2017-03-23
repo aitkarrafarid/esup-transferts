@@ -26,16 +26,16 @@
     			The path to the media files, used for scripts and stylesheets.
     		</description>
     	</property>
-    	<property name="scripts" >
-    		<description>
-    			A list of URLs that will be automatically included in the head part
-    			of the output document as scripts. Absolute URLs are used as-is, relative
-    			URLs are prefixed by property portletMediaPath or servletMediaPath.
-    		</description>
-    		<list>
-    			<value>js/functions.js</value>
-    		</list>
-    	</property>
+    	<!--<property name="scripts" >-->
+    		<!--<description>-->
+    			<!--A list of URLs that will be automatically included in the head part-->
+    			<!--of the output document as scripts. Absolute URLs are used as-is, relative-->
+    			<!--URLs are prefixed by property portletMediaPath or servletMediaPath.-->
+    		<!--</description>-->
+    		<!--<list>-->
+    			<!--<value>js/functions.js</value>-->
+    		<!--</list>-->
+    	<!--</property>-->
     	<property name="stylesheets" >
     		<description>
     			A list of URLs that will be automatically included in the head part

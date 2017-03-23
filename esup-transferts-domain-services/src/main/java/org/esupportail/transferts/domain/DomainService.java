@@ -9,32 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.esupportail.transferts.domain.beans.AccueilAnnee;
-import org.esupportail.transferts.domain.beans.AccueilDecision;
-import org.esupportail.transferts.domain.beans.AccueilResultat;
-import org.esupportail.transferts.domain.beans.Avis;
-import org.esupportail.transferts.domain.beans.CGE;
-import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
-import org.esupportail.transferts.domain.beans.Composante;
-import org.esupportail.transferts.domain.beans.DecisionDossier;
-import org.esupportail.transferts.domain.beans.EtatDossier;
-import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.esupportail.transferts.domain.beans.EtudiantRefExcel;
-import org.esupportail.transferts.domain.beans.EtudiantRefImp;
-import org.esupportail.transferts.domain.beans.Fermeture;
-import org.esupportail.transferts.domain.beans.Fichier;
-import org.esupportail.transferts.domain.beans.IndOpi;
-import org.esupportail.transferts.domain.beans.DatasExterne;
-import org.esupportail.transferts.domain.beans.LocalisationDossier;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.PersonnelComposante;
-import org.esupportail.transferts.domain.beans.PersonnelComposantePK;
-import org.esupportail.transferts.domain.beans.SituationUniversitaire;
-import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
-import org.esupportail.transferts.domain.beans.User;
-import org.esupportail.transferts.domain.beans.Versions;
-import org.esupportail.transferts.domain.beans.WsPub;
+import org.esupportail.transferts.domain.beans.*;
 import org.hibernate.exception.ConstraintViolationException;
 
 /**
@@ -291,6 +266,8 @@ public interface DomainService extends Serializable {
 
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee);
 
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee, String source);
+
 	public IndOpi getIndOpiByNneAndCleIneAndAnnee(String nne, String cleIne, Integer annee);
 
 	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee);
@@ -309,4 +286,12 @@ public interface DomainService extends Serializable {
 			String numeroEtudiant, Integer currentAnnee, String source);
 
 	public Versions getVersionByEtat(Integer etat);
+
+	public WebService updateWebService(WebService currentWs);
+
+	public WebService getWebServiceByCode(String code);
+
+	void addPersonnelComposanteFromImport(List<PersonnelComposante> newLpc);
+
+    List<PersonnelComposante> getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(String source, Integer currentAnnee, String composante);
 }

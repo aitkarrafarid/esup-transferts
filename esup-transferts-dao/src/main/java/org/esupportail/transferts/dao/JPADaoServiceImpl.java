@@ -20,43 +20,11 @@ import javax.persistence.Query;
 import org.esupportail.commons.dao.AbstractGenericJPADaoService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.transferts.domain.beans.AccueilAnnee;
-import org.esupportail.transferts.domain.beans.AccueilDecision;
-import org.esupportail.transferts.domain.beans.AccueilResultat;
-import org.esupportail.transferts.domain.beans.AdresseRef;
-import org.esupportail.transferts.domain.beans.Avis;
-import org.esupportail.transferts.domain.beans.CGE;
-import org.esupportail.transferts.domain.beans.CGEPK;
-import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
-import org.esupportail.transferts.domain.beans.Composante;
-import org.esupportail.transferts.domain.beans.ComposantePK;
-import org.esupportail.transferts.domain.beans.DatasExternePK;
-import org.esupportail.transferts.domain.beans.DecisionDossier;
-import org.esupportail.transferts.domain.beans.EtatDossier;
-import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.esupportail.transferts.domain.beans.EtudiantRefPK;
-import org.esupportail.transferts.domain.beans.Fermeture;
-import org.esupportail.transferts.domain.beans.Fichier;
-import org.esupportail.transferts.domain.beans.FichierPK;
-import org.esupportail.transferts.domain.beans.IndOpi;
-import org.esupportail.transferts.domain.beans.DatasExterne;
-import org.esupportail.transferts.domain.beans.LocalisationDossier;
-import org.esupportail.transferts.domain.beans.OffreDeFormationPK;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.PersonnelComposante;
-import org.esupportail.transferts.domain.beans.PersonnelComposantePK;
-import org.esupportail.transferts.domain.beans.SequenceOpi;
-import org.esupportail.transferts.domain.beans.SituationUniversitaire;
-import org.esupportail.transferts.domain.beans.Test;
-import org.esupportail.transferts.domain.beans.TestUnitaireEtudiantRef;
-import org.esupportail.transferts.domain.beans.Versions;
-import org.esupportail.transferts.domain.beans.WsPub;
-import org.esupportail.transferts.domain.beans.WsPubPK;
+import org.esupportail.transferts.domain.beans.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2016
- * 
+ *
  * The Hiberate implementation of the DAO service.
  */
 public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements DaoService {
@@ -69,12 +37,12 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	/**
 	 * For Logging.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());	
+	private final Logger logger = new LoggerImpl(this.getClass());
 
 	/**
 	 * JPA entity manager
 	 */
-	EntityManager entityManager;	
+	EntityManager entityManager;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -100,7 +68,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	protected EntityManager getEntityManager() {
 		return entityManager;
-	}	
+	}
 
 	@Override
 	public EtudiantRef getEtudiantRef(String numeroEtudiant, Integer annee) {
@@ -110,7 +78,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			EtudiantRefPK cleEtudiantRef = new EtudiantRefPK(numeroEtudiant, annee);
 			EtudiantRef etudiant = entityManager.find(EtudiantRef.class, cleEtudiantRef);
-			return etudiant;			
+			return etudiant;
 		}
 		catch(NoResultException e){
 			return null;
@@ -127,8 +95,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<IndOpi> getAllIndOpiBySource(Integer annee, String source) {
 		if (logger.isDebugEnabled())
-			logger.debug("public List<IndOpi> getAllIndOpiBySource(Integer annee, String source)===>"+annee+"-----"+source+"<===");		
-		try{		
+			logger.debug("public List<IndOpi> getAllIndOpiBySource(Integer annee, String source)===>"+annee+"-----"+source+"<===");
+		try{
 			Query q = entityManager.createNamedQuery("allIndOpiBySource");
 			//		Query q = entityManager.createNamedQuery("allIndOpi");
 			q.setParameter("annee", annee);
@@ -142,14 +110,14 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		catch(NoResultException e){
 			return null;
-		}			
+		}
 	}
 
 	@Override
 	public List<WsPub> getListeWsPub() {
 		if (logger.isDebugEnabled())
 			logger.debug("public List<WsPub> getListeWsPub()");
-		try{		
+		try{
 			Query q = entityManager.createNamedQuery("allWsPub");
 			@SuppressWarnings("unchecked")
 			List<WsPub> ret = (List<WsPub>)q.getResultList();
@@ -160,16 +128,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		catch(NoResultException e){
 			return null;
-		}		
+		}
 	}
 
 	@Override
 	public WsPub getWsPubByRneAndAnnee(String rne, Integer annee) {
-		if (logger.isDebugEnabled())
-			logger.debug("getWsPubByRneAndAnnee(String rne, Integer annee)");
+//		if (logger.isDebugEnabled())
+		logger.warn("getWsPubByRneAndAnnee(String rne, Integer annee)===>"+rne+"---"+annee+"<===");
 		try{
 			WsPubPK cleWsPub = new WsPubPK(rne, annee);
-			WsPub ret = entityManager.find(WsPub.class, cleWsPub);				
+			WsPub ret = entityManager.find(WsPub.class, cleWsPub);
 			return ret;
 		}
 		catch(NoResultException e){
@@ -194,7 +162,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		catch(NoResultException e){
 			return null;
 		}
-	}	
+	}
 
 	@Override
 	public void addAvis(Avis a) {
@@ -202,7 +170,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("addAvis()");
 			logger.debug("Avis --> "+a);
 		}
-		entityManager.merge(a);	
+		entityManager.merge(a);
 	}
 
 	@Override
@@ -281,7 +249,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	}
 
 	@Override
-	public LocalisationDossier getLocalisationDossierById(Integer idLocalisationDossier) 
+	public LocalisationDossier getLocalisationDossierById(Integer idLocalisationDossier)
 	{
 		if (logger.isDebugEnabled()){
 			logger.debug("getLocalisationDossierById(Integer idLocalisationDossier)");
@@ -337,7 +305,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		if (logger.isDebugEnabled()){
 			logger.debug("===>addFichier(Fichier f)<===");
 			logger.debug("Fichier===>"+f+"<===");
-		}		
+		}
 		entityManager.merge(f);
 	}
 
@@ -357,7 +325,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -404,16 +372,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			{
 //				String sql = "select lpad(OPI_SEQ.NEXTVAL,4,'0') from DUAL";
 //				String sql = "select SEQUENCE_NEXT_HI_VALUE from HIBERNATE_SEQUENCES where SEQUENCE_NAME='IND_OPI'";
-				
+
 				SequenceOpi so = new SequenceOpi();
 				SequenceOpi som = entityManager.merge(so);
-				
+
 //				@SuppressWarnings("rawtypes")
 //				List results = entityManager.createNativeQuery(sql).getResultList();
 				String value = Long.toString(som.getId());
 				if (logger.isDebugEnabled()){
 					logger.debug("Numero de sequence --> "+value);
-				}		
+				}
 				String moduloBase32 = opi.getNumeroOpi();
 				opi.setNumeroOpi(moduloBase32+value);
 				opi.getVoeux().setNumeroOpi(moduloBase32+value);
@@ -422,13 +390,13 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		catch(NoResultException e){
 			e.fillInStackTrace();
-		}		
+		}
 	}
 
 	@Override
 	public List<EtudiantRef> getAllDemandesTransfertsByAnnee(Integer annee, String source) {
-		if (logger.isDebugEnabled())
-			logger.debug("getAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source+"<===");
+//		if (logger.isDebugEnabled())
+			logger.warn("getAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("allDemandesTransfertsByAnnee");
 			q.setParameter("annee", annee);
@@ -498,7 +466,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	}
 
 	@Override
-	public void deleteDemandeTransfert(EtudiantRef demandeTransferts, Integer annee) 
+	public void deleteDemandeTransfert(EtudiantRef demandeTransferts, Integer annee)
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("deleteDemandeTransfert(EtudiantRef demandeTransferts)");
@@ -509,14 +477,14 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			int delete = q.executeUpdate();
 			if (logger.isDebugEnabled()){
 				logger.debug("delete ---> "+delete);
-			}			
+			}
 			EtudiantRefPK cleEtudiantRef = new EtudiantRefPK(demandeTransferts.getNumeroEtudiant(), annee);
 			EtudiantRef etudiant = entityManager.find(EtudiantRef.class, cleEtudiantRef);
 			entityManager.remove(etudiant);
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
-		}		
+			logger.error(e);
+		}
 	}
 
 	/*Statistiques*/
@@ -550,7 +518,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("source", source);
 			Long ret = (long) q.getResultList().size();
 			if (logger.isDebugEnabled())
-				logger.debug("getDemandesTransfertsByAvisSaisieAndAnnee(Integer annee) --> " + ret);			
+				logger.debug("getDemandesTransfertsByAvisSaisieAndAnnee(Integer annee) --> " + ret);
 			return ret;
 		}
 		catch(NoResultException e){
@@ -568,7 +536,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("annee", annee);
 			q.setParameter("source", source);
 			Long ret = (long) q.getResultList().size();
-			logger.debug("getDemandesTransfertsByTerminerAndAnnee(Integer annee) --> " + ret);				
+			logger.debug("getDemandesTransfertsByTerminerAndAnnee(Integer annee) --> " + ret);
 			return ret;
 		}
 		catch(NoResultException e){
@@ -641,43 +609,42 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		catch(NoResultException e){
 			return null;
 		}
-	}	
+	}
 
 	@Override
-	public List<DatasExterne> getAllDatasExterneByIdentifiantAndNiveau(String identifiant, Integer niveau) 
+	public List<DatasExterne> getAllDatasExterneByIdentifiantAndNiveau(String identifiant, Integer niveau)
 	{
 		if (logger.isDebugEnabled())
-			logger.debug("public List<DatasExterne> getAllDatasExterneByIdentifiantAndNiveau(String identifiant, Integer niveau)-->"+identifiant+"-----"+niveau);
+			logger.debug("public List<DatasExterne> getAllDatasExterneByIdentifiantAndNiveau(String identifiant, Integer niveau)===>"+identifiant+"<======>"+niveau+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getAllDatasExterneByIdentifiantAndNiveau");
 			q.setParameter("identifiant", identifiant);
 			q.setParameter("niveau", niveau);
-			@SuppressWarnings("unchecked")
 			List<DatasExterne> ret = q.getResultList();
-			if(ret.isEmpty())
-				return null;
-			else
-				return ret;
+//			if(ret.isEmpty())
+//				return null;
+//			else
+			return ret;
 		}
 		catch(NoResultException e){
 			return null;
 		}
-	}	
+	}
 
 	@Override
-	public DatasExterne getAllDatasExterneByCodeInterditAndNumeroEtudiant(String identifiant, String code) 
+	public DatasExterne getAllDatasExterneByCodeInterditAndNumeroEtudiant(String identifiant, String code)
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("public List<DatasExterne> getAllDatasExterneByCodeInterditAndNumeroEtudiant(String numeroEtudiant, String codeInterdit)-->"+identifiant+"-----"+code);
 		try{
 			DatasExternePK cleDatasExterne = new DatasExternePK(identifiant, code);
 			DatasExterne ret = entityManager.find(DatasExterne.class, cleDatasExterne);
-			return ret;			
+			return ret;
 		}
 		catch(NoResultException e){
 			return null;
-		}	
-	}	
+		}
+	}
 
 	@Override
 	public List<String> getIndOpiExtractBySource(Integer annee, String source) {
@@ -761,7 +728,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		if (logger.isDebugEnabled()){
 			logger.debug("addCodeSize(CodeSizeAnnee cs)");
 			logger.debug("CodeSizeAnnee --> "+cs);
-		}		
+		}
 		entityManager.merge(cs);
 	}
 
@@ -832,7 +799,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("addParametre(Parametres param)");
 			logger.debug("param --> "+param);
 		}
-		entityManager.merge(param);	
+		entityManager.merge(param);
 	}
 
 	@Override
@@ -893,10 +860,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
-	}	
+	}
 
 	@Override
 	public List<OffreDeFormationsDTO> getAllOffreDeFormationByAnneeAndRneAndAtifOuPas(Integer currentAnnee, String rne) {
@@ -914,10 +881,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
-	}		
+	}
 
 	@Override
 	public void addOdfs(OffreDeFormationsDTO[] selectedOdfs) {
@@ -953,20 +920,20 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Map<String, String> map = new HashMap<String, String>();
 
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				String codeTypeDiplome = (String)resultElement[0];
 				String libTypeDiplome = (String)resultElement[1];
 				if (logger.isDebugEnabled()){
 					logger.debug("################### codeTypeDiplome --> " + codeTypeDiplome);
 					logger.debug("################### libTypeDiplome --> " + libTypeDiplome);
-				}		        
+				}
 				map.put(codeTypeDiplome, libTypeDiplome);
 			}
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -988,7 +955,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1010,7 +977,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1018,7 +985,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<OffreDeFormationsDTO> getFormationsByRneAndAnnee(String rne, Integer annee) {
 		if (logger.isDebugEnabled())
-			logger.debug("getFormationsByRneAndAnnee(String rne, Integer annee)");
+			logger.debug("getFormationsByRneAndAnnee(String rne, Integer annee)===>"+rne+"/"+annee+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getFormationsByRneAndAnnee");
 			q.setParameter("rne", rne);
@@ -1031,7 +998,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1055,7 +1022,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Map<Integer, String> map = new HashMap<Integer, String>();
 			@SuppressWarnings("unchecked")
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				Integer codeNiveau = (Integer)resultElement[0];
 				String libNiveau = (String)resultElement[1];
@@ -1069,7 +1036,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1081,13 +1048,15 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		try{
 			Query q;
-			if(actif)
-				if(source.equals("D"))
+			if(actif) {
+				if (source.equals("D"))
 					q = entityManager.createNamedQuery("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndDepart");
 				else
 					q = entityManager.createNamedQuery("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndArrivee");
-			else
+			}else
+			{
 				q = entityManager.createNamedQuery("getAllLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau");
+			}
 			q.setParameter("rne", rne);
 			q.setParameter("annee", currentAnnee);
 			q.setParameter("codTypDip", codTypDip);
@@ -1096,7 +1065,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 			@SuppressWarnings("unchecked")
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				String codeDiplome = (String)resultElement[0];
 				String libDiplome = (String)resultElement[1];
@@ -1104,28 +1073,28 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				{
 					logger.debug("################### codeDiplome --> " + codeDiplome);
 					logger.debug("################### libDiplome --> " + libDiplome);
-				}		        
+				}
 				map.put(codeDiplome, libDiplome);
 			}
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
 
 	@Override
-	public Map<String, String> getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(String rne, 
-			Integer currentAnnee, 
-			String codTypDip, 
-			Integer codeNiveau, 
-			String codeComposante,
-			boolean actif) 
+	public Map<String, String> getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(String rne,
+																									 Integer currentAnnee,
+																									 String codTypDip,
+																									 Integer codeNiveau,
+																									 String codeComposante,
+																									 boolean actif)
 	{
-		if (logger.isDebugEnabled()){
-			logger.debug("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(String rne, Integer currentAnnee, String codTypDip, Integer codeNiveau, String codeComposante) ");
-		}
+//		if (logger.isDebugEnabled())
+		logger.warn("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(String rne, Integer currentAnnee, String codTypDip, Integer codeNiveau, String codeComposante)===>"+rne+"/"+currentAnnee+"<===");
+
 		try{
 			Query q;
 			if(actif)
@@ -1141,7 +1110,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 			@SuppressWarnings("unchecked")
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				String codeDiplome = (String)resultElement[0];
 				String libDiplome = (String)resultElement[1];
@@ -1149,16 +1118,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				{
 					logger.debug("################### codeDiplome --> " + codeDiplome);
 					logger.debug("################### libDiplome --> " + libDiplome);
-				}		        
+				}
 				map.put(codeDiplome, libDiplome);
 			}
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
-	}	
+	}
 
 	@Override
 	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeDiplome, String source) {
@@ -1183,7 +1152,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1211,10 +1180,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
-	}	
+	}
 
 	@Override
 	public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDipAndAtifOuPas(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeDiplome) {
@@ -1235,16 +1204,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
-	}	
+	}
 
 	@Override
 	public List<IndOpi> getAllIndOpiNonSynchroAndSource(Integer annee, String source) {
 		if (logger.isDebugEnabled()){
 			logger.debug("public List<IndOpi> getAllIndOpiNonSynchroAndSource(Integer annee, String source)");
-		}		
+		}
 		Query q = entityManager.createNamedQuery("allIndOpiNonSynchroAndSource");
 		q.setParameter("annee", annee);
 		q.setParameter("source", source);
@@ -1266,7 +1235,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		catch(NoResultException e){
 			e.fillInStackTrace();
-		}		
+		}
 	}
 
 	@Override
@@ -1343,7 +1312,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		catch(NoResultException e){
 			return null;
 		}
-	}	
+	}
 
 	@Override
 	public AccueilAnnee getAccueilAnneeById(Integer id) {
@@ -1351,11 +1320,11 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("getAccueilAnneeById(Integer id)");
 		try{
 			AccueilAnnee ret = entityManager.find(AccueilAnnee.class, id);
-			return ret;			
+			return ret;
 		}
 		catch(NoResultException e){
 			return null;
-		}		
+		}
 	}
 
 	@Override
@@ -1364,7 +1333,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("getAccueilResultatById(Integer id)");
 		try{
 			AccueilResultat ret = entityManager.find(AccueilResultat.class, id);
-			return ret;			
+			return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1385,7 +1354,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 			@SuppressWarnings("unchecked")
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				String codeDiplome = (String)resultElement[0];
 				String libDiplome = (String)resultElement[1];
@@ -1393,13 +1362,13 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				{
 					logger.debug("################### codeDiplome --> " + codeDiplome);
 					logger.debug("################### libDiplome --> " + libDiplome);
-				}		        
+				}
 				map.put(codeDiplome, libDiplome);
 			}
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1412,7 +1381,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("source --> "+source);
 			logger.debug("annee --> "+annee);
 			logger.debug("target.size() --> "+target.size());
-		}		
+		}
 		Query q = entityManager.createNamedQuery("deleteListeManagersByUidAndSourceAndAnnee");
 		q.setParameter("uid", uid);
 		q.setParameter("source", source);
@@ -1420,7 +1389,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		int delete = q.executeUpdate();
 		if (logger.isDebugEnabled()){
 			logger.debug("delete ---> "+delete);
-		}			
+		}
 		for(PersonnelComposante pc : target)
 		{
 			entityManager.merge(pc);
@@ -1430,12 +1399,9 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<PersonnelComposante> getListeComposantesByUidAndSourceAndAnnee(String uid, String source, Integer annee)
 	{
-		if (logger.isDebugEnabled()){
-			logger.debug("public List<PersonnelComposante> getListeComposantesByUidAndSourceAndAnnee(String uid, String source, Integer annee)");
-			logger.debug("uid --> "+uid);
-			logger.debug("source --> "+source);		
-			logger.debug("annee --> "+annee);
-		}
+//		if (logger.isDebugEnabled()){
+			logger.info("DAO Impl public List<PersonnelComposante> getListeComposantesByUidAndSourceAndAnnee(String uid, String source, Integer annee)===>"+uid+"/"+source+"/"+annee+"<===");
+//		}
 		try{
 			Query q = entityManager.createNamedQuery("getListeComposantesByUidAndSourceAndAnnee");
 			q.setParameter("uid", uid);
@@ -1464,7 +1430,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Map<String, String> map = new HashMap<String, String>();
 			@SuppressWarnings("unchecked")
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				String codeComposante = (String)resultElement[0];
 				String libComposante = (String)resultElement[1];
@@ -1478,18 +1444,18 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
-	}	
+	}
 
 	@Override
 	public void addWsPub(WsPub ws) {
-		if (logger.isDebugEnabled()){
-			logger.debug("public void addWsPub(WsPub ws)");
-			logger.debug("ws --> "+ws);
-		}
-		entityManager.merge(ws);	
+//		if (logger.isDebugEnabled()){
+		logger.fatal("public void addWsPub(WsPub ws)");
+		logger.fatal("ws --> "+ws);
+//		}
+		entityManager.merge(ws);
 	}
 
 	@Override
@@ -1500,18 +1466,18 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		WsPubPK cleWsPub = new WsPubPK(wsPub.getRne(),wsPub.getAnnee());
 		WsPub part = entityManager.find(WsPub.class, cleWsPub);
-		entityManager.remove(part);	
+		entityManager.remove(part);
 	}
 
 	@Override
-	public AccueilDecision getDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer currentAnnee) 
+	public AccueilDecision getDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer currentAnnee)
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("getDecisionByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer currentAnnee)");
 		try{
 			EtudiantRefPK cleAccueilAnnee = new EtudiantRefPK(numeroEtudiant, currentAnnee);
 			AccueilDecision ret = entityManager.find(AccueilDecision.class, cleAccueilAnnee);
-			return ret;			
+			return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1520,7 +1486,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public void deleteSituationUniversitaireByNumeroEtudiantAndAnneeIsNull() {
-		Query query = entityManager.createNativeQuery("delete FROM SITUATION_UNIVERSITAIRE WHERE numeroEtudiant IS NULL AND annee IS NULL");  
+		Query query = entityManager.createNativeQuery("delete FROM SITUATION_UNIVERSITAIRE WHERE numeroEtudiant IS NULL AND annee IS NULL");
 		int delete = query.executeUpdate();
 		if (logger.isDebugEnabled()){
 			logger.debug("delete ---> "+delete);
@@ -1537,7 +1503,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("numeroIne", ine);
 			q.setParameter("annee", currentAnnee);
 			EtudiantRef etudiant = (EtudiantRef) q.getSingleResult();
-			return etudiant;			
+			return etudiant;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1558,7 +1524,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("codCleNneIndOpi", codCleNneIndOpi);
 			q.setParameter("annee", currentAnnee);
 			IndOpi etudiant = (IndOpi) q.getSingleResult();
-			return etudiant;			
+			return etudiant;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1569,8 +1535,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	public List<PersonnelComposante> getListePersonnelsComposantesBySourceAndAnnee(String source, Integer annee) {
 		if (logger.isDebugEnabled()){
 			logger.debug("public List<PersonnelComposante> getListePersonnelsComposantesBySourceAndAnnee(String source, Integer annee)");
-			logger.debug("source --> "+source);			
-			logger.debug("annee --> "+annee);			
+			logger.debug("source --> "+source);
+			logger.debug("annee --> "+annee);
 		}
 		try{
 			Query q = entityManager.createNamedQuery("getListePersonnelsComposantesBySourceAndAnnee");
@@ -1596,7 +1562,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			OffreDeFormationPK cleOdf = new OffreDeFormationPK(rne, annee, codDip, codVrsVdi, codEtp, codVrsVet, codeCge);
 			OffreDeFormationsDTO odf = entityManager.find(OffreDeFormationsDTO.class, cleOdf);
-			return odf;			
+			return odf;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1627,7 +1593,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<IndOpi> getAllIndOpiBySynchroAndSource(Integer currentAnnee, Integer synchro, String source) {
 		if (logger.isDebugEnabled())
-			logger.debug("public List<IndOpi> getAllIndOpiBySynchroAndSource(Integer currentAnnee, Integer synchro, String source) -->"+currentAnnee +"-----"+synchro+"-----"+source);		
+			logger.debug("public List<IndOpi> getAllIndOpiBySynchroAndSource(Integer currentAnnee, Integer synchro, String source) -->"+currentAnnee +"-----"+synchro+"-----"+source);
 		Query q = entityManager.createNamedQuery("allIndOpiBySynchroAndSource");
 		q.setParameter("annee", currentAnnee);
 		q.setParameter("synchro", synchro);
@@ -1640,7 +1606,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<IndOpi> getAllIndOpiBySynchroAndExcluAndSource(Integer currentAnnee, String source) {
 		if (logger.isDebugEnabled())
-			logger.debug("public List<IndOpi> getAllIndOpiBySynchroAndExcluAndSource(Integer currentAnnee, String source) -->"+currentAnnee+"-----"+source);		
+			logger.debug("public List<IndOpi> getAllIndOpiBySynchroAndExcluAndSource(Integer currentAnnee, String source) -->"+currentAnnee+"-----"+source);
 		Query q = entityManager.createNamedQuery("allIndOpiBySynchroAndExcluAndSource");
 		q.setParameter("annee", currentAnnee);
 		q.setParameter("source", source);
@@ -1665,20 +1631,20 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Map<String, Long> map = new HashMap<String, Long>();
 
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				String rne = (String)resultElement[0];
 				Long total = (Long)resultElement[1];
 				if (logger.isDebugEnabled()){
 					logger.debug("################### rne --> " + rne);
 					logger.debug("################### total --> " + total);
-				}		        
+				}
 				map.put(rne, total);
 			}
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1696,20 +1662,20 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Map<String, Long> map = new HashMap<String, Long>();
 
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				String rne = (String)resultElement[0];
 				Long total = (Long)resultElement[1];
 				if (logger.isDebugEnabled()){
 					logger.debug("################### rne --> " + rne);
 					logger.debug("################### total --> " + total);
-				}		        
+				}
 				map.put(rne, total);
 			}
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -1723,7 +1689,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getStatistiquesNombreTotalTransfertDepart");
 			q.setParameter("annee", currentAnnee);
 			Long nb = (Long) q.getSingleResult();
-			return nb;			
+			return nb;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1739,7 +1705,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getStatistiquesNombreTotalTransfertAccueil");
 			q.setParameter("annee", currentAnnee);
 			Long nb = (Long) q.getSingleResult();
-			return nb;			
+			return nb;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1755,53 +1721,53 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getStatistiquesNombreTotalTransfertOPI");
 			q.setParameter("annee", currentAnnee);
 			Long nb = (Long) q.getSingleResult();
-			return nb;			
+			return nb;
 		}
 		catch(NoResultException e){
 			return null;
 		}
 	}
 
-	@Override
-	public Test getTest(Integer id) {
-		if (logger.isDebugEnabled()){
-			logger.debug("public Test getTest(Integer id)");
-		}
-		try{
-			Query q = entityManager.createNamedQuery("getTest");
-			q.setParameter("id", id);
-			Test test = (Test) q.getSingleResult();
-			return test;			
-		}
-		catch(NoResultException e){
-			return null;
-		}
-	}
-
-	@Override
-	public List<Test> getListeTests() {
-		if (logger.isDebugEnabled())
-			logger.debug("public List<Test> getListeTests()");
-		try{
-			Query q = entityManager.createNamedQuery("getListeTests");
-			@SuppressWarnings("unchecked")
-			List<Test> ret = (List<Test>) q.getResultList();
-			if(ret.isEmpty())
-				return null;
-			else
-				return ret;
-		}
-		catch(NoResultException e){
-			return null;
-		}
-	}
-
-	@Override
-	public void addTest(Test test) {
-		if (logger.isDebugEnabled())
-			logger.debug("test --> "+test);
-		entityManager.merge(test);	
-	}
+//	@Override
+//	public Test getTest(Integer id) {
+//		if (logger.isDebugEnabled()){
+//			logger.debug("public Test getTest(Integer id)");
+//		}
+//		try{
+//			Query q = entityManager.createNamedQuery("getTest");
+//			q.setParameter("id", id);
+//			Test test = (Test) q.getSingleResult();
+//			return test;
+//		}
+//		catch(NoResultException e){
+//			return null;
+//		}
+//	}
+//
+//	@Override
+//	public List<Test> getListeTests() {
+//		if (logger.isDebugEnabled())
+//			logger.debug("public List<Test> getListeTests()");
+//		try{
+//			Query q = entityManager.createNamedQuery("getListeTests");
+//			@SuppressWarnings("unchecked")
+//			List<Test> ret = (List<Test>) q.getResultList();
+//			if(ret.isEmpty())
+//				return null;
+//			else
+//				return ret;
+//		}
+//		catch(NoResultException e){
+//			return null;
+//		}
+//	}
+//
+//	@Override
+//	public void addTest(Test test) {
+//		if (logger.isDebugEnabled())
+//			logger.debug("test --> "+test);
+//		entityManager.merge(test);
+//	}
 
 	@Override
 	public void addValidationAutoByComposante(List<Composante> listeComposantes) {
@@ -1840,7 +1806,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			ComposantePK cleComposantePK = new ComposantePK(annee, codeComposante, source);
 			Composante composante = entityManager.find(Composante.class, cleComposantePK);
-			return composante;			
+			return composante;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1860,7 +1826,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			if(ret.isEmpty())
 				return null;
 			else
-				return ret;			
+				return ret;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1884,7 +1850,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			CGEPK cleCGEPK = new CGEPK(annee, codeCGE, source);
 			CGE cge = entityManager.find(CGE.class, cleCGEPK);
-			return cge;			
+			return cge;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1892,7 +1858,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	}
 
 	@Override
-	public PersonnelComposante getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(String login, String source, Integer currentAnnee, String composante) 
+	public PersonnelComposante getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(String login, String source, Integer currentAnnee, String composante)
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("public PersonnelComposante getDroitPersonnelComposanteByUidAndSourceAndAnneeAndCodeComposante(String login, String source, Integer currentAnnee, String composante)-->"+login+"-----"+source+"-----"+currentAnnee+"-----"+composante);
@@ -1915,7 +1881,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			DatasExternePK cleDatasExterne = new DatasExternePK(identifiant,code);
 			DatasExterne data = entityManager.find(DatasExterne.class, cleDatasExterne);
-			return data;			
+			return data;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1929,7 +1895,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		try{
 			IndOpi currentOpi = entityManager.find(IndOpi.class, opi.getNumeroOpi());
-			return currentOpi;			
+			return currentOpi;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1959,7 +1925,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		try{
 			AccueilAnnee accueilAnnee = entityManager.find(AccueilAnnee.class, idAccueilAnnee);
-			return accueilAnnee;			
+			return accueilAnnee;
 		}
 		catch(NoResultException e){
 			return null;
@@ -1973,7 +1939,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		}
 		try{
 			AccueilResultat accueilResultat = entityManager.find(AccueilResultat.class, idAccueilResultat);
-			return accueilResultat;			
+			return accueilResultat;
 		}
 		catch(NoResultException e){
 			return null;
@@ -2005,7 +1971,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -2016,18 +1982,18 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("addParametre(Parametres param)");
 			logger.debug("param --> "+param);
 		}
-		Parametres p = entityManager.merge(param);	
+		Parametres p = entityManager.merge(param);
 		return p;
 	}
 
 	@Override
-	public void deleteSelectedOpi(IndOpi selectedOpiForDelete) 
+	public void deleteSelectedOpi(IndOpi selectedOpiForDelete)
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("public void deleteSelectedOpi(IndOpi selectedOpiForDelete)-->"+ selectedOpiForDelete);
 		IndOpi opi = entityManager.find(IndOpi.class, selectedOpiForDelete.getNumeroOpi());
 		if (logger.isDebugEnabled())
-			logger.debug("opi-->"+ opi);		
+			logger.debug("opi-->"+ opi);
 		entityManager.remove(opi);
 	}
 
@@ -2043,7 +2009,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Map<String, String> map = new HashMap<String, String>();
 			@SuppressWarnings("unchecked")
 			List<Object[]> result1 = q.getResultList();
-			for (Object[] resultElement : result1) 
+			for (Object[] resultElement : result1)
 			{
 				String codeComposante = (String)resultElement[0];
 				String libComposante = (String)resultElement[1];
@@ -2057,13 +2023,13 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
 
 	@Override
-	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source) 
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source)
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("public EtudiantRef getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(String numeroEtudiant, int annee, String source)===>"+numeroEtudiant+"-----"+annee+"-----"+source+"<===");
@@ -2076,13 +2042,13 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etu;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
-		}		
+		}
 	}
 
 	@Override
-	public List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source) 
+	public List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source)
 	{
 		if (logger.isDebugEnabled()){
 			logger.debug("public List<TestUnitaireEtudiantRef> getAllTestUnitaireEtudiantRefBySource(String source) ===>"+source+"<===");
@@ -2097,8 +2063,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			//			return new ArrayList<Fichier>();
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 	}
@@ -2125,8 +2090,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<IndOpi> getAllIndOpiByAnnee(Integer currentAnnee) {
 		if (logger.isDebugEnabled())
-			logger.debug("public List<IndOpi> getAllIndOpiByAnnee(Integer annee, String source)===>"+currentAnnee+"<===");		
-		try{		
+			logger.debug("public List<IndOpi> getAllIndOpiByAnnee(Integer annee, String source)===>"+currentAnnee+"<===");
+		try{
 			Query q = entityManager.createNamedQuery("allIndOpiByAnnee");
 			//		Query q = entityManager.createNamedQuery("allIndOpi");
 			q.setParameter("annee", currentAnnee);
@@ -2151,14 +2116,14 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			entityManager.remove(opiADelete);
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
-		}	
+			logger.error(e);
+		}
 	}
 
 	@Override
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee) {
-		if (logger.isDebugEnabled())
-			logger.debug("public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee, String source)===>"+ine+"<===");
+//		if (logger.isDebugEnabled())
+			logger.warn("DAO impl - public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee)===>"+ine+"/"+annee+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroIneAndSource");
 			q.setParameter("numeroIne", ine);
@@ -2167,9 +2132,27 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etu;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
-		}		
+		}
+	}
+
+	@Override
+	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee, String source) {
+//		if (logger.isDebugEnabled())
+		logger.warn("DAO impl - public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee)===>"+ine+"/"+annee+"/"+source+"<===");
+		try{
+			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroIneAndSource2");
+			q.setParameter("numeroIne", ine);
+			q.setParameter("annee", annee);
+			q.setParameter("source", source);
+			EtudiantRef etu = (EtudiantRef) q.getSingleResult();
+			return etu;
+		}
+		catch(NoResultException e){
+			logger.error(e);
+			return null;
+		}
 	}
 
 	@Override
@@ -2185,16 +2168,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return opi;
 		}
 		catch(NoResultException e){
-			//e.printStackTrace();
+			logger.error(e);
 			return null;
-		}	
+		}
 	}
 
 	@Override
 	public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee) {
 		if (logger.isDebugEnabled())
-			logger.debug("public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee)===>"+numeroEtudiant+"-----"+annee+"<===");		
-		try{		
+			logger.debug("public List<SituationUniversitaire> getSituationUniversitaireByNumeroEtudiantAndAnnee(String numeroEtudiant, Integer annee)===>"+numeroEtudiant+"-----"+annee+"<===");
+		try{
 			Query q = entityManager.createNamedQuery("getSituationUniversitaireByNumeroEtudiantAndAnnee");
 			q.setParameter("numeroEtudiant", numeroEtudiant);
 			q.setParameter("annee", annee);
@@ -2225,20 +2208,20 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("===>public List<Fermeture> getListeFermeturesBySourceAndAnnee(String source, int annee) {<===");
 			logger.debug("source===>"+source+"-----annee===>"+annee+"<===");
 		}
-			try{		
-				Query q = entityManager.createNamedQuery("getListeFermeturesBySourceAndAnnee");
-				q.setParameter("source", source);
-				q.setParameter("annee", annee);
-				@SuppressWarnings("unchecked")
-				List<Fermeture> ret = (List<Fermeture>)q.getResultList();
-				if(ret.isEmpty())
-					return null;
-				else
-					return ret;
-			}
-			catch(NoResultException e){
+		try{
+			Query q = entityManager.createNamedQuery("getListeFermeturesBySourceAndAnnee");
+			q.setParameter("source", source);
+			q.setParameter("annee", annee);
+			@SuppressWarnings("unchecked")
+			List<Fermeture> ret = (List<Fermeture>)q.getResultList();
+			if(ret.isEmpty())
 				return null;
-			}
+			else
+				return ret;
+		}
+		catch(NoResultException e){
+			return null;
+		}
 	}
 
 	@Override
@@ -2265,7 +2248,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			entityManager.remove(myFermeture);
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 
@@ -2298,9 +2281,9 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etu;
 		}
 		catch(NoResultException e){
-			e.printStackTrace();
+			logger.error(e);
 			return null;
-		}	
+		}
 	}
 
 	@Override
@@ -2315,6 +2298,90 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return v;
 		}
 		catch(NoResultException e){
+			return null;
+		}
+	}
+
+	@Override
+	public WebService updateWebService(WebService currentWs) {
+		if (logger.isDebugEnabled()){
+			logger.debug("WebService updateWebService(WebService currentWs)");
+			logger.debug("currentWs --> "+currentWs);
+		}
+		WebService ws = entityManager.merge(currentWs);
+		return ws;
+	}
+
+	@Override
+	public WebService getWebServiceByCode(String code) {
+		if (logger.isDebugEnabled())
+			logger.debug("WebService getWebServiceByCode(String id)===>"+code+"<===");
+		try
+		{
+			WebService ws = entityManager.find(WebService.class, code);
+			if (logger.isDebugEnabled())
+				logger.debug("myWebService===>"+ws+"<===");
+			return ws;
+		}
+		catch(NoResultException e){
+			return null;
+		}
+	}
+
+	@Override
+	public void addPersonnelComposanteFromImport(List<PersonnelComposante> newLpc) {
+//		if (logger.isDebugEnabled())
+		logger.fatal("public void addPersonnelComposanteFromImport(List<PersonnelComposante> newLpc)===>"+newLpc+"<===");
+		for(PersonnelComposante pc : newLpc)
+			entityManager.merge(pc);
+	}
+
+	@Override
+	public Integer addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source, Integer temoinRetourTransfertAccueil) {
+//		if (logger.isDebugEnabled())
+		logger.warn("public void addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source)===>"+ine+"---"+currentAnnee+"---"+source+"---"+temoinRetourTransfertAccueil+"<===");
+		try{
+			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroIneAndSource2");
+			q.setParameter("numeroIne", ine);
+			q.setParameter("annee", currentAnnee);
+			q.setParameter("source", source);
+
+			EtudiantRef etu = (EtudiantRef) q.getSingleResult();
+			if(etu!=null) {
+				logger.fatal("aaa===>aaa<===");
+				etu.getTransferts().setTemoinRetourTransfertAccueil(temoinRetourTransfertAccueil);
+				this.addDemandeTransferts(etu);
+				return 1;
+			}else
+			{
+				logger.fatal("bbb===>bbb<===");
+				return 2;
+			}
+
+		}
+		catch(NoResultException e){
+			return null;
+		}
+	}
+
+	@Override
+	public List<PersonnelComposante> getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(String source, Integer currentAnnee, String composante) {
+//		if (logger.isDebugEnabled())
+			logger.warn("public List<PersonnelComposante> getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(String source, Integer currentAnnee, String composante)===>"+source+"---"+currentAnnee+"---"+composante+"<===");
+		try{
+			Query q = entityManager.createNamedQuery("getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante");
+			q.setParameter("source", source);
+			q.setParameter("annee", currentAnnee);
+			q.setParameter("codeComposante", composante);
+			@SuppressWarnings("unchecked")
+			List<PersonnelComposante> ret = (List<PersonnelComposante> ) q.getResultList();
+			if(ret.isEmpty())
+				return null;
+			else
+				return ret;
+		}
+		catch(NoResultException e){
+			logger.error(e);
 			return null;
 		}
 	}

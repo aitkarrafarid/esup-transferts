@@ -4,7 +4,7 @@ import javax.persistence.Column;
 
 public class ComposantePK implements java.io.Serializable {
 
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427123897404494181L;
 
 	@Column(name = "annee")
 	private Integer annee;

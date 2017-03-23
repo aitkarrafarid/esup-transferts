@@ -253,7 +253,7 @@
 					rendered="#{userController.currentEtudiant.transferts.odf != null}"
 					value="#{userController.currentEtudiant.transferts.odf.libDiplome}" />
 
-				<h:outputText value="Parcours : "
+				<h:outputText value="Version d'étape : "
 					rendered="#{userController.currentEtudiant.transferts.odf != null}" />
 				<h:outputText
 					rendered="#{userController.currentEtudiant.transferts.odf != null}"
@@ -261,10 +261,27 @@
 			</h:panelGrid>
 		</p:fieldset>
 		<p:spacer height="20px" />
-
+		<p:fieldset legend="Dossier scolaire *" toggleable="true"
+					toggleSpeed="200">
+			<p:treeTable value="#{userController.root}" var="document">
+				<f:facet name="header">
+					Dossier universitaire *
+				</f:facet>
+				<p:column headerText="Libellé">
+					<h:outputText value="#{document.name}" />
+				</p:column>
+				<p:column headerText="Mention">
+					<h:outputText value="#{document.size}" />
+				</p:column>
+				<p:column headerText="Résultat">
+					<h:outputText value="#{document.type}" />
+				</p:column>
+			</p:treeTable>
+			<BR /><BR />
+			<h:outputText value="* Il est conseillé d'attendre la délibération des jurys avant d'effectuer votre demande de transferts" style="font-style: italic"/>
+		</p:fieldset>
+		<p:spacer height="20px" />
 		<h:panelGrid columns="2" rendered="#{!userController.presentBdd}">
-			<!-- 			<p:commandButton value="Précédent" update="adresse,msgs" -->
-			<!-- 				action="#{userController.goToVoeuxOrientation}" /> -->
 			<p:commandButton value="Précédent"
 				rendered="#{userController.etudiant}"
 				action="#{userController.goToVoeuxOrientation}" immediate="true" />

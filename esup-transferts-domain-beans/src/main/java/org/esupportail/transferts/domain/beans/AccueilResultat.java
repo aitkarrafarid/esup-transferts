@@ -36,7 +36,7 @@ public class AccueilResultat implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427732897404503181L;
 
 	/**
 	 * Identifiant du resultat

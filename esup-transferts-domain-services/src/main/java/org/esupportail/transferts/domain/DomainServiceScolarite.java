@@ -70,7 +70,7 @@ public interface DomainServiceScolarite extends Serializable {
 	
 	public List<TrBac> recupererBacOuEquWS(String codeBac);
 	
-	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String source, Integer annee);
+	public List<PersonnelComposante> recupererComposante(String uid, String diplayName, String mail, String source, Integer annee);
 
 	public Integer getAuthEtu(String ine, Date dateNaissanceApogee);
 

@@ -1,25 +1,22 @@
 package org.esupportail.transferts.web.controllers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.apache.commons.lang.ArrayUtils;
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
+import org.esupportail.transferts.domain.beans.WsPub;
+import org.esupportail.transferts.web.dataModel.OdfDataModel;
+import org.esupportail.transferts.web.utils.FileGeneratorService;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.transferts.domain.beans.DatasExterne;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.TrBlocageDTO;
-import org.esupportail.transferts.domain.beans.WsPub;
-import org.esupportail.transferts.web.dataModel.OdfDataModel;
-import org.esupportail.transferts.web.utils.FileGeneratorService;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 //import artois.domain.DomainService;
 //import artois.domain.beans.Odf;
@@ -78,9 +75,9 @@ public class OdfController extends AbstractContextAwareController {
 		//		List<WsPub> listePartenaires = getDomainService().getListeWsPub();
 		List<WsPub> listePartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
 
-		String libEtab=null;
-		if(libEtab==null)
-			libEtab = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getLibOffEtb();
+//		String libEtab=null;
+//		if(libEtab==null)
+		String libEtab = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getLibOffEtb();
 
 		//		String tmp = "";
 
@@ -394,8 +391,11 @@ public class OdfController extends AbstractContextAwareController {
 			//			if(list==null || list.isEmpty())
 
 			list = getDomainServiceScolarite().getOffreDeFormation(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+			if(list!=null)
+				nbOdfs=list.size();
+			else
+				nbOdfs=0;
 
-			nbOdfs=0;
 			if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)
 			{
 				nbOdfs=list.size();
@@ -438,7 +438,10 @@ public class OdfController extends AbstractContextAwareController {
 				logger.debug("getFiltre()===>coche<===");
 			
 			list = getDomainService().getSelectedOdfs(getSessionController().getCurrentAnnee(), getSessionController().getRne());
-			nbOdfs=list.size();
+			if(list!=null)
+				nbOdfs=list.size();
+			else
+				nbOdfs=0;
 			
 			if (logger.isDebugEnabled())
 				logger.debug("nbOdfs===>"+nbOdfs+"<===");
@@ -448,10 +451,12 @@ public class OdfController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled())
 				logger.debug("getFiltre()===>decoche<===");
 			List<OffreDeFormationsDTO> listeDecoche = new ArrayList<OffreDeFormationsDTO>();
-			//list = new ArrayList<OffreDeFormationsDTO>();
-			//			if(list==null || list.isEmpty())
 
 			list = getDomainServiceScolarite().getOffreDeFormation(getSessionController().getRne(), getSessionController().getCurrentAnnee());
+			if(list!=null)
+				nbOdfs=list.size();
+			else
+				nbOdfs=0;
 
 			if(list!=null && this.selectedOdfs!=null && this.selectedOdfs.length>0)
 			{

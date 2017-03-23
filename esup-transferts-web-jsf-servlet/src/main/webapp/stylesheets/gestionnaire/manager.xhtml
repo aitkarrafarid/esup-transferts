@@ -23,6 +23,8 @@
 
 		<h:form id="formManager"
 			rendered="#{sessionController.currentUser.admin}">
+			<p:growl id="growl" showDetail="false" />
+			<p:messages id="msgs" showDetail="false" />
 			<center>
 				<p:dataTable id="listePersonnels" align="center" rows="10" 
 					styleClass="datatable" style="text-align:center;width:50%;"
@@ -34,7 +36,7 @@
 							value="Liste des gestionnaires de transferts accueil" />
 					</f:facet>
 
-					<p:column sortBy="#{personnel.login}" filterBy="#{personnel.login}">
+					<p:column sortBy="#{personnel.login}" filterBy="#{personnel.login}" filterMatchMode="contains">
 						<f:facet name="header">
 							<h:outputText style="width:100px; display:block;" value="UID" />
 						</f:facet>
@@ -70,11 +72,9 @@
 				</p:dataTable>
 
 				<p:spacer height="20" />
-				<h:panelGrid columns="2" align="center">
+				<h:panelGrid columns="3" align="center">
 					<p:commandButton value="Ajouter un gestionnaire"
 						action="goToManagerRecherche">
-						<!-- 						<f:setPropertyActionListener value="#{true}" -->
-						<!-- 							target="#{managerController.retourDirect}" /> -->
 					</p:commandButton>
 
 					<p:commandButton value="Exporter les droits"
@@ -84,13 +84,13 @@
 					<p:commandButton value="Exporter les droits"
 						rendered="#{managerController.from=='A'}"
 						action="#{administrationController.exportListeDroitsAccueil}" />
+
+					<p:commandButton value="Mettre à jour les infos LDAP (email)"
+									 action="#{managerController.updateInfosLdap}" update="growl msgs msgs2"/>
+
 				</h:panelGrid>
 			</center>
-			<!-- 			<p:spacer height="30" /> -->
-			<!-- 			<div style="padding-left: 300px;"> -->
-			<!-- 				<p:commandButton value="Retour" action="goToAccueil" -->
-			<!-- 					immediate="true" /> -->
-			<!-- 			</div> -->
+			<p:messages id="msgs2" showDetail="false" />
 		</h:form>
 	</ui:define>
 </ui:composition>

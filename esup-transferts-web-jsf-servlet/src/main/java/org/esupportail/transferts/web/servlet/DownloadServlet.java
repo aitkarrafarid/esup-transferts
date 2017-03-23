@@ -1,5 +1,11 @@
 package org.esupportail.transferts.web.servlet;
 
+import org.esupportail.commons.exceptions.DownloadException;
+import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
+import org.esupportail.commons.utils.ContextUtils;
+import org.esupportail.commons.utils.DownloadUtils;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
@@ -7,13 +13,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.esupportail.commons.exceptions.DownloadException;
-import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
-import org.esupportail.commons.utils.BeanUtils;
-import org.esupportail.commons.utils.ContextUtils;
-import org.esupportail.commons.utils.DownloadUtils;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * The servlet to download files.

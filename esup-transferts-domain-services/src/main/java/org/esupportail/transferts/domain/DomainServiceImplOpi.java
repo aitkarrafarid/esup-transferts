@@ -10,10 +10,7 @@ import javax.jws.WebService;
 import javax.xml.ws.WebServiceClient;
 
 import org.esupportail.transferts.dao.DaoService;
-import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.esupportail.transferts.domain.beans.IndOpi;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.Test;
+import org.esupportail.transferts.domain.beans.*;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.springframework.beans.factory.InitializingBean;
@@ -72,23 +69,17 @@ public class DomainServiceImplOpi implements DomainServiceOpi, InitializingBean 
 	}
 
 	@Override
-	public Test getTest(Integer id) {
-		return getDaoService().getTest(id);
-	}
-
-	@Override
-	public List<Test> getListeTests() {
-		return getDaoService().getListeTests();
-	}
-
-	@Override
-	public void addTest(Test test) {
-		getDaoService().addTest(test);
-	}
-
-	@Override
 	public void addTransfertOpiToListeTransfertsAccueil(EtudiantRef etu) {
 		getDaoService().addDemandeTransferts(etu);
 	}
 
+	@Override
+	public Parametres getParametreByCode(String codeParametre) {
+		return getDaoService().getParametreByCode(codeParametre);
+	}
+
+	@Override
+	public Integer addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source, Integer temoinRetourTransfertAccueil) {
+		return getDaoService().addFeedBackFromTransfertAccueilToTransfertDepart(ine, currentAnnee, source, temoinRetourTransfertAccueil);
+	}
 }

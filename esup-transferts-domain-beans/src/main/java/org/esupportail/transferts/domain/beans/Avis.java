@@ -49,7 +49,7 @@ public class Avis implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427732111404494181L;
 
 	@Id
 //	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AVIS_SEQ")

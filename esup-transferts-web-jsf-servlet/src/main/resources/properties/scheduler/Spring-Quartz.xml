@@ -12,6 +12,7 @@
 		class="org.esupportail.transferts.web.scheduler.BusinessManager">
 		<property name="smtpService" ref="smtpService" />
 		<property name="domainService" ref="domainService" />
+		<property name="domainServiceScolarite" ref="domainServiceScolarite" />
 		<property name="i18nService" ref="i18nService" />
 		<property name="currentRne" value="${etab.rne}" />
 		<property name="transfertsAccueil" value="${transferts.accueil}" />

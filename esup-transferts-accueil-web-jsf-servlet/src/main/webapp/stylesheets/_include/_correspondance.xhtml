@@ -16,24 +16,6 @@
 
 		<p:spacer height="10px" />
 
-		<!--<p:fieldset legend="infos" toggleable="true" toggleSpeed="200"-->
-			<!--rendered="#{userController.presentBdd}">-->
-			<!--<h:panelGrid columns="2" columnClasses="column" cellpadding="5">-->
-				<!--<h:outputText value="Demande de transfert effectuée le " />-->
-				<!--<h:outputText-->
-					<!--value="#{userController.currentEtudiant.transferts.dateDemandeTransfert}">-->
-					<!--<f:convertDateTime pattern="dd/MM/yyyy à HH:mm:ss"-->
-						<!--timeZone="#{sessionController.timezone}" />-->
-				<!--</h:outputText>-->
-			<!--</h:panelGrid>-->
-		<!--</p:fieldset>-->
-
-		<!--<p:spacer height="10px" />-->
-		<!--<p:separator style="width:500px;height:10px" />-->
-
-		<!--<p:fieldset id="listeAvisDetails" legend="liste des correspondances"-->
-			<!--rendered="#{userController.presentBdd}" toggleable="true"-->
-			<!--toggleSpeed="200">-->
 			<p:spacer height="10px" />
 			<p:dataTable id="basic" var="correspondance" emptyMessage="Auncune correspondance"
 				value="#{userController.currentEtudiant.correspondances}" rendered="#{userController.presentBdd}"
@@ -60,11 +42,11 @@
 					<f:facet name="header">  
                     Message  
             </f:facet>
-					<h:outputText escape="false" value="#{correspondance.msg}" />
+					<t:div style="overflow: scroll;">
+						<h:outputText escape="false" value="#{correspondance.msg}" />
+					</t:div>
 				</p:column>
 			</p:dataTable>
-		<!--</p:fieldset>-->
-
 
 		<p:spacer height="10px"
 			rendered="#{userController.listeAccueilDecision!=null and userController.currentEtudiant.transferts.temoinTransfertValide==2}" />

@@ -3,25 +3,9 @@
  */
 package org.esupportail.transferts.domain.beans;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 /**
  * The class that represent users.
@@ -117,7 +101,7 @@ public class IndOpi implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7421112897404494181L;
 
 	/**
 	 * Numero de l'OPI
@@ -349,11 +333,17 @@ public class IndOpi implements Serializable {
 	 */
 	@Column(name = "LIB_ADE", length = 32)
 	private String libAde;
-	
-//	@Column(name = "SYNCHRO", nullable=false, columnDefinition = "NUMBER(1) default 0")
+
+	/**
+	 * Temoin de retour du transfert accueil
+	 * 0 Pas de synchro
+	 * 1 Synchro OK
+	 * 2 Synchro NOK
+	 * 3 VAP en cours
+	 * 4 APB PostBac
+	 */
 	@Column(name = "SYNCHRO", nullable=false, columnDefinition = "INTEGER default 0")
-//	@Column(name = "SYNCHRO", nullable=false)
-	private Integer synchro;	
+	private Integer synchro;
 
 	@Column(name = "SOURCE", nullable=false)
 	private String source;		

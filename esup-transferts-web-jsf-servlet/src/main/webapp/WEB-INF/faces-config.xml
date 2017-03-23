@@ -19,6 +19,10 @@
 		</locale-config>
 		<message-bundle>properties.i18n.bundles.JsfMessages</message-bundle>
 
+		<action-listener>org.primefaces.application.DialogActionListener</action-listener>
+		<navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+		<view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+
 	</application>
 
 	<factory>

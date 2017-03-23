@@ -34,7 +34,7 @@ public class Transferts implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427739997404494181L;
 
 	@Id
 	@Column(name = "numeroEtudiant")
@@ -91,18 +91,31 @@ public class Transferts implements Serializable {
 	private String libTypeTransfert;
 
 	/**
-	 * Temoin de transferts valide 0 Pas valider 1 Valider 2 Avis favorable ou
-	 * défavorable (authorise l'impression depuis la partie etudiant)
+	 * Temoin de transferts valide
+	 * 0 Pas valider
+	 * 1 Valider
+	 * 2 Avis favorable ou défavorable (authorise l'impression depuis la partie etudiant)
 	 */
 	@Column(name = "TEM_TRF_VALID")
 	private Integer temoinTransfertValide;
 
 	/**
-	 * Temoin de transferts WS 0 Pas de transferts  a l'universite d'accueil 1
-	 * Transfert OPI via WS OK 2 Transfert probleme OPI via WS !
+	 * Temoin de transferts WS
+	 * 0 Pas de transferts  a l'universite d'accueil
+	 * 1 Transfert OPI via WS OK
+	 * 2 Transfert probleme OPI via WS !
 	 */
 	@Column(name = "TEM_OPI_WS")
 	private Integer temoinOPIWs;
+
+	/**
+	 * Temoin de retour du transfert accueil
+	 * 0 Pas de retour  de l'universite d'accueil
+	 * 1 Retour transfert accepté par l'universite d'accueil
+	 * 2 Retour transfert refusé par l'universite d'accueil
+	 */
+	@Column(name = "TEM_RETOUR_TRANSFERT_ACCUEIL", nullable = false, columnDefinition = "INTEGER default 0")
+	private Integer temoinRetourTransfertAccueil;
 
 	/**
 	 * Fichier de signature de la demande de transferts
@@ -146,18 +159,26 @@ public class Transferts implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Transferts [numeroEtudiant=" + numeroEtudiant + ", annee="
-				+ annee + ", rne=" + rne + ", libRne=" + libRne + ", dept="
-				+ dept + ", libDept=" + libDept + ", libelleTypeDiplome="
-				+ libelleTypeDiplome + ", dateDemandeTransfert="
-				+ dateDemandeTransfert + ", typeTransfert=" + typeTransfert
-				+ ", libTypeTransfert=" + libTypeTransfert
-				+ ", temoinTransfertValide=" + temoinTransfertValide
-				+ ", temoinOPIWs=" + temoinOPIWs + ", fichier=" + fichier
-				+ ", odf=" + odf + "]";
+		return "Transferts{" +
+				"numeroEtudiant='" + numeroEtudiant + '\'' +
+				", annee=" + annee +
+				", rne='" + rne + '\'' +
+				", libRne='" + libRne + '\'' +
+				", dept='" + dept + '\'' +
+				", libDept='" + libDept + '\'' +
+				", libelleTypeDiplome='" + libelleTypeDiplome + '\'' +
+				", dateDemandeTransfert=" + dateDemandeTransfert +
+				", typeTransfert='" + typeTransfert + '\'' +
+				", libTypeTransfert='" + libTypeTransfert + '\'' +
+				", temoinTransfertValide=" + temoinTransfertValide +
+				", temoinOPIWs=" + temoinOPIWs +
+				", temoinRetourTransfertAccueil=" + temoinRetourTransfertAccueil +
+				", fichier=" + fichier +
+				", odf=" + odf +
+				'}';
 	}
 
 	public String getRne() {
@@ -270,5 +291,13 @@ public class Transferts implements Serializable {
 
 	public void setOdf(OffreDeFormationsDTO odf) {
 		this.odf = odf;
+	}
+
+	public Integer getTemoinRetourTransfertAccueil() {
+		return temoinRetourTransfertAccueil;
+	}
+
+	public void setTemoinRetourTransfertAccueil(Integer temoinRetourTransfertAccueil) {
+		this.temoinRetourTransfertAccueil = temoinRetourTransfertAccueil;
 	}
 }

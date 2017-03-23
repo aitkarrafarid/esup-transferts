@@ -1,17 +1,5 @@
 package org.esupportail.transferts.web.controllers;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.Fermeture;
@@ -22,6 +10,17 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @ManagedBean
 @ViewScoped
@@ -40,8 +39,6 @@ public class ScheduleController extends AbstractContextAwareController implement
 	private ScheduleModel eventModel;
 
 	private ScheduleEvent event = new DefaultScheduleEvent();
-
-	private List<Fermeture> fermetures = null;
 
 	private List<Fermeture> listeFermetures;
 	
@@ -121,6 +118,29 @@ public class ScheduleController extends AbstractContextAwareController implement
 		listeFermetures = getDomainService().addPeriodeFermetures(l1);
 	}
 
+	private Calendar today() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+
+		return calendar;
+	}
+
+	private Date today1Pm() {
+		Calendar t = (Calendar) today().clone();
+		t.set(Calendar.AM_PM, Calendar.PM);
+		t.set(Calendar.HOUR, 1);
+		t.set(Calendar.MINUTE, 0);
+		return t.getTime();
+	}
+
+	private Date today2Pm() {
+		Calendar t = (Calendar) today().clone();
+		t.set(Calendar.AM_PM, Calendar.PM);
+		t.set(Calendar.HOUR, 2);
+		t.set(Calendar.MINUTE, 0);
+		return t.getTime();
+	}
+
 	public ScheduleModel getEventModel() {
 		return eventModel;
 	}
@@ -151,8 +171,12 @@ public class ScheduleController extends AbstractContextAwareController implement
 				logger.debug("===>event"+event.getTitle()+"<===");
 			eventModel.deleteEvent(event);
 		}
-		getDomainService().deletePeriodeFermeture(event.getId());
-		event = new DefaultScheduleEvent();
+
+		if(event.getId()!=null)
+		{
+			getDomainService().deletePeriodeFermeture(event.getId());
+			event = new DefaultScheduleEvent();
+		}
 	}
 
 	public void onEventSelect(SelectEvent selectEvent) {
@@ -160,7 +184,13 @@ public class ScheduleController extends AbstractContextAwareController implement
 	}
 
 	public void onDateSelect(SelectEvent selectEvent) {
-		event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+		Date du = (Date) selectEvent.getObject();
+		Date au = (Date) du.clone();
+//		du.setTime(System.currentTimeMillis());
+//		au.setTime(1400);
+		au.setTime(au.getTime() + 86340000);
+//		event = new DefaultScheduleEvent("", (Date) selectEvent.getObject() , (Date) selectEvent.getObject());
+		event = new DefaultScheduleEvent("", du , au);
 	}
 
 	public void onEventMove(ScheduleEntryMoveEvent event) {
@@ -198,7 +228,6 @@ public class ScheduleController extends AbstractContextAwareController implement
 
 
 	public void setFermetures(List<Fermeture> fermetures) {
-		this.fermetures = fermetures;
 	}
 
 	public String getSource() {

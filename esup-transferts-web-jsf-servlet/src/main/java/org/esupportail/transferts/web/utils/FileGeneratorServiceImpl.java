@@ -1,31 +1,25 @@
 package org.esupportail.transferts.web.utils;
 
+import fr.univ.rennes1.cri.services.export.SpreadsheetColumn;
+import fr.univ.rennes1.cri.services.export.SpreadsheetObject;
+import fr.univ.rennes1.cri.services.export.SpreadsheetService;
+import fr.univ.rennes1.cri.utils.ReflectHelper;
+import org.esupportail.commons.services.i18n.I18nService;
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.commons.utils.BeanUtils;
+import org.esupportail.transferts.domain.beans.EtudiantRefExcel;
+import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
+import org.esupportail.transferts.domain.beans.PersonnelComposante;
+import org.springframework.beans.factory.InitializingBean;
+
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.faces.context.FacesContext;
-
-import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
-import org.esupportail.transferts.domain.beans.EtudiantRef;
-import org.esupportail.transferts.domain.beans.EtudiantRefExcel;
-import org.esupportail.transferts.domain.beans.IndOpi;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.PersonnelComposante;
-import org.esupportail.transferts.web.utils.PDFUtils;
-import org.springframework.beans.factory.InitializingBean;
-
-import fr.univ.rennes1.cri.services.export.SpreadsheetColumn;
-import fr.univ.rennes1.cri.services.export.SpreadsheetObject;
-import fr.univ.rennes1.cri.services.export.SpreadsheetService;
-import fr.univ.rennes1.cri.utils.ReflectHelper;
 
 /**
  * @author Farid AIT KARRA
@@ -245,7 +239,6 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 	public void exportXlsPersonnelsComposantesDepart(List<PersonnelComposante> persComp, String typeExport, String filename, List<String> colonnesChoisies) 
 	{
 		List<SpreadsheetColumn> colonnes = new ArrayList<SpreadsheetColumn>();
-		// colonnes partie convention
 		for (PersonnelsComposantesColonneEnumDepart s : PersonnelsComposantesColonneEnumDepart.values()) {
 			// definition des valeurs
 			Map<Integer, String> vEtudiant = new HashMap<Integer, String>();

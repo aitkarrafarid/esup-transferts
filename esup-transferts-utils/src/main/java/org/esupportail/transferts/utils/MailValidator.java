@@ -17,7 +17,7 @@ import org.esupportail.commons.services.i18n.I18nUtils;
  */
 public class MailValidator implements Validator {
 
-	public static String REGEX_MAIL = "^(\\w([-]?[.]?[\\w]*\\w)*@(\\w[-\\w]*\\w\\.)+[a-zA-Z]{2,9})$"; 
+	public static final String REGEX_MAIL = "^(\\w([-]?[.]?[\\w]*\\w)*@(\\w[-\\w]*\\w\\.)+[a-zA-Z]{2,9})$";
 	
 	/**
 	 * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)

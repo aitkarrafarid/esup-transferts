@@ -186,7 +186,7 @@ public class OffreDeFormationsDTO implements Serializable {
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427666897404494181L;
 
 	/**
 	 * Code RNE

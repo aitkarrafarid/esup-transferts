@@ -53,12 +53,16 @@ import org.hibernate.annotations.Type;
 })		    	    
 //@Table(name = "Fichier")
 @Table(name = "FICHIER")
-public class Fichier implements Serializable {
+public class Fichier implements Serializable, Cloneable {
 
 	/**
 	 * For serialize.
 	 */
-	private static final long serialVersionUID = 7427732897404494181L;
+	private static final long serialVersionUID = 7427732897404412181L;
+
+	public Object clone()throws CloneNotSupportedException{
+		return super.clone();
+	}
 
 	/**
 	 * MD5 du fichier

@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
 	
 	
 		@NamedQuery(name = "getDemandeTransfertByAnneeAndNumeroIneAndSource", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueil.situationUniversitaire LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf LEFT JOIN FETCH etu.transferts.fichier LEFT JOIN FETCH etu.correspondances WHERE etu.numeroIne = :numeroIne AND etu.annee = :annee"),
+		@NamedQuery(name = "getDemandeTransfertByAnneeAndNumeroIneAndSource2", query = "SELECT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueil.situationUniversitaire LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf LEFT JOIN FETCH etu.transferts.fichier LEFT JOIN FETCH etu.correspondances WHERE etu.numeroIne = :numeroIne AND etu.annee = :annee AND etu.source = :source"),
 		@NamedQuery(name = "getAccueilDecisionByNumeroEtudiantAndAnnee", query = "select etu from EtudiantRef etu LEFT JOIN FETCH etu.accueilDecision WHERE etu.numeroEtudiant =:numeroEtudiant and etu.annee =:annee"),
 		@NamedQuery(name = "allDemandesTransfertsByAnnee", query = "SELECT DISTINCT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueil.situationUniversitaire LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source ORDER BY etu.transferts.temoinTransfertValide ASC"),
 		@NamedQuery(name = "allDemandesTransfertsByAnneeAndNonTraite", query = "SELECT DISTINCT etu FROM EtudiantRef etu LEFT JOIN FETCH etu.adresse LEFT JOIN FETCH etu.transferts LEFT JOIN FETCH etu.accueil LEFT JOIN FETCH etu.accueil.situationUniversitaire LEFT JOIN FETCH etu.accueilDecision LEFT JOIN FETCH etu.transferts.odf WHERE etu.annee = :annee AND etu.source = :source AND (etu.transferts.temoinTransfertValide = 0 OR etu.transferts.temoinTransfertValide = 1 OR etu.transferts.temoinOPIWs = 2) ORDER BY etu.transferts.dateDemandeTransfert ASC"),
@@ -80,7 +81,7 @@ public class EtudiantRef implements Serializable {
 	private boolean interditLocal = false;
 
 	@Transient
-	List<TrBlocageDTO> listeBlocagesDTO = new ArrayList<TrBlocageDTO>();
+	private List<TrBlocageDTO> listeBlocagesDTO = new ArrayList<TrBlocageDTO>();
 
 	@Id
 	@Column(name = "numeroEtudiant")
