@@ -172,19 +172,19 @@
 							action="#{partenaireController.goToPartenaires}" />
 					</p:submenu>
 				</p:column>
-				<p:column>
-					<p:submenu rendered="#{sessionController.currentUser.admin}"
+				<p:column rendered="#{sessionController.currentUser.admin and sessionController.currentAnnee!=null}">
+					<p:submenu rendered="#{sessionController.currentUser.admin and sessionController.currentAnnee!=null}"
 						label="Préférences" icon="ui-icon-help">
 						<p:menuitem value="Liste des paramètres"
-							rendered="#{sessionController.currentUser.admin}"
+							rendered="#{sessionController.currentUser.admin and sessionController.currentAnnee!=null}"
 							action="#{administrationController.goToAdministration}" />
 					</p:submenu>
 				</p:column>
-				<p:column rendered="#{sessionController.currentUser.informaticien}">
-					<p:submenu rendered="#{sessionController.currentUser.informaticien}"
+				<p:column rendered="#{sessionController.currentUser.informaticien and sessionController.currentAnnee!=null}">
+					<p:submenu rendered="#{sessionController.currentUser.informaticien and sessionController.currentAnnee!=null}"
 							   label="Importer" icon="ui-icon-help">
 						<p:menuitem value="Données années précédentes"
-									rendered="#{sessionController.currentUser.informaticien}"
+									rendered="#{sessionController.currentUser.informaticien and sessionController.currentAnnee!=null}"
 									action="#{administrationController.goToImportDonneesAnneesPrecedentes}" />
 					</p:submenu>
 				</p:column>
