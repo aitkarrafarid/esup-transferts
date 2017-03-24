@@ -157,6 +157,10 @@ public class AdministrationController extends AbstractContextAwareController {
 	private Integer selectedCurrentAnneePartenairesACopier;
 	private boolean choixDuVoeuParComposanteByPartenaire;
 	private TreeNode root;
+	private Integer totalNombreDatasExterneNiveau1;
+	private Integer totalNombreDatasExterneNiveau2;
+	private Integer totalNombreDatasExterneNiveau3;
+
 
 	@Override
 	public void afterPropertiesSetInternal()
@@ -400,6 +404,30 @@ public class AdministrationController extends AbstractContextAwareController {
 	{
 		if (logger.isDebugEnabled())
 			logger.debug("public String goToAdministration()");
+		if(!getSessionController().isUseWsBu())
+		{
+			List<DatasExterne> nbDatasExterneNiveau1 = getDomainService().getAllDatasExterneByNiveau(1);
+			if(nbDatasExterneNiveau1!=null)
+				setTotalNombreDatasExterneNiveau1(nbDatasExterneNiveau1.size());
+			else
+				setTotalNombreDatasExterneNiveau1(0);
+		}
+		if(!getSessionController().isUseWsCandidatures())
+		{
+			List<DatasExterne> nbDatasExterneNiveau2 = getDomainService().getAllDatasExterneByNiveau(2);
+			if(nbDatasExterneNiveau2!=null)
+				setTotalNombreDatasExterneNiveau2(nbDatasExterneNiveau2.size());
+			else
+				setTotalNombreDatasExterneNiveau2(0);
+		}
+		if(!getSessionController().isUseWsPostBac())
+		{
+			List<DatasExterne> nbDatasExterneNiveau3 = getDomainService().getAllDatasExterneByNiveau(3);
+			if(nbDatasExterneNiveau3!=null)
+				setTotalNombreDatasExterneNiveau3(nbDatasExterneNiveau3.size());
+			else
+				setTotalNombreDatasExterneNiveau3(0);
+		}
 		return "goToAdministration";
 	}
 
@@ -2619,9 +2647,9 @@ public class AdministrationController extends AbstractContextAwareController {
 
 		if (isPartenaire() && (this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome()==null || this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome().equals(""))) {
 //			if (logger.isDebugEnabled())
-				logger.warn("Etablissement partenaire && typediplome==null");
-				logger.warn("aaa---libelleDiplomeVide===>"+libelleDiplomeVide+"<===");
-				logger.warn("bbb---getCodeDiplome()===>"+getCodeDiplome()+"<===");
+			logger.warn("Etablissement partenaire && typediplome==null");
+			logger.warn("aaa---libelleDiplomeVide===>"+libelleDiplomeVide+"<===");
+			logger.warn("bbb---getCodeDiplome()===>"+getCodeDiplome()+"<===");
 			setTypesDiplomeAutreVide(true);
 			setTypesDiplomeVide(false);
 			if (getCodeNiveau() != null)
@@ -2636,7 +2664,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		else if (!isPartenaire() && this.currentDemandeTransferts.getTransferts().getOdf()!=null)
 		{
 //			if (logger.isDebugEnabled())
-				logger.warn("Etablissement non partenaire && odf!=null");
+			logger.warn("Etablissement non partenaire && odf!=null");
 			setTypesDiplomeAutreVide(true);
 			setTypesDiplomeVide(false);
 			if (getCodeNiveau() != null)
@@ -2651,7 +2679,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		else
 		{
 //			if (logger.isDebugEnabled())
-				logger.warn("Etablissement non partenaire");
+			logger.warn("Etablissement non partenaire");
 			setTypesDiplomeVide(true);
 			setAnneeEtudeVide(true);
 			setComposanteVide(true);
@@ -5744,5 +5772,29 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void setRoot(TreeNode root) {
 		this.root = root;
+	}
+
+	public Integer getTotalNombreDatasExterneNiveau1() {
+		return totalNombreDatasExterneNiveau1;
+	}
+
+	public void setTotalNombreDatasExterneNiveau1(Integer totalNombreDatasExterneNiveau1) {
+		this.totalNombreDatasExterneNiveau1 = totalNombreDatasExterneNiveau1;
+	}
+
+	public Integer getTotalNombreDatasExterneNiveau2() {
+		return totalNombreDatasExterneNiveau2;
+	}
+
+	public void setTotalNombreDatasExterneNiveau2(Integer totalNombreDatasExterneNiveau2) {
+		this.totalNombreDatasExterneNiveau2 = totalNombreDatasExterneNiveau2;
+	}
+
+	public Integer getTotalNombreDatasExterneNiveau3() {
+		return totalNombreDatasExterneNiveau3;
+	}
+
+	public void setTotalNombreDatasExterneNiveau3(Integer totalNombreDatasExterneNiveau3) {
+		this.totalNombreDatasExterneNiveau3 = totalNombreDatasExterneNiveau3;
 	}
 }

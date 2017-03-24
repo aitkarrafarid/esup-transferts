@@ -114,17 +114,6 @@
 						</p:column>
 					</p:row>
 
-					<!--<p:row rendered="#{!sessionController.transfertsAccueil}">-->
-						<!--<p:column colspan="4" styleClass="ui-widget-header">-->
-							<!--Module transferts accueil-->
-						<!--</p:column>-->
-					<!--</p:row>-->
-					<!--<p:row rendered="#{!sessionController.transfertsAccueil}">-->
-						<!--<p:column colspan="4">-->
-							<!--Non installé-->
-						<!--</p:column>-->
-					<!--</p:row>-->
-
 					<p:row>
 						<p:column style="font-weight: bold;">Relance automatique des demandes de transferts accueil en echec</p:column>
 						<p:column><p:inputSwitch value="#{sessionController.reloadDemandeTransfertsAccueilEchecAuto}" onLabel="Oui" offLabel="Non" /></p:column>
@@ -153,16 +142,17 @@
 							<p:inputSwitch value="#{sessionController.useWsBu}" onLabel="WebService" offLabel="local" rendered="#{sessionController.currentUser.informaticien}" />
 						</p:column>
 						<p:column rendered="#{!sessionController.useWsBu}">
-							<h:outputText value="Table (DATAS_EXTERNE niveau interdit 1)" label="text" /> - <h:outputText value="#{administrationController.checkWsBu}" />
+							<h:outputText value="Table (DATAS_EXTERNE niveau interdit 1)" label="text" /> - <h:outputText rendered="#{sessionController.useWsBu}" value="#{administrationController.checkWsBu}" /><h:outputText rendered="#{!sessionController.useWsBu}" value="total : #{administrationController.totalNombreDatasExterneNiveau1}" />
 						</p:column>
 						<p:column rendered="#{sessionController.useWsBu}">
 							<h:outputText value="#{administrationController.checkWsBu}" />
 						</p:column>
 						<p:column>
-							<p:commandButton value="Ajouter/Modifier" icon="ui-icon-extlink" action="#{administrationController.saisieWs}" update="messages,msgs,msgs2" rendered="#{sessionController.currentUser.informaticien}">
+							<p:commandButton value="Ajouter/Modifier" icon="ui-icon-extlink" action="#{administrationController.saisieWs}" update="messages,msgs,msgs2" rendered="#{sessionController.currentUser.informaticien and sessionController.useWsBu}">
 								<f:param name="source_ws" value="bu" />
 								<p:ajax event="dialogReturn" listener="#{administrationController.onSaisieWs}" update="configuration" />
 							</p:commandButton>
+							<p:commandButton id="id_aideDatasExterneNiveau1" rendered="#{!sessionController.useWsBu}" onclick="PF('dialog_aideDatasExterneNiveau1').show();" type="button" icon="ui-icon-help" />
 						</p:column>
 					</p:row>
 					<p:row>
@@ -171,16 +161,17 @@
 							<p:inputSwitch value="#{sessionController.useWsCandidatures}" onLabel="WebService" offLabel="local" rendered="#{sessionController.currentUser.informaticien}" />
 						</p:column>
 						<p:column rendered="#{!sessionController.useWsCandidatures}">
-							<h:outputText value="Table (DATAS_EXTERNE niveau interdit 2)" label="text" /> - <h:outputText value="#{administrationController.checkWsCandidatures}" />
+							<h:outputText value="Table (DATAS_EXTERNE niveau interdit 2)" label="text" /> - <h:outputText rendered="#{sessionController.useWsCandidatures}" value="#{administrationController.checkWsCandidatures}" /><h:outputText rendered="#{!sessionController.useWsCandidatures}" value="total : #{administrationController.totalNombreDatasExterneNiveau2}" />
 						</p:column>
 						<p:column rendered="#{sessionController.useWsCandidatures}">
 							<h:outputText value="#{administrationController.checkWsCandidatures}" />
 						</p:column>
 						<p:column>
-							<p:commandButton value="Ajouter/Modifier" icon="ui-icon-extlink" action="#{administrationController.saisieWs}" update="messages,msgs,msgs2" rendered="#{sessionController.currentUser.informaticien}" >
+							<p:commandButton value="Ajouter/Modifier" icon="ui-icon-extlink" action="#{administrationController.saisieWs}" update="messages,msgs,msgs2" rendered="#{sessionController.currentUser.informaticien and sessionController.useWsCandidatures}" >
 								<f:param name="source_ws" value="candidature" />
 								<p:ajax event="dialogReturn" listener="#{administrationController.onSaisieWs}" update="configuration" />
 							</p:commandButton>
+							<p:commandButton id="id_aideDatasExterneNiveau2" rendered="#{!sessionController.useWsCandidatures}" onclick="PF('dialog_aideDatasExterneNiveau2').show();" type="button" icon="ui-icon-help" />
 						</p:column>
 					</p:row>
 
@@ -190,16 +181,17 @@
 							<p:inputSwitch value="#{sessionController.useWsPostBac}" onLabel="WebService" offLabel="local" rendered="#{sessionController.currentUser.informaticien}" />
 						</p:column>
 						<p:column rendered="#{!sessionController.useWsPostBac}">
-							<h:outputText value="Table (DATAS_EXTERNE niveau interdit 3)" label="text" /> - <h:outputText value="#{administrationController.checkWsPostBac}" />
+							<h:outputText value="Table (DATAS_EXTERNE niveau interdit 3)" label="text" /> - <h:outputText rendered="#{sessionController.useWsPostBac}" value="#{administrationController.checkWsPostBac}" /><h:outputText rendered="#{!sessionController.useWsPostBac}" value="total : #{administrationController.totalNombreDatasExterneNiveau3}" />
 						</p:column>
 						<p:column rendered="#{sessionController.useWsPostBac}">
 							<h:outputText value="#{administrationController.checkWsPostBac}" />
 						</p:column>
 						<p:column>
-							<p:commandButton value="Ajouter/Modifier" icon="ui-icon-extlink" action="#{administrationController.saisieWs}" update="messages,msgs,msgs2" rendered="#{sessionController.currentUser.informaticien}" >
+							<p:commandButton value="Ajouter/Modifier" icon="ui-icon-extlink" action="#{administrationController.saisieWs}" update="messages,msgs,msgs2" rendered="#{sessionController.currentUser.informaticien and sessionController.useWsPostBac}" >
 								<f:param name="source_ws" value="postbac" />
 								<p:ajax event="dialogReturn" listener="#{administrationController.onSaisieWs}" update="configuration" />
 							</p:commandButton>
+							<p:commandButton id="id_aideDatasExterneNiveau3" rendered="#{!sessionController.useWsPostBac}" onclick="PF('dialog_aideDatasExterneNiveau3').show();" type="button" icon="ui-icon-help" />
 						</p:column>
 					</p:row>
 
@@ -244,55 +236,100 @@
 				<p:dialog id="majOdfAuto"
 						  header="Mise à jour automatique de l'offre de formation"
 						  widgetVar="majOdfAuto" modal="true" height="640" width="850">
+					<h:outputText
+							value="Mise à jour automatique de l'offre de formation (exemple : 0 30 22 * * ? * correspond à tous les jours à 22h30) " />
+					<BR /><BR />
 					<center>
-						<h:outputText
-								value="Mise à jour automatique de l'offre de formation (exemple : 0 30 22 * * ? * correspond à tous les jours à 22h30) " />
+						<p:galleria panelWidth="700" panelHeight="500" showCaption="true">
+							<p:graphicImage value="/media/images/aide/maj_odf_auto.png"
+											width="700" height="300" alt="Mise à jour automatique de l'offre de formations"
+											title="#{image}" />
+						</p:galleria>
 					</center>
+					<BR /><BR />
+					<h:outputText value="Dans le fichier esup-transferts-web-jsf-servlet/src/main/resources/properties/config.properties, renseigner la propriété scheduler.cronExpression= exemple(0 30 20 * * ? *, http://quartz-scheduler.org/api/2.2.0/org/quartz/CronExpression.html) " />
 				</p:dialog>
 
 				<p:dialog id="reloadDemandeTransfertsDepartEchecAuto"
 						  header="Relance automatique des demandes de transferts départ en echec"
 						  widgetVar="reloadDemandeTransfertsDepartEchecAuto" modal="true" height="640" width="850">
-					<center>
 						<h:outputText
 								value="Relance automatique des demandes de transferts départ en echec (exemple : 0 30 22 * * ? * correspond à tous les jours à 22h30) " />
+					<BR /><BR />
+					<center>
+						<p:galleria panelWidth="700" panelHeight="500" showCaption="true">
+							<p:graphicImage value="/media/images/aide/partenaire_offline.png"
+											width="700" height="300" alt="Exemple liste des partenaires avec un partenaire offline"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/depart_partenaire_offline.png"
+											width="700" height="300" alt="Exemple d'affichage d'une demande de transfert départ envoyé à un partenaire offline"
+											title="#{image}" />
+						</p:galleria>
 					</center>
+					<BR /><BR />
+					<h:outputText value="Dans le fichier esup-transferts-web-jsf-servlet/src/main/resources/properties/config.properties, renseigner la propriété scheduler.cronExpression= exemple(0 30 20 * * ? *, http://quartz-scheduler.org/api/2.2.0/org/quartz/CronExpression.html) " />
 				</p:dialog>
 
 				<p:dialog id="reloadDemandeTransfertsAccueilEchecAuto"
 						  header="Relance automatique des demandes de transferts accueil en echec"
 						  widgetVar="reloadDemandeTransfertsAccueilEchecAuto" modal="true" height="640" width="850">
-					<center>
 						<h:outputText
 								value="Relance automatique des demandes de transferts accueil en echec (exemple : 0 30 22 * * ? * correspond à tous les jours à 22h30) " />
+					<BR /><BR />
+					<center>
+						<h:outputText value="Idem transferts départ..." />
 					</center>
+					<BR /><BR />
+					<h:outputText value="Dans le fichier esup-transferts-web-jsf-servlet/src/main/resources/properties/config.properties, renseigner la propriété scheduler.cronExpression= exemple(0 30 20 * * ? *, http://quartz-scheduler.org/api/2.2.0/org/quartz/CronExpression.html) " />
 				</p:dialog>
 
 				<p:dialog id="relanceDepartPersonnelConcerneSVAAuto"
 						  header="Envoi d'un mail aux personnels concernés (loi SVA) pour les transferts départ"
 						  widgetVar="relanceDepartPersonnelConcerneSVAAuto" modal="true" height="640" width="850">
-					<center>
 						<h:outputText
 								value="Envoi d'un mail aux personnels concernés (loi SVA) pour les transferts départ (exemple : 0 30 22 * * ? * correspond à tous les jours à 22h30) " />
+					<BR /><BR />
+					<center>
+						<h:outputText value="Idem envoi d'un mail global qui résume toutes les demndes de transferts soumis à la SVA..." />
 					</center>
+					<BR /><BR />
+					<h:outputText value="Dans le fichier esup-transferts-web-jsf-servlet/src/main/resources/properties/config.properties, renseigner la propriété scheduler.cronExpression= exemple(0 30 20 * * ? *, http://quartz-scheduler.org/api/2.2.0/org/quartz/CronExpression.html) " />
 				</p:dialog>
 
 				<p:dialog id="relanceAccueilPersonnelConcerneSVAAuto"
 						  header="Envoi d'un mail aux personnels concernés (loi SVA) pour les transferts accueil"
 						  widgetVar="relanceAccueilPersonnelConcerneSVAAuto" modal="true" height="640" width="850">
-					<center>
 						<h:outputText
 								value="Envoi d'un mail aux personnels concernés (loi SVA) pour les transferts accueil (exemple : 0 30 22 * * ? * correspond à tous les jours à 22h30) " />
+					<BR /><BR />
+					<center>
+						<h:outputText value="Idem envoi d'un mail global qui résume toutes les demndes de transferts soumis à la SVA..." />
 					</center>
+					<BR /><BR />
+					<h:outputText value="Dans le fichier esup-transferts-web-jsf-servlet/src/main/resources/properties/config.properties, renseigner la propriété scheduler.cronExpression= exemple(0 30 20 * * ? *, http://quartz-scheduler.org/api/2.2.0/org/quartz/CronExpression.html) " />
 				</p:dialog>
 
 				<p:dialog id="relanceResumeSVAAuto"
 						  header="Envoi d'un mail global qui résume toutes les demndes de transferts soumis à la SVA"
 						  widgetVar="relanceResumeSVAAuto" modal="true" height="640" width="850">
-					<center>
 						<h:outputText
 								value="Envoi d'un mail global qui résume toutes les demndes de transferts soumis à la SVA (exemple : 0 30 22 * * ? * correspond à tous les jours à 22h30) " />
+					<BR /><BR />
+					<center>
+						<p:galleria panelWidth="700" panelHeight="500" showCaption="true">
+							<p:graphicImage value="/media/images/aide/liste_depart_sva.png"
+											width="700" height="300" alt="Exemple de demande de transfert départ avec délai de 6 semaines et de 2 mois dépassé (loi SVA)"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/envoi_mail_resume_sva.png"
+											width="700" height="300" alt="Envoi d'un mail global qui résume toutes les demndes de transferts soumis à la SVA"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/envoi_mail_resume_sva2.png"
+											width="700" height="300" alt="Envoi d'un mail global qui résume toutes les demndes de transferts soumis à la SVA"
+											title="#{image}" />
+						</p:galleria>
 					</center>
+					<BR /><BR />
+					<h:outputText value="Dans le fichier esup-transferts-web-jsf-servlet/src/main/resources/properties/config.properties, renseigner la propriété scheduler.cronExpression= exemple(0 30 20 * * ? *, http://quartz-scheduler.org/api/2.2.0/org/quartz/CronExpression.html) " />
 				</p:dialog>
 
 				<p:dialog id="planningFermetureAuto"
@@ -313,10 +350,18 @@
 				<p:dialog id="ajoutEtablissementManuellementAuto"
 						  header="Ajout d'un établissement"
 						  widgetVar="ajoutEtablissementManuellementAuto" modal="true" height="640" width="850">
-					<center>
 						<h:outputText
 								value="Ajout d'un établissement : RNE@Libellé,RNE@libellé" />
+					<BR /><BR />
+					<center>
+						<p:galleria panelWidth="700" panelHeight="500" showCaption="true">
+							<p:graphicImage value="/media/images/aide/etablissements_ajoutes_manuellement.png"
+											width="700" height="300" alt="Exemple d'ajout d'établissement manuellement"
+											title="#{image}" />
+						</p:galleria>
 					</center>
+					<BR /><BR />
+					<h:outputText value="Vous pouvez égelement ajouter des établissements, modifier le fichier esup-transferts-web-jsf-servlet/src/main/resources/properties/config.properties, renseigner la propriété etab.type : exemple etab.type=00,CU ou etab.type=00,04,05,14,CU" />
 				</p:dialog>
 
 				<p:dialog id="ajoutSuperGestionnaireWidget"
@@ -326,6 +371,78 @@
 						<h:outputText
 								value="Ajout d'un super gestionnaire (UID) : nom.prenom,non.prenom" />
 					</center>
+				</p:dialog>
+
+				<p:dialog id="dialog_aideDatasExterneNiveau1"
+						  header="Datas eterne de niveau 1"
+						  widgetVar="dialog_aideDatasExterneNiveau1" modal="true" height="640" width="850">
+						<h:outputText
+								value="Les datas esternes de niveau 1 sont des interndits blocants à l'authentification" />
+					<BR /><BR />
+					<center>
+						<p:galleria panelWidth="700" panelHeight="500" showCaption="true">
+							<p:graphicImage value="/media/images/aide/visu_frontend_datas_externe_niveau1.png"
+											width="700" height="300" alt="Exemple d'echec à l'authentification"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/visu_datas_externe_niveau1.png"
+											width="700" height="300" alt="Visualisation depuis la liste des paramètres"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/datas_externe_niveau1.png"
+											width="700" height="300" alt="Exemple de données dans la tables DATAS_EXTERNE"
+											title="#{image}" />
+						</p:galleria>
+					</center>
+				</p:dialog>
+
+				<p:dialog id="dialog_aideDatasExterneNiveau2"
+						  header="Datas eterne de niveau 2"
+						  widgetVar="dialog_aideDatasExterneNiveau2" modal="true" height="640" width="850">
+					<h:outputText
+							value="Les datas esternes de niveau 2 sont des warnings non blocants à l'authentification et concerne les transferts accueil uniquement" />
+					<BR /><BR />
+					<BR /><BR />
+					<center>
+						<p:galleria panelWidth="700" panelHeight="500" showCaption="true">
+							<p:graphicImage value="/media/images/aide/transfert_accueil_candidature.png"
+											width="700" height="300" alt="Exemple d'information sur la candidature lors d'une demande de transfert accueil"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/visu_datas_externe_niveau2.png"
+											width="700" height="300" alt="Visualisation depuis la liste des paramètres"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/datas_externe_niveau2.png"
+											width="700" height="300" alt="Exemple de données dans la tables DATAS_EXTERNE"
+											title="#{image}" />
+						</p:galleria>
+					</center>
+				</p:dialog>
+
+
+				<p:dialog id="dialog_aideDatasExterneNiveau3"
+						  header="Datas eterne de niveau 3"
+						  widgetVar="dialog_aideDatasExterneNiveau3" modal="true" height="640" width="850">
+					<h:outputText
+							value="Les datas esternes de niveau 3 sont des warnings non blocants à l'authentification et concerne les transferts accueil uniquement (le libellé d'interdit dans la table datas_externe doit correspondre au code OPI APB/PostBac pour envoi par mail à l'étudiant)" />
+					<BR /><BR />
+					<center>
+						<p:galleria panelWidth="700" panelHeight="500" showCaption="true">
+							<p:graphicImage value="/media/images/aide/transfert_accueil_postbac.png"
+											width="700" height="300" alt="Exemple d'information sur la présence d'une OPI APB (postBac) lors d'une demande de transfert accueil"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/visu_datas_externe_niveau3.png"
+											width="700" height="300" alt="Visualisation depuis la liste des paramètres"
+											title="#{image}" />
+							<p:graphicImage value="/media/images/aide/datas_externe_niveau3.png"
+											width="700" height="300" alt="Exemple de données dans la tables DATAS_EXTERNE"
+											title="#{image}" />
+						</p:galleria>
+					</center>
+				</p:dialog>
+
+				<p:dialog id="timeOutConnexionWsAuto"
+						  header="Datas eterne de niveau 3"
+						  widgetVar="timeOutConnexionWsAutoButton" modal="true" height="640" width="850">
+					<h:outputText
+							value="Délai de connexion maxinum autorisé" />
 				</p:dialog>
 
 			</h:form>

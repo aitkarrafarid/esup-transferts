@@ -2070,8 +2070,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public List<DatasExterne> getAllDatasExterneByNiveau(Integer niveau) {
-		if (logger.isDebugEnabled())
-			logger.debug("public List<DatasExterne> getAllDatasExterneByNiveau===>"+niveau+"<===");
+//		if (logger.isDebugEnabled())
+			logger.info("public List<DatasExterne> getAllDatasExterneByNiveau===>"+niveau+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getAllDatasExterneByNiveau");
 			q.setParameter("niveau", niveau);
