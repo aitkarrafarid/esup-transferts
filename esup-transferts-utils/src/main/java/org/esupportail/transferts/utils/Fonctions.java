@@ -119,18 +119,26 @@ public class Fonctions {
         return t;
     }
 
-    public static Object[] appelWSOdfPartenaires2(String wsUrl, String wsLogin, String wsPwd, String maClass, String maMethode, Integer timeOutConnexionWs, Object... params)
+    public static Object[] appelWSAuth(String wsUrl, String wsLogin, String wsPwd, String maClass, String maMethode, String collection, Integer timeOutConnexionWs, Object... params)
     {
+        if (logger.isDebugEnabled())
+            logger.debug("===>appelWSAuth<===");
         Authenticator.setDefault(new MyAuthenticator(wsLogin, wsPwd));
 
         if (logger.isDebugEnabled()) {
             logger.debug("wsUrl===>" + wsUrl + "<===");
-            logger.info("wsLogin===>" + wsLogin + "<===");
-            logger.info("wsPwd===>" + wsPwd + "<===");
+            logger.debug("wsLogin===>" + wsLogin + "<===");
+            logger.debug("wsPwd===>" + wsPwd + "<===");
+            logger.debug("maClass===>" + maClass + "<===");
+            logger.debug("maMethode===>" + maMethode + "<===");
+            logger.debug("collection===>" + collection + "<===");
+            logger.debug("timeOutConnexionWs.toString()===>" + timeOutConnexionWs.toString() + "<===");
         }
 
         Object tabReturn[] = new Object[2];
-        List<OffreDeFormationsDTO> odfs=new ArrayList<OffreDeFormationsDTO>();
+        List<Object> objectRetourList = new ArrayList<Object>();
+        Object objectRetour = new Object();
+
         Integer online=0;
 
         Class cls=null;
@@ -162,88 +170,6 @@ public class Fonctions {
                         logger.debug("Method m===>"+m+"<===");
                     }
 
-                    odfs = (List<OffreDeFormationsDTO>) ReflectionUtils.invokeMethod(m, monService, params);
-
-                    logger.info("odfs===>"+odfs+"<===");
-
-                    online=1;
-                }
-                catch (Exception e)
-                {
-                    logger.error(e);
-                }
-            }
-            else
-            {
-                int codeErr = codeErreurHttp(wsUrl, timeOutConnexionWs);
-                if (logger.isDebugEnabled())
-                    logger.debug("codeErr===>"+codeErr+"<===");
-            }
-
-        }
-        catch(Exception e )
-        {
-            logger.error(e);
-        }
-        AuthCacheValue.setAuthCache(new AuthCacheImpl());
-        Authenticator.setDefault(null);
-
-        tabReturn[0]=odfs;
-        tabReturn[1]=online;
-        return tabReturn;
-    }
-
-    public static Object[] appelWSAuth(String wsUrl, String wsLogin, String wsPwd, String maClass, String maMethode, String collection, Integer timeOutConnexionWs, Object... params)
-    {
-        logger.fatal("===>appelWSAuth<===");
-        Authenticator.setDefault(new MyAuthenticator(wsLogin, wsPwd));
-
-//        if (logger.isDebugEnabled()) {
-            logger.info("wsUrl===>" + wsUrl + "<===");
-            logger.info("wsLogin===>" + wsLogin + "<===");
-            logger.info("wsPwd===>" + wsPwd + "<===");
-            logger.info("maClass===>" + maClass + "<===");
-            logger.info("maMethode===>" + maMethode + "<===");
-            logger.info("collection===>" + collection + "<===");
-            logger.info("timeOutConnexionWs.toString()===>" + timeOutConnexionWs.toString() + "<===");
-//        }
-
-        Object tabReturn[] = new Object[2];
-        List<Object> objectRetourList = new ArrayList<Object>();
-        Object objectRetour = new Object();
-
-        Integer online=0;
-
-        Class cls=null;
-        try {
-            cls = Class.forName(maClass);
-//            if (logger.isDebugEnabled()){
-                logger.warn("cls===>"+cls+"<===");
-//                logger.debug("clsRetour===>"+clsRetour+"<===");
-                logger.warn("params===>"+Arrays.toString(params)+"<===");
-//            }
-
-            if (testUrl(wsUrl, timeOutConnexionWs))
-            {
-                if (logger.isDebugEnabled())
-                    logger.debug("WebServices.appelWSPartenaires");
-                try {
-                    String address = wsUrl;
-                    JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
-                    factoryBean.setServiceClass(cls);
-                    factoryBean.setAddress(address);
-                    Object monService = factoryBean.create();
-
-                    Class t[]=verifTypeOfClass(params);
-
-                    Method m = ReflectionUtils.findMethod(cls, maMethode, t);
-
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("WebServices.monService-->" + monService);
-                        logger.debug("maMethode-->" + maMethode);
-                        logger.debug("Method m===>"+m+"<===");
-                    }
-
                     if(collection.equals("arrayList"))
                         try {
                             objectRetourList = (List<Object>) ReflectionUtils.invokeMethod(m, monService, params);
@@ -253,9 +179,10 @@ public class Fonctions {
                     else
                         objectRetour = (Object) ReflectionUtils.invokeMethod(m, monService, params);
 
-                    logger.info("objectRetourList===>"+objectRetourList+"<===");
-                    logger.info("objectRetour===>"+objectRetour+"<===");
-
+                    if(logger.isDebugEnabled()) {
+                        logger.debug("objectRetourList===>" + objectRetourList + "<===");
+                        logger.debug("objectRetour===>" + objectRetour + "<===");
+                    }
                     online=1;
                 }
                 catch (Exception e)
@@ -291,143 +218,16 @@ public class Fonctions {
         Class cls=null;
         try {
             cls = Class.forName(maClass);
-            logger.fatal("maClass===>"+maClass+"<===");
-            logger.fatal("cls===>"+cls+"<===");
-//            Parametres p =
+            if (logger.isDebugEnabled())
+            {
+                logger.debug("maClass===>" + maClass + "<===");
+                logger.debug("cls===>" + cls + "<===");
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
 
         return null;
-    }
-
-    public static List<DatasExterne> appelWSDatasExterne2(String wsUrl, String wsLogin, String wsPwd, String maClass, String maMethode, Integer timeOutConnexionWs, String... params){
-        /**
-         * niveau de l'interdit
-         * 1 blocage de la saisie de la demande de transfert (interdit BU)
-         * 2 VAP (candidatures)
-         * 3 APB (postbac)
-         */
-        List<DatasExterne> listeInterdit=new ArrayList<DatasExterne>();
-        List<Interdit> lInterditsWs=new ArrayList<Interdit>();
-
-        Authenticator.setDefault(new MyAuthenticator(wsLogin, wsPwd));
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("wsUrl===>" + wsUrl + "<===");
-            logger.debug("wsLogin===>" + wsLogin + "<===");
-            logger.debug("wsPwd===>" + wsPwd + "<===");
-        }
-
-        Class cls=null;
-        try {
-            cls = Class.forName(maClass);
-
-            if (logger.isDebugEnabled()){
-                logger.debug("cls===>"+cls+"<===");
-                logger.debug("params===>"+Arrays.toString(params)+"<===");
-            }
-
-            if (testUrl(wsUrl, timeOutConnexionWs))
-            {
-                if (logger.isDebugEnabled())
-                    logger.debug("WebServices.appelWSDatasExterne");
-                try {
-                    String address = wsUrl;
-                    JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
-                    factoryBean.setServiceClass(cls);
-                    factoryBean.setAddress(address);
-                    Object monService = factoryBean.create();
-
-                    Class t[]=verifTypeOfClass(params);
-
-                    Method m = ReflectionUtils.findMethod(cls, maMethode, t);
-
-//                    if (logger.isDebugEnabled()) {
-                        logger.info("WebServices.monService-->" + monService);
-                        logger.info("maMethode-->" + maMethode);
-                        logger.info("Method m===>"+m+"<===");
-//                    }
-
-                    try
-                    {
-                        lInterditsWs = (List<Interdit>) ReflectionUtils.invokeMethod(m, monService, params);
-
-                        if(lInterditsWs!=null)
-                        {
-                            listeInterdit = new ArrayList<DatasExterne>();
-                            for(Interdit c : lInterditsWs)
-                            {
-                                if (logger.isDebugEnabled()) {
-                                    logger.debug("WebServices.Interdits===>" + c.getIdentifiant() + "<===");
-                                    logger.debug("WebServices.Interdits===>" + c.getLibInterdit() + "<===");
-                                }
-                                DatasExterne de = new DatasExterne();
-                                de.setCode(c.getSource());
-                                de.setIdentifiant(c.getIdentifiant());
-                                de.setNiveau(c.getCodeNiveauInterdit());
-                                de.setLibInterdit(c.getLibInterdit());
-                                listeInterdit.add(de);
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        logger.error(e);
-                        DatasExterne de = new DatasExterne();
-                        de.setCode("Erreur");
-                        de.setIdentifiant("identifiant");
-                        de.setNiveau(4);
-                        de.setLibInterdit(MSG_ERREURS);
-                        listeInterdit.add(de);
-                     }
-                }
-                catch (Exception e)
-                {
-                    logger.error(e);
-                    String summary = "ERREUR.ACCES_WS";
-                    String detail = "ERREUR.ACCES_WS";
-                    FacesMessage.Severity severity = FacesMessage.SEVERITY_ERROR;
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-                    DatasExterne de = new DatasExterne();
-                    de.setCode("Erreur");
-                    de.setIdentifiant("identifiant");
-                    de.setNiveau(4);
-                    de.setLibInterdit(MSG_ERREURS);
-                    listeInterdit.add(de);
-                }
-            }
-            else
-            {
-                int codeErr = codeErreurHttp(wsUrl, timeOutConnexionWs);
-                if (logger.isDebugEnabled())
-                    logger.debug("codeErr===>"+codeErr+"<===");
-                String summary = "Erreur d'acces au Webservice : "+codeErr;
-                String detail = "Erreur d'acces au Webservice : "+codeErr;
-                FacesMessage.Severity severity = FacesMessage.SEVERITY_ERROR;
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-                DatasExterne de = new DatasExterne();
-                de.setCode("Erreur");
-                de.setIdentifiant("identifiant");
-                de.setNiveau(4);
-                de.setLibInterdit(MSG_ERREURS);
-                listeInterdit.add(de);
-            }
-
-        }
-        catch(Exception e )
-        {
-            logger.error(e);
-            DatasExterne de = new DatasExterne();
-            de.setCode("Erreur");
-            de.setIdentifiant("identifiant");
-            de.setNiveau(4);
-            de.setLibInterdit(MSG_ERREURS);
-            listeInterdit.add(de);
-        }
-        AuthCacheValue.setAuthCache(new AuthCacheImpl());
-        Authenticator.setDefault(null);
-        return listeInterdit;
     }
 
     public static boolean testUrl(String host, Integer timeOutConnexionWs) {

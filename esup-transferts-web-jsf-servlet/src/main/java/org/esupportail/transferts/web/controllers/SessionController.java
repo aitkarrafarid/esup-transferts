@@ -383,21 +383,26 @@ public class SessionController extends AbstractDomainAwareBean {
 	public TreeNode constructTreeNode(TrResultatVdiVetDTO trResultatVdiVetDTO){
 		TreeNode root = new DefaultTreeNode(new DocumentResultats("Files", "-", "Folder"), null);
 
-		logger.info("trResultatVdiVetDTO===>"+trResultatVdiVetDTO+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("trResultatVdiVetDTO===>"+trResultatVdiVetDTO+"<===");
 
 		if(trResultatVdiVetDTO!=null && trResultatVdiVetDTO.getEtapes().size()>0) {
 			for (ResultatEtape re : trResultatVdiVetDTO.getEtapes()) {
-				logger.info("re.getAnnee()===>" + re.getAnnee() + "<===");
-				logger.info("re.getLibEtape()===>" + re.getLibEtape() + "<===");
+
+                if (logger.isDebugEnabled()){
+				    logger.debug("re.getAnnee()===>" + re.getAnnee() + "<===");
+				    logger.debug("re.getLibEtape()===>" + re.getLibEtape() + "<===");
+                }
 
 				TreeNode treeNodeResultatEtape = new DefaultTreeNode(new DocumentResultats(re.getAnnee().toString() + "-" + re.getLibEtape(), "", ""), root);
 
 				if(re.getSession()!=null && re.getSession().size()>0) {
 					for (ResultatSession rs : re.getSession()) {
-						logger.info("rs.getLibSession()===>" + rs.getLibSession() + "<===");
-						logger.info("rs.getMention()===>" + rs.getMention() + "<===");
-						logger.info("rs.getResultat()===>" + rs.getResultat() + "<===");
-
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("rs.getLibSession()===>" + rs.getLibSession() + "<===");
+                            logger.debug("rs.getMention()===>" + rs.getMention() + "<===");
+                            logger.debug("rs.getResultat()===>" + rs.getResultat() + "<===");
+                        }
 						TreeNode treeNodeResultatSession = new DefaultTreeNode(new DocumentResultats(rs.getLibSession(), rs.getMention(), rs.getResultat()), treeNodeResultatEtape);
 
 					}
@@ -520,7 +525,8 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	/**/
 	public List<User> rechercherLdap(String filtre){
-		logger.info("public void rechercherLdap(String filtre, String by)===>"+filtre+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("public void rechercherLdap(String filtre, String by)===>"+filtre+"<===");
 
 		List<User> personnelsRecherche = new ArrayList<User>();
 
@@ -533,7 +539,8 @@ public class SessionController extends AbstractDomainAwareBean {
 			u.setDisplayName(ldapUser.getAttribute(getLdapDisplayNameAttribute()));
 			u.setMail(ldapUser.getAttribute(getLdapEmailAttribute()));
 
-			logger.warn("u===>"+u+"<===");
+            if (logger.isDebugEnabled())
+			    logger.debug("u===>"+u+"<===");
 
 			if (!personnelsRecherche.contains(u)){
 				personnelsRecherche.add(u);

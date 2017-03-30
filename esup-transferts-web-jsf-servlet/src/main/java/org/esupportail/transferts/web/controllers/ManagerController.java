@@ -85,16 +85,14 @@ public class ManagerController extends AbstractContextAwareController {
 
 	public String goToDetailDroits()
 	{
-		logger.warn("===>public String goToDetailDroits()<===");
-		logger.warn("personnelChoisi===>"+personnelChoisi+"<===");
+		if (logger.isDebugEnabled()) {
+			logger.debug("===>public String goToDetailDroits()<===");
+			logger.debug("personnelChoisi===>" + personnelChoisi + "<===");
+		}
 		this.setFilteredDetailsDroits(null);
 		if (logger.isDebugEnabled())
 			logger.debug("public String goToDetailDroits()");
-		//		setFrom("D");
 		listeComposantesDetailsDroits=getPlayers().getTarget();
-		//listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
-		//this.addPersonnelComposante();
-		//listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());		
 		return "goToDetailDroits";
 	}
 
@@ -155,10 +153,11 @@ public class ManagerController extends AbstractContextAwareController {
 
 	public void addPersonnelComposante()
 	{
-		logger.info("===>public void addPersonnelComposante()<===");
+        if(logger.isDebugEnabled())
+		    logger.debug("===>public void addPersonnelComposante()<===");
 		if(listeComposantesDetailsDroits!=null && listeComposantesDetailsDroits.size()>0) {
-//			if (logger.isDebugEnabled())
-				logger.info("################ listeComposantesDetailsDroits #################### --> " + listeComposantesDetailsDroits.size());
+			if (logger.isDebugEnabled())
+				logger.debug("################ listeComposantesDetailsDroits #################### --> " + listeComposantesDetailsDroits.size());
 			List<PersonnelComposante> lPc = new ArrayList<PersonnelComposante>();
 			for (int i = 0; i < listeComposantesDetailsDroits.size(); i++) {
 				if (logger.isDebugEnabled()) {
@@ -235,9 +234,10 @@ public class ManagerController extends AbstractContextAwareController {
 
 	public String goToManagerChoixLicence()
 	{
-		logger.warn("===>public String goToManagerChoixLicence()<===");
-		logger.warn("personnelChoisi===>"+personnelChoisi+"<===");
-
+		if (logger.isDebugEnabled()) {
+			logger.debug("===>public String goToManagerChoixLicence()<===");
+			logger.debug("personnelChoisi===>" + personnelChoisi + "<===");
+		}
 		if(personnelChoisi.getMail()==null || personnelChoisi.getMail().equals("") || personnelChoisi.getMail().equals("null"))
 			personnelChoisi.setMail(updateInfosLdapFromUser(personnelChoisi.getLogin()));
 
@@ -290,11 +290,11 @@ public class ManagerController extends AbstractContextAwareController {
 			//			String filter = "(&(givenName="+this.prenomRecherche+"*)(sn="+this.nomRecherche+"*)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)))";
 			String[] tokens2 = this.employeeAffiliation.split(",");
 
-//			if(logger.isDebugEnabled())
-//			{
-			logger.info("tokens2-->" + tokens2.length);
-			logger.info("filter -->" + filter);
-//			}
+			if(logger.isDebugEnabled())
+			{
+                logger.debug("tokens2-->" + tokens2.length);
+                logger.debug("filter -->" + filter);
+			}
 
 			this.personnelsRecherche = getSessionController().rechercherLdap(filter);
 		}
@@ -303,8 +303,10 @@ public class ManagerController extends AbstractContextAwareController {
 	}
 
 	public String updateInfosLdapFromUser(String uid){
-		logger.debug("public void updateInfosLdapFromUser()===>"+uid+"<===");
-		logger.info("from===>"+getFrom()+"<===");
+        if(logger.isDebugEnabled()) {
+            logger.debug("public void updateInfosLdapFromUser()===>" + uid + "<===");
+            logger.debug("from===>" + getFrom() + "<===");
+        }
 
 			String filter = "";
 			String mailRetour=null;
@@ -326,16 +328,17 @@ public class ManagerController extends AbstractContextAwareController {
 			//			String filter = "(uid=corinne.minjeau)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)(eduPersonPrimaryAffiliation=affiliate))";
 			String[] tokens2 = this.employeeAffiliation.split(",");
 
-//			if(logger.isDebugEnabled())
-//			{
-			logger.info("tokens2-->" + tokens2.length);
-			logger.info("filter -->" + filter);
-//			}
+			if(logger.isDebugEnabled())
+			{
+    			logger.debug("tokens2-->" + tokens2.length);
+	    		logger.debug("filter -->" + filter);
+			}
 
 			List<User> lUsers = getSessionController().rechercherLdap(filter);
 
 			if(lUsers!=null)
-				logger.info("lUsers.size() -->" + lUsers.size());
+                if(logger.isDebugEnabled())
+				    logger.debug("lUsers.size() -->" + lUsers.size());
 
 			if(lUsers!=null && lUsers.size()==1 && lUsers.get(0).getMail()!=null && !lUsers.get(0).getMail().equals("") && !lUsers.get(0).getMail().equalsIgnoreCase("null"))
 				mailRetour=lUsers.get(0).getMail();
@@ -344,11 +347,14 @@ public class ManagerController extends AbstractContextAwareController {
 	}
 
 	public void updateInfosLdap(){
-		logger.debug("===>public void updateInfosLdapDepart()<===");
-		logger.info("from===>"+getFrom()+"<===");
+        if(logger.isDebugEnabled()) {
+            logger.debug("===>public void updateInfosLdapDepart()<===");
+            logger.debug("from===>" + getFrom() + "<===");
+        }
 		Integer compteur=0;
 		for(User u : users){
-			logger.info("===>"+u.getLogin()+"<===");
+            if(logger.isDebugEnabled())
+			    logger.debug("===>"+u.getLogin()+"<===");
 
 			String filter = "";
 
@@ -369,16 +375,17 @@ public class ManagerController extends AbstractContextAwareController {
 			//			String filter = "(uid=corinne.minjeau)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)(eduPersonPrimaryAffiliation=affiliate))";
 			String[] tokens2 = this.employeeAffiliation.split(",");
 
-//			if(logger.isDebugEnabled())
-//			{
-			logger.info("tokens2-->" + tokens2.length);
-			logger.info("filter -->" + filter);
-//			}
+			if(logger.isDebugEnabled())
+			{
+                logger.debug("tokens2-->" + tokens2.length);
+                logger.debug("filter -->" + filter);
+			}
 
 			List<User> lUsers = getSessionController().rechercherLdap(filter);
 
 			if(lUsers!=null)
-				logger.info("lUsers.size() -->" + lUsers.size());
+                if(logger.isDebugEnabled())
+				    logger.debug("lUsers.size() -->" + lUsers.size());
 
 			if(lUsers!=null && lUsers.size()==1 && lUsers.get(0).getMail()!=null && !lUsers.get(0).getMail().equals("") && !lUsers.get(0).getMail().equalsIgnoreCase("null")) {
 				List<PersonnelComposante> listPersComp = getDomainService().getListeComposantesByUidAndSourceAndAnnee(lUsers.get(0).getLogin(), getFrom(), getSessionController().getCurrentAnnee());

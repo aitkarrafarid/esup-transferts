@@ -123,7 +123,6 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetTypeDiplome()
 	{
-		logger.warn("===>public void resetTypeDiplome()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetTypeDiplome()");
 
@@ -137,7 +136,8 @@ public class UserController extends AbstractContextAwareController {
 		{
 			WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee());
 
-			logger.fatal("===>"+wp+"<===");
+            if (logger.isDebugEnabled())
+			    logger.debug("===>"+wp+"<===");
 
 			if(wp!=null)
 				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
@@ -166,7 +166,6 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetAnneeEtude()
 	{
-		logger.warn("===>public void resetAnneeEtude()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetAnneeEtude()");
 
@@ -204,10 +203,8 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetComposante()
 	{
-		logger.warn("===>public void resetComposante()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetComposante()");
-
 		setTypesDiplomeVide(false);
 		setAnneeEtudeVide(false);
 		setCodeDiplome(null);
@@ -219,7 +216,8 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetLibelleDiplome()
 	{
-		logger.warn("===>public void resetLibelleDiplome()<===");
+        if (logger.isDebugEnabled())
+    		logger.debug("===>public void resetLibelleDiplome()<===");
 		setTypesDiplomeAutreVide(true);
 //		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))
 		if(getCodeNiveau() !=null)
@@ -242,8 +240,8 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetLibelleEtape()
 	{
-		logger.warn("===>public void resetLibelleEtape()<===");
-//		if(getSessionController().isChoixDuVoeuParComposante())
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void resetLibelleEtape()<===");
 		if(this.isChoixDuVoeuParComposanteByPartenaire())
 		{
 			if(getCodeComposante() !=null && !getCodeComposante().equals(""))
@@ -399,7 +397,8 @@ public class UserController extends AbstractContextAwareController {
 			Set listDestinataires=new HashSet(); // on crée notre Set
 			List<PersonnelComposante> lp = getDomainService().getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante("D", getSessionController().getCurrentAnnee(), this.currentEtudiant.getComposante());
 
-			logger.info("lp===>" + lp + "<===");
+            if (logger.isDebugEnabled())
+			    logger.debug("lp===>" + lp + "<===");
 
 			if (lp != null && lp.size() > 0) {
 				String sujet="Nouvelle de ";
@@ -529,16 +528,16 @@ public class UserController extends AbstractContextAwareController {
 	{
 		try {
 			if(listDestinataires!=null)
-				logger.info("listDestinataires.size()===>"+listDestinataires.size()+"<===");
+                if (logger.isDebugEnabled())
+				    logger.debug("listDestinataires.size()===>"+listDestinataires.size()+"<===");
 			Iterator i = listDestinataires.iterator(); // on crée un Iterator pour parcourir notre HashSet
 			while (i.hasNext()) // tant qu'on a un suivant
 			{
 				String mail= (String) i.next();
-				logger.warn("body===>"+body+"<===");
 				InternetAddress emailAddr = new InternetAddress(mail);
 				getSmtpService().send(emailAddr, sujet, body, body);
 				if (logger.isDebugEnabled())
-					logger.info("===>#################################################################################################################<===");
+					logger.debug("===>#################################################################################################################<===");
 			}
 		}
 		catch (AddressException e)
@@ -903,14 +902,15 @@ public class UserController extends AbstractContextAwareController {
 									currentWsBu.getNomMethodeJavaGetById(),
 									"arrayList",
 									getSessionController().getTimeOutConnexionWs(),
-//									"20150938");
 									this.currentEtudiantInterdit.getNumeroEtudiant());
 
 							listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
 							etatConnexion = (Integer) tabReturn[1];
 
-							logger.fatal("listeInterditsNiveau1===>"+listeInterditsNiveau1+"<===");
-							logger.fatal("etatConnexion===>"+etatConnexion+"<===");
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
+                                logger.debug("etatConnexion===>" + etatConnexion + "<===");
+                            }
 
 							if(etatConnexion==1)
 								listeInterditBu = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
@@ -1063,8 +1063,10 @@ public class UserController extends AbstractContextAwareController {
 				listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
 				etatConnexion = (Integer) tabReturn[1];
 
-				logger.fatal("listeInterditsNiveau1===>"+listeInterditsNiveau1+"<===");
-				logger.fatal("etatConnexion===>"+etatConnexion+"<===");
+                if (logger.isDebugEnabled()) {
+                    logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
+                    logger.debug("etatConnexion===>" + etatConnexion + "<===");
+                }
 
 				if(etatConnexion==1)
 					listeInterditBu = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
@@ -1239,9 +1241,9 @@ public class UserController extends AbstractContextAwareController {
 
 	public String goToEtatCivilApogee()
 	{
-		if (logger.isDebugEnabled()) {
-			logger.fatal("goToEtatCivilApogee");
-		}
+		if (logger.isDebugEnabled())
+			logger.debug("goToEtatCivilApogee");
+
 		return "goToEtatCivilApogee";
 	}
 

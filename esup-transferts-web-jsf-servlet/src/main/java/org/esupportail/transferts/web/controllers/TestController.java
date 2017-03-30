@@ -141,7 +141,6 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetTypeDiplome()
 	{
-		logger.warn("===>public void resetTypeDiplome()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetTypeDiplome()");
 
@@ -153,7 +152,8 @@ public class TestController extends AbstractContextAwareController {
 
 		WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee());
 
-		logger.fatal("===>"+wp+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>"+wp+"<===");
 
 		if(wp!=null)
 				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
@@ -203,7 +203,6 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetAnneeEtude()
 	{
-		logger.warn("===>public void resetAnneeEtude()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetAnneeEtude()");		
 
@@ -237,7 +236,6 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetComposante()
 	{
-		logger.warn("===>public void resetComposante()<===");
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetComposante()");
 		setTypesDiplomeVide(false);
@@ -251,9 +249,9 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetLibelleDiplome()
 	{
-		logger.warn("===>public void resetLibelleDiplome()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void resetLibelleDiplome()<===");
 		setTypesDiplomeAutreVide(true);
-//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))
 		if(getCodeNiveau() !=null)
 		{
 			setDeptVide(false);
@@ -274,7 +272,8 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetLibelleEtape()
 	{
-		logger.warn("===>public void resetLibelleEtape()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void resetLibelleEtape()<===");
 		if(this.isChoixDuVoeuParComposanteByPartenaire())
 		{
 			if(getCodeComposante() !=null && !getCodeComposante().equals(""))  
@@ -501,13 +500,11 @@ public class TestController extends AbstractContextAwareController {
 	}
 
 	public List<OffreDeFormationsDTO> getListeLibellesEtape() {
-		//		if (logger.isDebugEnabled())
-		//		{
-					logger.info("public List<SelectItem> getListeLibellesEtape()");
-					logger.info("(etu.getTransferts() --> "+etu.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome());
-		//		}
-		//		return getDomainService().getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(etu.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),  getCodeNiveau(), getCodeDiplome(), getSource());
-//		if(getSessionController().isChoixDuVoeuParComposante())
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("public List<SelectItem> getListeLibellesEtape()");
+					logger.debug("(etu.getTransferts() --> "+etu.getTransferts().getRne() +"-----"+ getSessionController().getCurrentAnnee() +"-----"+ getCodTypDip() +"-----"+ getCodeNiveau() +"-----"+ getCodeDiplome());
+				}
 		if(this.isChoixDuVoeuParComposanteByPartenaire())
 		{
 			if (logger.isDebugEnabled())

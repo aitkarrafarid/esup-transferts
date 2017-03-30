@@ -173,7 +173,9 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public void addPartenairesFromImport() throws CloneNotSupportedException {
-		logger.info("addPartenairesFromImport===>"+getSelectedCurrentAnneePartenairesACopier()+"<===");
+		if(logger.isDebugEnabled())
+			logger.debug("addPartenairesFromImport===>"+getSelectedCurrentAnneePartenairesACopier()+"<===");
+
 		if(getSelectedCurrentAnneePartenairesACopier()!=null)
 		{
 			List<WsPub> lp = getDomainService().getWsPubByAnnee(getSelectedCurrentAnneePartenairesACopier());
@@ -205,7 +207,8 @@ public class AdministrationController extends AbstractContextAwareController {
 
 
 	public void addSignaturesFromImport() throws CloneNotSupportedException {
-		logger.info("addSignaturesFromImport===>"+getSelectedCurrentAnneeSignaturesACopier()+"<===");
+        if(logger.isDebugEnabled())
+		    logger.debug("addSignaturesFromImport===>"+getSelectedCurrentAnneeSignaturesACopier()+"<===");
 		if(getSelectedCurrentAnneeSignaturesACopier()!=null)
 		{
 			List<Fichier> lf = getDomainService().getFichiersByAnneeAndFrom(getSelectedCurrentAnneeSignaturesACopier(), "D");
@@ -235,13 +238,17 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public void addDroitsUtilisateursFromImport() throws CloneNotSupportedException {
-		logger.info("importDroitsUtilisateurs===>"+getSelectedCurrentAnneeDroitUtilisateursACopier()+"<===");
+        if(logger.isDebugEnabled())
+		    logger.debug("importDroitsUtilisateurs===>"+getSelectedCurrentAnneeDroitUtilisateursACopier()+"<===");
 
 		if(getSelectedCurrentAnneeDroitUtilisateursACopier()!=null) {
 			List<PersonnelComposante> lpcDepart = getDomainService().getListePersonnelsComposantesBySourceAndAnnee("D", getSelectedCurrentAnneeDroitUtilisateursACopier());
 			List<PersonnelComposante> lpcAccueil = getDomainService().getListePersonnelsComposantesBySourceAndAnnee("A", getSelectedCurrentAnneeDroitUtilisateursACopier());
-			logger.info("lpc===>" + lpcDepart + "<===");
-			logger.info("lpc===>" + lpcAccueil + "<===");
+
+            if(logger.isDebugEnabled()) {
+                logger.debug("lpc===>" + lpcDepart + "<===");
+                logger.debug("lpc===>" + lpcAccueil + "<===");
+            }
 
 			List<PersonnelComposante> newLpc = new ArrayList<PersonnelComposante>();
 			for (PersonnelComposante pc : lpcDepart) {
@@ -276,7 +283,8 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public String goToImportDonneesAnneesPrecedentes(){
-		logger.info("===>goToImportDonneesAnneesPrecedentes<===");
+        if(logger.isDebugEnabled())
+		    logger.debug("===>goToImportDonneesAnneesPrecedentes<===");
 
 		Fonctions.soso("org.esupportail.transferts.domain.beans.Parametres",
 				getSessionController().getTimeOutConnexionWs(),
@@ -290,7 +298,8 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void saisieWs() {
 		String source_ws = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("source_ws");
-		logger.fatal("param===>"+source_ws+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("param===>"+source_ws+"<===");
 
 		if(source_ws!=null && !source_ws.equals("")) {
 			setSourceWs(source_ws);
@@ -327,7 +336,8 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public String testWebservice(){
-		logger.info("public String testWebservice()===>"+currentWs+"<===");
+        if(logger.isDebugEnabled())
+		    logger.debug("public String testWebservice()===>"+currentWs+"<===");
 		List<DatasExterne> listeInterdit=null;
 		Integer etatConnexion=0;
 		if(currentWs!=null)
@@ -350,9 +360,11 @@ public class AdministrationController extends AbstractContextAwareController {
 			listeInterdit = (List<DatasExterne>) tabReturn[0];
 			etatConnexion = (Integer) tabReturn[1];
 
-			logger.fatal("listeInterdit===>"+listeInterdit+"<===");
-			logger.fatal("etatConnexion===>"+etatConnexion+"<===");
-
+            if (logger.isDebugEnabled())
+            {
+                logger.debug("listeInterdit===>" + listeInterdit + "<===");
+                logger.debug("etatConnexion===>" + etatConnexion + "<===");
+            }
 
 		}
 		else {
@@ -364,15 +376,9 @@ public class AdministrationController extends AbstractContextAwareController {
 
 		String ret = "Connexion réussie";
 
-		if(etatConnexion==0){
-			logger.info("===>aaaaa<===");
+		if(etatConnexion==0)
 			ret = "Impossible de se connecter au WebService "+currentWs.getCode();
-		}else {
-			logger.info("===>bbbbb<===");
-//			for (DatasExterne de : listeInterdit) {
-//				logger.fatal("for===>" + de.toString() + "<===");
-//			}
-		}
+
 		FacesMessage message=null;
 		if(etatConnexion==1)
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, ret, ret);
@@ -770,9 +776,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			listeInterditsNiveau2 = (List<Interdit>) tabReturn[0];
 			etatConnexion = (Integer) tabReturn[1];
 
-			logger.fatal("listeInterditsNiveau2===>"+listeInterditsNiveau2+"<===");
-			logger.fatal("etatConnexion===>"+etatConnexion+"<===");
-
+            if (logger.isDebugEnabled()) {
+                logger.debug("listeInterditsNiveau2===>" + listeInterditsNiveau2 + "<===");
+                logger.debug("etatConnexion===>" + etatConnexion + "<===");
+            }
 			if(etatConnexion==1)
 				listeDatasEterneNiveau2 = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau2);
 
@@ -805,14 +812,14 @@ public class AdministrationController extends AbstractContextAwareController {
 				{
 					if(etu.getNumeroIne().equals(lInterditNiveau2.getIdentifiant()))
 					{
-						//if (logger.isDebugEnabled())
-						logger.info("===>"+etu.getNumeroIne()+"-----"+lInterditNiveau2.getLibInterdit()+"<===");
+						if (logger.isDebugEnabled())
+						    logger.debug("===>"+etu.getNumeroIne()+"-----"+lInterditNiveau2.getLibInterdit()+"<===");
 						txtDataExterneNiveau2 += " - "+lInterditNiveau2.getLibInterdit();
 					}
 				}
 
-//			if (logger.isDebugEnabled())
-			logger.info("Liste des interdits de niveau 2-->"+txtDataExterneNiveau2);
+			if (logger.isDebugEnabled())
+			    logger.debug("Liste des interdits de niveau 2-->"+txtDataExterneNiveau2);
 
 			excel.setDataExterneNiveau2(txtDataExterneNiveau2);
 			/*Fin d'initialisation de la colonne candidature à partir des donnees de la table dataExterne (niveau 2)*/
@@ -1239,8 +1246,10 @@ public class AdministrationController extends AbstractContextAwareController {
 						listeInterditsNiveau3 = (List<Interdit>) tabReturn[0];
 						etatConnexion = (Integer) tabReturn[1];
 
-						logger.fatal("listeInterditsNiveau3===>"+listeInterditsNiveau3+"<===");
-						logger.fatal("etatConnexion===>"+etatConnexion+"<===");
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("listeInterditsNiveau3===>" + listeInterditsNiveau3 + "<===");
+                            logger.debug("etatConnexion===>" + etatConnexion + "<===");
+                        }
 
 						if(etatConnexion==1)
 							listeDatasEterneNiveau3 = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau3);
@@ -1762,9 +1771,6 @@ public class AdministrationController extends AbstractContextAwareController {
 		if(tmp!=null && tmp.isEmpty())
 			tmp=null;
 
-//		for(Integer i : tmp)
-//			logger.warn("===>"+i.toString()+"<===");
-
 		return tmp;
 	}
 
@@ -1914,16 +1920,18 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public String goToCurrentDemandeTransfertsAccueil() {
-//		if (logger.isDebugEnabled())
-		logger.info("goToCurrentDemandeTransfertsAccueil");
+		if (logger.isDebugEnabled())
+		    logger.debug("goToCurrentDemandeTransfertsAccueil");
 
 		if (this.currentDemandeTransferts != null)
 		{
 
 			WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.currentDemandeTransferts.getAccueil().getCodeRneUnivDepart(), getSessionController().getCurrentAnnee());
 
-			logger.fatal("===>"+wp+"<===");
-			logger.fatal("libelleDiplomeVide===>"+libelleDiplomeVide+"<===");
+            if (logger.isDebugEnabled()) {
+                logger.debug("===>" + wp + "<===");
+                logger.debug("libelleDiplomeVide===>" + libelleDiplomeVide + "<===");
+            }
 
 			if(wp!=null)
 				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
@@ -1939,13 +1947,13 @@ public class AdministrationController extends AbstractContextAwareController {
 			List<Interdit> listeInterditsNiveau2=null;
 			WebService currentWsCandidatures = getDomainService().getWebServiceByCode("candidature");
 
-			logger.warn("getSessionController().isUseWsCandidatures()===>"+getSessionController().isUseWsCandidatures()+"<===");
-			logger.warn("currentWsCandidatures===>"+currentWsCandidatures+"<===");
+			if (logger.isDebugEnabled()) {
+				logger.debug("getSessionController().isUseWsCandidatures()===>" + getSessionController().isUseWsCandidatures() + "<===");
+				logger.debug("currentWsCandidatures===>" + currentWsCandidatures + "<===");
+			}
 
 			if(getSessionController().isUseWsCandidatures() && currentWsCandidatures!=null)
 			{
-				logger.warn("===>aaa<===");
-
 				Object tabReturn2[] = Fonctions.appelWSAuth(currentWsCandidatures.getUrl(),
 						currentWsCandidatures.getIdentifiant(),
 						currentWsCandidatures.getPwd(),
@@ -1959,8 +1967,10 @@ public class AdministrationController extends AbstractContextAwareController {
 				Integer etatConnexion2 = (Integer) tabReturn2[1];
 				listeInterditsNiveau2 = (List<Interdit>) tabReturn2[0];
 
-				logger.fatal("listeInterditsNiveau2===>"+listeInterditsNiveau2+"<===");
-				logger.fatal("etatConnexion2===>"+etatConnexion2+"<===");
+                if (logger.isDebugEnabled()) {
+                    logger.debug("listeInterditsNiveau2===>" + listeInterditsNiveau2 + "<===");
+                    logger.debug("etatConnexion2===>" + etatConnexion2 + "<===");
+                }
 
 				if(etatConnexion2==1)
 					listeDatasEterneNiveau2 = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau2);
@@ -2002,8 +2012,10 @@ public class AdministrationController extends AbstractContextAwareController {
 				listeInterditsNiveau3 = (List<Interdit>) tabReturn[0];
 				etatConnexion = (Integer) tabReturn[1];
 
-				logger.fatal("listeInterditsNiveau3===>"+listeInterditsNiveau3+"<===");
-				logger.fatal("etatConnexion===>"+etatConnexion+"<===");
+                if (logger.isDebugEnabled()) {
+                    logger.debug("listeInterditsNiveau3===>" + listeInterditsNiveau3 + "<===");
+                    logger.debug("etatConnexion===>" + etatConnexion + "<===");
+                }
 
 				if(etatConnexion==1)
 					listeDatasEterneNiveau3 = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau3);
@@ -2164,8 +2176,10 @@ public class AdministrationController extends AbstractContextAwareController {
 
 			WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee());
 
-			logger.fatal("===>"+wp+"<===");
-			logger.fatal("libelleDiplomeVide===>"+libelleDiplomeVide+"<===");
+            if (logger.isDebugEnabled()) {
+                logger.debug("===>" + wp + "<===");
+                logger.debug("libelleDiplomeVide===>" + libelleDiplomeVide + "<===");
+            }
 
 			if(wp!=null)
 				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
@@ -2213,7 +2227,8 @@ public class AdministrationController extends AbstractContextAwareController {
 				}
 				else
 				{
-					logger.warn("currentDemandeTransferts.getTransferts().getOdf().getCodeDiplome()===>"+currentDemandeTransferts.getTransferts().getOdf().getCodeDiplome()+"<===");
+					if (logger.isDebugEnabled())
+						logger.debug("currentDemandeTransferts.getTransferts().getOdf().getCodeDiplome()===>"+currentDemandeTransferts.getTransferts().getOdf().getCodeDiplome()+"<===");
 					setCodeDiplome(currentDemandeTransferts.getTransferts().getOdf().getCodeDiplome());
 					setListeLibellesEtape(getListeLibellesEtape());
 				}
@@ -2646,10 +2661,11 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 
 		if (isPartenaire() && (this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome()==null || this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome().equals(""))) {
-//			if (logger.isDebugEnabled())
-			logger.warn("Etablissement partenaire && typediplome==null");
-			logger.warn("aaa---libelleDiplomeVide===>"+libelleDiplomeVide+"<===");
-			logger.warn("bbb---getCodeDiplome()===>"+getCodeDiplome()+"<===");
+			if (logger.isDebugEnabled()){
+				logger.debug("Etablissement partenaire && typediplome==null");
+				logger.debug("aaa---libelleDiplomeVide===>" + libelleDiplomeVide + "<===");
+				logger.debug("bbb---getCodeDiplome()===>" + getCodeDiplome() + "<===");
+			}
 			setTypesDiplomeAutreVide(true);
 			setTypesDiplomeVide(false);
 			if (getCodeNiveau() != null)
@@ -2663,8 +2679,8 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		else if (!isPartenaire() && this.currentDemandeTransferts.getTransferts().getOdf()!=null)
 		{
-//			if (logger.isDebugEnabled())
-			logger.warn("Etablissement non partenaire && odf!=null");
+			if (logger.isDebugEnabled())
+				logger.debug("Etablissement non partenaire && odf!=null");
 			setTypesDiplomeAutreVide(true);
 			setTypesDiplomeVide(false);
 			if (getCodeNiveau() != null)
@@ -2678,8 +2694,8 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		else
 		{
-//			if (logger.isDebugEnabled())
-			logger.warn("Etablissement non partenaire");
+			if (logger.isDebugEnabled())
+				logger.debug("Etablissement non partenaire");
 			setTypesDiplomeVide(true);
 			setAnneeEtudeVide(true);
 			setComposanteVide(true);
@@ -2690,7 +2706,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			else
 				setTypesDiplomeAutreVide(true);
 		}
-		//		}
 		return listeDepartements;
 	}
 
@@ -3018,9 +3033,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void resetLibelleDiplome()
 	{
-//		logger.fatal("===>public void resetLibelleDiplome()<===");
 		setTypesDiplomeAutreVide(true);
-//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))
 		if(getCodeNiveau() !=null)
 		{
 			setDeptVide(false);
@@ -4003,13 +4016,14 @@ public class AdministrationController extends AbstractContextAwareController {
 						{
 							if(decision.equals("F"))
 							{
-//								feedBackDecision=1;
 								/*
 								 * Pour les étudiants avec procédure e-candidat / accès via les applis – départ des universités partenaires
 								 * */
 								if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
 								{
-									logger.info("mail===>Pour les étudiants avec procédure e-candidat / accès via les applis – départ des universités partenaires<===");
+                                    if (logger.isDebugEnabled())
+									    logger.debug("mail===>Pour les étudiants avec procédure e-candidat / accès via les applis – départ des universités partenaires<===");
+
 									sujet = getString("DECISION.MAIL.SUJET");
 									body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_PARTENAIRE",
 											this.currentDemandeTransferts.getPrenom1(),
@@ -4024,7 +4038,9 @@ public class AdministrationController extends AbstractContextAwareController {
 									/*
 									 * Pour les étudiants avec procédure e-candidat / accès direct à l’appli Artois - non partenaire
 									 * */
-									logger.info("mail===>Pour les étudiants avec procédure e-candidat / accès direct à l’appli Artois - non partenaire<===");
+                                    if (logger.isDebugEnabled())
+									    logger.debug("mail===>Pour les étudiants avec procédure e-candidat / accès direct à l’appli Artois - non partenaire<===");
+
 									sujet = getString("DECISION.MAIL.SUJET");
 									body = getString("DECISION.MAIL.BODY_CANDIDATURE_AVIS_F_NON_PARTENAIRE",
 											this.currentDemandeTransferts.getPrenom1(),
@@ -4041,8 +4057,8 @@ public class AdministrationController extends AbstractContextAwareController {
 								/*
 								 * Mail reçu par un candidat ayant reçu un avis défavorable AVEC E-CANDIDAT
 								 * */
-//								feedBackDecision=2;
-								logger.info("mail===>Mail reçu par un candidat ayant reçu un avis défavorable AVEC E-CANDIDAT<===");
+                                if (logger.isDebugEnabled())
+								    logger.debug("mail===>Mail reçu par un candidat ayant reçu un avis défavorable AVEC E-CANDIDAT<===");
 								sujet = getString("DECISION.MAIL.SUJET");
 								body = getString("DECISION.MAIL.BODY_AVIS_D_CANDIDATURE",
 										this.currentDemandeTransferts.getPrenom1(),
@@ -4097,7 +4113,8 @@ public class AdministrationController extends AbstractContextAwareController {
 									/*
 									 * Pour les étudiants sans procédure e-candidat / accès via les applis – départ des universités partenaires - partenaire
 									 * */
-									logger.info("mail===>Pour les étudiants sans procédure e-candidat / accès via les applis – départ des universités partenaires - partenaire<===");
+                                    if (logger.isDebugEnabled())
+									    logger.debug("mail===>Pour les étudiants sans procédure e-candidat / accès via les applis – départ des universités partenaires - partenaire<===");
 									sujet = getString("DECISION.MAIL.SUJET");
 									body = getString("DECISION.MAIL.BODY_AVIS_F_PARTENAIRE",
 											this.currentDemandeTransferts.getPrenom1(),
@@ -4112,8 +4129,8 @@ public class AdministrationController extends AbstractContextAwareController {
 									/*
 									 * Pour les étudiants sans procédure e-candidat / accès direct à l’appli Artois - non partenaire
 									 * */
-//									feedBackDecision=0;
-									logger.info("mail===>Pour les étudiants sans procédure e-candidat / accès direct à l’appli Artois - non partenaire<===");
+                                    if (logger.isDebugEnabled())
+									    logger.debug("mail===>Pour les étudiants sans procédure e-candidat / accès direct à l’appli Artois - non partenaire<===");
 									sujet = getString("DECISION.MAIL.SUJET");
 									body = getString("DECISION.MAIL.BODY_AVIS_F_NON_PARTENAIRE",
 											this.currentDemandeTransferts.getPrenom1(),
@@ -4130,8 +4147,8 @@ public class AdministrationController extends AbstractContextAwareController {
 								/*
 								 * Mail reçu par un candidat ayant reçu un avis défavorable SANS E-CANDIDAT 
 								 * */
-//								feedBackDecision=2;
-								logger.info("mail===>Mail reçu par un candidat ayant reçu un avis défavorable SANS E-CANDIDAT<===");
+                                if (logger.isDebugEnabled())
+								    logger.debug("mail===>Mail reçu par un candidat ayant reçu un avis défavorable SANS E-CANDIDAT<===");
 								sujet = getString("DECISION.MAIL.SUJET");
 								body = getString("DECISION.MAIL.BODY_AVIS_D",
 										this.currentDemandeTransferts.getPrenom1(),
@@ -4238,8 +4255,10 @@ public class AdministrationController extends AbstractContextAwareController {
 					if(etatConnexion==1 && tabReturn[0]!=null)
 						ret = (Integer) tabReturn[0];
 
-					logger.fatal("etatConnexion===>" + etatConnexion + "<===");
-					logger.fatal("ret===>" + ret + "<===");
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("etatConnexion===>" + etatConnexion + "<===");
+                        logger.debug("ret===>" + ret + "<===");
+                    }
 
 					this.currentDemandeTransferts.getTransferts().setTemoinOPIWs(ret);
 
@@ -5632,8 +5651,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
 			etatConnexion = (Integer) tabReturn[1];
 
-			logger.fatal("listeInterditsNiveau1===>"+listeInterditsNiveau1+"<===");
-			logger.fatal("etatConnexion===>"+etatConnexion+"<===");
+            if (logger.isDebugEnabled()) {
+                logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
+                logger.debug("etatConnexion===>" + etatConnexion + "<===");
+            }
 
 			if(etatConnexion==1)
 				listeInterdit = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
@@ -5669,8 +5690,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			listeInterditsNiveau2 = (List<Interdit>) tabReturn[0];
 			etatConnexion = (Integer) tabReturn[1];
 
-			logger.fatal("listeInterditsNiveau2===>"+listeInterditsNiveau2+"<===");
-			logger.fatal("etatConnexion===>"+etatConnexion+"<===");
+            if (logger.isDebugEnabled()) {
+                logger.debug("listeInterditsNiveau2===>" + listeInterditsNiveau2 + "<===");
+                logger.debug("etatConnexion===>" + etatConnexion + "<===");
+            }
 
 			if(etatConnexion==1)
 				listeInterdit = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau2);
@@ -5707,8 +5730,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			listeInterditsNiveau3 = (List<Interdit>) tabReturn[0];
 			etatConnexion = (Integer) tabReturn[1];
 
-			logger.fatal("listeInterditsNiveau3===>"+listeInterditsNiveau3+"<===");
-			logger.fatal("etatConnexion===>"+etatConnexion+"<===");
+            if (logger.isDebugEnabled()) {
+                logger.debug("listeInterditsNiveau3===>" + listeInterditsNiveau3 + "<===");
+                logger.debug("etatConnexion===>" + etatConnexion + "<===");
+            }
 
 			if(etatConnexion==1)
 				listeInterdit = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau3);

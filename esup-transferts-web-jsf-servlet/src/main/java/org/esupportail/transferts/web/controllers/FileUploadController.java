@@ -89,7 +89,8 @@ public class FileUploadController extends AbstractContextAwareController impleme
 			}
 			else
 			{
-				logger.info(e.getMessage());
+                if (logger.isDebugEnabled())
+				    logger.debug(e.getMessage());
 			}
 		}		
 	}

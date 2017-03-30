@@ -133,8 +133,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public WsPub getWsPubByRneAndAnnee(String rne, Integer annee) {
-//		if (logger.isDebugEnabled())
-		logger.warn("getWsPubByRneAndAnnee(String rne, Integer annee)===>"+rne+"---"+annee+"<===");
+		if (logger.isDebugEnabled())
+		    logger.debug("getWsPubByRneAndAnnee(String rne, Integer annee)===>"+rne+"---"+annee+"<===");
 		try{
 			WsPubPK cleWsPub = new WsPubPK(rne, annee);
 			WsPub ret = entityManager.find(WsPub.class, cleWsPub);
@@ -395,8 +395,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public List<EtudiantRef> getAllDemandesTransfertsByAnnee(Integer annee, String source) {
-//		if (logger.isDebugEnabled())
-			logger.warn("getAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source+"<===");
+		if (logger.isDebugEnabled())
+			logger.debug("getAllDemandesTransfertsByAnnee(Integer annee, String source)===>"+annee+"-----"+source+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("allDemandesTransfertsByAnnee");
 			q.setParameter("annee", annee);
@@ -1092,8 +1092,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 																									 String codeComposante,
 																									 boolean actif)
 	{
-//		if (logger.isDebugEnabled())
-		logger.warn("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(String rne, Integer currentAnnee, String codTypDip, Integer codeNiveau, String codeComposante)===>"+rne+"/"+currentAnnee+"<===");
+		if (logger.isDebugEnabled())
+		    logger.debug("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(String rne, Integer currentAnnee, String codTypDip, Integer codeNiveau, String codeComposante)===>"+rne+"/"+currentAnnee+"<===");
 
 		try{
 			Query q;
@@ -1399,9 +1399,9 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	@Override
 	public List<PersonnelComposante> getListeComposantesByUidAndSourceAndAnnee(String uid, String source, Integer annee)
 	{
-//		if (logger.isDebugEnabled()){
-			logger.info("DAO Impl public List<PersonnelComposante> getListeComposantesByUidAndSourceAndAnnee(String uid, String source, Integer annee)===>"+uid+"/"+source+"/"+annee+"<===");
-//		}
+		if (logger.isDebugEnabled())
+			logger.debug("DAO Impl public List<PersonnelComposante> getListeComposantesByUidAndSourceAndAnnee(String uid, String source, Integer annee)===>"+uid+"/"+source+"/"+annee+"<===");
+
 		try{
 			Query q = entityManager.createNamedQuery("getListeComposantesByUidAndSourceAndAnnee");
 			q.setParameter("uid", uid);
@@ -1451,10 +1451,9 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public void addWsPub(WsPub ws) {
-//		if (logger.isDebugEnabled()){
-		logger.fatal("public void addWsPub(WsPub ws)");
-		logger.fatal("ws --> "+ws);
-//		}
+		if (logger.isDebugEnabled())
+		    logger.debug("public void addWsPub(WsPub ws)===>"+ws+"<===");
+
 		entityManager.merge(ws);
 	}
 
@@ -2070,8 +2069,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public List<DatasExterne> getAllDatasExterneByNiveau(Integer niveau) {
-//		if (logger.isDebugEnabled())
-			logger.info("public List<DatasExterne> getAllDatasExterneByNiveau===>"+niveau+"<===");
+		if (logger.isDebugEnabled())
+			logger.debug("public List<DatasExterne> getAllDatasExterneByNiveau===>"+niveau+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getAllDatasExterneByNiveau");
 			q.setParameter("niveau", niveau);
@@ -2122,8 +2121,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee) {
-//		if (logger.isDebugEnabled())
-			logger.warn("DAO impl - public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee)===>"+ine+"/"+annee+"<===");
+		if (logger.isDebugEnabled())
+			logger.debug("DAO impl - public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee)===>"+ine+"/"+annee+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroIneAndSource");
 			q.setParameter("numeroIne", ine);
@@ -2139,8 +2138,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee, String source) {
-//		if (logger.isDebugEnabled())
-		logger.warn("DAO impl - public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee)===>"+ine+"/"+annee+"/"+source+"<===");
+		if (logger.isDebugEnabled())
+		    logger.debug("DAO impl - public EtudiantRef getDemandeTransfertByAnneeAndNumeroIneAndSource(String ine, Integer annee)===>"+ine+"/"+annee+"/"+source+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroIneAndSource2");
 			q.setParameter("numeroIne", ine);
@@ -2330,16 +2329,16 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public void addPersonnelComposanteFromImport(List<PersonnelComposante> newLpc) {
-//		if (logger.isDebugEnabled())
-		logger.fatal("public void addPersonnelComposanteFromImport(List<PersonnelComposante> newLpc)===>"+newLpc+"<===");
+		if (logger.isDebugEnabled())
+		    logger.debug("public void addPersonnelComposanteFromImport(List<PersonnelComposante> newLpc)===>"+newLpc+"<===");
 		for(PersonnelComposante pc : newLpc)
 			entityManager.merge(pc);
 	}
 
 	@Override
 	public Integer addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source, Integer temoinRetourTransfertAccueil) {
-//		if (logger.isDebugEnabled())
-		logger.warn("public void addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source)===>"+ine+"---"+currentAnnee+"---"+source+"---"+temoinRetourTransfertAccueil+"<===");
+		if (logger.isDebugEnabled())
+		    logger.debug("public void addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source)===>"+ine+"---"+currentAnnee+"---"+source+"---"+temoinRetourTransfertAccueil+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getDemandeTransfertByAnneeAndNumeroIneAndSource2");
 			q.setParameter("numeroIne", ine);
@@ -2348,13 +2347,11 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 			EtudiantRef etu = (EtudiantRef) q.getSingleResult();
 			if(etu!=null) {
-				logger.fatal("aaa===>aaa<===");
 				etu.getTransferts().setTemoinRetourTransfertAccueil(temoinRetourTransfertAccueil);
 				this.addDemandeTransferts(etu);
 				return 1;
 			}else
 			{
-				logger.fatal("bbb===>bbb<===");
 				return 2;
 			}
 
@@ -2366,8 +2363,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 	@Override
 	public List<PersonnelComposante> getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(String source, Integer currentAnnee, String composante) {
-//		if (logger.isDebugEnabled())
-			logger.warn("public List<PersonnelComposante> getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(String source, Integer currentAnnee, String composante)===>"+source+"---"+currentAnnee+"---"+composante+"<===");
+		if (logger.isDebugEnabled())
+			logger.debug("public List<PersonnelComposante> getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(String source, Integer currentAnnee, String composante)===>"+source+"---"+currentAnnee+"---"+composante+"<===");
 		try{
 			Query q = entityManager.createNamedQuery("getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante");
 			q.setParameter("source", source);

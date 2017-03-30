@@ -67,8 +67,8 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 							endResult = result.toString();
 						} 
 					} catch (NullPointerException e) {
-						logger.warn("la colonne " + s.getKeyLabel() 
-								+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+                        if (logger.isDebugEnabled())
+						    logger.debug("la colonne " + s.getKeyLabel() + "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 					}
 					vOdf.put(cpt, endResult);
 
@@ -105,8 +105,8 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 						endResult = result.toString();
 					} 
 				} catch (NullPointerException e) {
-					logger.warn("la colonne " + s.getKeyLabel() 
-							+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+                    if (logger.isDebugEnabled())
+					    logger.debug("la colonne " + s.getKeyLabel() + "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 				}
 				vEtudiant.put(cpt, endResult);
 
@@ -144,8 +144,8 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 						endResult = result.toString();
 					} 
 				} catch (NullPointerException e) {
-					logger.warn("la colonne " + s.getKeyLabel() 
-							+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+                    if (logger.isDebugEnabled())
+					    logger.debug("la colonne " + s.getKeyLabel() + "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 				}
 				vEtudiant.put(cpt, endResult);
 
@@ -256,8 +256,8 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 							endResult = result.toString();
 						} 
 					} catch (NullPointerException e) {
-						logger.warn("la colonne " + s.getKeyLabel() 
-								+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+                        if (logger.isDebugEnabled())
+						    logger.debug("la colonne " + s.getKeyLabel()	+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 					}
 					vEtudiant.put(cpt, endResult);
 
@@ -297,8 +297,8 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 							endResult = result.toString();
 						} 
 					} catch (NullPointerException e) {
-						logger.warn("la colonne " + s.getKeyLabel() 
-								+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
+                        if (logger.isDebugEnabled())
+						    logger.debug("la colonne " + s.getKeyLabel()+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 					}
 					vEtudiant.put(cpt, endResult);
 

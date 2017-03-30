@@ -247,8 +247,10 @@ public class PartenaireController extends AbstractContextAwareController {
 									getSessionController().getTimeOutConnexionWs(),
 									"choixDuVoeuParComposante");
 
-							logger.fatal("tabReturn2[0]===>"+tabReturn2[0]+"<===");
-							logger.fatal("tabReturn2[1]===>"+tabReturn2[1]+"<===");
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("tabReturn2[0]===>" + tabReturn2[0] + "<===");
+                                logger.debug("tabReturn2[1]===>" + tabReturn2[1] + "<===");
+                            }
 
 							Integer etatConnexion2 = (Integer) tabReturn2[1];
 							if(etatConnexion2==1) {
@@ -258,9 +260,10 @@ public class PartenaireController extends AbstractContextAwareController {
 									getDomainService().updateWsPub(part);
 							}
 
-
-							logger.fatal("paramChoixDuVoeuParComposante===>"+paramChoixDuVoeuParComposante+"<===");
-							logger.fatal("etatConnexion2===>"+etatConnexion2+"<===");
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("paramChoixDuVoeuParComposante===>" + paramChoixDuVoeuParComposante + "<===");
+                                logger.debug("etatConnexion2===>" + etatConnexion2 + "<===");
+                            }
 
 							Date d = getDomainService().getDateMaxMajByRneAndAnnee(getSessionController().getCurrentAnnee(), part.getRne());
 							if (logger.isDebugEnabled())

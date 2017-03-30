@@ -42,7 +42,8 @@ public class BusinessManager {
 	private Logger logger = new LoggerImpl(getClass());
 
 	public void initController(){
-		logger.fatal("===>public void initController()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void initController()<===");
 		CodeSizeAnnee csa = getDomainService().getCodeSizeDefaut();
 		setCurrentAnnee(csa.getAnnee());
 
@@ -53,7 +54,8 @@ public class BusinessManager {
 
 	public void runAction()
 	{
-		logger.info("===>Déclenchement du scheduler<===");
+        if(logger.isDebugEnabled())
+		    logger.debug("===>Déclenchement du scheduler<===");
 		this.initController();
 
 		Parametres maj_odf_auto = getDomainService().getParametreByCode("maj_odf_auto");
@@ -123,7 +125,8 @@ public class BusinessManager {
 	}
 
 	public void relanceDepartPersonnelConcerneSVAManuelle(){
-		logger.fatal("===>public void relanceDepartPersonnelConcerneSVAManuelle()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void relanceDepartPersonnelConcerneSVAManuelle()<===");
 		this.initController();
 		if(this.getCurrentAnnee()!=null)
 		{
@@ -134,7 +137,8 @@ public class BusinessManager {
 	}
 
 	public void relanceAccueilPersonnelConcerneSVAManuelle(){
-		logger.fatal("===>public void relanceAccueilPersonnelConcerneSVAManuelle()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void relanceAccueilPersonnelConcerneSVAManuelle()<===");
 		this.initController();
 		if(this.getCurrentAnnee()!=null)
 		{
@@ -145,7 +149,8 @@ public class BusinessManager {
 	}
 
 	public void relanceResumeSVAManuelle(){
-		logger.fatal("===>public void relanceResumeSVAManuelle()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void relanceResumeSVAManuelle()<===");
 		this.initController();
 
 		if(this.getCurrentAnnee()!=null) {
@@ -160,21 +165,24 @@ public class BusinessManager {
 	}
 
 	public void majOdfManuelle(){
-		logger.fatal("===>public void majOdfManuelle()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void majOdfManuelle()<===");
 		this.initController();
 		if(this.getCurrentAnnee()!=null)
 			this.refreshAllPartenaire();
 	}
 
 	public void reloadDemandeTransfertsDepartEchecManuelle(){
-		logger.fatal("===>public void reloadDemandeTransfertsDepartEchecManuelle()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void reloadDemandeTransfertsDepartEchecManuelle()<===");
 		this.initController();
 		if(this.getCurrentAnnee()!=null)
 			this.reloadDemandeTransfertsDepartEchec("D");
 	}
 
 	public void reloadDemandeTransfertsAccueilEchecManuelle(){
-		logger.fatal("===>public void reloadDemandeTransfertsAccueilEchecManuelle()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void reloadDemandeTransfertsAccueilEchecManuelle()<===");
 		this.initController();
 		if(this.getCurrentAnnee()!=null)
 			this.reloadFeedBackTransfertsAccueilEchec("A");
@@ -182,7 +190,8 @@ public class BusinessManager {
 
 	private void envoiMailResume(List<EtudiantRef> lEtu, String source)
 	{
-		logger.fatal("===>private void envoiMailResume(List<EtudiantRef> lEtu, String source)<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>private void envoiMailResume(List<EtudiantRef> lEtu, String source)<===");
 		if(lEtu!=null)
 		{
 			List<EtudiantRef> listeEtudiantRefAlertSilenceVautAccord = new ArrayList<EtudiantRef>();
@@ -190,8 +199,9 @@ public class BusinessManager {
 			Date now = new Date();
 			String sujet="";
 			String body="";
-//			if (logger.isDebugEnabled())
-			logger.info("lEtu.size()===>"+lEtu.size()+" / "+source+"<===");
+
+			if (logger.isDebugEnabled())
+			    logger.debug("lEtu.size()===>"+lEtu.size()+" / "+source+"<===");
 
 			for(EtudiantRef etu : lEtu)
 			{
@@ -224,8 +234,10 @@ public class BusinessManager {
 					sujet = "[transferts départ] Silence vaut accord (délai de 6 semaines dépassés)";
 					body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR />\r\n";
 				}
-//				if (logger.isDebugEnabled())
-				logger.info("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
+
+				if (logger.isDebugEnabled())
+				    logger.debug("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
+
 				String libComp="";
 				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertSilenceVautAccord)
@@ -254,11 +266,13 @@ public class BusinessManager {
 							repeat=false;
 						}
 					}
-//					if (logger.isDebugEnabled()){
-					logger.info("libComp===>"+libComp+"<===");
-					logger.info("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
-					logger.info("===>#################################################################################################################<===");
-//					}
+
+					if (logger.isDebugEnabled()){
+					    logger.debug("libComp===>"+libComp+"<===");
+					    logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
+					    logger.debug("===>#################################################################################################################<===");
+					}
+
 					if(!repeat)
 						body+="<BR />\r\n"+libComp+"<BR />\r\n";
 					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
@@ -276,10 +290,10 @@ public class BusinessManager {
 			}
 			else
 			{
-//				if (logger.isDebugEnabled()){
-				logger.info("===>Aucun étudiant<===");
-				logger.info("===>#################################################################################################################<===");
-//				}
+				if (logger.isDebugEnabled()){
+				    logger.debug("===>Aucun étudiant<===");
+				    logger.debug("===>#################################################################################################################<===");
+				}
 			}
 
 			if(listeEtudiantRefAlertDepassementSilenceVautAccord!=null && !listeEtudiantRefAlertDepassementSilenceVautAccord.isEmpty())
@@ -296,8 +310,10 @@ public class BusinessManager {
 					sujet = "[transferts départ] Silence vaut accord (délai des 2 mois dépassés)";
 					body = "Liste des des demande de transferts départ dépassant le délai des 2 mois : <BR /><BR />\r\n\r\n";
 				}
-//				if (logger.isDebugEnabled())
-				logger.info("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");
+
+				if (logger.isDebugEnabled())
+				    logger.debug("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");
+
 				String libComp="";
 				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertDepassementSilenceVautAccord)
@@ -326,11 +342,13 @@ public class BusinessManager {
 							repeat=false;
 						}
 					}
-//					if (logger.isDebugEnabled()){
-					logger.info("libComp===>"+libComp+"<===");
-					logger.info("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
-					logger.info("===>#################################################################################################################<===");
-//					}
+
+					if (logger.isDebugEnabled()){
+					    logger.debug("libComp===>"+libComp+"<===");
+					    logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
+					    logger.debug("===>#################################################################################################################<===");
+					}
+
 					if(!repeat)
 						body+="<BR />\r\n"+libComp+"<BR />\r\n";
 					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
@@ -347,10 +365,10 @@ public class BusinessManager {
 			}
 			else
 			{
-//				if (logger.isDebugEnabled()){
-				logger.info("===>Aucun étudiant<===");
-				logger.info("===>#################################################################################################################<===");
-//				}
+				if (logger.isDebugEnabled()){
+				    logger.debug("===>Aucun étudiant<===");
+				    logger.debug("===>#################################################################################################################<===");
+				}
 			}
 		}
 		else
@@ -368,7 +386,8 @@ public class BusinessManager {
 
 	private void envoiMail(List<EtudiantRef> lEtu, String source)
 	{
-		logger.fatal("private void envoiMail(List<EtudiantRef> lEtu, String source)===>"+lEtu.size()+" / "+source+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("private void envoiMail(List<EtudiantRef> lEtu, String source)===>"+lEtu.size()+" / "+source+"<===");
 		if(lEtu!=null)
 		{
 			List<EtudiantRef> listeEtudiantRefAlertSilenceVautAccord = new ArrayList<EtudiantRef>();
@@ -377,8 +396,9 @@ public class BusinessManager {
 			Date now = new Date();
 			String sujet="";
 			String body="";
-//			if (logger.isDebugEnabled())
-			logger.info("lEtu.size()===>"+lEtu.size()+" / "+source+"<===");
+
+			if (logger.isDebugEnabled())
+			    logger.debug("lEtu.size()===>"+lEtu.size()+" / "+source+"<===");
 
 			for(EtudiantRef etu : lEtu)
 			{
@@ -411,8 +431,10 @@ public class BusinessManager {
 					sujet = "[transferts départ] Silence vaut accord (délai de 6 semaines dépassés)";
 //					body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR />\r\n";
 				}
-//				if (logger.isDebugEnabled())
-				logger.info("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
+
+				if (logger.isDebugEnabled())
+				    logger.debug("===>############################################ listeEtudiantRefAlertSilenceVautAccord #####################################################################<===");
+
 				String libComp="";
 				boolean repeat=false;
 				Integer envoiAlert=null;
@@ -474,7 +496,8 @@ public class BusinessManager {
 
 						lp = getDomainService().getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(source, this.getCurrentAnnee(), libComp);
 
-						logger.info("lp===>"+lp+"<===");
+                        if(logger.isDebugEnabled())
+						    logger.debug("lp===>"+lp+"<===");
 
 						if(lp!=null && lp.size()>0) {
 							for (PersonnelComposante pc : lp) {
@@ -486,14 +509,14 @@ public class BusinessManager {
 
 					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
 
-					//					if (logger.isDebugEnabled()){
-					logger.info("libComp===>"+libComp+"<===");
-					logger.info("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
-					logger.info("repeat===>"+repeat+"<===");
-					logger.info("envoiAlert===>"+envoiAlert+"<===");
-					logger.info("listeEtudiantRefAlertSilenceVautAccord===>"+listeEtudiantRefAlertSilenceVautAccord.size()+"<===");
-					logger.info("compteurAlert===>"+compteurAlert+"<===");
-//					}
+                    if (logger.isDebugEnabled()){
+                        logger.debug("libComp===>"+libComp+"<===");
+                        logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
+                        logger.debug("repeat===>"+repeat+"<===");
+                        logger.debug("envoiAlert===>"+envoiAlert+"<===");
+                        logger.debug("listeEtudiantRefAlertSilenceVautAccord===>"+listeEtudiantRefAlertSilenceVautAccord.size()+"<===");
+                        logger.debug("compteurAlert===>"+compteurAlert+"<===");
+					}
 
 					if(compteurAlert==listeEtudiantRefAlertSilenceVautAccord.size())
 						this.envoiMailMasse(listDestinataires, sujet, body);
@@ -503,10 +526,10 @@ public class BusinessManager {
 			}
 			else
 			{
-//				if (logger.isDebugEnabled()){
-				logger.info("===>Aucun étudiant<===");
-				logger.info("===>#################################################################################################################<===");
-//				}
+				if (logger.isDebugEnabled()){
+				    logger.debug("===>Aucun étudiant<===");
+				    logger.debug("===>#################################################################################################################<===");
+				}
 			}
 
 			if(listeEtudiantRefAlertDepassementSilenceVautAccord!=null && !listeEtudiantRefAlertDepassementSilenceVautAccord.isEmpty())
@@ -523,8 +546,10 @@ public class BusinessManager {
 					sujet = "[transferts départ] Silence vaut accord (délai des 2 mois dépassés)";
 //					body = "Liste des des demande de transferts départ dépassant le délai des 2 mois : <BR /><BR />\r\n";
 				}
-//				if (logger.isDebugEnabled())
-				logger.info("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");
+
+				if (logger.isDebugEnabled())
+				    logger.debug("===>################################################## listeEtudiantRefAlertDepassementSilenceVautAccord ###############################################################<===");
+
 				String libComp="";
 				boolean repeat=false;
 				Integer envoiDepassement=null;
@@ -588,7 +613,8 @@ public class BusinessManager {
 
 						lp = getDomainService().getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante(source, this.getCurrentAnnee(), libComp);
 
-						logger.info("lp===>"+lp+"<===");
+                        if(logger.isDebugEnabled())
+						    logger.debug("lp===>"+lp+"<===");
 
 						if(lp!=null && lp.size()>0) {
 							for (PersonnelComposante pc : lp) {
@@ -600,14 +626,14 @@ public class BusinessManager {
 
 					body+=etu.getNomPatronymique()+" - "+etu.getPrenom1()+" ("+etu.getNumeroIne()+")<BR />\r\n";
 
-					//					if (logger.isDebugEnabled()){
-					logger.info("libComp===>"+libComp+"<===");
-					logger.info("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
-					logger.info("repeat===>"+repeat+"<===");
-					logger.info("envoiDepassement===>"+envoiDepassement+"<===");
-					logger.info("listeEtudiantRefAlertSilenceVautAccord===>"+listeEtudiantRefAlertSilenceVautAccord.size()+"<===");
-					logger.info("compteurDepassement===>"+compteurDepassement+"<===");
-//					}
+                    if (logger.isDebugEnabled()){
+                        logger.debug("libComp===>"+libComp+"<===");
+                        logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
+                        logger.debug("repeat===>"+repeat+"<===");
+                        logger.debug("envoiDepassement===>"+envoiDepassement+"<===");
+                        logger.debug("listeEtudiantRefAlertSilenceVautAccord===>"+listeEtudiantRefAlertSilenceVautAccord.size()+"<===");
+                        logger.debug("compteurDepassement===>"+compteurDepassement+"<===");
+					}
 
 					if(compteurDepassement==listeEtudiantRefAlertDepassementSilenceVautAccord.size())
 						this.envoiMailMasse(listDestinataires, sujet, body);
@@ -617,10 +643,10 @@ public class BusinessManager {
 			}
 			else
 			{
-//				if (logger.isDebugEnabled()){
-				logger.info("===>Aucun étudiant<===");
-				logger.info("===>#################################################################################################################<===");
-//				}
+				if (logger.isDebugEnabled()){
+				    logger.debug("===>Aucun étudiant<===");
+				    logger.debug("===>#################################################################################################################<===");
+				}
 			}
 		}
 		else
@@ -640,16 +666,18 @@ public class BusinessManager {
 	{
 		try {
 			if(listDestinataires!=null)
-				logger.info("[listDestinataires.size()===>"+listDestinataires.size()+"<===");
+                if(logger.isDebugEnabled())
+				    logger.debug("[listDestinataires.size()===>"+listDestinataires.size()+"<===");
+
 			Iterator i = listDestinataires.iterator(); // on crée un Iterator pour parcourir notre HashSet
 			while (i.hasNext()) // tant qu'on a un suivant
 			{
 				String mail= (String) i.next();
-				logger.warn("body===>"+body+"<===");
 				InternetAddress emailAddr = new InternetAddress(mail);
 				getSmtpService().send(emailAddr, sujet, body, body);
+
 				if (logger.isDebugEnabled())
-					logger.info("===>#################################################################################################################<===");
+					logger.debug("===>#################################################################################################################<===");
 			}
 		}
 		catch (AddressException e)
@@ -666,7 +694,8 @@ public class BusinessManager {
 
 	private void refreshAllPartenaire()
 	{
-		logger.fatal("===>private void refreshAllPartenaire()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>private void refreshAllPartenaire()<===");
 		List<WsPub> listePartenaires = getDomainService().getWsPubByAnnee(this.getCurrentAnnee());
 		if(listePartenaires!=null)
 		{
@@ -730,7 +759,9 @@ public class BusinessManager {
 							List<OffreDeFormationsDTO> lOdf = (List<OffreDeFormationsDTO>) tabReturn[0];
 							Integer etatConnexion = (Integer) tabReturn[1];
 
-							logger.fatal("etatConnexion===>"+etatConnexion+"<===");
+                            if (logger.isDebugEnabled())
+							    logger.debug("etatConnexion===>"+etatConnexion+"<===");
+
 							if (logger.isDebugEnabled())
 								if(lOdf!=null)
 									logger.debug("lOdf.size()===>"+lOdf.size()+"<===");
@@ -766,15 +797,17 @@ public class BusinessManager {
 	}
 
 	private void reloadDemandeTransfertsDepartEchec(String source) {
-//		if (logger.isDebugEnabled())
-		logger.fatal("reloadDemandeTransfertsDepartEchec===>" + source + "<===");
+		if (logger.isDebugEnabled())
+		    logger.debug("reloadDemandeTransfertsDepartEchec===>" + source + "<===");
 		List<EtudiantRef> listeEtudiantRef = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), source);
 
 		if(listeEtudiantRef!=null && listeEtudiantRef.size()>0)
 		{
 			for (EtudiantRef etudiant : listeEtudiantRef) {
 				if (etudiant.getTransferts().getTemoinOPIWs() != null && etudiant.getTransferts().getTemoinOPIWs() == 2) {
-					logger.info("Etudiants concernés===>" + etudiant.getNumeroIne() + "<===");
+
+                    if(logger.isDebugEnabled())
+					    logger.debug("Etudiants concernés===>" + etudiant.getNumeroIne() + "<===");
 
 					WsPub p = getDomainService().getWsPubByRneAndAnnee(etudiant.getTransferts().getRne(), getCurrentAnnee());
 
@@ -901,7 +934,8 @@ public class BusinessManager {
 	}
 
 	private void reloadFeedBackTransfertsAccueilEchec(String source){
-		logger.fatal("reloadFeedBackTransfertsAccueilEchec===>"+source+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("reloadFeedBackTransfertsAccueilEchec===>"+source+"<===");
 
 		List<EtudiantRef> listeEtudiantRef = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), source);
 
@@ -914,7 +948,10 @@ public class BusinessManager {
 					 * 1 Retour transfert accepté par l'universite d'accueil
 					 * 2 Retour transfert refusé par l'universite d'accueil
 					 */
-					logger.info("Etudiants concernés===>" + etudiant.getNumeroIne() + "<===");
+
+                    if(logger.isDebugEnabled())
+					    logger.debug("Etudiants concernés===>" + etudiant.getNumeroIne() + "<===");
+
 					Integer feedBackDecision = 0;
 					Set<AccueilDecision> lAd = etudiant.getAccueilDecision();
 					String decision = "";
@@ -991,9 +1028,10 @@ public class BusinessManager {
 								if (etatConnexion == 1 && tabReturn[0] != null)
 									ret = (Integer) tabReturn[0];
 
-								logger.fatal("etatConnexion===>" + etatConnexion + "<===");
-								logger.fatal("ret===>" + ret + "<===");
-
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug("etatConnexion===>" + etatConnexion + "<===");
+                                    logger.debug("ret===>" + ret + "<===");
+                                }
 								etudiant.getTransferts().setTemoinOPIWs(ret);
 								getDomainService().addDemandeTransferts(etudiant);
 

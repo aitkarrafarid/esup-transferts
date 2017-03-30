@@ -395,7 +395,8 @@ public class UserController extends AbstractContextAwareController {
 			Set listDestinataires=new HashSet(); // on crée notre Set
 			List<PersonnelComposante> lp = getDomainService().getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante("A", getSessionController().getCurrentAnnee(), this.currentEtudiant.getTransferts().getOdf().getCodeComposante());
 
-			logger.info("lp===>" + lp + "<===");
+            if(logger.isDebugEnabled())
+			    logger.debug("lp===>" + lp + "<===");
 
 			if (lp != null && lp.size() > 0) {
 				String sujet2="Nouvelle demande de transfert accueil";
@@ -437,16 +438,16 @@ public class UserController extends AbstractContextAwareController {
 	{
 		try {
 			if(listDestinataires!=null)
-				logger.info("listDestinataires.size()===>"+listDestinataires.size()+"<===");
+                if(logger.isDebugEnabled())
+				    logger.debug("listDestinataires.size()===>"+listDestinataires.size()+"<===");
 			Iterator i = listDestinataires.iterator(); // on crée un Iterator pour parcourir notre HashSet
 			while (i.hasNext()) // tant qu'on a un suivant
 			{
 				String mail= (String) i.next();
-				logger.warn("body===>"+body+"<===");
 				InternetAddress emailAddr = new InternetAddress(mail);
 				getSmtpService().send(emailAddr, sujet, body, body);
 				if (logger.isDebugEnabled())
-					logger.info("===>#################################################################################################################<===");
+					logger.debug("===>#################################################################################################################<===");
 			}
 		}
 		catch (AddressException e)
@@ -588,17 +589,11 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetAnneeEtude()
 	{
-		if (logger.isDebugEnabled())
-			logger.debug("public void resetAnneeEtude()");
+		if (logger.isDebugEnabled()) {
+            logger.debug("public void resetAnneeEtude()");
+            logger.debug("getSessionController().isChoixDuVoeuParComposante()===>" + getSessionController().isChoixDuVoeuParComposante() + "<===");
+        }
 
-//		WsPub wp = getDomainService().getWsPubByRneAndAnnee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
-
-//		logger.fatal("wp===>"+wp+"<===");
-		logger.fatal("getSessionController().isChoixDuVoeuParComposante()===>"+getSessionController().isChoixDuVoeuParComposante()+"<===");
-
-//		if(wp!=null)
-//			this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
-//		else
 		this.setChoixDuVoeuParComposanteByPartenaire(getSessionController().isChoixDuVoeuParComposante());
 
 		if(getCodTypDip() !=null && !getCodTypDip().equals(""))  
@@ -640,9 +635,8 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetLibelleDiplome()
 	{
-		logger.warn("===>public void resetLibelleDiplome()<===");
-//		setTypesDiplomeAutreVide(true);
-//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void resetLibelleDiplome()<===");
 		if(getCodeNiveau() !=null)
 		{
 			setDeptVide(false);
@@ -663,8 +657,8 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetLibelleEtape()
 	{
-//		if (logger.isDebugEnabled())
-			logger.info("public void resetLibelleEtape()");
+		if (logger.isDebugEnabled())
+			logger.debug("public void resetLibelleEtape()");
 
 		if(getCodeNiveau() !=null)
 		{
@@ -1523,13 +1517,12 @@ public class UserController extends AbstractContextAwareController {
 			logger.debug("public List<SelectItem> getListeLibellesDiplome()");
 		listeLibellesDiplome = new ArrayList<SelectItem>();
 		Map<String, String> listeLibellesDiplomeDTO = null;
-//		if (logger.isDebugEnabled())
-//		{
+		if (logger.isDebugEnabled())
+		{
 			logger.debug("listeLibellesDiplomeDTO par diplome");
 			logger.debug("getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, D);");
-//			if (logger.isDebugEnabled())
-				logger.info("###################################### --> "+getSessionController().getRne()+"-----"+getSessionController().getCurrentAnnee()+"-----"+getCodTypDip()+"-----"+getCodeNiveau()+"-----"+true+"-----A");
-//		}
+			logger.debug("###################################### --> "+getSessionController().getRne()+"-----"+getSessionController().getCurrentAnnee()+"-----"+getCodTypDip()+"-----"+getCodeNiveau()+"-----"+true+"-----A");
+		}
 		listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(getSessionController().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, "A");
 
 		if(listeLibellesDiplomeDTO!=null && !listeLibellesDiplomeDTO.isEmpty())
