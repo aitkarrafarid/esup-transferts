@@ -40,7 +40,7 @@
 					<p:row>
 						<p:column style="font-weight: bold;">Mise à jour automatique de l'offre de formation</p:column>
 						<p:column><p:inputSwitch value="#{sessionController.majOdfAuto}" onLabel="Oui" offLabel="Non" /></p:column>
-						<p:column rendered="#{sessionController.majOdfAuto}"><h:outputText value="Tâche plannifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.majOdfAuto}" /></p:column>
+						<p:column rendered="#{sessionController.majOdfAuto}"><h:outputText value="Tâche planifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.majOdfAuto}" /></p:column>
 						<p:column rendered="#{!sessionController.majOdfAuto}"><p:commandButton value="Lancer" rendered="#{!sessionController.majOdfAuto}" action="#{businessManager.majOdfManuelle}" /></p:column>
 						<p:column><p:commandButton id="majOdfAutoButton" onclick="PF('majOdfAuto').show();" type="button" icon="ui-icon-help" /></p:column>
 					</p:row>
@@ -81,7 +81,7 @@
 					<p:row>
 						<p:column style="font-weight: bold;">Envoi d'un mail global au contact fonctionnel (résumé SVA)</p:column>
 						<p:column><p:inputSwitch value="#{sessionController.useRelanceResumeSVA}" onLabel="Oui" offLabel="Non" /></p:column>
-						<p:column rendered="#{sessionController.useRelanceResumeSVA}"><h:outputText value="Tâche plannifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.useRelanceResumeSVA}" /></p:column>
+						<p:column rendered="#{sessionController.useRelanceResumeSVA}"><h:outputText value="Tâche planifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.useRelanceResumeSVA}" /></p:column>
 						<p:column rendered="#{!sessionController.useRelanceResumeSVA}"><p:commandButton value="Lancer" rendered="#{!sessionController.useRelanceResumeSVA}" action="#{businessManager.relanceResumeSVAManuelle}" /></p:column>
 						<p:column><p:commandButton id="relanceResumeSVAAutoButton" onclick="PF('relanceResumeSVAAuto').show();" type="button" icon="ui-icon-help" /></p:column>
 					</p:row>
@@ -95,7 +95,7 @@
 					<p:row>
 						<p:column style="font-weight: bold;">Relance automatique des demandes de transferts départ en echec</p:column>
 						<p:column><p:inputSwitch value="#{sessionController.reloadDemandeTransfertsDepartEchecAuto}" onLabel="Oui" offLabel="Non" /></p:column>
-						<p:column rendered="#{sessionController.reloadDemandeTransfertsDepartEchecAuto}"><h:outputText value="Tâche plannifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.reloadDemandeTransfertsDepartEchecAuto}" /></p:column>
+						<p:column rendered="#{sessionController.reloadDemandeTransfertsDepartEchecAuto}"><h:outputText value="Tâche planifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.reloadDemandeTransfertsDepartEchecAuto}" /></p:column>
 						<p:column rendered="#{!sessionController.reloadDemandeTransfertsDepartEchecAuto}"><p:commandButton value="Lancer" rendered="#{!sessionController.reloadDemandeTransfertsDepartEchecAuto}" action="#{businessManager.reloadDemandeTransfertsDepartEchecManuelle}" /></p:column>
 						<p:column><p:commandButton id="reloadDemandeTransfertsDepartEchecAutoButton" onclick="PF('reloadDemandeTransfertsDepartEchecAuto').show();" type="button" icon="ui-icon-help" /></p:column>
 					</p:row>
@@ -103,7 +103,7 @@
 					<p:row>
 						<p:column style="font-weight: bold;">Envoi d'un mail aux personnels concernés (loi SVA) pour les transferts départ</p:column>
 						<p:column><p:inputSwitch value="#{sessionController.useRelanceDepartPersonnelConcerneSVA}" onLabel="Oui" offLabel="Non" /></p:column>
-						<p:column rendered="#{sessionController.useRelanceDepartPersonnelConcerneSVA}"><h:outputText value="Tâche plannifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.useRelanceDepartPersonnelConcerneSVA}" /></p:column>
+						<p:column rendered="#{sessionController.useRelanceDepartPersonnelConcerneSVA}"><h:outputText value="Tâche planifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.useRelanceDepartPersonnelConcerneSVA}" /></p:column>
 						<p:column rendered="#{!sessionController.useRelanceDepartPersonnelConcerneSVA}"><p:commandButton value="Lancer" rendered="#{!sessionController.useRelanceDepartPersonnelConcerneSVA}" action="#{businessManager.relanceDepartPersonnelConcerneSVAManuelle}" /></p:column>
 						<p:column><p:commandButton id="relanceDepartPersonnelConcerneSVAAutoButton" onclick="PF('relanceDepartPersonnelConcerneSVAAuto').show();" type="button" icon="ui-icon-help" /></p:column>
 					</p:row>
@@ -117,7 +117,7 @@
 					<p:row>
 						<p:column style="font-weight: bold;">Relance automatique des demandes de transferts accueil en echec</p:column>
 						<p:column><p:inputSwitch value="#{sessionController.reloadDemandeTransfertsAccueilEchecAuto}" onLabel="Oui" offLabel="Non" /></p:column>
-						<p:column rendered="#{sessionController.reloadDemandeTransfertsAccueilEchecAuto}"><h:outputText value="Tâche plannifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.reloadDemandeTransfertsAccueilEchecAuto}" /></p:column>
+						<p:column rendered="#{sessionController.reloadDemandeTransfertsAccueilEchecAuto}"><h:outputText value="Tâche planifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.reloadDemandeTransfertsAccueilEchecAuto}" /></p:column>
 						<p:column rendered="#{!sessionController.reloadDemandeTransfertsAccueilEchecAuto}"><p:commandButton value="Lancer" rendered="#{!sessionController.reloadDemandeTransfertsAccueilEchecAuto}" action="#{businessManager.reloadDemandeTransfertsAccueilEchecManuelle}" /></p:column>
 						<p:column><p:commandButton id="reloadDemandeTransfertsAccueilEchecAutoButton" onclick="PF('reloadDemandeTransfertsAccueilEchecAuto').show();" type="button" icon="ui-icon-help" /></p:column>
 					</p:row>
@@ -125,7 +125,7 @@
 					<p:row>
 						<p:column style="font-weight: bold;">Envoi d'un mail aux personnels concernés (loi SVA) pour les transferts accueil</p:column>
 						<p:column><p:inputSwitch value="#{sessionController.useRelanceAccueilPersonnelConcerneSVA}" onLabel="Oui" offLabel="Non" /></p:column>
-						<p:column rendered="#{sessionController.useRelanceAccueilPersonnelConcerneSVA}"><h:outputText value="Tâche plannifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.useRelanceAccueilPersonnelConcerneSVA}" /></p:column>
+						<p:column rendered="#{sessionController.useRelanceAccueilPersonnelConcerneSVA}"><h:outputText value="Tâche planifiée : #{sessionController.schedulerCronExpression}" rendered="#{sessionController.useRelanceAccueilPersonnelConcerneSVA}" /></p:column>
 						<p:column rendered="#{!sessionController.useRelanceAccueilPersonnelConcerneSVA}"><p:commandButton value="Lancer" rendered="#{!sessionController.useRelanceAccueilPersonnelConcerneSVA}" action="#{businessManager.relanceAccueilPersonnelConcerneSVAManuelle}" /></p:column>
 						<p:column><p:commandButton id="relanceAccueilPersonnelConcerneSVAAutoButton" onclick="PF('relanceAccueilPersonnelConcerneSVAAuto').show();" type="button" icon="ui-icon-help" /></p:column>
 					</p:row>
