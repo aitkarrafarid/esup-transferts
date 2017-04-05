@@ -570,6 +570,18 @@ public class SessionController extends AbstractDomainAwareBean {
 		return listeDatasEterneNiveau2;
 	}
 
+	public List<DatasExterne> returnWebServiceOffline(String erreur)
+	{
+		List<DatasExterne> listeDatasEterneNiveau2=new ArrayList<DatasExterne>();
+				DatasExterne de = new DatasExterne();
+				de.setCode("offline");
+				de.setIdentifiant("");
+				de.setNiveau(4);
+				de.setLibInterdit(erreur);
+				listeDatasEterneNiveau2.add(de);
+		return listeDatasEterneNiveau2;
+	}
+
 	/*
 	 ******************* ACCESSORS ******************** */
 	/**

@@ -782,6 +782,8 @@ public class AdministrationController extends AbstractContextAwareController {
             }
 			if(etatConnexion==1)
 				listeDatasEterneNiveau2 = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau2);
+            else
+                listeDatasEterneNiveau2 = getSessionController().returnWebServiceOffline(getString("WARNING.SERVICE_INDISPONIBLE"));
 
 		}
 		else
@@ -1925,7 +1927,6 @@ public class AdministrationController extends AbstractContextAwareController {
 
 		if (this.currentDemandeTransferts != null)
 		{
-
 			WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.currentDemandeTransferts.getAccueil().getCodeRneUnivDepart(), getSessionController().getCurrentAnnee());
 
             if (logger.isDebugEnabled()) {
@@ -1961,7 +1962,6 @@ public class AdministrationController extends AbstractContextAwareController {
 						currentWsCandidatures.getNomMethodeJavaGetById(),
 						"arrayList",
 						getSessionController().getTimeOutConnexionWs(),
-//						"01B0JK02HT9");
 						this.currentDemandeTransferts.getNumeroIne());
 
 				Integer etatConnexion2 = (Integer) tabReturn2[1];
@@ -1974,6 +1974,9 @@ public class AdministrationController extends AbstractContextAwareController {
 
 				if(etatConnexion2==1)
 					listeDatasEterneNiveau2 = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau2);
+				else
+					listeDatasEterneNiveau2 = getSessionController().returnWebServiceOffline(getString("WARNING.SERVICE_INDISPONIBLE"));
+
 
 			} else
 				listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 2);
@@ -2019,6 +2022,8 @@ public class AdministrationController extends AbstractContextAwareController {
 
 				if(etatConnexion==1)
 					listeDatasEterneNiveau3 = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau3);
+				else
+					listeDatasEterneNiveau3 = getSessionController().returnWebServiceOffline(getString("WARNING.SERVICE_INDISPONIBLE"));
 
 			} else
 				listeDatasEterneNiveau3 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentDemandeTransferts.getNumeroIne(), 3);
@@ -3371,12 +3376,14 @@ public class AdministrationController extends AbstractContextAwareController {
 			WsPub partenaire = getDomainService().getWsPubByRneAndAnnee(this.currentDemandeTransferts.getAccueil().getCodeRneUnivDepart(), getSessionController().getCurrentAnnee());
 			if(partenaire!=null)
 			{
-				System.out.println("===>"+partenaire.toString()+"<===");
+				if (logger.isDebugEnabled())
+					logger.debug("===>"+partenaire.toString()+"<===");
 				etudiantRefImp.setPartenaire(true);
 			}
 			else
 			{
-				System.out.println("===>"+null+"<===");
+				if (logger.isDebugEnabled())
+					logger.debug("===>"+null+"<===");
 				etudiantRefImp.setPartenaire(false);
 			}
 			marshaller.marshal(etudiantRefImp, new File(this.getXmlXslPath()+nameXml)) ;

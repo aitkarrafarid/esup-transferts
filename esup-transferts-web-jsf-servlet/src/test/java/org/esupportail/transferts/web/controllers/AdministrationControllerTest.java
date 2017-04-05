@@ -1,5 +1,7 @@
 package org.esupportail.transferts.web.controllers;
 
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.transferts.domain.DomainService;
 import org.esupportail.transferts.domain.DomainServiceScolarite;
@@ -25,6 +27,11 @@ import java.util.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath*:META-INF/applicationContext_TEST_UNITAIRE.xml")
 public class AdministrationControllerTest {
+
+	/**
+	 * A logger.
+	 */
+	private final Logger logger = new LoggerImpl(this.getClass());
 
 	@Autowired
 	DomainService domainService;
@@ -110,20 +117,21 @@ public class AdministrationControllerTest {
 	@Test
 	public void LancementDesTestUnitaire()
 	{
-		System.out.println("############################################################################################################################################");
-		System.out.println("===>public void LancementDesTestUnitaire()<===");
-		System.out.println("currentAnnee===>"+currentAnnee+"<===");
-		System.out.println("rneDepart===>"+rneDepart+"<===");
-		System.out.println("rneAccueil===>"+rneAccueil+"<===");
-		System.out.println("totalDemandeTransfertsDepartEtAccueil===>"+totalDemandeTransfertsDepartEtAccueil+"<===");
-		System.out.println("deleteDemandesTransfertDepartByCurrentAnneeTest===>"+deleteDemandesTransfertDepartByCurrentAnneeTest+"<===");
-		System.out.println("deleteDemandesTransfertAccueiltByCurrentAnneeTest===>"+deleteDemandesTransfertAccueiltByCurrentAnneeTest+"<===");
-		System.out.println("ajoutListeDemandesTransfertDepart===>"+ajoutListeDemandesTransfertDepart+"<===");
-		System.out.println("nombreMaxDeDemandesACreer===>"+nombreMaxDeDemandesACreer+"<===");
-		System.out.println("envoiOpi===>"+envoiOpi+"<===");
-		System.out.println("fromTestUnitaireEtudiantRef===>"+fromTestUnitaireEtudiantRef+"<===");
-		System.out.println("############################################################################################################################################");
-
+        if (logger.isDebugEnabled()) {
+            logger.debug("############################################################################################################################################");
+            logger.debug("===>public void LancementDesTestUnitaire()<===");
+            logger.debug("currentAnnee===>" + currentAnnee + "<===");
+            logger.debug("rneDepart===>" + rneDepart + "<===");
+            logger.debug("rneAccueil===>" + rneAccueil + "<===");
+            logger.debug("totalDemandeTransfertsDepartEtAccueil===>" + totalDemandeTransfertsDepartEtAccueil + "<===");
+            logger.debug("deleteDemandesTransfertDepartByCurrentAnneeTest===>" + deleteDemandesTransfertDepartByCurrentAnneeTest + "<===");
+            logger.debug("deleteDemandesTransfertAccueiltByCurrentAnneeTest===>" + deleteDemandesTransfertAccueiltByCurrentAnneeTest + "<===");
+            logger.debug("ajoutListeDemandesTransfertDepart===>" + ajoutListeDemandesTransfertDepart + "<===");
+            logger.debug("nombreMaxDeDemandesACreer===>" + nombreMaxDeDemandesACreer + "<===");
+            logger.debug("envoiOpi===>" + envoiOpi + "<===");
+            logger.debug("fromTestUnitaireEtudiantRef===>" + fromTestUnitaireEtudiantRef + "<===");
+            logger.debug("############################################################################################################################################");
+        }
 		//this.getCleIne(); 
 
 		if(totalDemandeTransfertsDepartEtAccueil)
@@ -149,8 +157,9 @@ public class AdministrationControllerTest {
 
 	public void getCleIne()
 	{
-		System.out.println("===>public void getCleIne()<===");
-		System.out.println("Clé INE===>"+CheckNNE36.calculCLeIne("0DDG5R0001")+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void getCleIne()<===");
+		logger.warn("Clé INE===>"+CheckNNE36.calculCLeIne("0DDG5R0001")+"<===");
 	}
 
 	public String rand(int nb) {
@@ -164,23 +173,31 @@ public class AdministrationControllerTest {
 
 	public void getTotalDemandeTransfertsTest(Integer annee)
 	{
-		System.out.println("===>public void getTotalDemandeTransfertsTest()<===");
-		System.out.println("getDomainService().getAllDemandesTransfertsByAnnee(annee, D)===>"+annee+"<===");
+        if (logger.isDebugEnabled()) {
+            logger.debug("===>public void getTotalDemandeTransfertsTest()<===");
+            logger.debug("getDomainService().getAllDemandesTransfertsByAnnee(annee, D)===>" + annee + "<===");
+        }
 		List<EtudiantRef> lEtu = getDomainService().getAllDemandesTransfertsByAnnee(annee, "D");
 		if(lEtu!=null)
-			System.out.println("Total des demandes de transferts départ===>"+lEtu.size()+"<===");
-		else
-			System.out.println("Total des demandes de transferts départ===>0<===");
+            if (logger.isDebugEnabled())
+                logger.debug("Total des demandes de transferts départ===>" + lEtu.size() + "<===");
+            else
+		        if (logger.isDebugEnabled())
+                logger.debug("Total des demandes de transferts départ===>0<===");
+
 		List<EtudiantRef> lEtu2 = getDomainService().getAllDemandesTransfertsByAnnee(annee, "A");
 		if(lEtu2!=null)
-			System.out.println("Total des demandes de transferts accueil===>"+lEtu2.size()+"<===");
+            if (logger.isDebugEnabled())
+			    logger.debug("Total des demandes de transferts accueil===>"+lEtu2.size()+"<===");
 		else
-			System.out.println("Total des demandes de transferts accueil===>0<===");
+            if (logger.isDebugEnabled())
+			    logger.debug("Total des demandes de transferts accueil===>0<===");
 	}
 
 	public void addDemandeTransfertDepartTest(Integer nbDemandeACreer, boolean envoi, boolean local)
 	{
-		System.out.println("===>public void addDemandeTransfertDepartTest()<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void addDemandeTransfertDepartTest()<===");
 
 		String myAnneeRequeteWs = getCurrentAnnee().toString();
 //		Integer myAnneeInt = currentAnnee;
@@ -208,7 +225,6 @@ public class AdministrationControllerTest {
 			{
 				// shuffle the list
 				Collections.shuffle(listeEtuTest);
-				System.out.println("aaaaa");
 				for(TestUnitaireEtudiantRef etu : listeEtuTest)
 				{
 					EtudiantRef tmp = new EtudiantRef();
@@ -217,19 +233,14 @@ public class AdministrationControllerTest {
 				}
 			}
 			else
-			{
-				System.out.println("===>La liste des étudiants TestUnitaireEtudiantRef est vide<===");
-			}
+                if (logger.isDebugEnabled())
+				    logger.debug("===>La liste des étudiants TestUnitaireEtudiantRef est vide<===");
 		}
 		else
-		{
 			listeEtu = getDomainServiceScolarite().recupererListeEtudiants(String.valueOf(getCurrentAnnee()-1), codeDiplome, versionDiplome, codeEtape, versionEtape);
-		}
 
 		List<EtudiantRef> listeEtudiantATransferer = new ArrayList<EtudiantRef>();
 		int compteur=0;
-
-//		System.out.println("listeEtu===>"+listeEtu.size()+"<===");
 
 		if(listeEtu!=null && !listeEtu.isEmpty())
 		{
@@ -237,7 +248,8 @@ public class AdministrationControllerTest {
 			{
 				if(compteur<nbDemandeACreer)
 				{
-					System.out.println("etu.getNumeroEtudiant()===>" +etu.getNumeroEtudiant()+"<===");
+                    if (logger.isDebugEnabled())
+					    logger.debug("etu.getNumeroEtudiant()===>" +etu.getNumeroEtudiant()+"<===");
 					EtudiantRef etudiant = getDomainServiceScolarite().getCurrentEtudiant(etu.getNumeroEtudiant());
 					etudiant.setNomPatronymique("TEST_"+etudiant.getNumeroIne());
 					etudiant.setPrenom1("UNITAIRE_"+etudiant.getNumeroIne());
@@ -275,8 +287,10 @@ public class AdministrationControllerTest {
 
 					if(lodfdto==null)
 					{
-						System.out.println("etudiant.toString()===>" +etudiant.toString()+"<===");
-						System.out.println("Aucune formation correspondante===>"+this.getRneAccueil()+" - "+myAnneeInt+"<===");
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("etudiant.toString()===>" + etudiant.toString() + "<===");
+                            logger.debug("Aucune formation correspondante===>" + this.getRneAccueil() + " - " + myAnneeInt + "<===");
+                        }
 					}
 					else
 					{
@@ -286,7 +300,8 @@ public class AdministrationControllerTest {
 					etudiant.getTransferts().setOdf(o);
 					etudiant.getTransferts().getOdf().setRne(this.getRneAccueil());
 
-					System.out.println("etudiant.toString()===>" +etudiant.toString()+"<===");
+                    if (logger.isDebugEnabled())
+					    logger.debug("etudiant.toString()===>" +etudiant.toString()+"<===");
 
 					etudiant.setAccueil(null);
 					etudiant.getTransferts().setTemoinRetourTransfertAccueil(0);
@@ -300,14 +315,14 @@ public class AdministrationControllerTest {
 				this.addTransfertOpiToListeTransfertsAccueilTest(listeEtudiantATransferer);
 		}
 		else
-		{
-			System.out.println("===>La liste des étudiants EtudiantRef est vide<===");
-		}
+            if (logger.isDebugEnabled())
+			    logger.debug("===>La liste des étudiants EtudiantRef est vide<===");
 	}
 
 	public void addTransfertOpiToListeTransfertsAccueilTest(List<EtudiantRef> listeEtudiants)
 	{
-		System.out.println("===>public void addTransfertOpiToListeTransfertsAccueilTest(String this.getRneAccueil(), List<EtudiantRef> listeEtudiants)<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void addTransfertOpiToListeTransfertsAccueilTest(String this.getRneAccueil(), List<EtudiantRef> listeEtudiants)<===");
 		WsPub p = getDomainService().getWsPubByRneAndAnnee(this.getRneAccueil(), getCurrentAnnee());
 
 		// Appel du WebService de l'universite d'accueil
@@ -328,13 +343,16 @@ public class AdministrationControllerTest {
 					int i=0;
 					for(ResultatEtape re :  sessionsResultats.getEtapes())
 					{
-						System.out.println("re.getLibEtape() : " + re.getLibEtape());
+                        if (logger.isDebugEnabled())
+						    logger.debug("re.getLibEtape() : " + re.getLibEtape());
 						boolean test=true;
 
 						for(ResultatSession rs : re.getSession())
 						{
-							System.out.println("re.getSession().size() : " + re.getSession().size());
-							System.out.println("re.getSession() : " + re.getSession());
+                            if (logger.isDebugEnabled()){
+							    logger.debug("re.getSession().size() : " + re.getSession().size());
+							    logger.debug("re.getSession() : " + re.getSession());
+                            }
 
 							if(rs.getResultat()!=null && !rs.getResultat().equals(""))
 							{
@@ -418,11 +436,14 @@ public class AdministrationControllerTest {
 
 					if(etu.getAccueil()!=null)
 					{
-						System.out.println("etu.getAccueil()===>" +etu.getAccueil().getNumeroEtudiant()+"---"+etu.getAccueil().getAnnee()+"<===");
-						System.out.println("etu.getAccueil().getSituationUniversitaire().size()===>" +etu.getAccueil().getSituationUniversitaire().size()+"<===");
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("etu.getAccueil()===>" + etu.getAccueil().getNumeroEtudiant() + "---" + etu.getAccueil().getAnnee() + "<===");
+                            logger.debug("etu.getAccueil().getSituationUniversitaire().size()===>" + etu.getAccueil().getSituationUniversitaire().size() + "<===");
+                        }
 					}
 					else
-						System.out.println("etu.getAccueil()===>null<===");
+                    if (logger.isDebugEnabled())
+						    logger.debug("etu.getAccueil()===>null<===");
 
 					List<SituationUniversitaire> lSu = ia.getSituationUniversitaire();
 					if(lSu!=null && !lSu.isEmpty())
@@ -453,20 +474,18 @@ public class AdministrationControllerTest {
 					Integer etatConnexion = (Integer) tabReturn[1];
 
 					if(etatConnexion==1)
-					{
-						System.out.println("OPI Envoyé vers : ===>"+p.getLibEtab()+"<===");
-					}
-					else{
-						System.out.println("Erreur envoi OPI vers : ===>"+p.getLibEtab()+"<===");
-					}
+                        if (logger.isDebugEnabled())
+						    logger.debug("OPI Envoyé vers : ===>"+p.getLibEtab()+"<===");
+					else
+                        if (logger.isDebugEnabled())
+						    logger.debug("Erreur envoi OPI vers : ===>"+p.getLibEtab()+"<===");
 
-
-					System.out.println("Envoyé vers : ===>"+p.getLibEtab()+"<===");
+                    if (logger.isDebugEnabled())
+					    logger.debug("Envoyé vers : ===>"+p.getLibEtab()+"<===");
 				}
 				else
-				{
-					System.out.println("pas Envoyé vers : ===>"+p.getLibEtab()+" car pas de signature par défaut<===");
-				}
+                    if (logger.isDebugEnabled())
+					    logger.debug("pas Envoyé vers : ===>"+p.getLibEtab()+" car pas de signature par défaut<===");
 			}
 		}
 	}
@@ -474,7 +493,8 @@ public class AdministrationControllerTest {
 	//@Test
 	public void deleteAllDemandesTransfertDepartByCurrentAnneeTest()
 	{
-		System.out.println("===>public void deleteAllDemandesTransfertDepartByCurrentAnneeTest()"+getCurrentAnnee()+" ----- D<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void deleteAllDemandesTransfertDepartByCurrentAnneeTest()"+getCurrentAnnee()+" ----- D<===");
 		List<EtudiantRef> lEtuDepart = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), "D");
 		if(lEtuDepart!=null && !lEtuDepart.isEmpty())
 			for(EtudiantRef etuDepart : lEtuDepart)
@@ -484,7 +504,8 @@ public class AdministrationControllerTest {
 	//@Test
 	public void deleteAllDemandesTransfertAccueilByCurrentAnneeTest()
 	{
-		System.out.println("===>public void deleteAllDemandesTransfertAccueilByCurrentAnneeTest()"+getCurrentAnnee()+" ----- A<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void deleteAllDemandesTransfertAccueilByCurrentAnneeTest()"+getCurrentAnnee()+" ----- A<===");
 		List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), "A");
 		if(lEtuAccueil!=null && !lEtuAccueil.isEmpty())
 			for(EtudiantRef etuAccueil : lEtuAccueil)
@@ -494,7 +515,8 @@ public class AdministrationControllerTest {
 	//@Test
 	public void deleteOpiByCurrentAnnee()
 	{
-		System.out.println("===>public void deleteOpiByCurrentAnnee()"+getCurrentAnnee()+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("===>public void deleteOpiByCurrentAnnee()"+getCurrentAnnee()+"<===");
 		List<IndOpi> lOpis = getDomainService().getAllIndOpiByAnnee(getCurrentAnnee());
 		if(lOpis!=null && !lOpis.isEmpty())
 			for(IndOpi opi : lOpis)

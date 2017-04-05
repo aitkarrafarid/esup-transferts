@@ -914,6 +914,8 @@ public class UserController extends AbstractContextAwareController {
 
 							if(etatConnexion==1)
 								listeInterditBu = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
+							else
+								listeInterditBu = getSessionController().returnWebServiceOffline(getString("WARNING.SERVICE_INDISPONIBLE"));
 						}
 						else
 							listeInterditBu = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentEtudiantInterdit.getNumeroIne(), 1);
@@ -1057,7 +1059,6 @@ public class UserController extends AbstractContextAwareController {
 						currentWsBu.getNomMethodeJavaGetById(),
 						"arrayList",
 						getSessionController().getTimeOutConnexionWs(),
-//								"20150938");
 						this.currentEtudiant.getNumeroEtudiant());
 
 				listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
@@ -1070,6 +1071,8 @@ public class UserController extends AbstractContextAwareController {
 
 				if(etatConnexion==1)
 					listeInterditBu = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
+				else
+					listeInterditBu = getSessionController().returnWebServiceOffline(getString("WARNING.SERVICE_INDISPONIBLE"));
 			}
 			else {
 				listeInterditBu = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentEtudiant.getNumeroIne(), 1);
