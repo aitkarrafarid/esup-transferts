@@ -238,7 +238,7 @@
 		<p:confirmDialog
 			message="L'établissement partenaire sera supprimé et un champ de texte libre sera proposé lors de la saisie du voeux. Souhaitez-vous vraiment supprimer cet établissement partenaire ?"
 			header="Confirmation" severity="alert" widgetVar="confirmation">
-			<p:commandButton value="Oui"
+			<p:commandButton value="Oui"  rendered="#{sessionController.currentUser.informaticien}"
 				update=":growl,:msgs,:msgs2,:form:partenaire"
 				oncomplete="PF('confirmation').hide()"
 				action="#{partenaireController.onCancel}" />

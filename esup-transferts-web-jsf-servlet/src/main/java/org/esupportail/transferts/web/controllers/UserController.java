@@ -463,14 +463,12 @@ public class UserController extends AbstractContextAwareController {
 			}
 			catch (AddressException e)
 			{
+				e.printStackTrace();
 				String summary = getString("ERREUR.ENVOI_MAIL");
 				String detail = getString("ERREUR.ENVOI_MAIL");
 				Severity severity=FacesMessage.SEVERITY_INFO;
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 			}
-
-			//		if(!this.getMailInformation().equals(""))
-			//			this.envoiMailInformations();
 
 			String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 			String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
