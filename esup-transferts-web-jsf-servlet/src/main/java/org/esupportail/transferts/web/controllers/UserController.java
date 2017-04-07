@@ -515,6 +515,7 @@ public class UserController extends AbstractContextAwareController {
 		}
 		catch (AddressException e)
 		{
+			e.printStackTrace();
 			String summary = getString("ERREUR.ENVOI_MAIL");
 			String detail = getString("ERREUR.ENVOI_MAIL");
 			Severity severity=FacesMessage.SEVERITY_ERROR;
