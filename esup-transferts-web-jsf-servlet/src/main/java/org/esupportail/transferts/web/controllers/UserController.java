@@ -666,14 +666,20 @@ public class UserController extends AbstractContextAwareController {
 			String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT_VALID_AUTO");
 			String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT_VALID_AUTO");
 			Severity severity = FacesMessage.SEVERITY_INFO;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(severity, summary, detail));
+			context.getExternalContext().getFlash().setKeepMessages(true);
 		}
 		else
 		{
 			String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 			String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT");
 			Severity severity = FacesMessage.SEVERITY_INFO;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(severity, summary, detail));
+			context.getExternalContext().getFlash().setKeepMessages(true);
 		}
 	}
 
@@ -805,7 +811,10 @@ public class UserController extends AbstractContextAwareController {
 					String summary = getString("ENVOI.OPI");
 					String detail = getString("ENVOI.OPI");
 					Severity severity = FacesMessage.SEVERITY_INFO;
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+					FacesContext context = FacesContext.getCurrentInstance();
+					context.addMessage(null, new FacesMessage(severity, summary, detail));
+					context.getExternalContext().getFlash().setKeepMessages(true);
 				}
 				else{
 					this.currentEtudiant.getTransferts().setTemoinOPIWs(2);
@@ -813,7 +822,10 @@ public class UserController extends AbstractContextAwareController {
 					String summary = getString("ERREUR.ACCES_OPI3");
 					String detail = getString("ERREUR.ACCES_OPI3");
 					Severity severity = FacesMessage.SEVERITY_ERROR;
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+					FacesContext context = FacesContext.getCurrentInstance();
+					context.addMessage(null, new FacesMessage(severity, summary, detail));
+					context.getExternalContext().getFlash().setKeepMessages(true);
 				}
 			}
 			else
@@ -823,7 +835,10 @@ public class UserController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled())
 					logger.debug("Aucun etudiant corresondant a l'INE suivant : "+this.currentEtudiant.getNumeroIne());
 				Severity severity = FacesMessage.SEVERITY_FATAL;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(severity, summary, detail));
+				context.getExternalContext().getFlash().setKeepMessages(true);
 			}
 		}
 		else
@@ -832,7 +847,10 @@ public class UserController extends AbstractContextAwareController {
 			String summary = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
 			String detail = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
 			Severity severity = FacesMessage.SEVERITY_WARN;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(severity, summary, detail));
+			context.getExternalContext().getFlash().setKeepMessages(true);
 		}
 		getDomainService().addDemandeTransferts(this.currentEtudiant);
 	}
@@ -973,21 +991,25 @@ public class UserController extends AbstractContextAwareController {
 							{
 								for(TrBlocageDTO b : currentEtudiantInterdit.getListeBlocagesDTO())
 								{
-									tmp += b.getCodeBlocage()+" - "+b.getLibBlocage();
+									tmp = b.getCodeBlocage()+" - "+b.getLibBlocage();
+									summary = "Attention : \n" + "- "+ tmp;
+									detail = "Attention : \n" + "- "+ tmp;
+									Severity severity=FacesMessage.SEVERITY_ERROR;
+									FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 								}
 							}
 							if(listeInterditBu!=null)
 							{
 								for(DatasExterne lInterditBu : listeInterditBu)
 								{
-									tmp += lInterditBu.getLibInterdit();
+									tmp = lInterditBu.getLibInterdit();
+									summary = "Attention : \n" + "- "+ tmp;
+									detail = "Attention : \n" + "- "+ tmp;
+									Severity severity=FacesMessage.SEVERITY_ERROR;
+									FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 								}
 							}
-							summary = "Vous avez des Interdits : \n" + "- "+ tmp;
-							detail = "Vous avez des Interdits : \n" + "- "+ tmp;
 							Severity severity=FacesMessage.SEVERITY_ERROR;
-							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
-
 							String summary2 = getString("ERREUR.INTERDIT_BU");
 							String detail2 = getString("ERREUR.INTERDIT_BU");
 							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary2, detail2));
@@ -1122,19 +1144,27 @@ public class UserController extends AbstractContextAwareController {
 
 				for(TrBlocageDTO b : this.currentEtudiant.getListeBlocagesDTO())
 				{
-					tmp += b.getCodeBlocage()+" - "+b.getLibBlocage();
+					tmp = b.getCodeBlocage()+" - "+b.getLibBlocage();
+					String summary = "Attention : \n" + "- "+ tmp;
+					String detail = "Attention : \n" + "- "+ tmp;
+					Severity severity=FacesMessage.SEVERITY_ERROR;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 				}
 				if(listeInterditBu !=null)
 				{
 					for(DatasExterne lInterditBu : listeInterditBu)
 					{
-						tmp += lInterditBu.getLibInterdit();
+						tmp = lInterditBu.getLibInterdit();
+						String summary = "Attention : \n" + "- "+ tmp;
+						String detail = "Attention : \n" + "- "+ tmp;
+						Severity severity=FacesMessage.SEVERITY_ERROR;
+						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 					}
 				}
-				String summary = "Vous avez des Interdits : \n" + "- "+ tmp;
-				String detail = "Vous avez des Interdits : \n" + "- "+ tmp;
 				Severity severity=FacesMessage.SEVERITY_ERROR;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
+				String summary2 = getString("ERREUR.INTERDIT_BU");
+				String detail2 = getString("ERREUR.INTERDIT_BU");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary2, detail2));
 				return null;
 			}
 		}
