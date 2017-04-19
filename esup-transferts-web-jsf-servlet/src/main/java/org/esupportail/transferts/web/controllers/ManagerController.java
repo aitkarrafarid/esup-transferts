@@ -683,8 +683,10 @@ public class ManagerController extends AbstractContextAwareController {
 
 			if(logger.isDebugEnabled())
 			{
-				logger.debug("listeComposantes.size()--->"+listeComposantes.size());
-				logger.debug("listeComposantesFromBdd.size()--->"+listeComposantesFromBdd.size());
+				if(listeComposantes!=null)
+					logger.debug("listeComposantes.size()--->"+listeComposantes.size());
+				if(listeComposantesFromBdd!=null)
+					logger.debug("listeComposantesFromBdd.size()--->"+listeComposantesFromBdd.size());
 			}
 
 			for(Composante c1 : listeComposantes)
