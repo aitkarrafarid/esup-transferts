@@ -39,8 +39,12 @@
 			icon="ui-icon-search">
 			<f:param name="i" value="1" />
 		</p:menuitem>
-		<p:menuitem value="Déconnexion" rendered="#{sessionController.boutonDeconnexion}"  action="#{sessionController.logout}"
+		<p:menuitem value="Déconnexion" rendered="#{sessionController.boutonDeconnexion and userController.verifDateNaisApogee}"  action="#{userController.goToWelcomeApogee}"
 			icon="ui-icon-document">
+			<f:param name="i" value="2" />
+		</p:menuitem>
+		<p:menuitem value="Déconnexion" rendered="#{sessionController.boutonDeconnexion and !userController.verifDateNaisApogee}"  action="#{sessionController.logout}"
+					icon="ui-icon-document">
 			<f:param name="i" value="2" />
 		</p:menuitem>
 	</p:tabMenu>
