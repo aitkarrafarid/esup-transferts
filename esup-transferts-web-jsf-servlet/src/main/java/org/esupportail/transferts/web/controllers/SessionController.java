@@ -99,6 +99,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	private String ldapDisplayNameAttribute;
 	private String ldapEmailAttribute;
 	private Logger logger = new LoggerImpl(getClass());
+	private List<SystemeProperties> propertiesSysteme;
 
 	/*
 	 ******************* INIT ******************** */
@@ -151,11 +152,12 @@ public class SessionController extends AbstractDomainAwareBean {
 		setAujourdhui(new Date());
 		Enumeration<?> liste = System.getProperties().propertyNames();
 		String cle;
-
+		propertiesSysteme = new ArrayList<SystemeProperties>();
 		while( liste.hasMoreElements() ) {
 			cle = (String)liste.nextElement();
 			if (logger.isDebugEnabled())
-				logger.debug("===>"+cle + " = " + System.getProperty(cle)+"<===");
+				logger.debug("System.getProperty===>"+cle + " = " + System.getProperty(cle)+"<===");
+			propertiesSysteme.add(new SystemeProperties(cle, System.getProperty(cle)));
 		}
 
 		Versions version = null;
@@ -934,5 +936,13 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setUseRelanceAccueilPersonnelConcerneSVA(boolean useRelanceAccueilPersonnelConcerneSVA) {
 		this.useRelanceAccueilPersonnelConcerneSVA = useRelanceAccueilPersonnelConcerneSVA;
+	}
+
+	public List<SystemeProperties> getPropertiesSysteme() {
+		return propertiesSysteme;
+	}
+
+	public void setPropertiesSysteme(List<SystemeProperties> propertiesSysteme) {
+		this.propertiesSysteme = propertiesSysteme;
 	}
 }

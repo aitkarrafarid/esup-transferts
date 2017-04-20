@@ -160,6 +160,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private Integer totalNombreDatasExterneNiveau1;
 	private Integer totalNombreDatasExterneNiveau2;
 	private Integer totalNombreDatasExterneNiveau3;
+	private Versions version;
 
 
 	@Override
@@ -170,6 +171,17 @@ public class AdministrationController extends AbstractContextAwareController {
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.modeSynchro, "property modeSynchro of class "
 				+ this.getClass().getName() + " can not be null");
+	}
+
+	public String goToAPropos(){
+		if(logger.isDebugEnabled())
+			logger.debug("===>goToAPropos<===");
+		version = getDomainService().getVersionByEtat(1);
+		if(version==null) {
+			version = new Versions();
+			version.setNumero("null");
+		}
+		return "goToAPropos";
 	}
 
 	public void addPartenairesFromImport() throws CloneNotSupportedException {
@@ -5828,5 +5840,13 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void setTotalNombreDatasExterneNiveau3(Integer totalNombreDatasExterneNiveau3) {
 		this.totalNombreDatasExterneNiveau3 = totalNombreDatasExterneNiveau3;
+	}
+
+	public Versions getVersion() {
+		return version;
+	}
+
+	public void setVersion(Versions version) {
+		this.version = version;
 	}
 }
