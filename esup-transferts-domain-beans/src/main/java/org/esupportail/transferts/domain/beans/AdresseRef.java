@@ -17,7 +17,7 @@ public class AdresseRef implements Serializable{
 	 * 
 	 */
 	@Transient
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 123456L;
 
 	@Id
 	@Column(name = "numeroEtudiant")

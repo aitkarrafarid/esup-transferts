@@ -771,8 +771,8 @@ public class AdministrationController extends AbstractContextAwareController {
 
 		//List<DatasExterne> listeDatasEterneNiveau2 = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(etu.getNumeroIne(), 2);
 		/*************************************************************************************/
-		List<Interdit> listeInterditsNiveau2=null;
-		List<DatasExterne> listeDatasEterneNiveau2=null;
+		List<Interdit> listeInterditsNiveau2;
+		List<DatasExterne> listeDatasEterneNiveau2;
 		WebService currentWsCandidatures = getDomainService().getWebServiceByCode("candidature");
 		if(getSessionController().isUseWsCandidatures() && currentWsCandidatures!=null)
 		{

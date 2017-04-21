@@ -631,7 +631,7 @@ public class BusinessManager {
                         logger.debug("etu.getNumeroIne()===>"+etu.getNumeroIne()+"<===");
                         logger.debug("repeat===>"+repeat+"<===");
                         logger.debug("envoiDepassement===>"+envoiDepassement+"<===");
-                        logger.debug("listeEtudiantRefAlertSilenceVautAccord===>"+listeEtudiantRefAlertSilenceVautAccord.size()+"<===");
+                        logger.debug("listeEtudiantRefAlertSilenceVautAccord===>"+listeEtudiantRefAlertDepassementSilenceVautAccord.size()+"<===");
                         logger.debug("compteurDepassement===>"+compteurDepassement+"<===");
 					}
 
