@@ -24,12 +24,12 @@ public class ComparatorDateTimeAccueilDecision implements Comparator<AccueilDeci
     /**
      * A logger.
      */
-    private final Logger logger = new LoggerImpl(this.getClass());
+    private static final Logger logger = new LoggerImpl(ComparatorDateTimeAccueilDecision.class);
 
 	/**
 	 * The serialization id. 
 	 */
-	private static final long serialVersionUID = 1545052575014067760L;
+	private final long serialVersionUID = 1545052598714067760L;
 
 	/**
 	 * Constructor.

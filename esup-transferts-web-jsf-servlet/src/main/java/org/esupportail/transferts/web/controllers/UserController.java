@@ -10,7 +10,6 @@ import org.esupportail.transferts.utils.GestionDate;
 import org.esupportail.transferts.web.comparator.ComparatorSelectItem;
 import org.esupportail.transferts.web.dataModel.OdfDataModel;
 import org.esupportail.transferts.web.utils.PDFUtils;
-import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.util.Assert;
 
@@ -39,7 +38,7 @@ public class UserController extends AbstractContextAwareController {
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(UserController.class);
 	private EtudiantRef currentEtudiant = null;
 	private EtudiantRef currentEtudiantInterdit = null;
 	private List<SelectItem> listeCommunes = new ArrayList<SelectItem>();
@@ -136,8 +135,8 @@ public class UserController extends AbstractContextAwareController {
 		{
 			WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee());
 
-            if (logger.isDebugEnabled())
-			    logger.debug("===>"+wp+"<===");
+			if (logger.isDebugEnabled())
+				logger.debug("===>"+wp+"<===");
 
 			if(wp!=null)
 				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
@@ -216,8 +215,8 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetLibelleDiplome()
 	{
-        if (logger.isDebugEnabled())
-    		logger.debug("===>public void resetLibelleDiplome()<===");
+		if (logger.isDebugEnabled())
+			logger.debug("===>public void resetLibelleDiplome()<===");
 		setTypesDiplomeAutreVide(true);
 //		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))
 		if(getCodeNiveau() !=null)
@@ -240,8 +239,8 @@ public class UserController extends AbstractContextAwareController {
 
 	public void resetLibelleEtape()
 	{
-        if (logger.isDebugEnabled())
-		    logger.debug("===>public void resetLibelleEtape()<===");
+		if (logger.isDebugEnabled())
+			logger.debug("===>public void resetLibelleEtape()<===");
 		if(this.isChoixDuVoeuParComposanteByPartenaire())
 		{
 			if(getCodeComposante() !=null && !getCodeComposante().equals(""))
@@ -397,12 +396,18 @@ public class UserController extends AbstractContextAwareController {
 			Set listDestinataires=new HashSet(); // on crée notre Set
 			List<PersonnelComposante> lp = getDomainService().getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante("D", getSessionController().getCurrentAnnee(), this.currentEtudiant.getComposante());
 
-            if (logger.isDebugEnabled())
-			    logger.debug("lp===>" + lp + "<===");
+			if (logger.isDebugEnabled())
+				logger.debug("lp===>" + lp + "<===");
 
 			if (lp != null && lp.size() > 0) {
-				String sujet="Nouvelle de ";
-				String body="body";
+				String sujet = getString("MAIL.INFORMATION.SUJET");
+				String body;
+				body=getString("MAIL.INFORMATION.BODY",
+						this.currentEtudiant.getNumeroIne(),
+						this.currentEtudiant.getNumeroEtudiant(),
+						this.currentEtudiant.getPrenom1(),
+						this.currentEtudiant.getNomPatronymique(),
+						this.currentEtudiant.getDateNaissance());
 				for (PersonnelComposante pc : lp) {
 					if (pc.getAlertMailDemandeTransfert().equalsIgnoreCase("OUI") && pc.getMailPersonnel() != null && !pc.getMailPersonnel().equals(""))
 						listDestinataires.add(new String(pc.getMailPersonnel())); // on ajoute des string quelconques // oups, je l'ai déja ajouté, la fonction gère l'exception levée, et l'objet n'est pas ajouté
@@ -463,7 +468,7 @@ public class UserController extends AbstractContextAwareController {
 			}
 			catch (AddressException e)
 			{
-				e.printStackTrace();
+				logger.error(e);
 				String summary = getString("ERREUR.ENVOI_MAIL");
 				String detail = getString("ERREUR.ENVOI_MAIL");
 				Severity severity=FacesMessage.SEVERITY_INFO;
@@ -515,7 +520,7 @@ public class UserController extends AbstractContextAwareController {
 		}
 		catch (AddressException e)
 		{
-			e.printStackTrace();
+			logger.error(e);
 			String summary = getString("ERREUR.ENVOI_MAIL");
 			String detail = getString("ERREUR.ENVOI_MAIL");
 			Severity severity=FacesMessage.SEVERITY_ERROR;
@@ -526,17 +531,22 @@ public class UserController extends AbstractContextAwareController {
 	private void envoiMailMasse(Set listDestinataires, String sujet, String body)
 	{
 		try {
-			if(listDestinataires!=null)
-                if (logger.isDebugEnabled())
-				    logger.debug("listDestinataires.size()===>"+listDestinataires.size()+"<===");
-			Iterator i = listDestinataires.iterator(); // on crée un Iterator pour parcourir notre HashSet
-			while (i.hasNext()) // tant qu'on a un suivant
-			{
-				String mail= (String) i.next();
-				InternetAddress emailAddr = new InternetAddress(mail);
-				getSmtpService().send(emailAddr, sujet, body, body);
+			if(listDestinataires!=null) {
 				if (logger.isDebugEnabled())
-					logger.debug("===>#################################################################################################################<===");
+					logger.debug("listDestinataires.size()===>" + listDestinataires.size() + "<===");
+				Iterator i = listDestinataires.iterator(); // on crée un Iterator pour parcourir notre HashSet
+				while (i.hasNext()) // tant qu'on a un suivant
+				{
+					String mail = (String) i.next();
+					InternetAddress emailAddr = new InternetAddress(mail);
+					getSmtpService().send(emailAddr, sujet, body, body);
+					if (logger.isDebugEnabled())
+						logger.debug("===>#################################################################################################################<===");
+				}
+			}else
+			{
+				if (logger.isDebugEnabled())
+					logger.debug("USERCONTROLLER DEPART - envoiMailMasse(Set listDestinataires, String sujet, String body)===>listDestinataires==null<===");
 			}
 		}
 		catch (AddressException e)
@@ -547,7 +557,7 @@ public class UserController extends AbstractContextAwareController {
 		}
 		catch (Exception ex){
 			logger.error("===>Echec envoi de mail<===");
-			ex.printStackTrace();
+			logger.error(ex);
 		}
 	}
 
@@ -906,8 +916,8 @@ public class UserController extends AbstractContextAwareController {
 
 					if(this.currentEtudiantInterdit!=null)
 					{
-						List<DatasExterne> listeInterditBu=null;
-						List<Interdit> listeInterditsNiveau1=null;
+						List<DatasExterne> listeInterditBu;
+						List<Interdit> listeInterditsNiveau1;
 						WebService currentWsBu=getDomainService().getWebServiceByCode("bu");
 						Integer etatConnexion=0;
 						if(getSessionController().isUseWsBu() && currentWsBu!=null)
@@ -924,10 +934,10 @@ public class UserController extends AbstractContextAwareController {
 							listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
 							etatConnexion = (Integer) tabReturn[1];
 
-                            if (logger.isDebugEnabled()) {
-                                logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
-                                logger.debug("etatConnexion===>" + etatConnexion + "<===");
-                            }
+							if (logger.isDebugEnabled()) {
+								logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
+								logger.debug("etatConnexion===>" + etatConnexion + "<===");
+							}
 
 							if(etatConnexion==1)
 								listeInterditBu = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
@@ -986,7 +996,7 @@ public class UserController extends AbstractContextAwareController {
 							getSessionController().setError(true);
 							String summary = "";
 							String detail = "";
-							String tmp = "";
+							String tmp;
 							if(currentEtudiantInterdit.getListeBlocagesDTO() !=null)
 							{
 								for(TrBlocageDTO b : currentEtudiantInterdit.getListeBlocagesDTO())
@@ -1046,6 +1056,7 @@ public class UserController extends AbstractContextAwareController {
 				return "Invite";
 			}
 		} catch (Exception e) {
+			logger.warn(e);
 			return "Invite";
 		}
 	}
@@ -1067,8 +1078,8 @@ public class UserController extends AbstractContextAwareController {
 
 		if(this.currentEtudiant!=null)
 		{
-			List<DatasExterne> listeInterditBu=null;
-			List<Interdit> listeInterditsNiveau1=null;
+			List<DatasExterne> listeInterditBu;
+			List<Interdit> listeInterditsNiveau1;
 			WebService currentWsBu = getDomainService().getWebServiceByCode("bu");
 			Integer etatConnexion=0;
 			if(getSessionController().isUseWsBu() && currentWsBu!=null)
@@ -1085,10 +1096,10 @@ public class UserController extends AbstractContextAwareController {
 				listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
 				etatConnexion = (Integer) tabReturn[1];
 
-                if (logger.isDebugEnabled()) {
-                    logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
-                    logger.debug("etatConnexion===>" + etatConnexion + "<===");
-                }
+				if (logger.isDebugEnabled()) {
+					logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
+					logger.debug("etatConnexion===>" + etatConnexion + "<===");
+				}
 
 				if(etatConnexion==1)
 					listeInterditBu = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
@@ -1140,8 +1151,7 @@ public class UserController extends AbstractContextAwareController {
 			}
 			else
 			{
-				String tmp = "";
-
+				String tmp;
 				for(TrBlocageDTO b : this.currentEtudiant.getListeBlocagesDTO())
 				{
 					tmp = b.getCodeBlocage()+" - "+b.getLibBlocage();
@@ -1575,11 +1585,20 @@ public class UserController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled()) {
 					logger.debug("listeTypesDiplomeDTO : "+listeTypesDiplomeDTO);
 				}
-				for (String mapKey : listeTypesDiplomeDTO.keySet()) {
-					// utilise ici hashMap.get(mapKey) pour acc�der aux valeurs
-					SelectItem option = new SelectItem(mapKey, listeTypesDiplomeDTO.get(mapKey));
+
+//				for (String mapKey : listeTypesDiplomeDTO.keySet()) {
+//					// utilise ici hashMap.get(mapKey) pour acc�der aux valeurs
+//					SelectItem option = new SelectItem(mapKey, listeTypesDiplomeDTO.get(mapKey));
+//					listeTypesDiplome.add(option);
+//				}
+
+				for (Map.Entry<String,String> entry : listeTypesDiplomeDTO.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+					SelectItem option = new SelectItem(key, value);
 					listeTypesDiplome.add(option);
 				}
+
 				Collections.sort(listeTypesDiplome,new ComparatorSelectItem());
 				return listeTypesDiplome;
 			}
@@ -1792,14 +1811,11 @@ public class UserController extends AbstractContextAwareController {
 	{
 		final int BUFFER_SIZE = 6124;
 		InputStream in = new ByteArrayInputStream(data);
-
+		FileOutputStream fileOutputStream=null;
 		File result = new File(nom);
-
 		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(result);
-
+			fileOutputStream = new FileOutputStream(result);
 			byte[] buffer = new byte[BUFFER_SIZE];
-
 			int bulk;
 			InputStream inputStream = in;
 			while (true) {
@@ -1819,6 +1835,14 @@ public class UserController extends AbstractContextAwareController {
 			}
 		} catch (IOException e) {
 			logger.error(e);
+		}
+		finally {
+			try {
+				if(fileOutputStream!=null)
+					fileOutputStream.close();
+			} catch (IOException e) {
+				logger.error(e);
+			}
 		}
 	}
 

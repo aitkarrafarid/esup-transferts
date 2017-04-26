@@ -82,7 +82,6 @@ public class WebService implements Serializable {
 				"code='" + code + '\'' +
 				", url='" + url + '\'' +
 				", identifiant='" + identifiant + '\'' +
-				", pwd='" + pwd + '\'' +
 				", nomClassJava='" + nomClassJava + '\'' +
 				", nomMethodeJavaGetAll='" + nomMethodeJavaGetAll + '\'' +
 				", nomMethodeJavaGetById='" + nomMethodeJavaGetById + '\'' +

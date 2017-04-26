@@ -31,8 +31,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	/**
 	 * For Logging.
 	 */
-	@SuppressWarnings("unused")
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(DomainServiceImpl.class);
 	private DaoService daoService;
 	private Transferts transfert = new Transferts();
 

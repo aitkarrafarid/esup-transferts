@@ -133,7 +133,6 @@ public class WsPub implements Serializable, Cloneable {
 				", libEtab='" + libEtab + '\'' +
 				", url='" + url + '\'' +
 				", identifiant='" + identifiant + '\'' +
-				", password='" + password + '\'' +
 				", mailCorrespondantFonctionnel='" + mailCorrespondantFonctionnel + '\'' +
 				", mailCorrespondantTechnique='" + mailCorrespondantTechnique + '\'' +
 				", choixDuVoeuParComposante=" + choixDuVoeuParComposante +

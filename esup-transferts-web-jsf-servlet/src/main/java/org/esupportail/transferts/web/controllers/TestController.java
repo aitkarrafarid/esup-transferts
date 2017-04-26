@@ -8,7 +8,6 @@ import org.esupportail.transferts.domain.beans.TrDepartementDTO;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.web.comparator.ComparatorSelectItem;
 import org.esupportail.transferts.web.dataModel.OdfDataModel;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
@@ -27,7 +26,7 @@ public class TestController extends AbstractContextAwareController {
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());	
+	private static final Logger logger = new LoggerImpl(TestController.class);
 	private EtudiantRef etu;
 	private List<SelectItem> listeEtablissements = null;
 	private List<SelectItem> listeTypesDiplome = null;
@@ -60,7 +59,7 @@ public class TestController extends AbstractContextAwareController {
 	public String goToTest()
 	{
 		if (logger.isDebugEnabled())
-			logger.debug("goToTest");
+			logger.debug("===>goToTest<===");
 		setSource("D");
 		this.initialise();
 		return "goToTest";
@@ -69,7 +68,7 @@ public class TestController extends AbstractContextAwareController {
 	public String goToTest2()
 	{
 		if (logger.isDebugEnabled())
-			logger.debug("goToTest2");
+			logger.debug("===>goToTest2<===");
 		setSource("A");
 		this.initialise();
 		return "goToTest";
@@ -77,6 +76,8 @@ public class TestController extends AbstractContextAwareController {
 
 	public void initialise()
 	{
+		if (logger.isDebugEnabled())
+			logger.debug("===>initialise()<===");
 		etu = new EtudiantRef();
 		currentOdf = new OffreDeFormationsDTO();
 		setDeptVide(true);	
@@ -141,8 +142,9 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetTypeDiplome()
 	{
-		if (logger.isDebugEnabled())
-			logger.debug("public void resetTypeDiplome()");
+//		if (logger.isDebugEnabled())
+			logger.info("===>public void resetTypeDiplome()<===");
+			logger.info("this.etu.getTransferts().getRne()===>"+this.etu.getTransferts().getRne()+"<===");
 
 		currentOdf=null;
 		etu.getTransferts().setOdf(currentOdf);		
@@ -150,10 +152,15 @@ public class TestController extends AbstractContextAwareController {
 		setAnneeEtudeVide(true);
 		setLibelleDiplomeVide(true);
 
-		WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee());
+		WsPub wp;
 
-        if (logger.isDebugEnabled())
-		    logger.debug("===>"+wp+"<===");
+		if(!getSessionController().getRne().equals(this.etu.getTransferts().getRne()))
+			wp = getDomainService().getWsPubByRneAndAnnee(this.etu.getTransferts().getRne(), getSessionController().getCurrentAnnee());
+		else
+			wp=null;
+
+//        if (logger.isDebugEnabled())
+		    logger.info("wp===>"+wp+"<===");
 
 		if(wp!=null)
 				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
@@ -371,11 +378,20 @@ public class TestController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled()) {
 					logger.debug("listeTypesDiplomeDTO : "+listeTypesDiplomeDTO);
 				}
-				for (String mapKey : listeTypesDiplomeDTO.keySet()) {
-					// utilise ici hashMap.get(mapKey) pour acc�der aux valeurs
-					SelectItem option = new SelectItem(mapKey, listeTypesDiplomeDTO.get(mapKey));
-					listeTypesDiplome.add(option);					
-				}				
+
+//				for (String mapKey : listeTypesDiplomeDTO.keySet()) {
+//					// utilise ici hashMap.get(mapKey) pour acc�der aux valeurs
+//					SelectItem option = new SelectItem(mapKey, listeTypesDiplomeDTO.get(mapKey));
+//					listeTypesDiplome.add(option);
+//				}
+
+				for (Map.Entry<String,String> entry : listeTypesDiplomeDTO.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+					SelectItem option = new SelectItem(key, value);
+					listeTypesDiplome.add(option);
+				}
+
 				Collections.sort(listeTypesDiplome,new ComparatorSelectItem());
 				return listeTypesDiplome;
 			}

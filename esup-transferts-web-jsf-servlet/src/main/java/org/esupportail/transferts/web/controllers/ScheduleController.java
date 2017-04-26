@@ -10,7 +10,6 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -34,7 +33,7 @@ public class ScheduleController extends AbstractContextAwareController implement
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());	
+	private static final Logger logger = new LoggerImpl(ScheduleController.class);
 
 	private ScheduleModel eventModel;
 

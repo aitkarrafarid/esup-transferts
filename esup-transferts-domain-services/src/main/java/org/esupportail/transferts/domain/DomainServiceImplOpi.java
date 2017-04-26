@@ -29,8 +29,7 @@ public class DomainServiceImplOpi implements DomainServiceOpi, InitializingBean 
 	/**
 	 * For Logging.
 	 */
-	@SuppressWarnings("unused")
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(DomainServiceImplOpi.class);
 	private DaoService daoService;
 
 	/**

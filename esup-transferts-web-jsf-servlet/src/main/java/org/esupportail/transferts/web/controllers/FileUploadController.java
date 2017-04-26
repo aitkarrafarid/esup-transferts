@@ -14,7 +14,6 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import java.io.*;
 
-
 public class FileUploadController extends AbstractContextAwareController implements Serializable {
 
 	/**
@@ -25,7 +24,7 @@ public class FileUploadController extends AbstractContextAwareController impleme
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());	
+	private static final Logger logger = new LoggerImpl(FileUploadController.class);
 	private String wsdl;
 //	private List<SelectItem> listeFichiers = new ArrayList<SelectItem>();
 //	private List<Fichier> listeFichiers2 = new ArrayList<Fichier>();
@@ -112,8 +111,9 @@ public class FileUploadController extends AbstractContextAwareController impleme
 		{
 			String chemin = this.getTempPath() + file.getFileName();
 			File result = new File(chemin);
+			FileOutputStream fileOutputStream=null;
 			try {
-				FileOutputStream fileOutputStream = new FileOutputStream(result);
+				fileOutputStream = new FileOutputStream(result);
 
 				byte[] buffer = new byte[BUFFER_SIZE];
 
@@ -174,6 +174,14 @@ public class FileUploadController extends AbstractContextAwareController impleme
 				String detail = getString("ERREUR.ENREGISTREMENT_SIGNATURE", result.getName());
 				Severity severity=FacesMessage.SEVERITY_ERROR;
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));				
+			}
+			finally {
+				try {
+					if(fileOutputStream!=null)
+						fileOutputStream.close();
+				} catch (IOException e) {
+					logger.error(e);
+				}
 			}
 		}
 		else

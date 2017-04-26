@@ -24,7 +24,7 @@ public class ComparatorDateTimeCorrespondance implements Comparator<Correspondan
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(ComparatorDateTimeCorrespondance.class);
 
 	/**
 	 * Constructor.

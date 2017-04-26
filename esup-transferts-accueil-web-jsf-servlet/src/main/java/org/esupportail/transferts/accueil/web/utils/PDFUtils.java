@@ -81,8 +81,10 @@ public final class PDFUtils {
 					directory);
 			
 			// TODO pour test ne pas supprimer le fichier, a decommenter pour prod
-			f1.delete();
-			
+			boolean del=f1.delete();
+			if (!del)
+				LOGGER.error("file delete failed; take appropriate action");
+
 			setDownLoadAndSend(arrayPDF, facesContext,
 					"application/pdf", fileNamePdf);
 			
@@ -122,7 +124,9 @@ public final class PDFUtils {
 
 			zipStream.write(arrayPDF);
 			zipStream.closeEntry();
-			f1.delete();
+			boolean del=f1.delete();
+			if (!del)
+				LOGGER.error("file delete failed; take appropriate action");
 		} catch (TransformerException e) {
 			LOGGER.error("probleme de preparation du zip contenant le pdf = "
 								+ fileNamePdf + "exception : " + e);

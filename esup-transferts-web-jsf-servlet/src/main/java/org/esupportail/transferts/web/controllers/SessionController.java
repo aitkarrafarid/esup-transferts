@@ -54,6 +54,8 @@ public class SessionController extends AbstractDomainAwareBean {
 	 */
 	private Authenticator authenticator;
 
+	private static final Logger logger = new LoggerImpl(SessionController.class);
+
 	/**
 	 * The CAS logout URL.
 	 */
@@ -98,7 +100,6 @@ public class SessionController extends AbstractDomainAwareBean {
 	private LdapUserService ldapUserService;
 	private String ldapDisplayNameAttribute;
 	private String ldapEmailAttribute;
-	private Logger logger = new LoggerImpl(getClass());
 	private List<SystemeProperties> propertiesSysteme;
 
 	/*
@@ -159,7 +160,6 @@ public class SessionController extends AbstractDomainAwareBean {
 				logger.debug("System.getProperty===>"+cle + " = " + System.getProperty(cle)+"<===");
 			propertiesSysteme.add(new SystemeProperties(cle, System.getProperty(cle)));
 		}
-
 		Versions version = null;
 		Parametres paramChoixDuVoeuParComposante = null;
 		String text="";

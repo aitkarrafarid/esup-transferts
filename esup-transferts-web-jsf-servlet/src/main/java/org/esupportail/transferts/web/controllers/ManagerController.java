@@ -1,14 +1,11 @@
 package org.esupportail.transferts.web.controllers;
 
-import org.esupportail.commons.services.ldap.LdapUser;
-import org.esupportail.commons.services.ldap.LdapUserService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.CGE;
 import org.esupportail.transferts.domain.beans.Composante;
 import org.esupportail.transferts.domain.beans.PersonnelComposante;
 import org.esupportail.transferts.domain.beans.User;
-import org.esupportail.transferts.utils.Fonctions;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.util.Assert;
@@ -30,7 +27,7 @@ public class ManagerController extends AbstractContextAwareController {
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(ManagerController.class);
 	private User personnelChoisi;
 	private Map<String, String> pc;
 	private List<User> users;

@@ -4,28 +4,27 @@
  */
 package org.esupportail.transferts.accueil.web.controllers;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Enumeration;
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.commons.utils.Assert;
+import org.esupportail.commons.utils.ContextUtils;
+import org.esupportail.commons.utils.strings.StringUtils;
+import org.esupportail.commons.web.controllers.ExceptionController;
+import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
+import org.esupportail.transferts.domain.beans.Parametres;
+import org.esupportail.transferts.domain.beans.User;
+import org.esupportail.transferts.domain.beans.Versions;
+import org.esupportail.transferts.services.auth.Authenticator;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.User;
-import org.esupportail.transferts.domain.beans.Versions;
-import org.esupportail.transferts.services.auth.Authenticator;
-import org.esupportail.commons.utils.Assert;
-import org.esupportail.commons.utils.ContextUtils;
-import org.esupportail.commons.utils.strings.StringUtils;
-import org.esupportail.commons.web.controllers.ExceptionController;
-import org.primefaces.context.RequestContext;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Enumeration;
 
 /**
  * A bean to memorize the context of the application.
@@ -49,12 +48,13 @@ public class SessionController extends AbstractDomainAwareBean {
 	 * The authenticator.
 	 */
 	private Authenticator authenticator;
-	
+
+	private static final Logger logger = new LoggerImpl(SessionController.class);
+
 	/**
 	 * The CAS logout URL.
 	 */
 	private String casLogoutUrl;
-	private Logger logger = new LoggerImpl(getClass());
 	private Integer currentAnnee;
 	private String htmlCssStyle;
 	private boolean error = false;
@@ -120,7 +120,7 @@ public class SessionController extends AbstractDomainAwareBean {
 
 		Versions version = null;
 		Parametres choixDuVoeuParComposante = null;
-		String text="";
+		String text;
 		text = "Liste des erreurs : <BR /><BR />";
 
 		try{
@@ -128,6 +128,7 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		catch(Exception  e)
 		{
+			logger.warn(e);
 			if(e.getCause()!=null && e.getCause().getCause()!=null)
 				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (Versions) ===> NOK <BR />";
 			else
@@ -146,6 +147,7 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		catch(Exception  e)
 		{
+			logger.warn(e);
 			if(e.getCause()!=null && e.getCause().getCause()!=null)
 				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (code_size) ===> NOK <BR />";
 			else
@@ -184,6 +186,7 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		catch(Exception  e)
 		{
+			logger.warn(e);
 			if(e.getCause()!=null && e.getCause().getCause()!=null)
 				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (parametres) ===> NOK <BR />";
 			else
@@ -193,9 +196,9 @@ public class SessionController extends AbstractDomainAwareBean {
 
 		String v = getApplicationService().getVersion().toString();
 		if (logger.isDebugEnabled())
-			logger.debug("Version Application ===>"+v.toString()+"<===");
+			logger.debug("Version Application ===>"+v+"<===");
 
-		text += "- Version de l'application : "+v.toString()+" ===> OK <BR />";
+		text += "- Version de l'application : "+v+" ===> OK <BR />";
 
 		if(version==null)
 		{
@@ -207,14 +210,14 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		else
 		{
-			if(!version.getNumero().equals(v.toString()))
+			if(!version.getNumero().equals(v))
 			{
-				text += "- Version de la base de données : "+version.getNumero()+" est différente de la version de l'application ("+v.toString()+"), veuillez passer le script de migration correspondant ===> NOK <BR />";
+				text += "- Version de la base de données : "+version.getNumero()+" est différente de la version de l'application ("+v+"), veuillez passer le script de migration correspondant ===> NOK <BR />";
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "L'application a rencontré des erreurs lors de son lancement", text);
 				RequestContext.getCurrentInstance().showMessageInDialog(message);
 				if (logger.isDebugEnabled()) {
 					logger.debug("Version BDD ===>" + version.toString() + "<===");
-					logger.debug("Version Application ===>" + v.toString() + "<===");
+					logger.debug("Version Application ===>" + v + "<===");
 				}
 			}
 

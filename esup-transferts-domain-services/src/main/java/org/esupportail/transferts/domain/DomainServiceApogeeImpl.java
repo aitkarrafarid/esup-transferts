@@ -52,9 +52,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	/**
 	 * For Logging.
 	 */
-	@SuppressWarnings("unused")
-	private final Logger logger = new LoggerImpl(this.getClass());
-	//	private Transferts transfert;
+	private static final Logger logger = new LoggerImpl(DomainServiceApogeeImpl.class);
 
 	/**
 	 * Constructor.

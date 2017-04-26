@@ -18,9 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//import artois.domain.DomainService;
-//import artois.domain.beans.Odf;
-
 public class OdfController extends AbstractContextAwareController {
 
 	/**
@@ -30,7 +27,7 @@ public class OdfController extends AbstractContextAwareController {
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());	
+	private static final Logger logger = new LoggerImpl(OdfController.class);
 	private List<OffreDeFormationsDTO> odfs;
 	//	private List<OffreDeFormationsDTO> listeODFScolarite;
 	private OffreDeFormationsDTO[] selectedOdfs; 
@@ -45,14 +42,6 @@ public class OdfController extends AbstractContextAwareController {
 
 	public void addMessage() 
 	{
-		//		this.listeTransfertDepartDataModel = null;
-		//		this.transfertDataModelOpi =null;
-		//		String summary;
-		//
-		//		if (switchTraiteNontraite)
-		//			summary = getString("INFOS.LISTE_DE_TOUTES_LES_DEMANDES");
-		//		else
-		//			summary = getString("INFOS.LISTE_DES_DEMANDES_EN_COURS_DE_TRAITEMENT");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Sofianou===>"+getFiltre()+"<==="));
 	}	
 

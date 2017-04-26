@@ -7,8 +7,6 @@ import org.esupportail.transferts.domain.beans.Parametres;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.Fonctions;
 import org.primefaces.event.RowEditEvent;
-import org.springframework.util.Assert;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
@@ -30,7 +28,7 @@ public class PartenaireController extends AbstractContextAwareController {
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(PartenaireController.class);
 	private List<WsPub> partenaires;
 	private List<WsPub> listePartenaires;
 	private WsPub currentPartenaire;

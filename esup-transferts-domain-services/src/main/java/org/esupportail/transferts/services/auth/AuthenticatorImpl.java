@@ -47,7 +47,7 @@ public class AuthenticatorImpl implements Serializable, InitializingBean,
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(AuthenticatorImpl.class);
 
 	/**
 	 * The external authenticator.

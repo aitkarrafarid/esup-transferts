@@ -37,7 +37,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	/**
 	 * For Logging.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(JPADaoServiceImpl.class);
 
 	/**
 	 * JPA entity manager
@@ -81,6 +81,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etudiant;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -109,6 +110,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -127,6 +129,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -141,6 +144,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -160,6 +164,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -190,6 +195,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return new ArrayList<Avis>();
 		}
 	}
@@ -209,6 +215,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return new ArrayList<EtatDossier>();
 		}
 	}
@@ -225,6 +232,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -244,6 +252,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return new ArrayList<LocalisationDossier>();
 		}
 	}
@@ -261,6 +270,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -280,6 +290,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return new ArrayList<DecisionDossier>();
 		}
 	}
@@ -296,6 +307,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -325,7 +337,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -356,6 +368,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -389,6 +402,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			entityManager.merge(opi);
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			e.fillInStackTrace();
 		}
 	}
@@ -409,6 +423,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -428,6 +443,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -443,6 +459,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return fichier;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -461,6 +478,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return new Avis();
 		}
 	}
@@ -483,7 +501,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			entityManager.remove(etudiant);
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 		}
 	}
 
@@ -503,6 +521,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -522,6 +541,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -540,6 +560,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -556,6 +577,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -572,6 +594,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -588,6 +611,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -607,6 +631,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -627,6 +652,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -642,6 +668,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -663,6 +690,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -684,6 +712,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -700,6 +729,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -719,6 +749,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -754,6 +785,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -773,6 +805,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -789,6 +822,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -819,6 +853,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -860,7 +895,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -881,7 +916,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -933,7 +968,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -955,7 +990,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -977,7 +1012,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -998,7 +1033,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1036,7 +1071,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1079,7 +1114,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1124,7 +1159,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1152,7 +1187,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1180,7 +1215,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1204,7 +1239,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1234,6 +1269,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			entityManager.merge(opi);
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			e.fillInStackTrace();
 		}
 	}
@@ -1253,6 +1289,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1272,6 +1309,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1291,6 +1329,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1310,6 +1349,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1323,6 +1363,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1336,6 +1377,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1368,7 +1410,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1415,6 +1457,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1444,7 +1487,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1453,7 +1496,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	public void addWsPub(WsPub ws) {
 		if (logger.isDebugEnabled())
 		    logger.debug("public void addWsPub(WsPub ws)===>"+ws+"<===");
-
 		entityManager.merge(ws);
 	}
 
@@ -1479,6 +1521,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1505,6 +1548,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etudiant;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1526,6 +1570,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etudiant;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1549,6 +1594,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1564,6 +1610,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return odf;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1585,6 +1632,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return true;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return false;
 		}
 	}
@@ -1643,7 +1691,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1674,7 +1722,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1691,6 +1739,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return nb;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1707,6 +1756,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return nb;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1723,50 +1773,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return nb;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
-
-//	@Override
-//	public Test getTest(Integer id) {
-//		if (logger.isDebugEnabled()){
-//			logger.debug("public Test getTest(Integer id)");
-//		}
-//		try{
-//			Query q = entityManager.createNamedQuery("getTest");
-//			q.setParameter("id", id);
-//			Test test = (Test) q.getSingleResult();
-//			return test;
-//		}
-//		catch(NoResultException e){
-//			return null;
-//		}
-//	}
-//
-//	@Override
-//	public List<Test> getListeTests() {
-//		if (logger.isDebugEnabled())
-//			logger.debug("public List<Test> getListeTests()");
-//		try{
-//			Query q = entityManager.createNamedQuery("getListeTests");
-//			@SuppressWarnings("unchecked")
-//			List<Test> ret = (List<Test>) q.getResultList();
-//			if(ret.isEmpty())
-//				return null;
-//			else
-//				return ret;
-//		}
-//		catch(NoResultException e){
-//			return null;
-//		}
-//	}
-//
-//	@Override
-//	public void addTest(Test test) {
-//		if (logger.isDebugEnabled())
-//			logger.debug("test --> "+test);
-//		entityManager.merge(test);
-//	}
 
 	@Override
 	public void addValidationAutoByComposante(List<Composante> listeComposantes) {
@@ -1793,6 +1803,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1808,6 +1819,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return composante;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1828,6 +1840,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1852,6 +1865,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return cge;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1868,6 +1882,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return pc;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1883,6 +1898,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return data;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1897,6 +1913,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return currentOpi;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1913,6 +1930,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1927,6 +1945,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return accueilAnnee;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1941,6 +1960,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return accueilResultat;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -1970,7 +1990,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2022,7 +2042,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return map;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2041,7 +2061,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etu;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2062,7 +2082,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2082,6 +2102,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2102,6 +2123,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2115,7 +2137,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			entityManager.remove(opiADelete);
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 		}
 	}
 
@@ -2131,7 +2153,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etu;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2149,7 +2171,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etu;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2167,7 +2189,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return opi;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2188,6 +2210,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2219,6 +2242,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2232,7 +2256,6 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			entityManager.merge(f);
 		}
 		return this.getListeFermeturesBySourceAndAnnee("D", 2016);
-//		return entityManager.merge(lFermetures);
 	}
 
 	@Override
@@ -2247,7 +2270,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			entityManager.remove(myFermeture);
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 		}
 	}
 
@@ -2263,6 +2286,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return myFermeture;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2280,7 +2304,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return etu;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2297,6 +2321,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return v;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2323,6 +2348,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			return ws;
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2357,6 +2383,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 
 		}
 		catch(NoResultException e){
+			logger.warn(e);
 			return null;
 		}
 	}
@@ -2378,7 +2405,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				return ret;
 		}
 		catch(NoResultException e){
-			logger.error(e);
+			logger.warn(e);
 			return null;
 		}
 	}

@@ -26,8 +26,7 @@ public class DomainServiceDTOImpl implements DomainServiceDTO, InitializingBean 
 	/**
 	 * For Logging.
 	 */
-	@SuppressWarnings("unused")
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(DomainServiceDTOImpl.class);
 	private DomainServiceScolarite domainServiceScolarite;
 	private DaoService daoService;
 

@@ -63,8 +63,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 	/**
 	 * For Logging.
 	 */
-	@SuppressWarnings("unused")
-	private final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(DomainServiceRimbausImpl.class);
 	//private Transferts transfert;
 
 	private RimbausTransfertAcces rta;

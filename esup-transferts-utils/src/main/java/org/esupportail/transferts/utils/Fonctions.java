@@ -1,13 +1,8 @@
 package org.esupportail.transferts.utils;
 
-import artois.domain.beans.Interdit;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.transferts.domain.beans.DatasExterne;
-import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.User;
 import org.springframework.util.ReflectionUtils;
 import sun.net.www.protocol.http.AuthCacheImpl;
 import sun.net.www.protocol.http.AuthCacheValue;
@@ -128,7 +123,6 @@ public class Fonctions {
         if (logger.isDebugEnabled()) {
             logger.debug("wsUrl===>" + wsUrl + "<===");
             logger.debug("wsLogin===>" + wsLogin + "<===");
-            logger.debug("wsPwd===>" + wsPwd + "<===");
             logger.debug("maClass===>" + maClass + "<===");
             logger.debug("maMethode===>" + maMethode + "<===");
             logger.debug("collection===>" + collection + "<===");
@@ -174,7 +168,7 @@ public class Fonctions {
                         try {
                             objectRetourList = (List<Object>) ReflectionUtils.invokeMethod(m, monService, params);
                         }catch (Exception e){
-                            e.printStackTrace();
+                            logger.error(e);
                         }
                     else
                         objectRetour = (Object) ReflectionUtils.invokeMethod(m, monService, params);
@@ -224,7 +218,7 @@ public class Fonctions {
                 logger.debug("cls===>" + cls + "<===");
             }
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e);
         }
 
         return null;

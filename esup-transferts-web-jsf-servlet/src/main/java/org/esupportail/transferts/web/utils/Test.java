@@ -23,7 +23,7 @@ public class Test {
 		System.out.println("-------------------------------------------");
 		Test.calculCLeIne("0DDG5R0001");
 		System.out.println("-------------------------------------------");
-		Test.calculCLeIne("0DDG5Z0001");
+		Test.calculCLeIne("0DDG5Z0002");
 
 	}
 

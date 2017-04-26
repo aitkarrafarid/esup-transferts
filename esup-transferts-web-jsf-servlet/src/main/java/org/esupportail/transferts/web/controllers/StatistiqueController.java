@@ -5,7 +5,6 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.TrEtablissementDTO;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.chart.*;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
@@ -23,7 +22,7 @@ public class StatistiqueController extends AbstractContextAwareController implem
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(this.getClass());		
+	private static final Logger logger = new LoggerImpl(StatistiqueController.class);
 	private PieChartModel pieModelDepart;  
 	private PieChartModel pieModelAccueil;  
 	private HorizontalBarChartModel categoryModelDetailsDepartAndArrive;  

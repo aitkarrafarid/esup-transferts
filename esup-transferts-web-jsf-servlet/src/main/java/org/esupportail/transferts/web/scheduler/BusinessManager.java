@@ -665,19 +665,24 @@ public class BusinessManager {
 	private void envoiMailMasse(Set listDestinataires, String sujet, String body)
 	{
 		try {
-			if(listDestinataires!=null)
-                if(logger.isDebugEnabled())
-				    logger.debug("[listDestinataires.size()===>"+listDestinataires.size()+"<===");
-
-			Iterator i = listDestinataires.iterator(); // on crée un Iterator pour parcourir notre HashSet
-			while (i.hasNext()) // tant qu'on a un suivant
-			{
-				String mail= (String) i.next();
-				InternetAddress emailAddr = new InternetAddress(mail);
-				getSmtpService().send(emailAddr, sujet, body, body);
-
+			if(listDestinataires!=null) {
 				if (logger.isDebugEnabled())
-					logger.debug("===>#################################################################################################################<===");
+					logger.debug("[listDestinataires.size()===>" + listDestinataires.size() + "<===");
+
+				Iterator i = listDestinataires.iterator(); // on crée un Iterator pour parcourir notre HashSet
+				while (i.hasNext()) // tant qu'on a un suivant
+				{
+					String mail = (String) i.next();
+					InternetAddress emailAddr = new InternetAddress(mail);
+					getSmtpService().send(emailAddr, sujet, body, body);
+
+					if (logger.isDebugEnabled())
+						logger.debug("===>#################################################################################################################<===");
+				}
+			}else
+			{
+				if (logger.isDebugEnabled())
+					logger.debug("BUSINESSMANAGER - envoiMailMasse(Set listDestinataires, String sujet, String body)===>listDestinataires==null<===");
 			}
 		}
 		catch (AddressException e)
@@ -688,7 +693,7 @@ public class BusinessManager {
 		}
 		catch (Exception ex){
 			logger.error("===>Echec envoi de mail<===");
-			ex.printStackTrace();
+			logger.error(ex);
 		}
 	}
 

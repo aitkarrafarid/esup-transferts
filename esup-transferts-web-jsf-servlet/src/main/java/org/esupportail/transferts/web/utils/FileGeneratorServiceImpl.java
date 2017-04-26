@@ -34,7 +34,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 	/**
 	 * A logger.
 	 */
-	private final Logger logger = new LoggerImpl(getClass());
+	private static final Logger logger = new LoggerImpl(FileGeneratorServiceImpl.class);
 
 
 	/**
