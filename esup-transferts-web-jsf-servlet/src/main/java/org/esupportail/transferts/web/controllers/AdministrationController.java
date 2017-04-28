@@ -1537,12 +1537,12 @@ public class AdministrationController extends AbstractContextAwareController {
 
 			WsPub ws = getDomainService().getWsPubByRneAndAnnee(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 
-			if(choixDuVoeuParComposante.isBool()!=ws.isChoixDuVoeuParComposante())
-			{
-				ws.setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
-				getDomainService().updateWsPub(ws);
+			if(ws!=null) {
+				if (choixDuVoeuParComposante.isBool() != ws.isChoixDuVoeuParComposante()) {
+					ws.setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
+					getDomainService().updateWsPub(ws);
+				}
 			}
-
 			getSessionController().setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
 		}
 		else
