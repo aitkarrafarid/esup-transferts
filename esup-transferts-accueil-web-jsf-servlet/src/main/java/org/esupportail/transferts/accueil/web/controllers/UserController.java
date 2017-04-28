@@ -1525,11 +1525,14 @@ public class UserController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled()) {
 				logger.debug("listeAnneesEtudeDTO : "+listeAnneesEtudeDTO);
 			}
-			for(Integer mapKey : listeAnneesEtudeDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeAnneesEtudeDTO.get(mapKey));
+
+			for (Map.Entry<Integer,String> entry : listeAnneesEtudeDTO.entrySet()) {
+				Integer key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeAnneesEtude.add(option);
 			}
+
 			Collections.sort(listeAnneesEtude,new ComparatorSelectItem());
 			return listeAnneesEtude;
 		}
@@ -1554,11 +1557,14 @@ public class UserController extends AbstractContextAwareController {
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("listeLibellesDiplomeDTO : "+listeLibellesDiplomeDTO);
-			for(String mapKey : listeLibellesDiplomeDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
+
+			for (Map.Entry<String,String> entry : listeLibellesDiplomeDTO.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeLibellesDiplome.add(option);
 			}
+
 			Collections.sort(listeLibellesDiplome,new ComparatorSelectItem());
 			return listeLibellesDiplome;
 		}
@@ -1697,11 +1703,14 @@ public class UserController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled()) {
 				logger.debug("listeComposantesDTO : "+listeComposantesDTO);
 			}
-			for(String mapKey : listeComposantesDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
+
+			for (Map.Entry<String,String> entry : listeComposantesDTO.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeComposantes.add(option);
 			}
+
 			Collections.sort(listeComposantes,new ComparatorSelectItem());
 			return listeComposantes;
 		}
