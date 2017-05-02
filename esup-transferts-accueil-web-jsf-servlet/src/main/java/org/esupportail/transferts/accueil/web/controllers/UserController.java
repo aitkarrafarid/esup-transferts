@@ -938,19 +938,10 @@ public class UserController extends AbstractContextAwareController {
 					 * 2 Pas de blocage de la saisie mais une alert coté gestionnaire
 					 * 3 etc...
 					 */
-//					List<DatasExterne> listeInterditBu = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentEtudiant.getNumeroIne(), 1);
-//
-//					if(listeInterditBu!=null && !listeInterditBu.isEmpty())
-//					{
-//						if (logger.isDebugEnabled())
-//							logger.debug("Etudiant a des interdits");
-//						this.currentEtudiant.setInterditLocal(true);
-//					}
-
 					List<DatasExterne> listeInterditBu;
 					List<Interdit> listeInterditsNiveau1;
 					WebService currentWsBu = getDomainService().getWebServiceByCode("bu");
-					Integer etatConnexion=0;
+					Integer etatConnexion;
 					if(getSessionController().isUseWsBu() && currentWsBu!=null)
 					{
 						Object tabReturn[] = Fonctions.appelWSAuth(currentWsBu.getUrl(),
@@ -989,7 +980,6 @@ public class UserController extends AbstractContextAwareController {
 						currentEtudiant.setBddScol(1);
 						currentEtudiant.getTransferts().setDept(getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getCodeDep());
 						currentEtudiant.getTransferts().setRne(getSessionController().getRne());
-						//						getDomainServiceScolarite().getDerniereIAByNumeroEtudiant(this.currentEtudiant.getNumeroEtudiant());	
 						return "goToEtatCivilApogee";
 					}
 					else
@@ -1015,10 +1005,6 @@ public class UserController extends AbstractContextAwareController {
 								FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 							}
 						}
-//						String summary = "Vous avez des Interdits : \n" + "- "+ tmp;
-//						String detail = "Vous avez des Interdits : \n" + "- "+ tmp;
-//						Severity severity=FacesMessage.SEVERITY_ERROR;
-//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 						return null;
 					}
 				}
@@ -1043,14 +1029,13 @@ public class UserController extends AbstractContextAwareController {
 						logger.debug("ine-->"+ine);
 					}
 
-					//					List<DatasExterne> listeInterditVAP = null;
-					List<DatasExterne> listeInterditVAP = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(ine, 1);
-
-					if(listeInterditVAP==null || listeInterditVAP.isEmpty())
-					{
-						if (logger.isDebugEnabled())
-							logger.debug("if(listeInterditVAP==null || listeInterditVAP.isEmpty())");
-
+//					List<DatasExterne> listeInterditVAP = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(ine, 1);
+//
+//					if(listeInterditVAP==null || listeInterditVAP.isEmpty())
+//					{
+//						if (logger.isDebugEnabled())
+//							logger.debug("if(listeInterditVAP==null || listeInterditVAP.isEmpty())");
+//
 						this.presentBdd=false;
 						setVerifDateNaisApogee(true);
 						setEtabPartenaireSaisieDepart(false);
@@ -1067,25 +1052,25 @@ public class UserController extends AbstractContextAwareController {
 						currentEtudiant.getTransferts().setRne(getSessionController().getRne());
 						currentEtudiant.getAdresse().setCodPay("100");
 						return "goToEtatCivilApogee";
-					}
-					else
-					{
-						if (logger.isDebugEnabled())
-							logger.debug("if(listeInterditVAP!=null && !listeInterditVAP.isEmpty())");
-
-						String tmp = "";
-						for(DatasExterne lInterditVAP : listeInterditVAP)
-						{
-							tmp += lInterditVAP.getLibInterdit();
-							if (logger.isDebugEnabled())
-								logger.debug("Libellé de l'interdit-->"+tmp);
-						}
-						String summary = "Vous avez des Interdits : \n" + "- "+ tmp;
-						String detail = "Vous avez des Interdits : \n" + "- "+ tmp;
-						Severity severity=FacesMessage.SEVERITY_ERROR;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
-						return null;
-					}
+//					}
+//					else
+//					{
+//						if (logger.isDebugEnabled())
+//							logger.debug("if(listeInterditVAP!=null && !listeInterditVAP.isEmpty())");
+//
+//						String tmp = "";
+//						for(DatasExterne lInterditVAP : listeInterditVAP)
+//						{
+//							tmp += lInterditVAP.getLibInterdit();
+//							if (logger.isDebugEnabled())
+//								logger.debug("Libellé de l'interdit-->"+tmp);
+//						}
+//						String summary = "Vous avez des Interdits : \n" + "- "+ tmp;
+//						String detail = "Vous avez des Interdits : \n" + "- "+ tmp;
+//						Severity severity=FacesMessage.SEVERITY_ERROR;
+//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
+//						return null;
+//					}
 				}
 				else
 				{

@@ -301,7 +301,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	public List<DatasExterne> convertListInterditsToListDatasExterne(List<Interdit> lInterdits)
 	{
 		List<DatasExterne> listeDatasEterneNiveau2=null;
-		if(lInterdits!=null && lInterdits.size()>0) {
+		if(lInterdits!=null && !lInterdits.isEmpty()) {
 			listeDatasEterneNiveau2 = new ArrayList<DatasExterne>();
 			for (Interdit c : lInterdits) {
 				if (logger.isDebugEnabled()) {

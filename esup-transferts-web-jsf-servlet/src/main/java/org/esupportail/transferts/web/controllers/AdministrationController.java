@@ -1949,18 +1949,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 		if (this.currentDemandeTransferts != null)
 		{
-//			WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.currentDemandeTransferts.getAccueil().getCodeRneUnivDepart(), getSessionController().getCurrentAnnee());
-//
-//            if (logger.isDebugEnabled()) {
-//                logger.info("===>" + wp + "<===");
-//                logger.info("libelleDiplomeVide===>" + libelleDiplomeVide + "<===");
-//            }
-//
-//			if(wp!=null)
-//				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());
-//			else
 			this.setChoixDuVoeuParComposanteByPartenaire(getSessionController().isChoixDuVoeuParComposante());
-
 			this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource());
 			this.currentDemandeTransferts.getAccueil().setSituationUniversitaire(getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee()));
 			setTexteInterditNiveau2("Candidatures : ");
