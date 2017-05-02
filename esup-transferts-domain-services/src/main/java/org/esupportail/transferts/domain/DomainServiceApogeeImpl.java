@@ -578,7 +578,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						typeEtablissementDTO[0].getDepartement().getCodeDept(),
 						typeEtablissementDTO[0].getDepartement().getLibDept(),
 						typeEtablissementDTO[0].getAcademie().getLibAcd(),
-//						typeEtablissementDTO[0].getLibArtOffEtb().toLowerCase()+""+typeEtablissementDTO[0].getLibOffEtb(),
 						typeEtablissementDTO[0].getLibOffEtb(),
 						typeEtablissementDTO[0].getAdresse().getLibAd1Etb(),
 						typeEtablissementDTO[0].getAdresse().getLibAd2Etb(),
@@ -591,7 +590,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		catch (Exception e)
 		{
 			logger.error(e);
-			typeEtablissementDTO = null;
 		}
 		return trEtablissement;			
 	}	
@@ -621,7 +619,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
-			typeEtablissementDTO = null;
+			logger.error(e);
 		}
 		return trEtablissement;			
 	}		
@@ -731,7 +729,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		AdministratifMetierServiceInterfaceProxy administratifMetierServiceInterface = new AdministratifMetierServiceInterfaceProxy();
 		InsAdmEtpDTO2[] insAdmEtpDTO;
 		try {
-			String ret="";
 			insAdmEtpDTO = administratifMetierServiceInterface.recupererIAEtapes_v2(supannEtuId, null, "ARE", "ARE");
 			Map<String, String> map = new HashMap<String, String>();
 			for(int i=0; i<insAdmEtpDTO.length;i++)
@@ -831,7 +828,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		TrResultatVdiVetDTO trResultatVdiVetDTO;
 		List<ResultatEtape> listResultatEtape = new ArrayList<ResultatEtape>();
-		List<ResultatSession> listResultatSession = new ArrayList<ResultatSession>(); 
+		List<ResultatSession> listResultatSession;
 		ResultatEtape re; 
 		ResultatSession r; 
 
@@ -856,8 +853,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					{
 						logger.debug("année --> " + etapeResVdiVetDTO[j].getCodAnu() + "/" + (Integer.parseInt(etapeResVdiVetDTO[j].getCodAnu())+1));	
 						logger.debug("etape --> " + etapeResVdiVetDTO[j].getEtape().getLibEtp());
-//						logger.debug("Code état inscription administrative --> " + etapeResVdiVetDTO[j].getCodEtaIae());
-//						logger.debug("Libellé état inscription administrative --> " + etapeResVdiVetDTO[j].getLibEtaIae());
 						logger.debug("etapeResVdiVetDTO[j].getCodTypIpe() --> " + etapeResVdiVetDTO[j].getCodTypIpe());
 						//logger.debug("année --> " + etapeResVdiVetDTO[j].get);
 					}	
@@ -868,9 +863,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 					/*Modification apporté par le apo-webservicesclient470lba (Attribut supplémentaire "E" comme en cours)
 					* 			contratPedagogiqueResultatVdiVetDTO = pedagogiqueMetierServiceInterface.recupererContratPedagogiqueResultatVdiVet_v2(supannEtuId, "toutes", "Apogee", "AET", "toutes", null, "E");*/
-//					if(resultatVetDTO != null && etapeResVdiVetDTO[j].getCodEtaIae()!=null && etapeResVdiVetDTO[j].getCodEtaIae().equals("E") && nb<=max)
 					if(resultatVetDTO != null && nb<=max)
-						//if(resultatVetDTO != null)
 					{
 						if (logger.isDebugEnabled()) 
 							logger.debug("Etape non diplomante");
@@ -885,9 +878,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 								if (logger.isDebugEnabled()) {
 									logger.debug("session --> " + resultatVetDTO[k].getSession().getLibSes());
 									logger.debug("Note au version etape --> " + resultatVetDTO[k].getNotVet());
-//									logger.debug("Note au version etape --> " + resultatVetDTO[k].getEtatDelib().getLibEtaAvc();
 								}
-								//r.setCodeSession(Integer.parseInt(resultatVetDTO[k].getSession().getCodSes()));
 								r.setLibSession(resultatVetDTO[k].getSession().getLibSes());
 							}
 							else

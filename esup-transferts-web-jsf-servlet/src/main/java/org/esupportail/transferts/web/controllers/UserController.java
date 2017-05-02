@@ -960,7 +960,6 @@ public class UserController extends AbstractContextAwareController {
 							}
 							//					this.currentEtudiant = getDomainService().getPresenceEtudiantRef(getSessionController().getCurrentUser().getNumeroEtudiant(), getSessionController().getCurrentAnnee());
 							this.currentEtudiant = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(getSessionController().getCurrentUser().getNumeroEtudiant(), getSessionController().getCurrentAnnee(), "D");
-//																	  getDemandeTransfertByAnneeAndNumeroEtudiantAndSource
 							if(this.currentEtudiant.getSource().equals("A"))
 							{
 								String summary = "Vous ne pouvez pas effectuer une demande de transferts d�part car sous avez deja effecute une demande de transfert accueil";
@@ -973,7 +972,6 @@ public class UserController extends AbstractContextAwareController {
 							else
 								this.initialiseNomenclatures();
 						}
-						//						else if(!isPresentBdd() && (!currentEtudiantInterdit.isInterdit() || !currentEtudiantInterdit.isInterditLocal()))
 						else if(!isPresentBdd() && !currentEtudiantInterdit.isInterdit() && !currentEtudiantInterdit.isInterditLocal())
 						{
 							if (logger.isDebugEnabled())
@@ -1019,14 +1017,12 @@ public class UserController extends AbstractContextAwareController {
 									FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 								}
 							}
-							Severity severity=FacesMessage.SEVERITY_ERROR;
-							String summary2 = getString("ERREUR.INTERDIT_BU");
-							String detail2 = getString("ERREUR.INTERDIT_BU");
-							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary2, detail2));
-
+//							Severity severity=FacesMessage.SEVERITY_ERROR;
+//							String summary2 = getString("ERREUR.INTERDIT_BU");
+//							String detail2 = getString("ERREUR.INTERDIT_BU");
+//							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary2, detail2));
 //							this.initialiseTransientEtudiantRef();
 						}
-
 						this.initialiseTransientEtudiantRef();
 					}
 					else
@@ -1171,10 +1167,10 @@ public class UserController extends AbstractContextAwareController {
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 					}
 				}
-				Severity severity=FacesMessage.SEVERITY_ERROR;
-				String summary2 = getString("ERREUR.INTERDIT_BU");
-				String detail2 = getString("ERREUR.INTERDIT_BU");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary2, detail2));
+//				Severity severity=FacesMessage.SEVERITY_ERROR;
+//				String summary2 = getString("ERREUR.INTERDIT_BU");
+//				String detail2 = getString("ERREUR.INTERDIT_BU");
+//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary2, detail2));
 				return null;
 			}
 		}

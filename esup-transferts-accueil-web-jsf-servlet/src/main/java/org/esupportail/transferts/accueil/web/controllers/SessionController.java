@@ -4,16 +4,14 @@
  */
 package org.esupportail.transferts.accueil.web.controllers;
 
+import artois.domain.beans.Interdit;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.commons.utils.strings.StringUtils;
 import org.esupportail.commons.web.controllers.ExceptionController;
-import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
-import org.esupportail.transferts.domain.beans.Parametres;
-import org.esupportail.transferts.domain.beans.User;
-import org.esupportail.transferts.domain.beans.Versions;
+import org.esupportail.transferts.domain.beans.*;
 import org.esupportail.transferts.services.auth.Authenticator;
 import org.primefaces.context.RequestContext;
 
@@ -23,8 +21,10 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * A bean to memorize the context of the application.
@@ -72,12 +72,9 @@ public class SessionController extends AbstractDomainAwareBean {
 	private boolean choixDuVoeuParComposante;
 	private boolean majOdfAuto;
 	private boolean planningFermeturesAuto;
-	
-//	private String aideTypeTransfert;
-	
-	/*
-	 ******************* INIT ******************** */
-	
+	private boolean useWsBu;
+	private boolean useTimeOutConnexionWs;
+	private Integer timeOutConnexionWs;
 	/**
 	 * Constructor.
 	 */
@@ -119,7 +116,7 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 
 		Versions version = null;
-		Parametres choixDuVoeuParComposante = null;
+		Parametres choixDuVoeuParComposante;
 		String text;
 		text = "Liste des erreurs : <BR /><BR />";
 
@@ -155,6 +152,23 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 
 		try{
+			Parametres paramWsBu = getDomainService().getParametreByCode("ws_bu");
+			if(paramWsBu!=null)
+				setUseWsBu(paramWsBu.isBool());
+			else
+				setUseWsBu(false);
+
+			Parametres paramTimeOutConnexionWs = getDomainService().getParametreByCode("time_out_connexion_ws");
+			if(paramTimeOutConnexionWs!=null && paramTimeOutConnexionWs.isBool()) {
+				setUseTimeOutConnexionWs(paramTimeOutConnexionWs.isBool());
+				setTimeOutConnexionWs(Integer.parseInt(paramTimeOutConnexionWs.getCommentaire()));
+			}
+			else
+			{
+				setUseTimeOutConnexionWs(false);
+				setTimeOutConnexionWs(0);
+			}
+
 			choixDuVoeuParComposante = getDomainService().getParametreByCode("choixDuVoeuParComposante");
 			if(choixDuVoeuParComposante!=null)
 				setChoixDuVoeuParComposante(choixDuVoeuParComposante.isBool());
@@ -284,7 +298,38 @@ public class SessionController extends AbstractDomainAwareBean {
 		return null;
 	}
 
-	
+	public List<DatasExterne> convertListInterditsToListDatasExterne(List<Interdit> lInterdits)
+	{
+		List<DatasExterne> listeDatasEterneNiveau2=null;
+		if(lInterdits!=null && lInterdits.size()>0) {
+			listeDatasEterneNiveau2 = new ArrayList<DatasExterne>();
+			for (Interdit c : lInterdits) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("WebServices.Interdits===>" + c.getIdentifiant() + "<===");
+					logger.debug("WebServices.Interdits===>" + c.getLibInterdit() + "<===");
+				}
+				DatasExterne de = new DatasExterne();
+				de.setCode(c.getSource());
+				de.setIdentifiant(c.getIdentifiant());
+				de.setNiveau(c.getCodeNiveauInterdit());
+				de.setLibInterdit(c.getLibInterdit());
+				listeDatasEterneNiveau2.add(de);
+			}
+		}
+		return listeDatasEterneNiveau2;
+	}
+
+	public List<DatasExterne> returnWebServiceOffline(String erreur)
+	{
+		List<DatasExterne> listeDatasEterneNiveau2=new ArrayList<DatasExterne>();
+		DatasExterne de = new DatasExterne();
+		de.setCode("offline");
+		de.setIdentifiant("");
+		de.setNiveau(4);
+		de.setLibInterdit(erreur);
+		listeDatasEterneNiveau2.add(de);
+		return listeDatasEterneNiveau2;
+	}
 	
 	
 	
@@ -292,10 +337,6 @@ public class SessionController extends AbstractDomainAwareBean {
 	
 	/*
 	 ******************* ACCESSORS ******************** */
-	
-	
-	
-	
 	/**
 	 * @param exceptionController the exceptionController to set
 	 */
@@ -461,12 +502,27 @@ public class SessionController extends AbstractDomainAwareBean {
 		this.planningFermeturesAuto = planningFermeturesAuto;
 	}
 
-//	public String getAideTypeTransfert() {
-//		aideTypeTransfert = getString("AIDE.TYPE_TANSFERT", getDomainService().getAdresseEtablissementByRne(getRne()).getLibOffEtb());
-//		return aideTypeTransfert;
-//	}
-//
-//	public void setAideTypeTransfert(String aideTypeTransfert) {
-//		this.aideTypeTransfert = aideTypeTransfert;
-//	}
+	public boolean isUseWsBu() {
+		return useWsBu;
+	}
+
+	public void setUseWsBu(boolean useWsBu) {
+		this.useWsBu = useWsBu;
+	}
+
+	public Integer getTimeOutConnexionWs() {
+		return timeOutConnexionWs;
+	}
+
+	public void setTimeOutConnexionWs(Integer timeOutConnexionWs) {
+		this.timeOutConnexionWs = timeOutConnexionWs;
+	}
+
+	public boolean isUseTimeOutConnexionWs() {
+		return useTimeOutConnexionWs;
+	}
+
+	public void setUseTimeOutConnexionWs(boolean useTimeOutConnexionWs) {
+		this.useTimeOutConnexionWs = useTimeOutConnexionWs;
+	}
 }

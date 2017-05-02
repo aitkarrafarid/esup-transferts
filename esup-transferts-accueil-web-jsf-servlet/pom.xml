@@ -98,31 +98,46 @@
 			<artifactId>ojdbc6</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
-<!-- 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc6.jar</systemPath> -->
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/classes12.jar</systemPath>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>local</groupId>-->
+			<!--<artifactId>ws-odf-domain-services</artifactId>-->
+			<!--<version>1.0.0</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-odf-domain-services-1.0.jar-->
+			<!--</systemPath>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>local</groupId>-->
+			<!--<artifactId>ws-odf-domain-beans</artifactId>-->
+			<!--<version>1.0.0</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-odf-domain-beans-1.0.jar-->
+			<!--</systemPath>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>local</groupId>-->
+			<!--<artifactId>ws-odf-dao</artifactId>-->
+			<!--<version>1.0.0</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-odf-dao-1.0.jar-->
+			<!--</systemPath>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>local</groupId>
-			<artifactId>ws-odf-domain-services</artifactId>
+			<artifactId>ws-mds-beans</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-odf-domain-services-1.0.jar
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-mds-domain-beans-1.0.jar
 			</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>local</groupId>
-			<artifactId>ws-odf-domain-beans</artifactId>
+			<artifactId>ws-mds-ws</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-odf-domain-beans-1.0.jar
-			</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>local</groupId>
-			<artifactId>ws-odf-dao</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-odf-dao-1.0.jar
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ws-mds-domain-services-1.0.jar
 			</systemPath>
 		</dependency>
 		<dependency>

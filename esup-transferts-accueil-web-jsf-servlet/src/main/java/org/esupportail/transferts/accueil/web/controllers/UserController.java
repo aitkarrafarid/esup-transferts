@@ -4,6 +4,7 @@
  */
 package org.esupportail.transferts.accueil.web.controllers;
 
+import artois.domain.beans.Interdit;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.accueil.web.comparator.ComparatorDateTimeAccueilDecision;
@@ -15,6 +16,7 @@ import org.esupportail.transferts.accueil.web.utils.PDFUtils;
 import org.esupportail.transferts.domain.beans.*;
 import org.esupportail.transferts.utils.CheckBEA23;
 import org.esupportail.transferts.utils.CheckNNE36;
+import org.esupportail.transferts.utils.Fonctions;
 import org.esupportail.transferts.utils.GestionDate;
 import org.springframework.util.Assert;
 
@@ -209,13 +211,11 @@ public class UserController extends AbstractContextAwareController {
 			etudiantRefImp.getTrBac().setAnneeObtentionBac(this.currentEtudiant.getAccueil().getAnneeBac());
 			etudiantRefImp.setUniversiteDepart(getDomainServiceScolarite().getEtablissementByRne(this.currentEtudiant.getAccueil().getCodeRneUnivDepart()));
 			etudiantRefImp.setUniversiteAccueil(getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()));
-			//			etudiantRefImp.getUniversiteDepart().setAdresseEtablissement(getDomainService().getAdresseEtablissementByRne(this.currentEtudiant.getAccueil().getCodeRneUnivDepart()));
-			//			etudiantRefImp.getUniversiteAccueil().setAdresseEtablissement(getDomainService().getAdresseEtablissementByRne(getSessionController().getRne()));
 			List<TrSituationUniversitaire> lTrSU = new ArrayList<TrSituationUniversitaire>();
 			for(SituationUniversitaire su : this.currentEtudiant.getAccueil().getSituationUniversitaire())
 			{
-				String annee = "";
-				String resultat = "";
+				String annee;
+				String resultat;
 				if(su.getAnnee().getIdAccueilAnnee()!=0)
 					annee = su.getAnnee().getLibelle();
 				else
@@ -224,7 +224,6 @@ public class UserController extends AbstractContextAwareController {
 					resultat = su.getResultat().getLibelle();
 				else
 					resultat = su.getLibAccueilResultat();
-				//lTrSU.add(new TrSituationUniversitaire(su.getId(), su.getAnnee().getLibelle(), su.getLibelle(), su.getResultat().getLibelle()));
 				lTrSU.add(new TrSituationUniversitaire(su.getId(), annee, su.getLibelle(), resultat));
 			}
 			etudiantRefImp.setSituationUniversitaire(lTrSU);
@@ -408,7 +407,7 @@ public class UserController extends AbstractContextAwareController {
 				if(lp!=null && !lp.isEmpty())
 					logger.debug("lp===>" + lp + "<===");
 
-			if (lp != null && !lp.isEmpty() && lp.size() > 0) {
+			if (lp != null && !lp.isEmpty()) {
 				String sujet2="Nouvelle demande de transfert accueil";
 				String body2=getString("MAIL.INFORMATION.BODY",
 						this.currentEtudiant.getNumeroIne(),
@@ -547,7 +546,7 @@ public class UserController extends AbstractContextAwareController {
 			/*Reinitialisation des currents objects*/
 			currentCleAccueilAnnee=null;
 			currentCleAccueilResultat=null;
-			AccueilAnnee currentAccueilAnnee = new AccueilAnnee();
+//			AccueilAnnee currentAccueilAnnee = new AccueilAnnee();
 			currentAccueilResultat = new AccueilResultat();
 			currentSituationUniv = new SituationUniversitaire();
 		}
@@ -589,9 +588,8 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("public void resetGeneral() --> "+ this.currentEtudiant.getTransferts().getDept());
 
-		if(this.currentEtudiant.getAccueil().getCodeDepUnivDepart() !=null && !this.currentEtudiant.getAccueil().getCodeDepUnivDepart().equals(""))
+		if(this.currentEtudiant.getAccueil().getCodeDepUnivDepart() !=null && !("").equals(this.currentEtudiant.getAccueil().getCodeDepUnivDepart()))
 		{
-
 			setDeptVide(false);
 			currentEtudiant.getAccueil().setCodeRneUnivDepart(null);
 		}
@@ -753,8 +751,8 @@ public class UserController extends AbstractContextAwareController {
 		currentEtudiant=null;
 		newEtudiant=null;
 		String retour=null;
-		String numero = getIneApogee();
-		numero = getIneApogee().toUpperCase();
+		String numero = getIneApogee().toUpperCase();
+//		numero = getIneApogee().toUpperCase();
 
 		if (numero.length()==11)
 		{
@@ -860,7 +858,7 @@ public class UserController extends AbstractContextAwareController {
 			logger.debug("ineApogee --> "+ineApogee);
 			logger.debug("dateNaissanceApogee --> "+dateNaissanceApogee);
 		}
-		String ine="";
+		String ine;
 
 		if(isIneToUpperCase())
 			ine=ineApogee.toUpperCase();
@@ -894,7 +892,7 @@ public class UserController extends AbstractContextAwareController {
 
 					this.presentBdd=true;
 					setVerifDateNaisApogee(true);
-					if(this.currentEtudiant.getSource().equals("D"))
+					if(("D").equals(this.currentEtudiant.getSource()))
 					{
 						if (logger.isDebugEnabled())
 							logger.debug("Etudiant present dans la table des transferts - demande de transfert depart existante !!!");
@@ -940,13 +938,45 @@ public class UserController extends AbstractContextAwareController {
 					 * 2 Pas de blocage de la saisie mais une alert coté gestionnaire
 					 * 3 etc...
 					 */
-					List<DatasExterne> listeInterditBu = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentEtudiant.getNumeroIne(), 1);
+//					List<DatasExterne> listeInterditBu = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentEtudiant.getNumeroIne(), 1);
+//
+//					if(listeInterditBu!=null && !listeInterditBu.isEmpty())
+//					{
+//						if (logger.isDebugEnabled())
+//							logger.debug("Etudiant a des interdits");
+//						this.currentEtudiant.setInterditLocal(true);
+//					}
 
-					if(listeInterditBu!=null && !listeInterditBu.isEmpty())
+					List<DatasExterne> listeInterditBu;
+					List<Interdit> listeInterditsNiveau1;
+					WebService currentWsBu = getDomainService().getWebServiceByCode("bu");
+					Integer etatConnexion=0;
+					if(getSessionController().isUseWsBu() && currentWsBu!=null)
 					{
-						if (logger.isDebugEnabled())
-							logger.debug("Etudiant a des interdits");
-						this.currentEtudiant.setInterditLocal(true);
+						Object tabReturn[] = Fonctions.appelWSAuth(currentWsBu.getUrl(),
+								currentWsBu.getIdentifiant(),
+								currentWsBu.getPwd(),
+								currentWsBu.getNomClassJava(),
+								currentWsBu.getNomMethodeJavaGetById(),
+								"arrayList",
+								getSessionController().getTimeOutConnexionWs(),
+								this.currentEtudiant.getNumeroEtudiant());
+
+						listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
+						etatConnexion = (Integer) tabReturn[1];
+
+						if (logger.isDebugEnabled()) {
+							logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
+							logger.debug("etatConnexion===>" + etatConnexion + "<===");
+						}
+
+						if(etatConnexion==1)
+							listeInterditBu = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
+						else
+							listeInterditBu = getSessionController().returnWebServiceOffline(getString("WARNING.SERVICE_INDISPONIBLE"));
+					}
+					else {
+						listeInterditBu = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentEtudiant.getNumeroIne(), 1);
 					}
 
 					if(!this.currentEtudiant.isInterdit() && !this.currentEtudiant.isInterditLocal())
@@ -964,23 +994,31 @@ public class UserController extends AbstractContextAwareController {
 					}
 					else
 					{
-						String tmp = "";
+						String tmp;
 
 						for(TrBlocageDTO b : this.currentEtudiant.getListeBlocagesDTO())
 						{
-							tmp += b.getCodeBlocage()+" - "+b.getLibBlocage();
+							tmp = b.getCodeBlocage()+" - "+b.getLibBlocage();
+							String summary = "Attention : \n" + "- "+ tmp;
+							String detail = "Attention : \n" + "- "+ tmp;
+							Severity severity=FacesMessage.SEVERITY_ERROR;
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 						}
 						if(listeInterditBu !=null)
 						{
 							for(DatasExterne lInterditBu : listeInterditBu)
 							{
-								tmp += lInterditBu.getLibInterdit();
+								tmp = lInterditBu.getLibInterdit();
+								String summary = "Attention : \n" + "- "+ tmp;
+								String detail = "Attention : \n" + "- "+ tmp;
+								Severity severity=FacesMessage.SEVERITY_ERROR;
+								FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 							}
 						}
-						String summary = "Vous avez des Interdits : \n" + "- "+ tmp;
-						String detail = "Vous avez des Interdits : \n" + "- "+ tmp;
-						Severity severity=FacesMessage.SEVERITY_ERROR;
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
+//						String summary = "Vous avez des Interdits : \n" + "- "+ tmp;
+//						String detail = "Vous avez des Interdits : \n" + "- "+ tmp;
+//						Severity severity=FacesMessage.SEVERITY_ERROR;
+//						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 						return null;
 					}
 				}
@@ -1586,14 +1624,16 @@ public class UserController extends AbstractContextAwareController {
 		Map<String, String> listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), getCodeComposante(), true);
 		if(listeLibellesDiplomeDTO!=null && !listeLibellesDiplomeDTO.isEmpty())
 		{
-			if (logger.isDebugEnabled()) {
+			if (logger.isDebugEnabled())
 				logger.debug("listeLibellesDiplomeDTO : "+listeLibellesDiplomeDTO);
-			}
-			for(String mapKey : listeLibellesDiplomeDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
-				listeLibellesDiplome.add(option);
-			}
+
+            for (Map.Entry<String,String> entry : listeLibellesDiplomeDTO.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                SelectItem option = new SelectItem(key, value);
+                listeLibellesDiplome.add(option);
+            }
+
 			Collections.sort(listeLibellesDiplome,new ComparatorSelectItem());
 			return listeLibellesDiplome;
 		}
