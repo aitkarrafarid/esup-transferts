@@ -468,6 +468,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
+			logger.error(e);
 			listTrCommuneDTO = null;
 		}
 		return listTrCommuneDTO;
@@ -491,6 +492,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
+			logger.error(e);
 			listTrPaysDTO = null;
 		}
 		return listTrPaysDTO;		
@@ -555,6 +557,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		catch (Exception e)
 		{
+			logger.error(e);
 			listTrEtablissementDTO = null;
 		}
 		return listTrEtablissementDTO;			

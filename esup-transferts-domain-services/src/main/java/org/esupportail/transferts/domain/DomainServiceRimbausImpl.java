@@ -477,12 +477,9 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 							.getEtbBac().getLibEtb(),
 					indBacDTO[0].getAnneeObtentionBac(), indBacDTO[0]
 							.getDepartementBac().getLibAca());
-					//this
-					//		.getEtablissementByDepartement(
-					//				indBacDTO[0].getDepartementBac()
-					//						.getCodeDept()).getLibAcademie());
 			return infosBac;
 		} catch (Exception e) {
+			logger.error(e);
 			return null;
 		}
 	}
@@ -559,6 +556,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			trResultatVdiVetDTO.setEtapes(listResultatEtape);
 
 		} catch (Exception e) {
+			logger.error(e);
 			//renvoi un résultat vide
 			trResultatVdiVetDTO = new TrResultatVdiVetDTO();
 			trResultatVdiVetDTO.setEtapes(new ArrayList<ResultatEtape>());

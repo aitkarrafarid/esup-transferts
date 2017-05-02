@@ -1440,6 +1440,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		catch (AddressException e)
 		{
+			logger.error(e);
 			String summary = getString("ERREUR.ENVOI_MAIL");
 			String detail = getString("ERREUR.ENVOI_MAIL");
 			Severity severity = FacesMessage.SEVERITY_INFO;
@@ -2811,11 +2812,20 @@ public class AdministrationController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled()) {
 				logger.debug("listeAnneesEtudeDTO : "+listeAnneesEtudeDTO);
 			}
-			for(Integer mapKey : listeAnneesEtudeDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeAnneesEtudeDTO.get(mapKey));
+
+//			for(Integer mapKey : listeAnneesEtudeDTO.keySet())
+//			{
+//				SelectItem option = new SelectItem(mapKey, listeAnneesEtudeDTO.get(mapKey));
+//				listeAnneesEtude.add(option);
+//			}
+
+			for (Map.Entry<Integer,String> entry : listeAnneesEtudeDTO.entrySet()) {
+				Integer key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeAnneesEtude.add(option);
 			}
+
 			Collections.sort(listeAnneesEtude,new ComparatorSelectItem());
 			return listeAnneesEtude;
 		}
@@ -2892,11 +2902,20 @@ public class AdministrationController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled()) {
 				logger.debug("listeLibellesDiplomeDTO : "+listeLibellesDiplomeDTO);
 			}
-			for(String mapKey : listeLibellesDiplomeDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
+
+//			for(String mapKey : listeLibellesDiplomeDTO.keySet())
+//			{
+//				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
+//				listeLibellesDiplome.add(option);
+//			}
+
+			for (Map.Entry<String,String> entry : listeLibellesDiplomeDTO.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeLibellesDiplome.add(option);
 			}
+
 			Collections.sort(listeLibellesDiplome,new ComparatorSelectItem());
 			return listeLibellesDiplome;
 		}
@@ -3170,7 +3189,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 			catch (Exception f)
 			{
-				logger.error("ExportException ", f.fillInStackTrace());
+				logger.error(f);
 			}
 		}
 		return retour;
@@ -3301,7 +3320,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 			catch (Exception f)
 			{
-				logger.error("ExportException ", f.fillInStackTrace());
+				logger.error(f);
 			}
 		}
 		return retour;
@@ -3490,17 +3509,32 @@ public class AdministrationController extends AbstractContextAwareController {
 		 * 
 		 * */
 		Map<String, String> map = getDomainServiceScolarite().getEtapePremiereAndCodeCgeAndLibCge(etu.getNumeroEtudiant());
-		for (String mapKey : map.keySet()) {
-			if(mapKey.equals("libWebVet"))
-				etu.setLibEtapePremiereLocal(map.get(mapKey));
-			if(mapKey.equals("codeCGE"))
-				etu.setCodCge(map.get(mapKey));
-			if(mapKey.equals("libCGE"))
-				etu.setLibCge(map.get(mapKey));
-			if(mapKey.equals("codeComposante"))
-				etu.setComposante(map.get(mapKey));
-			if(mapKey.equals("libComposante"))
-				etu.setLibComposante(map.get(mapKey));
+//		for (String mapKey : map.keySet()) {
+//			if(mapKey.equals("libWebVet"))
+//				etu.setLibEtapePremiereLocal(map.get(mapKey));
+//			if(mapKey.equals("codeCGE"))
+//				etu.setCodCge(map.get(mapKey));
+//			if(mapKey.equals("libCGE"))
+//				etu.setLibCge(map.get(mapKey));
+//			if(mapKey.equals("codeComposante"))
+//				etu.setComposante(map.get(mapKey));
+//			if(mapKey.equals("libComposante"))
+//				etu.setLibComposante(map.get(mapKey));
+//		}
+
+		for (Map.Entry<String,String> entry : map.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			if(key.equals("libWebVet"))
+				etu.setLibEtapePremiereLocal(value);
+			if(key.equals("codeCGE"))
+				etu.setCodCge(value);
+			if(key.equals("libCGE"))
+				etu.setLibCge(value);
+			if(key.equals("codeComposante"))
+				etu.setComposante(value);
+			if(key.equals("libComposante"))
+				etu.setLibComposante(value);
 		}
 
 		TrResultatVdiVetDTO trResultatVdiVetDTO;
@@ -4121,6 +4155,7 @@ public class AdministrationController extends AbstractContextAwareController {
 							}
 							catch (AddressException e)
 							{
+								logger.error(e);
 								summary = getString("ERREUR.ENVOI_MAIL");
 								detail = getString("ERREUR.ENVOI_MAIL");
 								severity = FacesMessage.SEVERITY_INFO;
@@ -4256,6 +4291,7 @@ public class AdministrationController extends AbstractContextAwareController {
 							}
 							catch (AddressException e)
 							{
+								logger.error(e);
 								summary = getString("ERREUR.ENVOI_MAIL");
 								detail = getString("ERREUR.ENVOI_MAIL");
 								severity = FacesMessage.SEVERITY_INFO;
@@ -4642,6 +4678,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		catch (AddressException e)
 		{
+			logger.error(e);
 			summary = getString("ERREUR.ENVOI_MAIL");
 			detail = getString("ERREUR.ENVOI_MAIL");
 			severity = FacesMessage.SEVERITY_INFO;
@@ -5337,11 +5374,20 @@ public class AdministrationController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled()) {
 				logger.debug("listeComposantesDTO : "+listeComposantesDTO);
 			}
-			for(String mapKey : listeComposantesDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
+
+//			for(String mapKey : listeComposantesDTO.keySet())
+//			{
+//				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
+//				listeComposantes.add(option);
+//			}
+
+			for (Map.Entry<String,String> entry : listeComposantesDTO.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeComposantes.add(option);
 			}
+
 			Collections.sort(listeComposantes,new ComparatorSelectItem());
 			return listeComposantes;
 		}

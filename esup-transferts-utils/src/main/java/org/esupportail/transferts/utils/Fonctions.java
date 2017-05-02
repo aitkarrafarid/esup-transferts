@@ -48,6 +48,7 @@ public class Fonctions {
                 try{
                     listEtabAjouteManuellement.put(tokens[i].substring(0,tokens[i].indexOf('@')),tokens[i].substring(tokens[i].indexOf('@')+1));
                 }catch(Exception e){
+                    logger.error(e);
                     String summary = "Erreurs de syntaxe dans la liste des établissements ajoutés manuellements";
                     String detail = "Erreurs de syntaxe dans la liste des établissements ajoutés manuellements";
                     FacesMessage.Severity severity = FacesMessage.SEVERITY_WARN;
@@ -65,6 +66,7 @@ public class Fonctions {
             try{
                 listEtabAjouteManuellement.put(stringAsSplit.substring(0,stringAsSplit.indexOf('@')),stringAsSplit.substring(stringAsSplit.indexOf('@')+1));
             }catch(Exception e){
+                logger.error(e);
                 String summary = "Erreurs de syntaxe dans la liste des établissements ajoutés manuellements";
                 String detail = "Erreurs de syntaxe dans la liste des établissements ajoutés manuellements";
                 FacesMessage.Severity severity = FacesMessage.SEVERITY_WARN;
