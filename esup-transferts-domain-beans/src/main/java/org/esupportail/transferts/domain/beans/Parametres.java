@@ -61,11 +61,25 @@ public class Parametres implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Parametres)) return false;
+
+		Parametres that = (Parametres) o;
+
+		if (isBool() != that.isBool()) return false;
+		if (!getCodeParametre().equals(that.getCodeParametre())) return false;
+		return getCommentaire() != null ? getCommentaire().equals(that.getCommentaire()) : that.getCommentaire() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeParametre().hashCode();
+		result = 31 * result + (isBool() ? 1 : 0);
+		result = 31 * result + (getCommentaire() != null ? getCommentaire().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

@@ -35,7 +35,7 @@ public class Fonctions {
             if (logger.isDebugEnabled())
                 logger.debug("Etablissement ajouté manuellement===>"+stringAsSplit+"<===");
 
-        String[] tokens=null;
+        String[] tokens;
         Map <String, String> listEtabAjouteManuellement = new HashMap<String, String>();
 
         if(stringAsSplit!=null && stringAsSplit!="" && actif && ((stringAsSplit.split(split)).length>1))

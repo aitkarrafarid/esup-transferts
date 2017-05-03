@@ -53,14 +53,28 @@ public class ResultatEtape implements Serializable {
 		this.annee=annee;
 		this.libEtape=etape;
 		this.session=sessions;
-	}	
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ResultatEtape)) return false;
+
+		ResultatEtape that = (ResultatEtape) o;
+
+		if (!getAnnee().equals(that.getAnnee())) return false;
+		if (!getLibEtape().equals(that.getLibEtape())) return false;
+		return getSession() != null ? getSession().equals(that.getSession()) : that.getSession() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
-	}	
+		int result = getAnnee().hashCode();
+		result = 31 * result + getLibEtape().hashCode();
+		result = 31 * result + (getSession() != null ? getSession().hashCode() : 0);
+		return result;
+	}
 
 	@Override
 	public String toString() {

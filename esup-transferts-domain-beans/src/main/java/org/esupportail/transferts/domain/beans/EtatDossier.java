@@ -60,11 +60,26 @@ public class EtatDossier implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof EtatDossier)) return false;
+
+		EtatDossier that = (EtatDossier) o;
+
+		if (!getIdEtatDossier().equals(that.getIdEtatDossier())) return false;
+		if (getLibelleCourtEtatDossier() != null ? !getLibelleCourtEtatDossier().equals(that.getLibelleCourtEtatDossier()) : that.getLibelleCourtEtatDossier() != null)
+			return false;
+		return getLibelleLongEtatDossier() != null ? getLibelleLongEtatDossier().equals(that.getLibelleLongEtatDossier()) : that.getLibelleLongEtatDossier() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getIdEtatDossier().hashCode();
+		result = 31 * result + (getLibelleCourtEtatDossier() != null ? getLibelleCourtEtatDossier().hashCode() : 0);
+		result = 31 * result + (getLibelleLongEtatDossier() != null ? getLibelleLongEtatDossier().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

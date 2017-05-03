@@ -149,11 +149,56 @@ public class Transferts implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Transferts)) return false;
+
+		Transferts that = (Transferts) o;
+
+		if (!getNumeroEtudiant().equals(that.getNumeroEtudiant())) return false;
+		if (!getAnnee().equals(that.getAnnee())) return false;
+		if (getRne() != null ? !getRne().equals(that.getRne()) : that.getRne() != null) return false;
+		if (getLibRne() != null ? !getLibRne().equals(that.getLibRne()) : that.getLibRne() != null) return false;
+		if (getDept() != null ? !getDept().equals(that.getDept()) : that.getDept() != null) return false;
+		if (getLibDept() != null ? !getLibDept().equals(that.getLibDept()) : that.getLibDept() != null) return false;
+		if (getLibelleTypeDiplome() != null ? !getLibelleTypeDiplome().equals(that.getLibelleTypeDiplome()) : that.getLibelleTypeDiplome() != null)
+			return false;
+		if (getDateDemandeTransfert() != null ? !getDateDemandeTransfert().equals(that.getDateDemandeTransfert()) : that.getDateDemandeTransfert() != null)
+			return false;
+		if (getTypeTransfert() != null ? !getTypeTransfert().equals(that.getTypeTransfert()) : that.getTypeTransfert() != null)
+			return false;
+		if (getLibTypeTransfert() != null ? !getLibTypeTransfert().equals(that.getLibTypeTransfert()) : that.getLibTypeTransfert() != null)
+			return false;
+		if (getTemoinTransfertValide() != null ? !getTemoinTransfertValide().equals(that.getTemoinTransfertValide()) : that.getTemoinTransfertValide() != null)
+			return false;
+		if (getTemoinOPIWs() != null ? !getTemoinOPIWs().equals(that.getTemoinOPIWs()) : that.getTemoinOPIWs() != null)
+			return false;
+		if (getTemoinRetourTransfertAccueil() != null ? !getTemoinRetourTransfertAccueil().equals(that.getTemoinRetourTransfertAccueil()) : that.getTemoinRetourTransfertAccueil() != null)
+			return false;
+		if (getFichier() != null ? !getFichier().equals(that.getFichier()) : that.getFichier() != null) return false;
+		return getOdf() != null ? getOdf().equals(that.getOdf()) : that.getOdf() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getNumeroEtudiant().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + (getRne() != null ? getRne().hashCode() : 0);
+		result = 31 * result + (getLibRne() != null ? getLibRne().hashCode() : 0);
+		result = 31 * result + (getDept() != null ? getDept().hashCode() : 0);
+		result = 31 * result + (getLibDept() != null ? getLibDept().hashCode() : 0);
+		result = 31 * result + (getLibelleTypeDiplome() != null ? getLibelleTypeDiplome().hashCode() : 0);
+		result = 31 * result + (getDateDemandeTransfert() != null ? getDateDemandeTransfert().hashCode() : 0);
+		result = 31 * result + (getTypeTransfert() != null ? getTypeTransfert().hashCode() : 0);
+		result = 31 * result + (getLibTypeTransfert() != null ? getLibTypeTransfert().hashCode() : 0);
+		result = 31 * result + (getTemoinTransfertValide() != null ? getTemoinTransfertValide().hashCode() : 0);
+		result = 31 * result + (getTemoinOPIWs() != null ? getTemoinOPIWs().hashCode() : 0);
+		result = 31 * result + (getTemoinRetourTransfertAccueil() != null ? getTemoinRetourTransfertAccueil().hashCode() : 0);
+		result = 31 * result + (getFichier() != null ? getFichier().hashCode() : 0);
+		result = 31 * result + (getOdf() != null ? getOdf().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

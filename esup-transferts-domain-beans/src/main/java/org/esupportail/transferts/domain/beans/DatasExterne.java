@@ -89,12 +89,31 @@ public class DatasExterne implements Serializable {
 				+ "]";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof DatasExterne)) return false;
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+		DatasExterne that = (DatasExterne) o;
+
+		if (!getIdentifiant().equals(that.getIdentifiant())) return false;
+		if (!getCode().equals(that.getCode())) return false;
+		if (!getNiveau().equals(that.getNiveau())) return false;
+		if (!getLibInterdit().equals(that.getLibInterdit())) return false;
+		if (getDateFin() != null ? !getDateFin().equals(that.getDateFin()) : that.getDateFin() != null) return false;
+		return getDateCreation() != null ? getDateCreation().equals(that.getDateCreation()) : that.getDateCreation() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getIdentifiant().hashCode();
+		result = 31 * result + getCode().hashCode();
+		result = 31 * result + getNiveau().hashCode();
+		result = 31 * result + getLibInterdit().hashCode();
+		result = 31 * result + (getDateFin() != null ? getDateFin().hashCode() : 0);
+		result = 31 * result + (getDateCreation() != null ? getDateCreation().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

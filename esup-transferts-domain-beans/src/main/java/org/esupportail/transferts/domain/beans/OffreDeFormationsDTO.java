@@ -179,7 +179,6 @@ import javax.persistence.TemporalType;
 })
 
 @IdClass(OffreDeFormationPK.class)
-//@Table(name = "offre_formations")
 @Table(name = "OFFRE_FORMATIONS")
 public class OffreDeFormationsDTO implements Serializable {
 
@@ -275,7 +274,6 @@ public class OffreDeFormationsDTO implements Serializable {
 	/**
 	 * Temoin de formation active
 	 */
-//	@Column(name = "ACTIF", nullable=false, columnDefinition = "NUMBER(1) default 1")
 	@Column(name = "ACTIF", nullable=false, columnDefinition = "INTEGER default 1")
 	//	@Column(name = "ACTIF", nullable=false)
 	private Integer actif;	
@@ -363,11 +361,63 @@ public class OffreDeFormationsDTO implements Serializable {
 				+ ", depart=" + depart + ", arrivee=" + arrivee + "]";
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OffreDeFormationsDTO)) return false;
+
+		OffreDeFormationsDTO that = (OffreDeFormationsDTO) o;
+
+		if (!getRne().equals(that.getRne())) return false;
+		if (!getAnnee().equals(that.getAnnee())) return false;
+		if (!getCodeDiplome().equals(that.getCodeDiplome())) return false;
+		if (!getCodeVersionDiplome().equals(that.getCodeVersionDiplome())) return false;
+		if (!getCodeEtape().equals(that.getCodeEtape())) return false;
+		if (!getCodeVersionEtape().equals(that.getCodeVersionEtape())) return false;
+		if (!getCodeCentreGestion().equals(that.getCodeCentreGestion())) return false;
+		if (!getLibDiplome().equals(that.getLibDiplome())) return false;
+		if (getLibVersionEtape() != null ? !getLibVersionEtape().equals(that.getLibVersionEtape()) : that.getLibVersionEtape() != null)
+			return false;
+		if (getCodeComposante() != null ? !getCodeComposante().equals(that.getCodeComposante()) : that.getCodeComposante() != null)
+			return false;
+		if (getLibComposante() != null ? !getLibComposante().equals(that.getLibComposante()) : that.getLibComposante() != null)
+			return false;
+		if (getLibCentreGestion() != null ? !getLibCentreGestion().equals(that.getLibCentreGestion()) : that.getLibCentreGestion() != null)
+			return false;
+		if (!getCodeNiveau().equals(that.getCodeNiveau())) return false;
+		if (!getLibNiveau().equals(that.getLibNiveau())) return false;
+		if (!getActif().equals(that.getActif())) return false;
+		if (!getCodTypDip().equals(that.getCodTypDip())) return false;
+		if (!getLibTypDip().equals(that.getLibTypDip())) return false;
+		if (!getDateMaj().equals(that.getDateMaj())) return false;
+		if (!getDepart().equals(that.getDepart())) return false;
+		return getArrivee().equals(that.getArrivee());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getRne().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + getCodeDiplome().hashCode();
+		result = 31 * result + getCodeVersionDiplome().hashCode();
+		result = 31 * result + getCodeEtape().hashCode();
+		result = 31 * result + getCodeVersionEtape().hashCode();
+		result = 31 * result + getCodeCentreGestion().hashCode();
+		result = 31 * result + getLibDiplome().hashCode();
+		result = 31 * result + (getLibVersionEtape() != null ? getLibVersionEtape().hashCode() : 0);
+		result = 31 * result + (getCodeComposante() != null ? getCodeComposante().hashCode() : 0);
+		result = 31 * result + (getLibComposante() != null ? getLibComposante().hashCode() : 0);
+		result = 31 * result + (getLibCentreGestion() != null ? getLibCentreGestion().hashCode() : 0);
+		result = 31 * result + getCodeNiveau().hashCode();
+		result = 31 * result + getLibNiveau().hashCode();
+		result = 31 * result + getActif().hashCode();
+		result = 31 * result + getCodTypDip().hashCode();
+		result = 31 * result + getLibTypDip().hashCode();
+		result = 31 * result + getDateMaj().hashCode();
+		result = 31 * result + getDepart().hashCode();
+		result = 31 * result + getArrivee().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

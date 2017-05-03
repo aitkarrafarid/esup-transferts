@@ -88,11 +88,36 @@ public class WebService implements Serializable {
 				'}';
 	}
 
-	/**
-	 * @see Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof WebService)) return false;
+
+		WebService that = (WebService) o;
+
+		if (!getCode().equals(that.getCode())) return false;
+		if (getUrl() != null ? !getUrl().equals(that.getUrl()) : that.getUrl() != null) return false;
+		if (getIdentifiant() != null ? !getIdentifiant().equals(that.getIdentifiant()) : that.getIdentifiant() != null)
+			return false;
+		if (getPwd() != null ? !getPwd().equals(that.getPwd()) : that.getPwd() != null) return false;
+		if (getNomClassJava() != null ? !getNomClassJava().equals(that.getNomClassJava()) : that.getNomClassJava() != null)
+			return false;
+		if (getNomMethodeJavaGetAll() != null ? !getNomMethodeJavaGetAll().equals(that.getNomMethodeJavaGetAll()) : that.getNomMethodeJavaGetAll() != null)
+			return false;
+		return getNomMethodeJavaGetById() != null ? getNomMethodeJavaGetById().equals(that.getNomMethodeJavaGetById()) : that.getNomMethodeJavaGetById() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCode().hashCode();
+		result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
+		result = 31 * result + (getIdentifiant() != null ? getIdentifiant().hashCode() : 0);
+		result = 31 * result + (getPwd() != null ? getPwd().hashCode() : 0);
+		result = 31 * result + (getNomClassJava() != null ? getNomClassJava().hashCode() : 0);
+		result = 31 * result + (getNomMethodeJavaGetAll() != null ? getNomMethodeJavaGetAll().hashCode() : 0);
+		result = 31 * result + (getNomMethodeJavaGetById() != null ? getNomMethodeJavaGetById().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

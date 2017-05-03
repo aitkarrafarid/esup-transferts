@@ -54,11 +54,23 @@ public class Test implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Test)) return false;
+
+		Test test = (Test) o;
+
+		if (!getId().equals(test.getId())) return false;
+		return getLibelle() != null ? getLibelle().equals(test.getLibelle()) : test.getLibelle() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getId().hashCode();
+		result = 31 * result + (getLibelle() != null ? getLibelle().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

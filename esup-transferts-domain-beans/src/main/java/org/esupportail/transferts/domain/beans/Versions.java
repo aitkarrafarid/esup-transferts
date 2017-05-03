@@ -65,11 +65,25 @@ public class Versions implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Versions)) return false;
+
+		Versions versions = (Versions) o;
+
+		if (!getNumero().equals(versions.getNumero())) return false;
+		if (etat != null ? !etat.equals(versions.etat) : versions.etat != null) return false;
+		return getCommentaire() != null ? getCommentaire().equals(versions.getCommentaire()) : versions.getCommentaire() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getNumero().hashCode();
+		result = 31 * result + (etat != null ? etat.hashCode() : 0);
+		result = 31 * result + (getCommentaire() != null ? getCommentaire().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

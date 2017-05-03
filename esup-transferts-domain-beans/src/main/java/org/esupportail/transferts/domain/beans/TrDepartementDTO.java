@@ -47,13 +47,25 @@ public class TrDepartementDTO implements Serializable {
 		super();
 		this.codeDept=codeDept;
 		this.libDept=libDept;
-	}	
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TrDepartementDTO)) return false;
+
+		TrDepartementDTO that = (TrDepartementDTO) o;
+
+		if (!getCodeDept().equals(that.getCodeDept())) return false;
+		return getLibDept().equals(that.getLibDept());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeDept().hashCode();
+		result = 31 * result + getLibDept().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

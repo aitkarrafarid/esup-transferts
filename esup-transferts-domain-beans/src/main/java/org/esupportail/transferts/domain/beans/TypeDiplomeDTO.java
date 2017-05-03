@@ -29,11 +29,23 @@ public class TypeDiplomeDTO implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TypeDiplomeDTO)) return false;
+
+		TypeDiplomeDTO that = (TypeDiplomeDTO) o;
+
+		if (!getCodeTypeDiplome().equals(that.getCodeTypeDiplome())) return false;
+		return getLibelleTypeDiplome().equals(that.getLibelleTypeDiplome());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeTypeDiplome().hashCode();
+		result = 31 * result + getLibelleTypeDiplome().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

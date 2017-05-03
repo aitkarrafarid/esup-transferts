@@ -78,11 +78,29 @@ public class Composante implements Serializable {
 				+ libelleComposante + ", validAuto=" + validAuto + "]";
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Composante)) return false;
+
+		Composante that = (Composante) o;
+
+		if (!getCodeComposante().equals(that.getCodeComposante())) return false;
+		if (!getSource().equals(that.getSource())) return false;
+		if (!getAnnee().equals(that.getAnnee())) return false;
+		if (!getLibelleComposante().equals(that.getLibelleComposante())) return false;
+		return getValidAuto().equals(that.getValidAuto());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeComposante().hashCode();
+		result = 31 * result + getSource().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + getLibelleComposante().hashCode();
+		result = 31 * result + getValidAuto().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

@@ -74,11 +74,25 @@ public class CodeSizeAnnee implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof CodeSizeAnnee)) return false;
+
+		CodeSizeAnnee that = (CodeSizeAnnee) o;
+
+		if (!getAnnee().equals(that.getAnnee())) return false;
+		if (!getCode().equals(that.getCode())) return false;
+		return getDefaut().equals(that.getDefaut());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getAnnee().hashCode();
+		result = 31 * result + getCode().hashCode();
+		result = 31 * result + getDefaut().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

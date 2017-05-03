@@ -126,11 +126,41 @@ public class TrEtablissementDTO implements Serializable {
 		this.libAch = libAch;
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TrEtablissementDTO)) return false;
+
+		TrEtablissementDTO that = (TrEtablissementDTO) o;
+
+		if (!getCodeEtb().equals(that.getCodeEtb())) return false;
+		if (!getLibEtb().equals(that.getLibEtb())) return false;
+		if (!getCodeDep().equals(that.getCodeDep())) return false;
+		if (!getLibDep().equals(that.getLibDep())) return false;
+		if (!getLibAcademie().equals(that.getLibAcademie())) return false;
+		if (!getLibOffEtb().equals(that.getLibOffEtb())) return false;
+		if (!getLibAd1Etb().equals(that.getLibAd1Etb())) return false;
+		if (!getLibAd2Etb().equals(that.getLibAd2Etb())) return false;
+		if (!getLibAd3Etb().equals(that.getLibAd3Etb())) return false;
+		if (!getCodPosAdrEtb().equals(that.getCodPosAdrEtb())) return false;
+		return getLibAch().equals(that.getLibAch());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeEtb().hashCode();
+		result = 31 * result + getLibEtb().hashCode();
+		result = 31 * result + getCodeDep().hashCode();
+		result = 31 * result + getLibDep().hashCode();
+		result = 31 * result + getLibAcademie().hashCode();
+		result = 31 * result + getLibOffEtb().hashCode();
+		result = 31 * result + getLibAd1Etb().hashCode();
+		result = 31 * result + getLibAd2Etb().hashCode();
+		result = 31 * result + getLibAd3Etb().hashCode();
+		result = 31 * result + getCodPosAdrEtb().hashCode();
+		result = 31 * result + getLibAch().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

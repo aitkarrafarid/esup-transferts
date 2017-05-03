@@ -52,8 +52,6 @@ public class Avis implements Serializable {
 	private static final long serialVersionUID = 7427732111404494181L;
 
 	@Id
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AVIS_SEQ")
-//	@SequenceGenerator(name="AVIS_SEQ", sequenceName="AVIS_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="AVIS_SEQ")
 	@SequenceGenerator(name="AVIS_SEQ", sequenceName="AVIS_SEQ", allocationSize=1)	
 	private long id;	
@@ -68,7 +66,6 @@ public class Avis implements Serializable {
 	 * date de saisie
 	 */
 	@Column(name = "DATE_SAISIE")
-	//    @Temporal(TemporalType.DATE)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateSaisie;
 
@@ -133,11 +130,45 @@ public class Avis implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Avis)) return false;
+
+		Avis avis = (Avis) o;
+
+		if (getId() != avis.getId()) return false;
+		if (!getAnnee().equals(avis.getAnnee())) return false;
+		if (!getNumeroEtudiant().equals(avis.getNumeroEtudiant())) return false;
+		if (!getDateSaisie().equals(avis.getDateSaisie())) return false;
+		if (!getIdEtatDossier().equals(avis.getIdEtatDossier())) return false;
+		if (!getLibEtatDossier().equals(avis.getLibEtatDossier())) return false;
+		if (!getMotifEtatDossier().equals(avis.getMotifEtatDossier())) return false;
+		if (!getIdLocalisationDossier().equals(avis.getIdLocalisationDossier())) return false;
+		if (!getLibLocalisationDossier().equals(avis.getLibLocalisationDossier())) return false;
+		if (!getMotifLocalisationDossier().equals(avis.getMotifLocalisationDossier())) return false;
+		if (!getIdDecisionDossier().equals(avis.getIdDecisionDossier())) return false;
+		if (!getLibDecisionDossier().equals(avis.getLibDecisionDossier())) return false;
+		return getMotifDecisionDossier().equals(avis.getMotifDecisionDossier());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = (int) (getId() ^ (getId() >>> 32));
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + getNumeroEtudiant().hashCode();
+		result = 31 * result + getDateSaisie().hashCode();
+		result = 31 * result + getIdEtatDossier().hashCode();
+		result = 31 * result + getLibEtatDossier().hashCode();
+		result = 31 * result + getMotifEtatDossier().hashCode();
+		result = 31 * result + getIdLocalisationDossier().hashCode();
+		result = 31 * result + getLibLocalisationDossier().hashCode();
+		result = 31 * result + getMotifLocalisationDossier().hashCode();
+		result = 31 * result + getIdDecisionDossier().hashCode();
+		result = 31 * result + getLibDecisionDossier().hashCode();
+		result = 31 * result + getMotifDecisionDossier().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

@@ -114,11 +114,41 @@ public class WsPub implements Serializable, Cloneable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof WsPub)) return false;
+
+		WsPub wsPub = (WsPub) o;
+
+		if (isChoixDuVoeuParComposante() != wsPub.isChoixDuVoeuParComposante()) return false;
+		if (!getRne().equals(wsPub.getRne())) return false;
+		if (!getAnnee().equals(wsPub.getAnnee())) return false;
+		if (getLibEtab() != null ? !getLibEtab().equals(wsPub.getLibEtab()) : wsPub.getLibEtab() != null) return false;
+		if (!getUrl().equals(wsPub.getUrl())) return false;
+		if (!getIdentifiant().equals(wsPub.getIdentifiant())) return false;
+		if (!getPassword().equals(wsPub.getPassword())) return false;
+		if (!getMailCorrespondantFonctionnel().equals(wsPub.getMailCorrespondantFonctionnel())) return false;
+		if (!getMailCorrespondantTechnique().equals(wsPub.getMailCorrespondantTechnique())) return false;
+		if (getOnline() != null ? !getOnline().equals(wsPub.getOnline()) : wsPub.getOnline() != null) return false;
+		return getSyncOdf() != null ? getSyncOdf().equals(wsPub.getSyncOdf()) : wsPub.getSyncOdf() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getRne().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + (getLibEtab() != null ? getLibEtab().hashCode() : 0);
+		result = 31 * result + getUrl().hashCode();
+		result = 31 * result + getIdentifiant().hashCode();
+		result = 31 * result + getPassword().hashCode();
+		result = 31 * result + getMailCorrespondantFonctionnel().hashCode();
+		result = 31 * result + getMailCorrespondantTechnique().hashCode();
+		result = 31 * result + (isChoixDuVoeuParComposante() ? 1 : 0);
+		result = 31 * result + (getOnline() != null ? getOnline().hashCode() : 0);
+		result = 31 * result + (getSyncOdf() != null ? getSyncOdf().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

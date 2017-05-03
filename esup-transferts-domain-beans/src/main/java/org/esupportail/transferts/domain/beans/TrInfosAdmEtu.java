@@ -52,11 +52,23 @@ public class TrInfosAdmEtu implements Serializable {
 				+ libPayNat + "]";
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TrInfosAdmEtu)) return false;
+
+		TrInfosAdmEtu that = (TrInfosAdmEtu) o;
+
+		if (!getCodPayNat().equals(that.getCodPayNat())) return false;
+		return getLibPayNat().equals(that.getLibPayNat());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodPayNat().hashCode();
+		result = 31 * result + getLibPayNat().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

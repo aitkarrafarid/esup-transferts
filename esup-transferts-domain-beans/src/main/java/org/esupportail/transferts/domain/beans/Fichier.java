@@ -144,11 +144,49 @@ public class Fichier implements Serializable, Cloneable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Fichier)) return false;
+
+		Fichier fichier = (Fichier) o;
+
+		if (getTaille() != fichier.getTaille()) return false;
+		if (!getMd5().equals(fichier.getMd5())) return false;
+		if (!getAnnee().equals(fichier.getAnnee())) return false;
+		if (!getFrom().equals(fichier.getFrom())) return false;
+		if (getNom() != null ? !getNom().equals(fichier.getNom()) : fichier.getNom() != null) return false;
+		if (getNomSignataire() != null ? !getNomSignataire().equals(fichier.getNomSignataire()) : fichier.getNomSignataire() != null)
+			return false;
+		if (getChemin() != null ? !getChemin().equals(fichier.getChemin()) : fichier.getChemin() != null) return false;
+		if (!Arrays.equals(getImg(), fichier.getImg())) return false;
+		if (getDefaut() != null ? !getDefaut().equals(fichier.getDefaut()) : fichier.getDefaut() != null) return false;
+		if (getLibelle() != null ? !getLibelle().equals(fichier.getLibelle()) : fichier.getLibelle() != null)
+			return false;
+		if (getAdresse() != null ? !getAdresse().equals(fichier.getAdresse()) : fichier.getAdresse() != null)
+			return false;
+		if (getBoitePostale() != null ? !getBoitePostale().equals(fichier.getBoitePostale()) : fichier.getBoitePostale() != null)
+			return false;
+		return getCodePostal() != null ? getCodePostal().equals(fichier.getCodePostal()) : fichier.getCodePostal() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getMd5().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + getFrom().hashCode();
+		result = 31 * result + (getNom() != null ? getNom().hashCode() : 0);
+		result = 31 * result + (getNomSignataire() != null ? getNomSignataire().hashCode() : 0);
+		result = 31 * result + (int) (getTaille() ^ (getTaille() >>> 32));
+		result = 31 * result + (getChemin() != null ? getChemin().hashCode() : 0);
+		result = 31 * result + Arrays.hashCode(getImg());
+		result = 31 * result + (getDefaut() != null ? getDefaut().hashCode() : 0);
+		result = 31 * result + (getLibelle() != null ? getLibelle().hashCode() : 0);
+		result = 31 * result + (getAdresse() != null ? getAdresse().hashCode() : 0);
+		result = 31 * result + (getBoitePostale() != null ? getBoitePostale().hashCode() : 0);
+		result = 31 * result + (getCodePostal() != null ? getCodePostal().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

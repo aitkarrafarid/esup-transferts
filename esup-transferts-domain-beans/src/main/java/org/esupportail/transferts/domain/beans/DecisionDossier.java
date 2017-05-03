@@ -60,11 +60,26 @@ public class DecisionDossier implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof DecisionDossier)) return false;
+
+		DecisionDossier that = (DecisionDossier) o;
+
+		if (!getIdDecisionDossier().equals(that.getIdDecisionDossier())) return false;
+		if (getLibelleCourtDecisionDossier() != null ? !getLibelleCourtDecisionDossier().equals(that.getLibelleCourtDecisionDossier()) : that.getLibelleCourtDecisionDossier() != null)
+			return false;
+		return getLibelleLongDecisionDossier() != null ? getLibelleLongDecisionDossier().equals(that.getLibelleLongDecisionDossier()) : that.getLibelleLongDecisionDossier() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getIdDecisionDossier().hashCode();
+		result = 31 * result + (getLibelleCourtDecisionDossier() != null ? getLibelleCourtDecisionDossier().hashCode() : 0);
+		result = 31 * result + (getLibelleLongDecisionDossier() != null ? getLibelleLongDecisionDossier().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

@@ -29,7 +29,7 @@ public class PersonnelComposantePK implements java.io.Serializable {
 	}
 
 	public boolean equals(Object obj) {
-		boolean resultat = false;
+		boolean resultat;
 
 		if (obj == this) {
 			resultat = true;

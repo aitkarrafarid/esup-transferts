@@ -150,7 +150,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			adresse.setNumTelPortable(coordonneesDTO.getNumTelPortable());
 			adresse.setNumTel(adresseFixe.getNumTel());
 			adresse.setEmail(coordonneesDTO.getEmail());
-			if(paysDTO.getCodePay().equals("100"))
+			if("100".equals(paysDTO.getCodePay()))
 			{
 				adresse.setCodePostal(communeDTO.getCodePostal());
 				adresse.setCodeCommune(communeDTO.getCodeCommune());
@@ -216,8 +216,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 				return null;
 			}
 
-			infoAdmEtuDTO = rta.recupererInfosAdmEtu(identifiantEtudiant
-					.getCodeEtu().toString());
+			infoAdmEtuDTO = rta.recupererInfosAdmEtu(identifiantEtudiant.getCodeEtu());
 
 			logger.debug("infoAdmEtuDTO --> " + infoAdmEtuDTO);
 			logger.debug("dateNaissance --> " + dateNaissance);
@@ -284,7 +283,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 				adresse.setNumTelPortable(coordonneesDTO.getNumTelPortable());
 				adresse.setNumTel(adresseFixe.getNumTel());
 				adresse.setEmail(coordonneesDTO.getEmail());
-				if(paysDTO.getCodePay().equals("100"))
+				if("100".equals(paysDTO.getCodePay()))
 				{
 					adresse.setCodePostal(communeDTO.getCodePostal());
 					adresse.setCodeCommune(communeDTO.getCodeCommune());
@@ -504,7 +503,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			}
 
 			int max=MAX_SESSIONS_RESULTAT_DEPART;
-			if(source.equals("A"))
+			if("A".equals(source))
 				max=MAX_SESSIONS_RESULTAT_ACCUEIL;
 
 			if(resultatEtapes.length<max)
@@ -603,11 +602,8 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			indOpi.setLibVilNaiEtuOpi(infoAdmEtuDTO.getLibVilleNaissance());
 			/* Code pays ou dÃƒÂ©partement de naissance */
 
-			if (infoAdmEtuDTO.getPaysNaissance().getCodePay() != null
-					&& !infoAdmEtuDTO.getPaysNaissance().getCodePay()
-							.equals("100")) {
-				indOpi.setCodDepPayNai(infoAdmEtuDTO.getPaysNaissance()
-						.getCodePay());
+			if (infoAdmEtuDTO.getPaysNaissance().getCodePay() != null && !"100".equals(infoAdmEtuDTO.getPaysNaissance().getCodePay())) {
+				indOpi.setCodDepPayNai(infoAdmEtuDTO.getPaysNaissance().getCodePay());
 				indOpi.setCodTypDepPayNai("P");
 			} else
 			if (infoAdmEtuDTO.getDepartementNaissance().getCodeDept() != null) {
@@ -891,15 +887,9 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			Composante composanteRimbaus=rta.recupererDerniereComposante(supannEtuId);
 
 			String composante = composanteRimbaus.getCode();
-			//Composante[] comp = rta.recupererComposantes();
 
 			String libComposante="";
-			/*for (int i = 0; i < comp.length; i++) {
-				if (comp[i].getCode().equals(composante)){
-					libComposante=comp[i].getLibelle();
-					break;
-				}
-			}*/
+
 			libComposante=composanteRimbaus.getLibelle();
 
 			Map<String, String> map = new HashMap<String, String>();

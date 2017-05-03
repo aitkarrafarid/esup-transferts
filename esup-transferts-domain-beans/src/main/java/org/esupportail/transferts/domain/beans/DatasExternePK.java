@@ -20,33 +20,25 @@ public class DatasExternePK implements java.io.Serializable {
 		this.code=code;
 	}
 
-	public boolean equals(Object obj) {
-		boolean resultat = false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof DatasExternePK)) return false;
 
-		if (obj == this) {
-			resultat = true;
-		} else {
-			if (!(obj instanceof DatasExternePK))
-			{
-				resultat = false;
-			}
-			else 
-			{
-				DatasExternePK autre = (DatasExternePK) obj;
-				if (identifiant==autre.identifiant 
-					&& code==autre.code) 
-					resultat = true;
-				else 
-					resultat = false;
-			}
-		}
-		return resultat;
+		DatasExternePK that = (DatasExternePK) o;
+
+		if (!getIdentifiant().equals(that.getIdentifiant())) return false;
+		return getCode().equals(that.getCode());
+
 	}
 
+	@Override
 	public int hashCode() {
-		return (identifiant + code).hashCode();
+		int result = getIdentifiant().hashCode();
+		result = 31 * result + getCode().hashCode();
+		return result;
 	}
-	
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

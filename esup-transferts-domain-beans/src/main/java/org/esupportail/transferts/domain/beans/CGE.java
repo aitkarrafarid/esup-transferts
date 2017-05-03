@@ -78,11 +78,29 @@ public class CGE implements Serializable {
 				+ libelleCGE + ", validAuto=" + validAuto + "]";
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof CGE)) return false;
+
+		CGE cge = (CGE) o;
+
+		if (!getCodeCGE().equals(cge.getCodeCGE())) return false;
+		if (!getSource().equals(cge.getSource())) return false;
+		if (!getAnnee().equals(cge.getAnnee())) return false;
+		if (!getLibelleCGE().equals(cge.getLibelleCGE())) return false;
+		return getValidAuto().equals(cge.getValidAuto());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeCGE().hashCode();
+		result = 31 * result + getSource().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + getLibelleCGE().hashCode();
+		result = 31 * result + getValidAuto().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

@@ -73,11 +73,34 @@ public class Fermeture implements Serializable {
 				+ ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + ", allDay=" + allDay+"]";
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Fermeture)) return false;
+
+		Fermeture fermeture = (Fermeture) o;
+
+		if (isAllDay() != fermeture.isAllDay()) return false;
+		if (!getIdScheduler().equals(fermeture.getIdScheduler())) return false;
+		if (!getSource().equals(fermeture.getSource())) return false;
+		if (!getAnnee().equals(fermeture.getAnnee())) return false;
+		if (getTitre() != null ? !getTitre().equals(fermeture.getTitre()) : fermeture.getTitre() != null) return false;
+		if (getDateDebut() != null ? !getDateDebut().equals(fermeture.getDateDebut()) : fermeture.getDateDebut() != null)
+			return false;
+		return getDateFin() != null ? getDateFin().equals(fermeture.getDateFin()) : fermeture.getDateFin() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getIdScheduler().hashCode();
+		result = 31 * result + getSource().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + (getTitre() != null ? getTitre().hashCode() : 0);
+		result = 31 * result + (getDateDebut() != null ? getDateDebut().hashCode() : 0);
+		result = 31 * result + (getDateFin() != null ? getDateFin().hashCode() : 0);
+		result = 31 * result + (isAllDay() ? 1 : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

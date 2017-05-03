@@ -58,11 +58,23 @@ public class AccueilResultat implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof AccueilResultat)) return false;
+
+		AccueilResultat that = (AccueilResultat) o;
+
+		if (!getIdAccueilResultat().equals(that.getIdAccueilResultat())) return false;
+		return getLibelle() != null ? getLibelle().equals(that.getLibelle()) : that.getLibelle() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getIdAccueilResultat().hashCode();
+		result = 31 * result + (getLibelle() != null ? getLibelle().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

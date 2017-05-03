@@ -25,28 +25,7 @@ public class FichierPK implements java.io.Serializable {
 	}
 
 	public boolean equals(Object obj) {
-//		boolean resultat = false;
-//
-//		if (obj == this) {
-//			resultat = true;
-//		} else {
-//			if (!(obj instanceof FichierPK)) {
-//				resultat = false;
-//			} else {
-//				FichierPK autre = (FichierPK) obj;
-//				if (md5!=autre.md5) {
-//					resultat = false;
-//				} else {
-//					if (annee != autre.annee) {
-//						resultat = false;
-//					} else {
-//						resultat = true;
-//					}
-//				}
-//			}
-//		}
-//		return resultat;
-		boolean resultat = false;
+		boolean resultat;
 
 		if (obj == this) {
 			resultat = true;

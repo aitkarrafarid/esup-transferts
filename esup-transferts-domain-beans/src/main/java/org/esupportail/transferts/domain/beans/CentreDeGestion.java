@@ -49,11 +49,27 @@ public class CentreDeGestion implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof CentreDeGestion)) return false;
+
+		CentreDeGestion that = (CentreDeGestion) o;
+
+		if (!getCodCge().equals(that.getCodCge())) return false;
+		if (!getLibCge().equals(that.getLibCge())) return false;
+		if (!getLicCge().equals(that.getLicCge())) return false;
+		return getTemEnSve().equals(that.getTemEnSve());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodCge().hashCode();
+		result = 31 * result + getLibCge().hashCode();
+		result = 31 * result + getLicCge().hashCode();
+		result = 31 * result + getTemEnSve().hashCode();
+		return result;
 	}
 
 	@Override

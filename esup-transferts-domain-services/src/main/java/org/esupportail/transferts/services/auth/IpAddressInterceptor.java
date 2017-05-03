@@ -74,7 +74,7 @@ public class IpAddressInterceptor extends AbstractPhaseInterceptor<Message> impl
 			}
 		}
 		// Vérification de(s) adresse(s) IP authorisée(s) 
-		if (allowedListSplit.size() > 0) {
+		if (!allowedListSplit.isEmpty()) {
 			boolean contains = false;
 			for (String allowedIpAddress : allowedListSplit) {
 				if (allowedIpAddress.equals(ipAddress)) {

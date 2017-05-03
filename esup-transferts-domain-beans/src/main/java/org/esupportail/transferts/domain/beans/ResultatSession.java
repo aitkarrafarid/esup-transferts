@@ -52,13 +52,27 @@ public class ResultatSession implements Serializable {
 		this.libSession=libSession;
 		this.resultat=resultat;
 		this.mention=mention;
-	}	
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ResultatSession)) return false;
+
+		ResultatSession that = (ResultatSession) o;
+
+		if (!getLibSession().equals(that.getLibSession())) return false;
+		if (!getResultat().equals(that.getResultat())) return false;
+		return getMention().equals(that.getMention());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getLibSession().hashCode();
+		result = 31 * result + getResultat().hashCode();
+		result = 31 * result + getMention().hashCode();
+		return result;
 	}
 
 	@Override

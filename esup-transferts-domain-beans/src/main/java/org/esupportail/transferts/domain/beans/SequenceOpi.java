@@ -54,11 +54,20 @@ public class SequenceOpi implements Serializable {
 		return "SequenceOpi [id=" + id + "]";
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof SequenceOpi)) return false;
+
+		SequenceOpi that = (SequenceOpi) o;
+
+		return getId() == that.getId();
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		return (int) (getId() ^ (getId() >>> 32));
 	}
 
 	public static long getSerialversionuid() {

@@ -61,11 +61,23 @@ public class AccueilAnnee implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof AccueilAnnee)) return false;
+
+		AccueilAnnee that = (AccueilAnnee) o;
+
+		if (!getIdAccueilAnnee().equals(that.getIdAccueilAnnee())) return false;
+		return getLibelle() != null ? getLibelle().equals(that.getLibelle()) : that.getLibelle() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getIdAccueilAnnee().hashCode();
+		result = 31 * result + (getLibelle() != null ? getLibelle().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

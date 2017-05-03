@@ -41,37 +41,33 @@ public class OffreDeFormationPK implements java.io.Serializable {
 		this.codeCentreGestion=codeCentreGestion;
 	}
 
-	public boolean equals(Object obj) {
-		boolean resultat = false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OffreDeFormationPK)) return false;
 
-		if (obj == this) {
-			resultat = true;
-		} else {
-			if (!(obj instanceof OffreDeFormationPK))
-			{
-				resultat = false;
-			}
-			else 
-			{
-				OffreDeFormationPK autre = (OffreDeFormationPK) obj;
-				if (rne==autre.rne 
-					&& annee==autre.annee 
-					&& codeDiplome==autre.codeDiplome 
-					&& codeVersionDiplome==autre.codeVersionDiplome
-					&& codeEtape==autre.codeEtape
-					&& codeVersionEtape==autre.codeVersionEtape
-					&& codeCentreGestion==autre.codeCentreGestion
-					) 
-					resultat = true;
-				else 
-					resultat = false;
-			}
-		}
-		return resultat;
+		OffreDeFormationPK that = (OffreDeFormationPK) o;
+
+		if (!getRne().equals(that.getRne())) return false;
+		if (!getAnnee().equals(that.getAnnee())) return false;
+		if (!getCodeDiplome().equals(that.getCodeDiplome())) return false;
+		if (!getCodeVersionDiplome().equals(that.getCodeVersionDiplome())) return false;
+		if (!getCodeEtape().equals(that.getCodeEtape())) return false;
+		if (!getCodeVersionEtape().equals(that.getCodeVersionEtape())) return false;
+		return getCodeCentreGestion() != null ? getCodeCentreGestion().equals(that.getCodeCentreGestion()) : that.getCodeCentreGestion() == null;
+
 	}
 
+	@Override
 	public int hashCode() {
-		return (rne + annee.toString() + codeDiplome + codeVersionDiplome + codeEtape + codeVersionEtape + codeCentreGestion).hashCode();
+		int result = getRne().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + getCodeDiplome().hashCode();
+		result = 31 * result + getCodeVersionDiplome().hashCode();
+		result = 31 * result + getCodeEtape().hashCode();
+		result = 31 * result + getCodeVersionEtape().hashCode();
+		result = 31 * result + (getCodeCentreGestion() != null ? getCodeCentreGestion().hashCode() : 0);
+		return result;
 	}
 
 	public String getCodeDiplome() {

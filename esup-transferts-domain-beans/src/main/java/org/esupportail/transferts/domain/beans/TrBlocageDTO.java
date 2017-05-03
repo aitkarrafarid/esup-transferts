@@ -39,13 +39,25 @@ public class TrBlocageDTO implements Serializable {
 		super();
 		this.codeBlocage=codeBlocage;
 		this.libBlocage=libBlocage;
-	}	
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TrBlocageDTO)) return false;
+
+		TrBlocageDTO that = (TrBlocageDTO) o;
+
+		if (!getCodeBlocage().equals(that.getCodeBlocage())) return false;
+		return getLibBlocage().equals(that.getLibBlocage());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeBlocage().hashCode();
+		result = 31 * result + getLibBlocage().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

@@ -360,11 +360,7 @@ public class IndOpi implements Serializable {
 
 	@Column(name = "COD_IND_OPI")
 	private Integer codIndOpi;	
-	
-//	@GeneratedValue(strategy=GenerationType.TABLE, generator="OPI_SEQ")
-//	@SequenceGenerator(name="OPI_SEQ", sequenceName="OPI_SEQ", allocationSize=1)	
-//	private long sequenceIndOpi;	
-	
+
 	/**
 	 * Bean constructor.
 	 */
@@ -390,11 +386,127 @@ public class IndOpi implements Serializable {
 				+ ", codInd=" + codInd + ", codEtuLpa=" + codEtuLpa + ", codIndOpi=" + codIndOpi + "]";
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof IndOpi)) return false;
+
+		IndOpi indOpi = (IndOpi) o;
+
+		if (!getNumeroOpi().equals(indOpi.getNumeroOpi())) return false;
+		if (getLibEtabDepart() != null ? !getLibEtabDepart().equals(indOpi.getLibEtabDepart()) : indOpi.getLibEtabDepart() != null)
+			return false;
+		if (getEtabDepart() != null ? !getEtabDepart().equals(indOpi.getEtabDepart()) : indOpi.getEtabDepart() != null)
+			return false;
+		if (getAnnee() != null ? !getAnnee().equals(indOpi.getAnnee()) : indOpi.getAnnee() != null) return false;
+		if (getCodPayNat() != null ? !getCodPayNat().equals(indOpi.getCodPayNat()) : indOpi.getCodPayNat() != null)
+			return false;
+		if (getCodEtb() != null ? !getCodEtb().equals(indOpi.getCodEtb()) : indOpi.getCodEtb() != null) return false;
+		if (getCodNneIndOpi() != null ? !getCodNneIndOpi().equals(indOpi.getCodNneIndOpi()) : indOpi.getCodNneIndOpi() != null)
+			return false;
+		if (getCodCleNneIndOpi() != null ? !getCodCleNneIndOpi().equals(indOpi.getCodCleNneIndOpi()) : indOpi.getCodCleNneIndOpi() != null)
+			return false;
+		if (!getDateNaiIndOpi().equals(indOpi.getDateNaiIndOpi())) return false;
+		if (!getTemDateNaiRelOpi().equals(indOpi.getTemDateNaiRelOpi())) return false;
+		if (getDaaEntEtbOpi() != null ? !getDaaEntEtbOpi().equals(indOpi.getDaaEntEtbOpi()) : indOpi.getDaaEntEtbOpi() != null)
+			return false;
+		if (!getLibNomPatIndOpi().equals(indOpi.getLibNomPatIndOpi())) return false;
+		if (getLibNomUsuIndOpi() != null ? !getLibNomUsuIndOpi().equals(indOpi.getLibNomUsuIndOpi()) : indOpi.getLibNomUsuIndOpi() != null)
+			return false;
+		if (!getLibPr1IndOpi().equals(indOpi.getLibPr1IndOpi())) return false;
+		if (getLibPr2IndOpi() != null ? !getLibPr2IndOpi().equals(indOpi.getLibPr2IndOpi()) : indOpi.getLibPr2IndOpi() != null)
+			return false;
+		if (getLibPr3IndOpi() != null ? !getLibPr3IndOpi().equals(indOpi.getLibPr3IndOpi()) : indOpi.getLibPr3IndOpi() != null)
+			return false;
+		if (getLibVilNaiEtuOpi() != null ? !getLibVilNaiEtuOpi().equals(indOpi.getLibVilNaiEtuOpi()) : indOpi.getLibVilNaiEtuOpi() != null)
+			return false;
+		if (getCodDepPayNai() != null ? !getCodDepPayNai().equals(indOpi.getCodDepPayNai()) : indOpi.getCodDepPayNai() != null)
+			return false;
+		if (getCodTypDepPayNai() != null ? !getCodTypDepPayNai().equals(indOpi.getCodTypDepPayNai()) : indOpi.getCodTypDepPayNai() != null)
+			return false;
+		if (getDaaEnsSupOpi() != null ? !getDaaEnsSupOpi().equals(indOpi.getDaaEnsSupOpi()) : indOpi.getDaaEnsSupOpi() != null)
+			return false;
+		if (getAdrMailOpi() != null ? !getAdrMailOpi().equals(indOpi.getAdrMailOpi()) : indOpi.getAdrMailOpi() != null)
+			return false;
+		if (getNumTelPorOpi() != null ? !getNumTelPorOpi().equals(indOpi.getNumTelPorOpi()) : indOpi.getNumTelPorOpi() != null)
+			return false;
+		if (getDaaEtrSup() != null ? !getDaaEtrSup().equals(indOpi.getDaaEtrSup()) : indOpi.getDaaEtrSup() != null)
+			return false;
+		if (getCodSexEtuOpi() != null ? !getCodSexEtuOpi().equals(indOpi.getCodSexEtuOpi()) : indOpi.getCodSexEtuOpi() != null)
+			return false;
+		if (getCodEtbBac() != null ? !getCodEtbBac().equals(indOpi.getCodEtbBac()) : indOpi.getCodEtbBac() != null)
+			return false;
+		if (getCodBac() != null ? !getCodBac().equals(indOpi.getCodBac()) : indOpi.getCodBac() != null) return false;
+		if (getCodDep() != null ? !getCodDep().equals(indOpi.getCodDep()) : indOpi.getCodDep() != null) return false;
+		if (getCodMnb() != null ? !getCodMnb().equals(indOpi.getCodMnb()) : indOpi.getCodMnb() != null) return false;
+		if (getDaabacObtOba() != null ? !getDaabacObtOba().equals(indOpi.getDaabacObtOba()) : indOpi.getDaabacObtOba() != null)
+			return false;
+		if (getCodTpe() != null ? !getCodTpe().equals(indOpi.getCodTpe()) : indOpi.getCodTpe() != null) return false;
+		if (getNumTel() != null ? !getNumTel().equals(indOpi.getNumTel()) : indOpi.getNumTel() != null) return false;
+		if (getCodPay() != null ? !getCodPay().equals(indOpi.getCodPay()) : indOpi.getCodPay() != null) return false;
+		if (getCodBdi() != null ? !getCodBdi().equals(indOpi.getCodBdi()) : indOpi.getCodBdi() != null) return false;
+		if (getCodCom() != null ? !getCodCom().equals(indOpi.getCodCom()) : indOpi.getCodCom() != null) return false;
+		if (getLibAd1() != null ? !getLibAd1().equals(indOpi.getLibAd1()) : indOpi.getLibAd1() != null) return false;
+		if (getLibAd2() != null ? !getLibAd2().equals(indOpi.getLibAd2()) : indOpi.getLibAd2() != null) return false;
+		if (getLibAd3() != null ? !getLibAd3().equals(indOpi.getLibAd3()) : indOpi.getLibAd3() != null) return false;
+		if (getLibAde() != null ? !getLibAde().equals(indOpi.getLibAde()) : indOpi.getLibAde() != null) return false;
+		if (!getSynchro().equals(indOpi.getSynchro())) return false;
+		if (!getSource().equals(indOpi.getSource())) return false;
+		if (getVoeux() != null ? !getVoeux().equals(indOpi.getVoeux()) : indOpi.getVoeux() != null) return false;
+		if (getCodInd() != null ? !getCodInd().equals(indOpi.getCodInd()) : indOpi.getCodInd() != null) return false;
+		if (getCodEtuLpa() != null ? !getCodEtuLpa().equals(indOpi.getCodEtuLpa()) : indOpi.getCodEtuLpa() != null)
+			return false;
+		return getCodIndOpi() != null ? getCodIndOpi().equals(indOpi.getCodIndOpi()) : indOpi.getCodIndOpi() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getNumeroOpi().hashCode();
+		result = 31 * result + (getLibEtabDepart() != null ? getLibEtabDepart().hashCode() : 0);
+		result = 31 * result + (getEtabDepart() != null ? getEtabDepart().hashCode() : 0);
+		result = 31 * result + (getAnnee() != null ? getAnnee().hashCode() : 0);
+		result = 31 * result + (getCodPayNat() != null ? getCodPayNat().hashCode() : 0);
+		result = 31 * result + (getCodEtb() != null ? getCodEtb().hashCode() : 0);
+		result = 31 * result + (getCodNneIndOpi() != null ? getCodNneIndOpi().hashCode() : 0);
+		result = 31 * result + (getCodCleNneIndOpi() != null ? getCodCleNneIndOpi().hashCode() : 0);
+		result = 31 * result + getDateNaiIndOpi().hashCode();
+		result = 31 * result + getTemDateNaiRelOpi().hashCode();
+		result = 31 * result + (getDaaEntEtbOpi() != null ? getDaaEntEtbOpi().hashCode() : 0);
+		result = 31 * result + getLibNomPatIndOpi().hashCode();
+		result = 31 * result + (getLibNomUsuIndOpi() != null ? getLibNomUsuIndOpi().hashCode() : 0);
+		result = 31 * result + getLibPr1IndOpi().hashCode();
+		result = 31 * result + (getLibPr2IndOpi() != null ? getLibPr2IndOpi().hashCode() : 0);
+		result = 31 * result + (getLibPr3IndOpi() != null ? getLibPr3IndOpi().hashCode() : 0);
+		result = 31 * result + (getLibVilNaiEtuOpi() != null ? getLibVilNaiEtuOpi().hashCode() : 0);
+		result = 31 * result + (getCodDepPayNai() != null ? getCodDepPayNai().hashCode() : 0);
+		result = 31 * result + (getCodTypDepPayNai() != null ? getCodTypDepPayNai().hashCode() : 0);
+		result = 31 * result + (getDaaEnsSupOpi() != null ? getDaaEnsSupOpi().hashCode() : 0);
+		result = 31 * result + (getAdrMailOpi() != null ? getAdrMailOpi().hashCode() : 0);
+		result = 31 * result + (getNumTelPorOpi() != null ? getNumTelPorOpi().hashCode() : 0);
+		result = 31 * result + (getDaaEtrSup() != null ? getDaaEtrSup().hashCode() : 0);
+		result = 31 * result + (getCodSexEtuOpi() != null ? getCodSexEtuOpi().hashCode() : 0);
+		result = 31 * result + (getCodEtbBac() != null ? getCodEtbBac().hashCode() : 0);
+		result = 31 * result + (getCodBac() != null ? getCodBac().hashCode() : 0);
+		result = 31 * result + (getCodDep() != null ? getCodDep().hashCode() : 0);
+		result = 31 * result + (getCodMnb() != null ? getCodMnb().hashCode() : 0);
+		result = 31 * result + (getDaabacObtOba() != null ? getDaabacObtOba().hashCode() : 0);
+		result = 31 * result + (getCodTpe() != null ? getCodTpe().hashCode() : 0);
+		result = 31 * result + (getNumTel() != null ? getNumTel().hashCode() : 0);
+		result = 31 * result + (getCodPay() != null ? getCodPay().hashCode() : 0);
+		result = 31 * result + (getCodBdi() != null ? getCodBdi().hashCode() : 0);
+		result = 31 * result + (getCodCom() != null ? getCodCom().hashCode() : 0);
+		result = 31 * result + (getLibAd1() != null ? getLibAd1().hashCode() : 0);
+		result = 31 * result + (getLibAd2() != null ? getLibAd2().hashCode() : 0);
+		result = 31 * result + (getLibAd3() != null ? getLibAd3().hashCode() : 0);
+		result = 31 * result + (getLibAde() != null ? getLibAde().hashCode() : 0);
+		result = 31 * result + getSynchro().hashCode();
+		result = 31 * result + getSource().hashCode();
+		result = 31 * result + (getVoeux() != null ? getVoeux().hashCode() : 0);
+		result = 31 * result + (getCodInd() != null ? getCodInd().hashCode() : 0);
+		result = 31 * result + (getCodEtuLpa() != null ? getCodEtuLpa().hashCode() : 0);
+		result = 31 * result + (getCodIndOpi() != null ? getCodIndOpi().hashCode() : 0);
+		return result;
 	}
 
 	public String getNumeroOpi() {

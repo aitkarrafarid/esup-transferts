@@ -120,11 +120,52 @@ public class VoeuxIns implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof VoeuxIns)) return false;
+
+		VoeuxIns voeuxIns = (VoeuxIns) o;
+
+		if (!getNumeroOpi().equals(voeuxIns.getNumeroOpi())) return false;
+		if (!getLibNomPatIndOpi().equals(voeuxIns.getLibNomPatIndOpi())) return false;
+		if (!getLibPr1IndOpi().equals(voeuxIns.getLibPr1IndOpi())) return false;
+		if (!getCodCge().equals(voeuxIns.getCodCge())) return false;
+		if (getLibEtp() != null ? !getLibEtp().equals(voeuxIns.getLibEtp()) : voeuxIns.getLibEtp() != null)
+			return false;
+		if (!getCodEtp().equals(voeuxIns.getCodEtp())) return false;
+		if (!getCodVrsVet().equals(voeuxIns.getCodVrsVet())) return false;
+		if (getCodDip() != null ? !getCodDip().equals(voeuxIns.getCodDip()) : voeuxIns.getCodDip() != null)
+			return false;
+		if (getCodVrsVdi() != null ? !getCodVrsVdi().equals(voeuxIns.getCodVrsVdi()) : voeuxIns.getCodVrsVdi() != null)
+			return false;
+		if (getCodCmp() != null ? !getCodCmp().equals(voeuxIns.getCodCmp()) : voeuxIns.getCodCmp() != null)
+			return false;
+		if (!getCodDemDos().equals(voeuxIns.getCodDemDos())) return false;
+		if (!getNumCls().equals(voeuxIns.getNumCls())) return false;
+		if (getLibelleVersionEtape() != null ? !getLibelleVersionEtape().equals(voeuxIns.getLibelleVersionEtape()) : voeuxIns.getLibelleVersionEtape() != null)
+			return false;
+		return getCodDecVeu() != null ? getCodDecVeu().equals(voeuxIns.getCodDecVeu()) : voeuxIns.getCodDecVeu() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getNumeroOpi().hashCode();
+		result = 31 * result + getLibNomPatIndOpi().hashCode();
+		result = 31 * result + getLibPr1IndOpi().hashCode();
+		result = 31 * result + getCodCge().hashCode();
+		result = 31 * result + (getLibEtp() != null ? getLibEtp().hashCode() : 0);
+		result = 31 * result + getCodEtp().hashCode();
+		result = 31 * result + getCodVrsVet().hashCode();
+		result = 31 * result + (getCodDip() != null ? getCodDip().hashCode() : 0);
+		result = 31 * result + (getCodVrsVdi() != null ? getCodVrsVdi().hashCode() : 0);
+		result = 31 * result + (getCodCmp() != null ? getCodCmp().hashCode() : 0);
+		result = 31 * result + getCodDemDos().hashCode();
+		result = 31 * result + getNumCls().hashCode();
+		result = 31 * result + (getLibelleVersionEtape() != null ? getLibelleVersionEtape().hashCode() : 0);
+		result = 31 * result + (getCodDecVeu() != null ? getCodDecVeu().hashCode() : 0);
+		return result;
 	}
 
 	public String getNumeroOpi() {

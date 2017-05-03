@@ -1117,7 +1117,7 @@ public class UserController extends AbstractContextAwareController {
 		this.currentEtudiant.setComposante(null);
 		this.currentEtudiant.setLibEtapePremiereLocal(null);
 
-		if(this.currentEtudiant.getTransferts().getTypeTransfert().equals("T"))
+		if("T".equals(this.currentEtudiant.getTransferts().getTypeTransfert()))
 			this.currentEtudiant.getTransferts().setLibTypeTransfert("Total");
 		else
 			this.currentEtudiant.getTransferts().setLibTypeTransfert("Partiel");
@@ -1567,7 +1567,7 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("public List<SelectItem> getListeLibellesDiplome()");
 		listeLibellesDiplome = new ArrayList<SelectItem>();
-		Map<String, String> listeLibellesDiplomeDTO = null;
+		Map<String, String> listeLibellesDiplomeDTO;
 		if (logger.isDebugEnabled())
 		{
 			logger.debug("listeLibellesDiplomeDTO par diplome");
@@ -1998,8 +1998,8 @@ public class UserController extends AbstractContextAwareController {
 		if(this.currentEtudiant.getAccueil()!=null && this.currentEtudiant.getAccueil().getSituationUniversitaire()!=null){
 			for(SituationUniversitaire su : this.currentEtudiant.getAccueil().getSituationUniversitaire())
 			{
-				String annee = "";
-				String resultat = "";
+				String annee;
+				String resultat;
 				if(su.getAnnee().getIdAccueilAnnee()!=0)
 					annee = su.getAnnee().getLibelle();
 				else

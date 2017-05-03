@@ -40,13 +40,10 @@ public class AccueilDecision implements Serializable {
 	private static final long serialVersionUID = 1234512397404494181L;
 
 	@Id
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="DECISION_SEQ")
-//	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="DECISION_SEQ")
 	@SequenceGenerator(name="DECISION_SEQ", sequenceName="DECISION_SEQ", allocationSize=1)
 	private long id;		
 
-//	@XmlTransient
 	@ManyToOne
 	@JoinColumns({
 		@JoinColumn(name = "numeroEtudiant", referencedColumnName = "numeroEtudiant"),
@@ -85,18 +82,31 @@ public class AccueilDecision implements Serializable {
 		super();
 	}
 
-//	@Override
-//	public String toString() {
-//		return "AccueilDecision [id=" + id + ", etudiant=" + etudiant
-//				+ ", dateSaisie=" + dateSaisie + ", auteur=" + auteur
-//				+ ", avis=" + avis + ", decision=" + decision + "]";
-//	}
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof AccueilDecision)) return false;
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+		AccueilDecision that = (AccueilDecision) o;
+
+		if (getId() != that.getId()) return false;
+		if (!getEtudiant().equals(that.getEtudiant())) return false;
+		if (!getDateSaisie().equals(that.getDateSaisie())) return false;
+		if (!getAuteur().equals(that.getAuteur())) return false;
+		if (!getAvis().equals(that.getAvis())) return false;
+		return getDecision() != null ? getDecision().equals(that.getDecision()) : that.getDecision() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = (int) (getId() ^ (getId() >>> 32));
+		result = 31 * result + getEtudiant().hashCode();
+		result = 31 * result + getDateSaisie().hashCode();
+		result = 31 * result + getAuteur().hashCode();
+		result = 31 * result + getAvis().hashCode();
+		result = 31 * result + (getDecision() != null ? getDecision().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

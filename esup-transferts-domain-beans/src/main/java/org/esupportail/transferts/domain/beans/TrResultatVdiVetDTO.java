@@ -41,11 +41,20 @@ public class TrResultatVdiVetDTO implements Serializable {
 		return "TrResultatVdiVetDTO [etapes=" + etapes + "]";
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TrResultatVdiVetDTO)) return false;
+
+		TrResultatVdiVetDTO that = (TrResultatVdiVetDTO) o;
+
+		return getEtapes() != null ? getEtapes().equals(that.getEtapes()) : that.getEtapes() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		return getEtapes() != null ? getEtapes().hashCode() : 0;
 	}
 
 	public static long getSerialversionuid() {

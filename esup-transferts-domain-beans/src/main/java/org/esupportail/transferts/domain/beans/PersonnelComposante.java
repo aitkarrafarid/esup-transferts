@@ -204,11 +204,55 @@ public class PersonnelComposante implements Serializable, Cloneable {
 				'}';
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof PersonnelComposante)) return false;
+
+		PersonnelComposante that = (PersonnelComposante) o;
+
+		if (!getUid().equals(that.getUid())) return false;
+		if (!getCodeComposante().equals(that.getCodeComposante())) return false;
+		if (!getSource().equals(that.getSource())) return false;
+		if (!getAnnee().equals(that.getAnnee())) return false;
+		if (!getDisplayName().equals(that.getDisplayName())) return false;
+		if (!getLibelleComposante().equals(that.getLibelleComposante())) return false;
+		if (!getTypePersonnel().equals(that.getTypePersonnel())) return false;
+		if (getMailPersonnel() != null ? !getMailPersonnel().equals(that.getMailPersonnel()) : that.getMailPersonnel() != null)
+			return false;
+		if (getLibelleTypePersonnel() != null ? !getLibelleTypePersonnel().equals(that.getLibelleTypePersonnel()) : that.getLibelleTypePersonnel() != null)
+			return false;
+		if (!getDroitSuppression().equals(that.getDroitSuppression())) return false;
+		if (!getDroitEditionPdf().equals(that.getDroitEditionPdf())) return false;
+		if (!getDroitAvis().equals(that.getDroitAvis())) return false;
+		if (!getDroitAvisDefinitif().equals(that.getDroitAvisDefinitif())) return false;
+		if (!getDroitDecision().equals(that.getDroitDecision())) return false;
+		if (!getDroitDeverrouiller().equals(that.getDroitDeverrouiller())) return false;
+		if (!getAlertMailDemandeTransfert().equals(that.getAlertMailDemandeTransfert())) return false;
+		return getAlertMailSva().equals(that.getAlertMailSva());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getUid().hashCode();
+		result = 31 * result + getCodeComposante().hashCode();
+		result = 31 * result + getSource().hashCode();
+		result = 31 * result + getAnnee().hashCode();
+		result = 31 * result + getDisplayName().hashCode();
+		result = 31 * result + getLibelleComposante().hashCode();
+		result = 31 * result + getTypePersonnel().hashCode();
+		result = 31 * result + (getMailPersonnel() != null ? getMailPersonnel().hashCode() : 0);
+		result = 31 * result + (getLibelleTypePersonnel() != null ? getLibelleTypePersonnel().hashCode() : 0);
+		result = 31 * result + getDroitSuppression().hashCode();
+		result = 31 * result + getDroitEditionPdf().hashCode();
+		result = 31 * result + getDroitAvis().hashCode();
+		result = 31 * result + getDroitAvisDefinitif().hashCode();
+		result = 31 * result + getDroitDecision().hashCode();
+		result = 31 * result + getDroitDeverrouiller().hashCode();
+		result = 31 * result + getAlertMailDemandeTransfert().hashCode();
+		result = 31 * result + getAlertMailSva().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

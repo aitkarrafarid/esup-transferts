@@ -60,11 +60,26 @@ public class LocalisationDossier implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof LocalisationDossier)) return false;
+
+		LocalisationDossier that = (LocalisationDossier) o;
+
+		if (!getIdLocalisationDossier().equals(that.getIdLocalisationDossier())) return false;
+		if (getLibelleCourtLocalisationDossier() != null ? !getLibelleCourtLocalisationDossier().equals(that.getLibelleCourtLocalisationDossier()) : that.getLibelleCourtLocalisationDossier() != null)
+			return false;
+		return getLibelleLongLocalisationDossier() != null ? getLibelleLongLocalisationDossier().equals(that.getLibelleLongLocalisationDossier()) : that.getLibelleLongLocalisationDossier() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getIdLocalisationDossier().hashCode();
+		result = 31 * result + (getLibelleCourtLocalisationDossier() != null ? getLibelleCourtLocalisationDossier().hashCode() : 0);
+		result = 31 * result + (getLibelleLongLocalisationDossier() != null ? getLibelleLongLocalisationDossier().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

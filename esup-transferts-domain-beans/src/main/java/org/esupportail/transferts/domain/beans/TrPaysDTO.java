@@ -62,13 +62,27 @@ public class TrPaysDTO implements Serializable {
 		this.codePay=codePay;
 		this.libPay=libPay;
 		this.libNationalite=libNationalite;
-	}		
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TrPaysDTO)) return false;
+
+		TrPaysDTO trPaysDTO = (TrPaysDTO) o;
+
+		if (!getCodePay().equals(trPaysDTO.getCodePay())) return false;
+		if (!getLibPay().equals(trPaysDTO.getLibPay())) return false;
+		return getLibNationalite().equals(trPaysDTO.getLibNationalite());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodePay().hashCode();
+		result = 31 * result + getLibPay().hashCode();
+		result = 31 * result + getLibNationalite().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

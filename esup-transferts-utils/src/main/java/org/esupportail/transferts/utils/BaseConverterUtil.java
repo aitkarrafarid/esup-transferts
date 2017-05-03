@@ -48,7 +48,7 @@ public class BaseConverterUtil {
   
     private static String fromDecimalToOtherBase ( int base, int decimalNumber ) {  
         String tempVal = decimalNumber == 0 ? "0" : "";  
-        int mod = 0;  
+        int mod;
   
         while( decimalNumber != 0 ) {  
             mod = decimalNumber % base;  

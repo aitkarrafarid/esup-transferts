@@ -47,13 +47,25 @@ public class TrCommuneDTO implements Serializable {
 		super();
 		this.codeCommune=codeCommune;
 		this.libCommune=libCommune;
-	}	
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TrCommuneDTO)) return false;
+
+		TrCommuneDTO that = (TrCommuneDTO) o;
+
+		if (!getCodeCommune().equals(that.getCodeCommune())) return false;
+		return getLibCommune().equals(that.getLibCommune());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeCommune().hashCode();
+		result = 31 * result + getLibCommune().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

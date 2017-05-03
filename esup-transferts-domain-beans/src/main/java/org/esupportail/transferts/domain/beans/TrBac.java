@@ -80,13 +80,34 @@ public class TrBac implements Serializable {
 		this.libEtabBac=libEtabBac;
 		this.anneeObtentionBac=anneeObtentionBac;
 		this.libelleAcademie = libelleAcademie;
-	}	
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TrBac)) return false;
+
+		TrBac trBac = (TrBac) o;
+
+		if (!getCodeBac().equals(trBac.getCodeBac())) return false;
+		if (!getLibBac().equals(trBac.getLibBac())) return false;
+		if (!getLibDepBac().equals(trBac.getLibDepBac())) return false;
+
+		if (!getLibEtabBac().equals(trBac.getLibEtabBac())) return false;
+		if (!getAnneeObtentionBac().equals(trBac.getAnneeObtentionBac())) return false;
+		return getLibelleAcademie().equals(trBac.getLibelleAcademie());
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = getCodeBac().hashCode();
+		result = 31 * result + getLibBac().hashCode();
+		result = 31 * result + getLibDepBac().hashCode();
+		result = 31 * result + getLibEtabBac().hashCode();
+		result = 31 * result + getAnneeObtentionBac().hashCode();
+		result = 31 * result + getLibelleAcademie().hashCode();
+		return result;
 	}
 
 	public static long getSerialversionuid() {

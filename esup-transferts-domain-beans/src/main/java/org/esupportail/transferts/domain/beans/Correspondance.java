@@ -40,13 +40,10 @@ public class Correspondance implements Serializable {
 	private static final long serialVersionUID = 121234597412121212L;
 
 	@Id
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CORRESPONDANCE_SEQ")
-//	@SequenceGenerator(name="CORRESPONDANCE_SEQ", sequenceName="CORRESPONDANCE_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="CORRESPONDANCE_SEQ")
 	@SequenceGenerator(name="CORRESPONDANCE_SEQ", sequenceName="CORRESPONDANCE_SEQ", allocationSize=1)	
 	private long id;		
 
-//	@XmlTransient
 	@ManyToOne
 	@JoinColumns({
 		@JoinColumn(name = "numeroEtudiant", referencedColumnName = "numeroEtudiant"),
@@ -85,11 +82,31 @@ public class Correspondance implements Serializable {
 		super();
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Correspondance)) return false;
+
+		Correspondance that = (Correspondance) o;
+
+		if (getId() != that.getId()) return false;
+		if (!getEtudiant().equals(that.getEtudiant())) return false;
+		if (!getDateSaisie().equals(that.getDateSaisie())) return false;
+		if (!getAuteur().equals(that.getAuteur())) return false;
+		if (getTitre() != null ? !getTitre().equals(that.getTitre()) : that.getTitre() != null) return false;
+		return getMsg() != null ? getMsg().equals(that.getMsg()) : that.getMsg() == null;
+
+	}
+
+	@Override
 	public int hashCode() {
-		return super.hashCode();
+		int result = (int) (getId() ^ (getId() >>> 32));
+		result = 31 * result + getEtudiant().hashCode();
+		result = 31 * result + getDateSaisie().hashCode();
+		result = 31 * result + getAuteur().hashCode();
+		result = 31 * result + (getTitre() != null ? getTitre().hashCode() : 0);
+		result = 31 * result + (getMsg() != null ? getMsg().hashCode() : 0);
+		return result;
 	}
 
 	public static long getSerialversionuid() {

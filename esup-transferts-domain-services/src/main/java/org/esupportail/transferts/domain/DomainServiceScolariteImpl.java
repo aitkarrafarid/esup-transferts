@@ -59,9 +59,9 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 		Assert.hasText(sourceScol, "property sourceScol of class "
 				+ this.getClass().getName() + " can not be null");			
 
-		if( getSourceScol().equals("RIMBAUS"))
+		if("RIMBAUS".equals(getSourceScol()))
 			dss= new DomainServiceRimbausImpl(this.forcerBlocageListSplit);
-		else if (getSourceScol().equals("APOGEE"))
+		else if ("APOGEE".equals(getSourceScol()))
 //			dss= new DomainServiceApogeeImpl(this.forcerBlocageListSplit);
 			dss= new DomainServiceApogeeImpl(this.forcerBlocageListSplit, user, password);
 		else

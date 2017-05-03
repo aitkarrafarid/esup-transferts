@@ -943,7 +943,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q;
 			if(actif)
 			{
-				if(source.equals("D"))
+				if("D".equals(source))
 					q = entityManager.createNamedQuery("getOdfTypesDiplomeByRneAndAnneeAndDepart");
 				else
 					q = entityManager.createNamedQuery("getOdfTypesDiplomeByRneAndAnneeAndArrivee");
@@ -1045,7 +1045,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			Query q;
 			if(actif)
-				if(source.equals("D"))
+				if("D".equals(source))
 					q = entityManager.createNamedQuery("getAnneesEtudeByRneAndAnneeAndCodTypDipAndDepart");
 				else
 					q = entityManager.createNamedQuery("getAnneesEtudeByRneAndAnneeAndCodTypDipAndArrivee");
@@ -1084,7 +1084,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			Query q;
 			if(actif) {
-				if (source.equals("D"))
+				if ("D".equals(source))
 					q = entityManager.createNamedQuery("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndDepart");
 				else
 					q = entityManager.createNamedQuery("getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndArrivee");
@@ -1170,7 +1170,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDip(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeDiplome)");
 		try{
 			Query q;
-			if(source.equals("D"))
+			if("D".equals(source))
 				q = entityManager.createNamedQuery("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDipAndDepart");
 			else
 				q = entityManager.createNamedQuery("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodDipAndArrivee");
@@ -1198,7 +1198,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposante(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeComposante, String source)");
 		try{
 			Query q;
-			if(source.equals("D"))
+			if("D".equals(source))
 				q = entityManager.createNamedQuery("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndDepart");
 			else
 				q = entityManager.createNamedQuery("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndArrivee");
@@ -1626,7 +1626,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			q.setParameter("annee", annee);
 			@SuppressWarnings("unchecked")
 			List<PersonnelComposante> ret = (List<PersonnelComposante>) q.getResultList();
-			if(ret.isEmpty() || ret.size()==0)
+			if(ret.isEmpty())
 				return false;
 			else
 				return true;
@@ -1782,7 +1782,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	public void addValidationAutoByComposante(List<Composante> listeComposantes) {
 		if (logger.isDebugEnabled())
 			logger.debug("public void addValidationAutoByComposante(List<Composante> listeComposantes) --> "+listeComposantes.size());
-		if(listeComposantes!=null && listeComposantes.size()!=0)
+		if(listeComposantes!=null && !listeComposantes.isEmpty())
 			for(Composante c : listeComposantes)
 				entityManager.merge(c);
 	}
@@ -1849,7 +1849,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	public void addValidationAutoByCGE(List<CGE> listeCGEMerge) {
 		if (logger.isDebugEnabled())
 			logger.debug("public void addValidationAutoByCGE(List<CGE> listeCGEMerge) --> "+listeCGEMerge.size());
-		if(listeCGEMerge!=null && listeCGEMerge.size()!=0)
+		if(listeCGEMerge!=null && !listeCGEMerge.isEmpty())
 			for(CGE c : listeCGEMerge)
 				entityManager.merge(c);
 	}
@@ -1973,7 +1973,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("public List<OffreDeFormationsDTO> getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndAtifOuPas(String rne, Integer annee, String codTypDip, Integer codeNiveau, String codeComposante, String source)");
 		try{
 			Query q;
-			if(source.equals("D"))
+			if("D".equals(source))
 				q = entityManager.createNamedQuery("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndDepartAndAtifOuPas");
 			else
 				q = entityManager.createNamedQuery("getVersionEtapeByRneAndAnneeAndCodTypDipAndcodeNiveauAndCodeComposanteAndArriveeAndAtifOuPas");
