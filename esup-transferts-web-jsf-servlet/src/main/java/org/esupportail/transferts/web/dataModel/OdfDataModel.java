@@ -4,9 +4,10 @@ import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.primefaces.model.SelectableDataModel;
 
 import javax.faces.model.ListDataModel;
+import java.io.Serializable;
 import java.util.List;
   
-public class OdfDataModel extends ListDataModel<OffreDeFormationsDTO> implements SelectableDataModel<OffreDeFormationsDTO> {    
+public class OdfDataModel extends ListDataModel<OffreDeFormationsDTO> implements SelectableDataModel<OffreDeFormationsDTO> {
   
     public OdfDataModel() {  
     }  

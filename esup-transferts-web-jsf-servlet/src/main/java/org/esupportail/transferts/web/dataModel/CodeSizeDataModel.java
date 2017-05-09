@@ -4,9 +4,10 @@ import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
 import org.primefaces.model.SelectableDataModel;
 
 import javax.faces.model.ListDataModel;
+import java.io.Serializable;
 import java.util.List;
   
-public class CodeSizeDataModel extends ListDataModel<CodeSizeAnnee> implements SelectableDataModel<CodeSizeAnnee> {    
+public class CodeSizeDataModel extends ListDataModel<CodeSizeAnnee> implements SelectableDataModel<CodeSizeAnnee> {
   
     public CodeSizeDataModel() {  
     }  

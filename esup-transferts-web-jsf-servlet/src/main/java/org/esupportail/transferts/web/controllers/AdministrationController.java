@@ -21,10 +21,7 @@ import org.springframework.util.Assert;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.mail.internet.AddressException;
@@ -52,9 +49,9 @@ public class AdministrationController extends AbstractContextAwareController {
 	private static final Logger logger = new LoggerImpl(AdministrationController.class);
 	private String employeeAffiliation;
 	private boolean personnel;
-	private ListeTransfertDepartDataModel listeTransfertDepartDataModel;
-	private TransfertDataModelOpi transfertDataModelOpi;
-	private CodeSizeDataModel codeSizeDataModel;
+	private transient ListeTransfertDepartDataModel listeTransfertDepartDataModel;
+	private transient TransfertDataModelOpi transfertDataModelOpi;
+	private transient CodeSizeDataModel codeSizeDataModel;
 	private List<IndOpi> listEntrants;
 	private IndOpi currentOpi;
 	private boolean switchTraiteNontraite;
@@ -78,11 +75,11 @@ public class AdministrationController extends AbstractContextAwareController {
 	private FileUploadController fileUploadController;
 	private Parametres parametreAppli;
 	/*Debut propriete Concernant le voeux d'orientation*/
-	List<SelectItem> listeDepartements = null;
-	private List<SelectItem> listeEtablissements = null;
-	private List<SelectItem> listeTypesDiplome = null;
-	private List<SelectItem> listeAnneesEtude = null;
-	private List<SelectItem> listeLibellesDiplome = null;
+	private transient List<SelectItem> listeDepartements = null;
+	private transient List<SelectItem> listeEtablissements = null;
+	private transient List<SelectItem> listeTypesDiplome = null;
+	private transient List<SelectItem> listeAnneesEtude = null;
+	private transient List<SelectItem> listeLibellesDiplome = null;
 	private List<OffreDeFormationsDTO> listeLibellesEtape;
 	private boolean deptVide = true;
 	private boolean typesDiplomeVide = true;
@@ -95,16 +92,16 @@ public class AdministrationController extends AbstractContextAwareController {
 	private Integer codeNiveau;
 	private String codeDiplome;
 	private OffreDeFormationsDTO currentOdf;
-	private OdfDataModel odfDataModel;
+	private transient OdfDataModel odfDataModel;
 	/*Fin de propriete Concernant le voeux d'orientation*/
 	private boolean modeSynchro;
 	private Integer timeOutConnexionWsOpiScolarite;
 	private String exclueEtpOpi;
 	private String exclueBacOpi;
-	private FileGeneratorService fileGeneratorService;
+	private transient FileGeneratorService fileGeneratorService;
 	private String source;
 	/*Debut de la gestion de la sitution universitaire*/
-	private SituationUniversitaireDataModel sudm;
+	private transient SituationUniversitaireDataModel sudm;
 	private SituationUniversitaire selectedSituationUniv;
 	private String currentCleAccueilAnnee;
 	private String currentCleAccueilResultat;
@@ -117,7 +114,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private List<SelectItem> listeComposantes;
 	private String codeComposante;
 	private AccueilDecision currentAccueilDecision;
-	private List<AccueilDecision> listeAccueilDecision = null;
+	private transient List<AccueilDecision> listeAccueilDecision = null;
 	private AccueilDecision selectedDecision;
 	private boolean droitsDepart = false;
 	private boolean droitsArrivee = false;
@@ -148,15 +145,15 @@ public class AdministrationController extends AbstractContextAwareController {
 	private IndOpi selectedOpiForDelete;
 	private String aideChoixVoeuParComposante;
 	private String selectedmd5;
-	List<Fichier> listeFichiers;
-	private List<Correspondance> listeCorrespondances = null;
+	private transient List<Fichier> listeFichiers;
+	private transient List<Correspondance> listeCorrespondances = null;
 	private WebService currentWs=null;
 	private String sourceWs;
 	private Integer selectedCurrentAnneeDroitUtilisateursACopier;
 	private Integer selectedCurrentAnneeSignaturesACopier;
 	private Integer selectedCurrentAnneePartenairesACopier;
 	private boolean choixDuVoeuParComposanteByPartenaire;
-	private TreeNode root;
+	private transient TreeNode root;
 	private Integer totalNombreDatasExterneNiveau1;
 	private Integer totalNombreDatasExterneNiveau2;
 	private Integer totalNombreDatasExterneNiveau3;
@@ -196,15 +193,8 @@ public class AdministrationController extends AbstractContextAwareController {
 			{
 				WsPub tmp = (WsPub) p.clone();
 				tmp.setAnnee(getSessionController().getCurrentAnnee());
-//				logger.debug("tmp===>"+tmp+"<===");
 				getDomainService().addWsPub(tmp);
 			}
-
-//			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Importation des signatures réussies", "Importation des signatures réussies");
-//			RequestContext.getCurrentInstance().showMessageInDialog(message);
-
-			//			String summary = getString("ERREUR.ANNEE_ETUDE");
-//			String detail = getString("ERREUR.ANNEE_ETUDE");
 			String summary = "Importation des partenaires réussies";
 			String detail = "Importation des partenaires réussies";
 			Severity severity=FacesMessage.SEVERITY_INFO;
@@ -216,7 +206,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			RequestContext.getCurrentInstance().showMessageInDialog(message);
 		}
 	}
-
 
 	public void addSignaturesFromImport() throws CloneNotSupportedException {
 		if(logger.isDebugEnabled())
@@ -269,7 +258,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				newLpc.add(tmp);
 			}
 
-			List<PersonnelComposante> newLpcAccueil = new ArrayList<PersonnelComposante>();
+//			List<PersonnelComposante> newLpcAccueil = new ArrayList<PersonnelComposante>();
 			for (PersonnelComposante pc : lpcAccueil) {
 				PersonnelComposante tmp = (PersonnelComposante) pc.clone();
 				tmp.setAnnee(getSessionController().getCurrentAnnee());
@@ -277,11 +266,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 			getDomainService().addPersonnelComposanteFromImport(newLpc);
 
-//			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Importation des droits utilisateurs réussis", "Importation des droits utilisateurs réussis");
-//			RequestContext.getCurrentInstance().showMessageInDialog(message);
-
-//			String summary = getString("ERREUR.ANNEE_ETUDE");
-//			String detail = getString("ERREUR.ANNEE_ETUDE");
 			String summary = "Importation des droits utilisateurs réussis";
 			String detail = "Importation des droits utilisateurs réussis";
 			Severity severity=FacesMessage.SEVERITY_INFO;
@@ -313,7 +297,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("param===>"+source_ws+"<===");
 
-		if(source_ws!=null && !source_ws.equals("")) {
+		if(source_ws!=null && !"".equals(source_ws)) {
 			setSourceWs(source_ws);
 			currentWs = getDomainService().getWebServiceByCode(getSourceWs());
 			if (currentWs == null) {
@@ -335,7 +319,6 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public void onSaisieWs(SelectEvent event) {
-		WebService ws = (WebService) event.getObject();
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Le webservice a bien été mis à jour", "Le webservice a bien été mis à jour\"");
 		FacesContext.getCurrentInstance().addMessage("administration.xhtml", message);
 	}
@@ -350,17 +333,9 @@ public class AdministrationController extends AbstractContextAwareController {
 	public String testWebservice(){
 		if(logger.isDebugEnabled())
 			logger.debug("public String testWebservice()===>"+currentWs+"<===");
-		List<DatasExterne> listeInterdit=null;
 		Integer etatConnexion=0;
 		if(currentWs!=null)
 		{
-//			listeInterdit = Fonctions.appelWSDatasExterne(currentWs.getUrl(),
-//					currentWs.getIdentifiant(),
-//					currentWs.getPwd(),
-//					currentWs.getNomClassJava(),
-//					currentWs.getNomMethodeJavaGetAll(),
-//					getSessionController().getTimeOutConnexionWs());
-
 			Object tabReturn[] = Fonctions.appelWSAuth(currentWs.getUrl(),
 					currentWs.getIdentifiant(),
 					currentWs.getPwd(),
@@ -369,7 +344,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					"arrayList",
 					getSessionController().getTimeOutConnexionWs());
 
-			listeInterdit = (List<DatasExterne>) tabReturn[0];
+			List<DatasExterne> listeInterdit = (List<DatasExterne>) tabReturn[0];
 			etatConnexion = (Integer) tabReturn[1];
 
 			if (logger.isDebugEnabled())
@@ -377,21 +352,13 @@ public class AdministrationController extends AbstractContextAwareController {
 				logger.debug("listeInterdit===>" + listeInterdit + "<===");
 				logger.debug("etatConnexion===>" + etatConnexion + "<===");
 			}
-
 		}
-		else {
-			if("bu".equals(getSourceWs()))
-				listeInterdit = getDomainService().getAllDatasExterneByNiveau(1);
-			else if("candidature".equals(getSourceWs()))
-				listeInterdit = getDomainService().getAllDatasExterneByNiveau(2);
-		}
-
 		String ret = "Connexion réussie";
 
-		if(etatConnexion==0)
+		if(etatConnexion==0 && currentWs!=null)
 			ret = "Impossible de se connecter au WebService "+currentWs.getCode();
 
-		FacesMessage message=null;
+		FacesMessage message;
 		if(etatConnexion==1)
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, ret, ret);
 		else
@@ -615,9 +582,9 @@ public class AdministrationController extends AbstractContextAwareController {
 				logger.debug("################ this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size() ################ --> "+this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size()+"<");
 		}
 
-		if(currentCleAccueilAnnee!=null && !currentCleAccueilAnnee.equals("")
-				&& currentCleAccueilResultat!=null && !currentAccueilResultat.equals("")
-				&& currentSituationUniv.getLibelle()!=null && !currentSituationUniv.getLibelle().equals(""))
+		if(currentCleAccueilAnnee!=null && !"".equals(currentCleAccueilAnnee)
+				&& currentCleAccueilResultat!=null && !"".equals(currentCleAccueilResultat)
+				&& currentSituationUniv.getLibelle()!=null && !"".equals(currentSituationUniv.getLibelle()))
 		{
 			currentAccueilAnnee = getDomainService().getAccueilAnneeById(Integer.parseInt(currentCleAccueilAnnee));
 			currentAccueilResultat = getDomainService().getAccueilResultatById(Integer.parseInt(currentCleAccueilResultat));
@@ -629,7 +596,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			/*Reinitialisation des currents objects*/
 			currentCleAccueilAnnee=null;
 			currentCleAccueilResultat=null;
-			AccueilAnnee currentAccueilAnnee = new AccueilAnnee();
+//			AccueilAnnee currentAccueilAnnee = new AccueilAnnee();
 			currentAccueilResultat = new AccueilResultat();
 			currentSituationUniv = new SituationUniversitaire();
 			if (logger.isDebugEnabled())
@@ -684,7 +651,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		String detail = getString("SUPPRESSION.DEMANDE_TRANSFERT");
 		Severity severity = FacesMessage.SEVERITY_INFO;
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-		if(getSource().equals("D"))
+		if("D".equals(getSource()))
 			return this.goToTransfertsDepart();
 		else
 			return this.goToTransfertsAccueil();
@@ -759,7 +726,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				try {
 					if((lPc!=null
 							&& chaineComposante!=null
-							&& !chaineComposante.equals("")
+							&& !"".equals(chaineComposante)
 							&& chaineComposante.contains(etu.getTransferts().getOdf().getCodeComposante())
 					) || getSessionController().getCurrentUser().isAdmin())
 						lEtu.add(etu);
@@ -776,7 +743,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		WebService currentWsCandidatures = getDomainService().getWebServiceByCode("candidature");
 		if(getSessionController().isUseWsCandidatures() && currentWsCandidatures!=null)
 		{
-			Integer etatConnexion=0;
+			Integer etatConnexion;
 			Object tabReturn[] = Fonctions.appelWSAuth(currentWsCandidatures.getUrl(),
 					currentWsCandidatures.getIdentifiant(),
 					currentWsCandidatures.getPwd(),
@@ -839,23 +806,22 @@ public class AdministrationController extends AbstractContextAwareController {
 			/*Fin d'initialisation de la colonne candidature à partir des donnees de la table dataExterne (niveau 2)*/
 
 			DateFormat dfl = DateFormat.getDateTimeInstance(DateFormat.SHORT , DateFormat.SHORT);
-			excel.setDateDeLaDemandeTransfert(dfl.format(etu.getTransferts().getDateDemandeTransfert()).toString());
-			//			excel.setDateDeLaDemandeTransfert(etu.getTransferts().getDateDemandeTransfert().toString());
+			excel.setDateDeLaDemandeTransfert(dfl.format(etu.getTransferts().getDateDemandeTransfert()));
 			excel.setNumeroEtudiant(etu.getNumeroEtudiant());
 			excel.setNomPatronymique(etu.getNomPatronymique());
 			excel.setPrenom1(etu.getPrenom1());
 			excel.setNumeroIne(etu.getNumeroIne());
 			SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
-			excel.setDateNaissance(formater.format(etu.getDateNaissance()).toString());
+			excel.setDateNaissance(formater.format(etu.getDateNaissance()));
 			excel.setAdresse(adresse);
 			excel.setEtatDuDossier(this.getLibEtatDossier(etu.getTransferts().getTemoinTransfertValide()));
 			excel.setComposante(etu.getTransferts().getOdf().getLibComposante());
 			excel.setDerniereIaInscription(etu.getLibEtapePremiereLocal());
 			excel.setOdf(etu.getTransferts().getOdf());
 			excel.setUniversiteDepart(getDomainServiceScolarite().getEtablissementByRne(etu.getAccueil().getCodeRneUnivDepart()));
-			String fromSource = "";
+			String fromSource;
 
-			if(etu.getAccueil().getFrom_source().equals("P"))
+			if("P".equals(etu.getAccueil().getFrom_source()))
 			{
 				fromSource="Partenaire";
 				excel.setFrom_source(fromSource);
@@ -867,7 +833,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 
 			List<SituationUniversitaire> lSU =  etu.getAccueil().getSituationUniversitaire();
-			//			List<SituationUniversitaire> lSU = getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(etu.getNumeroEtudiant(), etu.getAnnee());
 
 			boolean continu = true;
 			for(AccueilAnnee aa : lAA)
@@ -915,7 +880,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				{
 					if(ad.getId()==tableau[tableau.length-1])
 					{
-						if(ad.getAvis().equals("A"))
+						if("A".equals(ad.getAvis()))
 							decision="Favorable";
 						else
 							decision="Défavorable";
@@ -974,7 +939,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		 * 1 ==> Personnel de scolarite
 		 * 2 ==> Autres
 		 * */
-		String ret = "";
+		String ret;
 		if (idTypePersonnel == 1)
 			ret = "Direction des etudes";
 		else if (idTypePersonnel == 2)
@@ -991,7 +956,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		 * 1 ==> oui
 		 * 2 ==> non
 		 */
-		String ret = "";
+		String ret;
 		if (idValidationOuCandidature == 0)
 			ret = "Non specifie";
 		else if (idValidationOuCandidature == 1)
@@ -1035,7 +1000,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				try {
 					if((lPc!=null
 							&& chaineComposante!=null
-							&& !chaineComposante.equals("")
+							&& !"".equals(chaineComposante)
 							&& chaineComposante.contains(etu.getComposante())
 					) || getSessionController().getCurrentUser().isAdmin())
 						lEtu.add(etu);
@@ -1056,13 +1021,13 @@ public class AdministrationController extends AbstractContextAwareController {
 			adresse.setEmail(etu.getAdresse().getEmail());
 			EtudiantRefExcel excel = new EtudiantRefExcel();
 			DateFormat dfl = DateFormat.getDateTimeInstance(DateFormat.SHORT , DateFormat.SHORT);
-			excel.setDateDeLaDemandeTransfert(dfl.format(etu.getTransferts().getDateDemandeTransfert()).toString());
+			excel.setDateDeLaDemandeTransfert(dfl.format(etu.getTransferts().getDateDemandeTransfert()));
 			excel.setNumeroEtudiant(etu.getNumeroEtudiant());
 			excel.setNomPatronymique(etu.getNomPatronymique());
 			excel.setPrenom1(etu.getPrenom1());
 			excel.setNumeroIne(etu.getNumeroIne());
 			SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
-			excel.setDateNaissance(formater.format(etu.getDateNaissance()).toString());
+			excel.setDateNaissance(formater.format(etu.getDateNaissance()));
 			excel.setAdresse(adresse);
 			excel.setEtatDuDossier(this.getLibEtatDossier(etu.getTransferts().getTemoinTransfertValide()));
 			excel.setComposante(etu.getComposante());
@@ -1096,7 +1061,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		 * favorable ou defavorable (authorise l'impression depuis la partie
 		 * etudiant)
 		 */
-		String ret = "";
+		String ret;
 		if (idEtatDossier == 0)
 			ret = "Dossier non traite";
 		else if (idEtatDossier == 1)
@@ -1112,7 +1077,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("public void deverouillerDemandeTransfert() ");
 		this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(1);
 		this.currentDemandeTransferts.getTransferts().setTemoinOPIWs(null);
-//		if(this.getCurrentDemandeTransferts().getSource().equals("A"))
 		this.currentDemandeTransferts.getTransferts().setTemoinRetourTransfertAccueil(0);
 		this.addDemandeTransferts();
 		String summary = getString("ENREGISTREMENT.DEVEROUILLER_DEMANDE_TRANSFERT");
@@ -1131,7 +1095,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("exclueBacOpi --> "+exclueBacOpi);
 			logger.debug("#######################################################################################################################");
 		}
-		//		List<IndOpi> opis = getDomainService().getAllIndOpiNonSynchroAndSource(getSessionController().getCurrentAnnee(), getSource());
 		List<IndOpi> opis = new ArrayList<IndOpi>();
 		List<IndOpi> reinscription = new ArrayList<IndOpi>();
 		Correspondance correspondance = new Correspondance();
@@ -1170,8 +1133,8 @@ public class AdministrationController extends AbstractContextAwareController {
 		List<IndOpi> primoInscription = this.getOpiByFiltre(opis,true);
 		reinscription = this.getOpiByFiltre(reinscription,true);
 
-		List<IndOpi> listeErreursPrimoInscription = new ArrayList<IndOpi>();
-		List<IndOpi> listeErreursReinscription = new ArrayList<IndOpi>();
+		List<IndOpi> listeErreursPrimoInscription;
+		List<IndOpi> listeErreursReinscription;
 
 		if(primoInscription !=null && !primoInscription.isEmpty())
 		{
@@ -1242,12 +1205,12 @@ public class AdministrationController extends AbstractContextAwareController {
 					* controlle des interdit APB (postbac)
 					*
 			 		*/
-					List<Interdit> listeInterditsNiveau3=null;
+					List<Interdit> listeInterditsNiveau3;
 					List<DatasExterne> listeDatasEterneNiveau3 = null;
 					WebService currentWsPostBac = getDomainService().getWebServiceByCode("postbac");
 					if(getSessionController().isUseWsPostBac() && currentWsPostBac!=null)
 					{
-						Integer etatConnexion=0;
+						Integer etatConnexion;
 						Object tabReturn[] = Fonctions.appelWSAuth(currentWsPostBac.getUrl(),
 								currentWsPostBac.getIdentifiant(),
 								currentWsPostBac.getPwd(),
@@ -1283,8 +1246,8 @@ public class AdministrationController extends AbstractContextAwareController {
 						opi.setSynchro(4);
 						getDomainService().updateIndOpi(opi);
 
-						String decision="";
-						if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
+						String decision;
+						if(opi.getVoeux().getCodDecVeu()!=null && "F".equals(opi.getVoeux().getCodDecVeu()))
 							decision="Favorable";
 						else
 							decision="Défavorable";
@@ -1303,8 +1266,8 @@ public class AdministrationController extends AbstractContextAwareController {
 						opi.setSynchro(1);
 						getDomainService().updateIndOpi(opi);
 
-						String decision="";
-						if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
+						String decision;
+						if(opi.getVoeux().getCodDecVeu()!=null && "F".equals(opi.getVoeux().getCodDecVeu()))
 							decision="Favorable";
 						else
 							decision="Défavorable";
@@ -1395,8 +1358,8 @@ public class AdministrationController extends AbstractContextAwareController {
 					getDomainService().updateIndOpi(opi);
 
 					this.currentDemandeTransferts = getDomainService().getDemandeTransfertByAnneeAndNumeroIneAndSource(opi.getCodNneIndOpi() + "" + opi.getCodCleNneIndOpi(), opi.getAnnee(), "A");
-					String decision="";
-					if(opi.getVoeux().getCodDecVeu()!=null && opi.getVoeux().getCodDecVeu().equals("F"))
+					String decision;
+					if(opi.getVoeux().getCodDecVeu()!=null && "F".equals(opi.getVoeux().getCodDecVeu()))
 						decision="Favorable";
 					else
 						decision="Défavorable";
@@ -1467,8 +1430,8 @@ public class AdministrationController extends AbstractContextAwareController {
 		{
 			for(int i=0;i<opis.size();i++)
 			{
-				if(((opis.get(i).getSynchro()==0 && !exclueEtpOpi.contains(opis.get(i).getVoeux().getCodEtp())) || exclueEtpOpi.equals(""))
-						&& ((opis.get(i).getSynchro()==0 && !exclueBacOpi.contains(opis.get(i).getCodBac())) || exclueBacOpi.equals("")))
+				if(((opis.get(i).getSynchro()==0 && !exclueEtpOpi.contains(opis.get(i).getVoeux().getCodEtp())) || "".equals(exclueEtpOpi))
+						&& ((opis.get(i).getSynchro()==0 && !exclueBacOpi.contains(opis.get(i).getCodBac())) || "".equals(exclueBacOpi)))
 				{
 					opis.get(i).setSynchro(1);
 					listeSynchroScolarite.add(opis.get(i));
@@ -2013,7 +1976,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			WebService currentWsPostBac = getDomainService().getWebServiceByCode("postbac");
 			if(getSessionController().isUseWsPostBac() && currentWsPostBac!=null)
 			{
-				Integer etatConnexion=0;
+				Integer etatConnexion;
 				Object tabReturn[] = Fonctions.appelWSAuth(currentWsPostBac.getUrl(),
 						currentWsPostBac.getIdentifiant(),
 						currentWsPostBac.getPwd(),
@@ -2060,7 +2023,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					getSessionController().getCurrentAnnee(),
 					this.currentDemandeTransferts.getTransferts().getOdf().getCodeComposante());
 
-			if (this.currentDemandeTransferts.getAdresse().getCodPay().equals("100"))
+			if ("100".equals(this.currentDemandeTransferts.getAdresse().getCodPay()))
 				this.setCodePaysItems("100");
 			else
 				this.setCodePaysItems("99");
@@ -2131,10 +2094,10 @@ public class AdministrationController extends AbstractContextAwareController {
 		if(this.currentDemandeTransferts.getAccueil()!=null && this.currentDemandeTransferts.getAccueil().getSituationUniversitaire()!=null) {
 			tableau = new Integer[this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size()];
 
-			if (this.currentDemandeTransferts.getAccueil().getFrom_source().equals("L")) {
+			if ("L".equals(this.currentDemandeTransferts.getAccueil().getFrom_source())) {
 				for (int i = 0; i < this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size(); i++)
 					tableau[i] = Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getAnnee().getLibelle().substring(0, 4));
-			} else if (this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P")) {
+			} else if ("P".equals(this.currentDemandeTransferts.getAccueil().getFrom_source())) {
 				for (int i = 0; i < this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size(); i++)
 					tableau[i] = Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getLibAccueilAnnee().substring(0, 4));
 			} else {
@@ -2227,7 +2190,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					getSessionController().getCurrentAnnee(),
 					this.currentDemandeTransferts.getComposante());
 
-			if (this.currentDemandeTransferts.getAdresse().getCodPay().equals("100"))
+			if ("100".equals(this.currentDemandeTransferts.getAdresse().getCodPay()))
 				this.setCodePaysItems("100");
 			else
 				this.setCodePaysItems("99");
@@ -2367,7 +2330,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						try {
 							if((lPc!=null
 									&& chaineComposante!=null
-									&& !chaineComposante.equals("")
+									&& !"".equals(chaineComposante)
 									&& chaineComposante.contains(etu.getTransferts().getOdf().getCodeComposante())
 							) || getSessionController().getCurrentUser().isAdmin())
 								lEtu2.add(etu);
@@ -2415,7 +2378,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						try {
 							if((lPc!=null
 									&& chaineComposante!=null
-									&& !chaineComposante.equals("")
+									&& !"".equals(chaineComposante)
 									&& chaineComposante.contains(etu.getTransferts().getOdf().getCodeComposante())
 							) || getSessionController().getCurrentUser().isAdmin())
 								lEtu2.add(etu);
@@ -2506,7 +2469,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						try {
 							if((lPc!=null
 									&& chaineComposante!=null
-									&& !chaineComposante.equals("")
+									&& !"".equals(chaineComposante)
 									&& chaineComposante.contains(etu.getComposante())
 							) || getSessionController().getCurrentUser().isAdmin())
 								lEtu2.add(etu);
@@ -2556,7 +2519,7 @@ public class AdministrationController extends AbstractContextAwareController {
 							if (logger.isDebugEnabled())
 								logger.debug("Signature !!!");
 						}
-						if (etu.getLibEtapePremiereLocal() == null || etu.getLibEtapePremiereLocal().equals("Non disponible"))
+						if (etu.getLibEtapePremiereLocal() == null || "Non disponible".equals(etu.getLibEtapePremiereLocal()))
 						{
 							if (logger.isDebugEnabled())
 								logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
@@ -2573,7 +2536,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						try {
 							if((lPc!=null
 									&& chaineComposante!=null
-									&& !chaineComposante.equals("")
+									&& !"".equals(chaineComposante)
 									&& chaineComposante.contains(etu.getComposante())
 							) || getSessionController().getCurrentUser().isAdmin())
 								lEtu2.add(etu);
@@ -2612,7 +2575,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		List<TrCommuneDTO> listeCommunes;
 		try {
 			listeCommunes = getDomainServiceScolarite().getCommunes(currentDemandeTransferts.getAdresse().getCodePostal());
-			if (listeCommunes == null || listeCommunes.size() == 0) {
+			if (listeCommunes == null || listeCommunes.isEmpty()) {
 				String summary = getString("ERREUR.AUCUNE_COMMUNE");
 				String detail = getString("ERREUR.AUCUNE_COMMUNE");
 				Severity severity = FacesMessage.SEVERITY_ERROR;
@@ -2676,7 +2639,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			listeDepartements.add(option);
 		}
 
-		if (isPartenaire() && (this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome()==null || this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome().equals(""))) {
+		if (isPartenaire() && (this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome()==null || "".equals(this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome()))) {
 			if (logger.isDebugEnabled()){
 				logger.debug("Etablissement partenaire && typediplome==null");
 				logger.debug("aaa---libelleDiplomeVide===>" + libelleDiplomeVide + "<===");
@@ -2688,7 +2651,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				setAnneeEtudeVide(false);
 			if (getCodeComposante() != null)
 				setComposanteVide(false);
-			if (getCodeDiplome() != null && !getCodeDiplome().equals(""))
+			if (getCodeDiplome() != null && !"".equals(getCodeDiplome()))
 				setLibelleDiplomeVide(false);
 			if (currentOdf != null)
 				setLibelleEtapeVide(false);
@@ -2703,7 +2666,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				setAnneeEtudeVide(false);
 			if (getCodeComposante() != null)
 				setComposanteVide(false);
-			if (getCodeDiplome() != null	&& !getCodeDiplome().equals(""))
+			if (getCodeDiplome() != null	&& !"".equals(getCodeDiplome()))
 				setLibelleDiplomeVide(false);
 			if (currentOdf != null)
 				setLibelleEtapeVide(false);
@@ -2831,7 +2794,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 		Map<String, String> listeLibellesDiplomeDTO;
 
-		if(this.currentDemandeTransferts.getSource().equals("D"))
+		if("D".equals(this.currentDemandeTransferts.getSource()))
 		{
 			listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentDemandeTransferts.getTransferts().getRne(),
 					getSessionController().getCurrentAnnee(),
@@ -2852,14 +2815,23 @@ public class AdministrationController extends AbstractContextAwareController {
 
 		if(listeLibellesDiplomeDTO!=null && !listeLibellesDiplomeDTO.isEmpty())
 		{
-			if (logger.isDebugEnabled()) {
+			if (logger.isDebugEnabled())
 				logger.debug("listeLibellesDiplomeDTO : "+listeLibellesDiplomeDTO);
-			}
-			for(String mapKey : listeLibellesDiplomeDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
+
+
+//			for(String mapKey : listeLibellesDiplomeDTO.keySet())
+//			{
+//				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
+//				listeLibellesDiplome.add(option);
+//			}
+
+			for (Map.Entry<String,String> entry : listeLibellesDiplomeDTO.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeLibellesDiplome.add(option);
 			}
+
 			Collections.sort(listeLibellesDiplome,new ComparatorSelectItem());
 			return listeLibellesDiplome;
 		}
@@ -2939,7 +2911,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("public void resetGeneral() --> "+ this.currentDemandeTransferts.getTransferts().getDept());
 		}
-		if(currentDemandeTransferts.getTransferts().getDept() !=null && !currentDemandeTransferts.getTransferts().getDept().equals(""))
+		if(currentDemandeTransferts.getTransferts().getDept() !=null && !"".equals(currentDemandeTransferts.getTransferts().getDept()))
 		{
 			setDeptVide(false);
 			listeDepartements=null;
@@ -2960,7 +2932,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("public void resetGeneralAccueil() --> "+ this.currentDemandeTransferts.getAccueil().getCodeDepUnivDepart());
 		}
-		if(currentDemandeTransferts.getAccueil().getCodeDepUnivDepart() !=null && !currentDemandeTransferts.getAccueil().getCodeDepUnivDepart().equals(""))
+		if(currentDemandeTransferts.getAccueil().getCodeDepUnivDepart() !=null && !"".equals(currentDemandeTransferts.getAccueil().getCodeDepUnivDepart()))
 		{
 			setDeptVide(false);
 			listeDepartements=null;
@@ -2978,7 +2950,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("public void resetAnneeEtude()");
 
 		setTypesDiplomeAutreVide(true);
-		if(getCodTypDip() !=null && !getCodTypDip().equals(""))
+		if(getCodTypDip() !=null && !"".equals(getCodTypDip()))
 		{
 			setDeptVide(false);
 			setTypesDiplomeVide(false);
@@ -3025,7 +2997,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		currentDemandeTransferts.getTransferts().setOdf(currentOdf);
 		setAnneeEtudeVide(true);
 
-		if(this.currentDemandeTransferts.getTransferts().getRne() !=null && !this.currentDemandeTransferts.getTransferts().getRne().equals("") && isPartenaire() && (this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome()==null || this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome().equals("")))
+		if(this.currentDemandeTransferts.getTransferts().getRne() !=null && !"".equals(this.currentDemandeTransferts.getTransferts().getRne()) && isPartenaire() && (this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome()==null || "".equals(this.currentDemandeTransferts.getTransferts().getLibelleTypeDiplome())))
 		{
 
 			setTypesDiplomeVide(false);
@@ -3053,7 +3025,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("public void resetAnneeEtude()");
 
 		setTypesDiplomeAutreVide(true);
-		if(getCodTypDip() !=null && !getCodTypDip().equals(""))
+		if(getCodTypDip() !=null && !"".equals(getCodTypDip()))
 		{
 			setDeptVide(false);
 			setTypesDiplomeVide(false);
@@ -3098,7 +3070,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	public void resetLibelleEtape()
 	{
 		setTypesDiplomeAutreVide(true);
-		if(getCodeDiplome() !=null && !getCodeDiplome().equals(""))
+		if(getCodeDiplome() !=null && !"".equals(getCodeDiplome()))
 		{
 			setDeptVide(false);
 			setTypesDiplomeVide(false);
@@ -3376,8 +3348,8 @@ public class AdministrationController extends AbstractContextAwareController {
 			List<TrSituationUniversitaire> lTrSU = new ArrayList<TrSituationUniversitaire>();
 			for(SituationUniversitaire su : this.currentDemandeTransferts.getAccueil().getSituationUniversitaire())
 			{
-				String annee = "";
-				String resultat = "";
+				String annee;
+				String resultat;
 				if(su.getAnnee().getIdAccueilAnnee()!=0)
 					annee = su.getAnnee().getLibelle();
 				else
@@ -3478,7 +3450,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				this.currentDemandeTransferts.getAdresse().setNomCommune(communes.get(i).getLabel());
 		}
 
-		if (this.currentDemandeTransferts.getTransferts().getTypeTransfert().equals("T"))
+		if ("T".equals(this.currentDemandeTransferts.getTransferts().getTypeTransfert()))
 			this.currentDemandeTransferts.getTransferts().setLibTypeTransfert("Total");
 		else
 			this.currentDemandeTransferts.getTransferts().setLibTypeTransfert("Partiel");
@@ -3498,34 +3470,20 @@ public class AdministrationController extends AbstractContextAwareController {
 		 * 
 		 * */
 		Map<String, String> map = getDomainServiceScolarite().getEtapePremiereAndCodeCgeAndLibCge(etu.getNumeroEtudiant());
-//		for (String mapKey : map.keySet()) {
-//			if(mapKey.equals("libWebVet"))
-//				etu.setLibEtapePremiereLocal(map.get(mapKey));
-//			if(mapKey.equals("codeCGE"))
-//				etu.setCodCge(map.get(mapKey));
-//			if(mapKey.equals("libCGE"))
-//				etu.setLibCge(map.get(mapKey));
-//			if(mapKey.equals("codeComposante"))
-//				etu.setComposante(map.get(mapKey));
-//			if(mapKey.equals("libComposante"))
-//				etu.setLibComposante(map.get(mapKey));
-//		}
-
 		for (Map.Entry<String,String> entry : map.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
-			if(key.equals("libWebVet"))
+			if("libWebVet".equals(key))
 				etu.setLibEtapePremiereLocal(value);
-			if(key.equals("codeCGE"))
+			if("codeCGE".equals(key))
 				etu.setCodCge(value);
-			if(key.equals("libCGE"))
+			if("libCGE".equals(key))
 				etu.setLibCge(value);
-			if(key.equals("codeComposante"))
+			if("codeComposante".equals(key))
 				etu.setComposante(value);
-			if(key.equals("libComposante"))
+			if("libComposante".equals(key))
 				etu.setLibComposante(value);
 		}
-
 		TrResultatVdiVetDTO trResultatVdiVetDTO;
 		trResultatVdiVetDTO = getDomainServiceScolarite().getSessionsResultats(etu.getNumeroEtudiant(), "D");
 		setRoot(getSessionController().constructTreeNode(trResultatVdiVetDTO));
@@ -3538,9 +3496,9 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("goToSaisirAvis");
 
 		if ((this.currentDemandeTransferts.getAdresse().getNumTel() == null
-				|| this.currentDemandeTransferts.getAdresse().getNumTel().equals(""))
+				|| "".equals(this.currentDemandeTransferts.getAdresse().getNumTel()))
 				&& (this.currentDemandeTransferts.getAdresse().getNumTelPortable() == null
-				|| this.currentDemandeTransferts.getAdresse().getNumTelPortable().equals("")))
+				|| "".equals(this.currentDemandeTransferts.getAdresse().getNumTelPortable())))
 		{
 			String summary = getString("ERREUR.TELEPHONE");
 			String detail = getString("ERREUR.TELEPHONE");
@@ -3576,9 +3534,9 @@ public class AdministrationController extends AbstractContextAwareController {
 			setTypePersonnel(null);
 
 		if ((this.currentDemandeTransferts.getAdresse().getNumTel() == null
-				|| this.currentDemandeTransferts.getAdresse().getNumTel().equals(""))
+				|| "".equals(this.currentDemandeTransferts.getAdresse().getNumTel()))
 				&& (this.currentDemandeTransferts.getAdresse().getNumTelPortable() == null
-				|| this.currentDemandeTransferts.getAdresse().getNumTelPortable().equals("")))
+				|| "".equals(this.currentDemandeTransferts.getAdresse().getNumTelPortable())))
 		{
 			String summary = getString("ERREUR.TELEPHONE");
 			String detail = getString("ERREUR.TELEPHONE");
@@ -3932,13 +3890,13 @@ public class AdministrationController extends AbstractContextAwareController {
 						logger.debug("3--ad.getAvis()===>"+ad.getAvis()+"<===");
 					}
 
-					if(ad.getAvis().equals("A"))
+					if("A".equals(ad.getAvis()))
 					{
 						decision="F";
 						libDecision="Favorable";
 						feedBackDecision=1;
 					}
-					else if(ad.getAvis().equals("B"))
+					else if("B".equals(ad.getAvis()))
 					{
 						decision="D";
 						libDecision="Défavorable";
@@ -3953,7 +3911,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 
 //			Décision différent de "autre"
-			if(!decision.equals("A"))
+			if(!"A".equals(decision))
 			{
 				if(logger.isDebugEnabled())
 					logger.debug("libDecision===>"+libDecision+"<===");
@@ -3967,7 +3925,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				//IndOpi opi = getDomainServiceScolarite().getInfosOpi(this.currentDemandeTransferts.getNumeroEtudiant());
 
 				IndOpi opi = getDomainService().getIndOpiByNneAndCleIneAndAnnee(this.currentDemandeTransferts.getNumeroIne().substring(0, this.currentDemandeTransferts.getNumeroIne().length()-1), this.currentDemandeTransferts.getNumeroIne().substring(this.currentDemandeTransferts.getNumeroIne().length()-1, this.currentDemandeTransferts.getNumeroIne().length()), this.currentDemandeTransferts.getAnnee());
-				String cleOpi="";
+				String cleOpi;
 
 				if(opi==null)
 				{
@@ -3986,7 +3944,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				}
 
 				/*Ajout des données obligatoires saisies l'étudiant*/
-				if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
+				if("P".equals(this.currentDemandeTransferts.getAccueil().getFrom_source()))
 					opi.setSource("D");
 				else
 					opi.setSource(getSource());
@@ -4037,9 +3995,6 @@ public class AdministrationController extends AbstractContextAwareController {
 				opi.getVoeux().setNumCls("1");
 				opi.getVoeux().setCodCmp(currentDemandeTransferts.getTransferts().getOdf().getCodeComposante());
 
-				//			if (logger.isDebugEnabled()) 
-				//				logger.debug("IndOpi: " + opi);
-
 				String summary;
 				String detail;
 				Severity severity;
@@ -4057,8 +4012,8 @@ public class AdministrationController extends AbstractContextAwareController {
 						etab.getLibAd1Etb()+" <BR /> "+
 						etab.getCodPosAdrEtb()+" "+etab.getLibAch();
 
-				String sujet = "";
-				String body = "";
+				String sujet;
+				String body;
 
 				if (logger.isDebugEnabled())
 				{
@@ -4069,10 +4024,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					logger.debug("this.currentDemandeTransferts.getAccueil().getCodeBac() -->"+this.currentDemandeTransferts.getAccueil().getCodeBac());
 					logger.debug("Candidature -->"+this.isInterditNiveau2());
 				}
-
-//				Integer feedBackDecision=0;
-
-				if(!exclueBacOpi.contains(this.currentDemandeTransferts.getAccueil().getCodeBac()) || exclueBacOpi.equals(""))
+				if(!exclueBacOpi.contains(this.currentDemandeTransferts.getAccueil().getCodeBac()) || "".equals(exclueBacOpi))
 				{
 					if(this.isInterditNiveau2())
 					{
@@ -4082,12 +4034,12 @@ public class AdministrationController extends AbstractContextAwareController {
 						 * */
 						if(getSessionController().isTransfertsAccueil())
 						{
-							if(decision.equals("F"))
+							if("F".equals(decision))
 							{
 								/*
 								 * Pour les étudiants avec procédure e-candidat / accès via les applis – départ des universités partenaires
 								 * */
-								if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
+								if("P".equals(this.currentDemandeTransferts.getAccueil().getFrom_source()))
 								{
 									if (logger.isDebugEnabled())
 										logger.debug("mail===>Pour les étudiants avec procédure e-candidat / accès via les applis – départ des universités partenaires<===");
@@ -4166,7 +4118,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						}
 						else
 						{
-							if(decision.equals("F"))
+							if("F".equals(decision))
 								getDomainService().addIndOpi(opi, maj);
 						}
 					}
@@ -4174,10 +4126,9 @@ public class AdministrationController extends AbstractContextAwareController {
 					{
 						if(getSessionController().isTransfertsAccueil())
 						{
-							if(decision.equals("F"))
+							if("F".equals(decision))
 							{
-//								feedBackDecision=1;
-								if(this.currentDemandeTransferts.getAccueil().getFrom_source().equals("P"))
+								if("P".equals(this.currentDemandeTransferts.getAccueil().getFrom_source()))
 								{
 									/*
 									 * Pour les étudiants sans procédure e-candidat / accès via les applis – départ des universités partenaires - partenaire
@@ -4222,7 +4173,6 @@ public class AdministrationController extends AbstractContextAwareController {
 								body = getString("DECISION.MAIL.BODY_AVIS_D",
 										this.currentDemandeTransferts.getPrenom1(),
 										this.currentDemandeTransferts.getNomPatronymique(),
-										//										this.getListeAccueilDecision().get(0).getDecision(),
 										libDecision,
 										libEtab,
 										etab.getLibOffEtb());
@@ -4232,6 +4182,7 @@ public class AdministrationController extends AbstractContextAwareController {
 							}
 							catch (AddressException e)
 							{
+								logger.error(e);
 								summary = getString("ERREUR.ENVOI_MAIL");
 								detail = getString("ERREUR.ENVOI_MAIL");
 								severity = FacesMessage.SEVERITY_INFO;
@@ -4254,7 +4205,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						}
 						else
 						{
-							if(decision.equals("F"))
+							if("F".equals(decision))
 								getDomainService().addIndOpi(opi, maj);
 						}
 					}
@@ -4263,9 +4214,8 @@ public class AdministrationController extends AbstractContextAwareController {
 				{
 					if(getSessionController().isTransfertsAccueil())
 					{
-						if(decision.equals("F"))
+						if("F".equals(decision))
 						{
-//							feedBackDecision=1;
 							sujet = getString("DECISION.MAIL.SUJET");
 							body = getString("DECISION.MAIL.BODY_EXCLU_BAC",
 									this.currentDemandeTransferts.getPrenom1(),
@@ -4364,6 +4314,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				}
 				catch (AddressException e)
 				{
+					logger.error(e);
 					String summary = getString("ERREUR.ENVOI_MAIL");
 					String detail = getString("ERREUR.ENVOI_MAIL");
 					Severity severity = FacesMessage.SEVERITY_INFO;
@@ -4496,7 +4447,7 @@ public class AdministrationController extends AbstractContextAwareController {
 								logger.debug("re.getSession() : " + re.getSession());
 							}
 
-							if(rs.getResultat()!=null && !rs.getResultat().equals(""))
+							if(rs.getResultat()!=null && !"".equals(rs.getResultat()))
 							{
 								test=false;
 								SituationUniversitaire su = new SituationUniversitaire();
@@ -4686,13 +4637,13 @@ public class AdministrationController extends AbstractContextAwareController {
 		String test="";
 		if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0)
 		{
-			int nb=getSelectedDemandeTransferts().length;
+//			int nb=getSelectedDemandeTransferts().length;
 			if (logger.isDebugEnabled())
 				logger.debug("if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0 && progress==0) -->"+getSelectedDemandeTransferts().length+"-----"+progress);
 
 			EtudiantRef[] etu = getSelectedDemandeTransferts();
 
-			if(this.getSource().equals("D"))
+			if("D".equals(this.getSource()))
 			{
 				setCurrentAvisMultiple(getCurrentAvis());
 				for(int i=0 ; i<etu.length; i++)
@@ -4748,6 +4699,7 @@ public class AdministrationController extends AbstractContextAwareController {
 						}
 						catch (AddressException e)
 						{
+							logger.error(e);
 							String summary = getString("ERREUR.ENVOI_MAIL");
 							String detail = getString("ERREUR.ENVOI_MAIL");
 							Severity severity = FacesMessage.SEVERITY_INFO;
@@ -4763,7 +4715,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					}
 				}
 			}
-			else if(this.getSource().equals("A"))
+			else if("A".equals(this.getSource()))
 			{
 				setCurrentDecisionMultiple(getCurrentAccueilDecision());
 				for(int i=0 ; i<etu.length; i++)
@@ -4818,9 +4770,9 @@ public class AdministrationController extends AbstractContextAwareController {
 		setListeTransfertDepartDataModel(null);
 		setSelectedDemandeTransferts(null);
 
-		if(this.getSource().equals("D"))
+		if("D".equals(this.getSource()))
 			setCurrentAvis(new Avis());
-		else if(this.getSource().equals("A"))
+		else if("A".equals(this.getSource()))
 			setCurrentAccueilDecision(new AccueilDecision());
 
 		this.setMultiple(false);
@@ -4835,11 +4787,11 @@ public class AdministrationController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("ccccc-----else if (this.currentDemandeTransferts.getTransferts().getFichier()==null)===>"+this.currentDemandeTransferts.getTransferts().getFichier()+"<===");
 
-		if(getSource().equals("D"))
+		if("D".equals(getSource()))
 			this.currentDemandeTransferts.setAccueil(null);
 
-		if ((this.currentDemandeTransferts.getAdresse().getNumTel() == null || this.currentDemandeTransferts.getAdresse().getNumTel().equals(""))
-				&& (this.currentDemandeTransferts.getAdresse().getNumTelPortable() == null || this.currentDemandeTransferts.getAdresse().getNumTelPortable().equals("")))
+		if ((this.currentDemandeTransferts.getAdresse().getNumTel() == null || "".equals(this.currentDemandeTransferts.getAdresse().getNumTel()))
+				&& (this.currentDemandeTransferts.getAdresse().getNumTelPortable() == null || "".equals(this.currentDemandeTransferts.getAdresse().getNumTelPortable())))
 		{
 			String summary = getString("ERREUR.TELEPHONE");
 			String detail = getString("ERREUR.TELEPHONE");
@@ -4864,14 +4816,13 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 		else
 		{
-			//			this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierByIdAndAnneeAndFrom(currentDemandeTransferts.getTransferts().getFichier().getMd5(), getSessionController().getCurrentAnnee(), getSource()));
 			this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierByIdAndAnneeAndFrom(this.getSelectedmd5(),this.currentDemandeTransferts.getAnnee(), this.currentDemandeTransferts.getSource()));
 			if (logger.isDebugEnabled()) {
 				if (this.currentAvis != null)
 					logger.debug("currentAvis : " + this.currentAvis.toString());
 			}
 
-			if (this.getCodePaysItems().equals("100"))
+			if ("100".equals(this.getCodePaysItems()))
 			{
 				this.currentDemandeTransferts.getAdresse().setCodeVilleEtranger(null);
 				this.currentDemandeTransferts.getAdresse().setCodPay(this.getCodePaysItems());
@@ -4889,10 +4840,9 @@ public class AdministrationController extends AbstractContextAwareController {
 			currentDemandeTransferts.getTransferts().setOdf(currentOdf);
 			getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
 
-			if(this.currentDemandeTransferts.getSource().equals("A"))
+			if("A".equals(this.currentDemandeTransferts.getSource()))
 			{
 				getDomainService().deleteSituationUniversitaireByNumeroEtudiantAndAnneeIsNull();
-				//				currentDemandeTransferts=getDomainService().getEtudiantRef(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee());
 				currentDemandeTransferts=getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentDemandeTransferts.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), this.currentDemandeTransferts.getSource());
 				this.currentDemandeTransferts.getAccueil().setSituationUniversitaire(getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee()));
 			}
@@ -4916,7 +4866,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		else
 			this.currentDemandeTransferts.getTransferts().setTemoinTransfertValide(2);
 
-		if (this.getCodePaysItems().equals("100"))
+		if ("100".equals(this.getCodePaysItems()))
 		{
 			this.currentDemandeTransferts.getAdresse().setCodeVilleEtranger(null);
 			this.currentDemandeTransferts.getAdresse().setCodPay(this.getCodePaysItems());
@@ -5066,7 +5016,7 @@ public class AdministrationController extends AbstractContextAwareController {
 				t.setLibEtabDepart(t.getEtabDepart());
 
 				if (t.getVoeux().getLibelleVersionEtape() != null
-						&& !t.getVoeux().getLibelleVersionEtape().equals(""))
+						&& !"".equals(t.getVoeux().getLibelleVersionEtape()))
 				{
 					t.getVoeux().setLibEtp(t.getVoeux().getLibelleVersionEtape());
 				}
@@ -5356,27 +5306,18 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("getListeComposantes");
 
 		listeComposantes = new ArrayList<SelectItem>();
-		Map<String, String> listeComposantesDTO=null;
-		listeComposantesDTO = getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
+		Map<String, String> listeComposantesDTO=getDomainService().getOdfComposanteByRneAndAnneeAndCodTypDip(this.currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip());
 		if(listeComposantesDTO!=null && !listeComposantesDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled()) {
 				logger.debug("listeComposantesDTO : "+listeComposantesDTO);
 			}
-
-//			for(String mapKey : listeComposantesDTO.keySet())
-//			{
-//				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
-//				listeComposantes.add(option);
-//			}
-
 			for (Map.Entry<String,String> entry : listeComposantesDTO.entrySet()) {
 				String key = entry.getKey();
 				String value = entry.getValue();
 				SelectItem option = new SelectItem(key, value);
 				listeComposantes.add(option);
 			}
-
 			Collections.sort(listeComposantes,new ComparatorSelectItem());
 			return listeComposantes;
 		}
@@ -5714,7 +5655,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	}
 
 	public String getCheckWsBu() {
-		List<Interdit> listeInterditsNiveau1=null;
+		List<Interdit> listeInterditsNiveau1;
 		List<DatasExterne> listeInterdit=null;
 		Integer etatConnexion=0;
 		WebService currentWs = getDomainService().getWebServiceByCode("bu");
@@ -5753,7 +5694,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public String getCheckWsCandidatures() {
 		List<DatasExterne> listeInterdit=null;
-		List<Interdit> listeInterditsNiveau2=null;
+		List<Interdit> listeInterditsNiveau2;
 		Integer etatConnexion=0;
 		WebService currentWs = getDomainService().getWebServiceByCode("candidature");
 
@@ -5793,7 +5734,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public String getCheckWsPostBac() {
 		List<DatasExterne> listeInterdit=null;
-		List<Interdit> listeInterditsNiveau3=null;
+		List<Interdit> listeInterditsNiveau3;
 		Integer etatConnexion=0;
 		WebService currentWs = getDomainService().getWebServiceByCode("postbac");
 

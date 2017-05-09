@@ -88,7 +88,7 @@
 				<h:form id="sign">
 					<p:fieldset id="signature" legend="Signature" toggleable="true"
 						collapsed="false" toggleSpeed="200">
-						<p:dataTable var="signature" style="width:500px;"
+						<p:dataTable var="signature" style="width:800px;"
 							value="#{fileUploadController.listeFichiers2}" rows="5"
 							emptyMessage="Aucune signature" paginator="true"
 							selection="#{fileUploadController.selectedFichier}">
@@ -102,7 +102,7 @@
 							<p:column headerText="Nom du signataire">
 				            #{signature.nomSignataire}  
 				        </p:column>
-							<p:column style="width:4%">
+							<p:column style="width:10%">
 								<p:commandButton id="selectButton" update=":upload,:sign,:messages,:msgs,:msgs2" action="#{fileUploadController.deleteFichier}"
 									icon="ui-icon-close" title="View">
 									<f:setPropertyActionListener value="#{signature}"
@@ -122,18 +122,6 @@
 						<p:commandButton value="Non" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
-
-					<!-- 					<p:confirmDialog -->
-					<!-- 						message="La signature sera supprimée uniquement si elle n'est pas rattachée à une demande de transferts. Souhaitez-vous vraiment supprimer cette signature ?" -->
-					<!-- 						header="Confirmation" severity="alert" widgetVar="confirmation"> -->
-					<!-- 						<p:commandButton value="Oui" -->
-					<!-- 							update=":upload,:sign,:messages,:msgs,:msgs2" -->
-					<!-- 							oncomplete="confirmation.hide()" -->
-					<!-- 							action="#{fileUploadController.deleteFichier}" /> -->
-					<!-- 						<p:commandButton value="Non" onclick="confirmation.hide()" -->
-					<!-- 							type="button" /> -->
-					<!-- 					</p:confirmDialog> -->
-
 					<p:spacer height="30" />
 					<p:commandButton value="Signature par défaut"
 						update=":sign,:messages,:msgs,:msgs2"

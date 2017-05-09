@@ -4,9 +4,10 @@ import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.primefaces.model.SelectableDataModel;
 
 import javax.faces.model.ListDataModel;
+import java.io.Serializable;
 import java.util.List;
   
-public class SituationUniversitaireDataModel extends ListDataModel<SituationUniversitaire> implements SelectableDataModel<SituationUniversitaire> {    
+public class SituationUniversitaireDataModel extends ListDataModel<SituationUniversitaire> implements SelectableDataModel<SituationUniversitaire> {
   
     public SituationUniversitaireDataModel() {  
     }  

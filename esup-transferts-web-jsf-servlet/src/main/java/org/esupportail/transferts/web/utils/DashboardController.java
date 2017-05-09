@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class DashboardController implements Serializable {
 
-	private DashboardModel model;
+	private transient DashboardModel model;
 	
 	public DashboardController() {
 		model = new DefaultDashboardModel();

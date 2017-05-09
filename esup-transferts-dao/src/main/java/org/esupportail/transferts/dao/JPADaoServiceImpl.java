@@ -4,6 +4,7 @@
  */
 package org.esupportail.transferts.dao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,10 +13,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 import org.esupportail.commons.dao.AbstractGenericJPADaoService;
 import org.esupportail.commons.services.logging.Logger;
@@ -42,7 +40,7 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 	/**
 	 * JPA entity manager
 	 */
-	EntityManager entityManager;
+	transient EntityManager entityManager;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -383,14 +381,9 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		try{
 			if(!maj)
 			{
-//				String sql = "select lpad(OPI_SEQ.NEXTVAL,4,'0') from DUAL";
-//				String sql = "select SEQUENCE_NEXT_HI_VALUE from HIBERNATE_SEQUENCES where SEQUENCE_NAME='IND_OPI'";
-
 				SequenceOpi so = new SequenceOpi();
 				SequenceOpi som = entityManager.merge(so);
 
-//				@SuppressWarnings("rawtypes")
-//				List results = entityManager.createNativeQuery(sql).getResultList();
 				String value = Long.toString(som.getId());
 				if (logger.isDebugEnabled()){
 					logger.debug("Numero de sequence --> "+value);

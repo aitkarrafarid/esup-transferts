@@ -1,13 +1,14 @@
 package org.esupportail.transferts.accueil.web.dataModel;
 
-import java.util.List;  
+import java.io.Serializable;
+import java.util.List;
 import javax.faces.model.ListDataModel;  
 
 import org.esupportail.transferts.domain.beans.CodeSizeAnnee;
 import org.esupportail.transferts.domain.beans.SituationUniversitaire;
 import org.primefaces.model.SelectableDataModel;  
   
-public class SituationUniversitaireDataModel extends ListDataModel<SituationUniversitaire> implements SelectableDataModel<SituationUniversitaire> {    
+public class SituationUniversitaireDataModel extends ListDataModel<SituationUniversitaire> implements Serializable, SelectableDataModel<SituationUniversitaire> {
   
     public SituationUniversitaireDataModel() {  
     }  

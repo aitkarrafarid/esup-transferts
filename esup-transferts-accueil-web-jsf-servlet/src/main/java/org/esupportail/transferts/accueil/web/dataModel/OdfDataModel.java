@@ -1,12 +1,13 @@
 package org.esupportail.transferts.accueil.web.dataModel;
 
-import java.util.List;  
+import java.io.Serializable;
+import java.util.List;
 import javax.faces.model.ListDataModel;  
 
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.primefaces.model.SelectableDataModel;  
   
-public class OdfDataModel extends ListDataModel<OffreDeFormationsDTO> implements SelectableDataModel<OffreDeFormationsDTO> {    
+public class OdfDataModel extends ListDataModel<OffreDeFormationsDTO> implements Serializable, SelectableDataModel<OffreDeFormationsDTO> {
   
     public OdfDataModel() {  
     }  

@@ -66,7 +66,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 	private static final Logger logger = new LoggerImpl(DomainServiceRimbausImpl.class);
 	//private Transferts transfert;
 
-	private RimbausTransfertAcces rta;
+	private transient RimbausTransfertAcces rta;
 
 	/**
 	 * Constructor.

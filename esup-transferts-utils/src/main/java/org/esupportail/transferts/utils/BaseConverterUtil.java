@@ -46,7 +46,7 @@ public class BaseConverterUtil {
         return fromOtherBaseToDecimal( 2, base2Number );  
     }  
   
-    private static String fromDecimalToOtherBase ( int base, int decimalNumber ) {  
+    private static String fromDecimalToOtherBase ( int base, int decimalNumber ) {
         String tempVal = decimalNumber == 0 ? "0" : "";  
         int mod;
   

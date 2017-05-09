@@ -14,7 +14,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +34,8 @@ public class ManagerController extends AbstractContextAwareController {
 	private String prenomRecherche;
 	private List<User> personnelsRecherche;
 	private DualListModel<PersonnelComposante> players;
-	List<PersonnelComposante> source;
-	List<PersonnelComposante> target;
+	private transient List<PersonnelComposante> source;
+	private transient List<PersonnelComposante> target;
 	/*Permet de r�soudre le probleme avec le p:ajaxStatus dans le header*/
 	private boolean use = false;
 	private Integer typePersonnel;
@@ -55,29 +54,15 @@ public class ManagerController extends AbstractContextAwareController {
 	private List<PersonnelComposante> listeComposantesDetailsDroitsMerge;
 	private List<PersonnelComposante> listePlayersDetailsDroits;
 	private List<PersonnelComposante> filteredDetailsDroits;
-//	private String ldapDisplayNameAttribute;
-//	private String ldapEmailAttribute;
-
-
-	/**
-	 * LdapUserService
-	 */
-//	private LdapUserService ldapUserService;
 
 	@Override
 	public void afterPropertiesSetInternal()
 	{
 		super.afterPropertiesSetInternal();
-//		Assert.notNull(this.ldapUserService, "property ldapUserService of class "
-//				+ this.getClass().getName() + " can not be null");
 		Assert.hasText(employeeAffiliation, "property employeeAffiliation of class "
 				+ this.getClass().getName() + " can not be null");
 		Assert.hasText(ldapAffiliation, "property ldapAffiliation of class "
 				+ this.getClass().getName() + " can not be null");
-//		Assert.hasText(ldapDisplayNameAttribute, "property ldapDisplayNameAttribute of class "
-//				+ this.getClass().getName() + " can not be null");
-//		Assert.hasText(ldapEmailAttribute, "property ldapEmailAttribute of class "
-//				+ this.getClass().getName() + " can not be null");
 	}
 
 	public String goToDetailDroits()
@@ -152,7 +137,7 @@ public class ManagerController extends AbstractContextAwareController {
 	{
         if(logger.isDebugEnabled())
 		    logger.debug("===>public void addPersonnelComposante()<===");
-		if(listeComposantesDetailsDroits!=null && listeComposantesDetailsDroits.size()>0) {
+		if(listeComposantesDetailsDroits!=null && !listeComposantesDetailsDroits.isEmpty()) {
 			if (logger.isDebugEnabled())
 				logger.debug("################ listeComposantesDetailsDroits #################### --> " + listeComposantesDetailsDroits.size());
 			List<PersonnelComposante> lPc = new ArrayList<PersonnelComposante>();
@@ -168,10 +153,6 @@ public class ManagerController extends AbstractContextAwareController {
 
 				if ("D".equals(getFrom()))
 					typePersonnel = 0;
-
-//				String mail=listeComposantesDetailsDroits.get(i).getMailPersonnel();
-//				if(mail==null || mail.equals("") || mail.equalsIgnoreCase("null"))
-//					mail=personnelChoisi.getMail();
 
 				PersonnelComposante p = new PersonnelComposante(listeComposantesDetailsDroits.get(i).getUid(),
 						listeComposantesDetailsDroits.get(i).getCodeComposante(),
@@ -235,7 +216,7 @@ public class ManagerController extends AbstractContextAwareController {
 			logger.debug("===>public String goToManagerChoixLicence()<===");
 			logger.debug("personnelChoisi===>" + personnelChoisi + "<===");
 		}
-		if(personnelChoisi.getMail()==null || personnelChoisi.getMail().equals("") || personnelChoisi.getMail().equals("null"))
+		if(personnelChoisi.getMail()==null || "".equals(personnelChoisi.getMail()) || "null".equals(personnelChoisi.getMail()))
 			personnelChoisi.setMail(updateInfosLdapFromUser(personnelChoisi.getLogin()));
 
 		setUse(true);
@@ -337,7 +318,7 @@ public class ManagerController extends AbstractContextAwareController {
                 if(logger.isDebugEnabled())
 				    logger.debug("lUsers.size() -->" + lUsers.size());
 
-			if(lUsers!=null && lUsers.size()==1 && lUsers.get(0).getMail()!=null && !lUsers.get(0).getMail().equals("") && !lUsers.get(0).getMail().equalsIgnoreCase("null"))
+			if(lUsers!=null && lUsers.size()==1 && lUsers.get(0).getMail()!=null && !"".equals(lUsers.get(0).getMail()) && !"null".equalsIgnoreCase(lUsers.get(0).getMail()))
 				mailRetour=lUsers.get(0).getMail();
 
 			return mailRetour;
@@ -384,9 +365,9 @@ public class ManagerController extends AbstractContextAwareController {
                 if(logger.isDebugEnabled())
 				    logger.debug("lUsers.size() -->" + lUsers.size());
 
-			if(lUsers!=null && lUsers.size()==1 && lUsers.get(0).getMail()!=null && !lUsers.get(0).getMail().equals("") && !lUsers.get(0).getMail().equalsIgnoreCase("null")) {
+			if(lUsers!=null && lUsers.size()==1 && lUsers.get(0).getMail()!=null && !"".equals(lUsers.get(0).getMail()) && !"null".equalsIgnoreCase(lUsers.get(0).getMail())) {
 				List<PersonnelComposante> listPersComp = getDomainService().getListeComposantesByUidAndSourceAndAnnee(lUsers.get(0).getLogin(), getFrom(), getSessionController().getCurrentAnnee());
-				if (listPersComp != null && listPersComp.size() > 0) {
+				if (listPersComp != null && !listPersComp.isEmpty()) {
 					List<PersonnelComposante> lPcForUpdate = new ArrayList<PersonnelComposante>();
 					for (PersonnelComposante pc : listPersComp) {
 						pc.setMailPersonnel(lUsers.get(0).getMail());
@@ -486,14 +467,6 @@ public class ManagerController extends AbstractContextAwareController {
 		this.personnelsRecherche = personnelsRecherche;
 	}
 
-//	public LdapUserService getLdapUserService() {
-//		return ldapUserService;
-//	}
-//
-//	public void setLdapUserService(LdapUserService ldapUserService) {
-//		this.ldapUserService = ldapUserService;
-//	}
-
 	public List<PersonnelComposante> getSource() {
 
 		List<PersonnelComposante> lpSource = getDomainServiceScolarite().recupererComposante(this.personnelChoisi.getLogin(), this.personnelChoisi.getDisplayName(), this.personnelChoisi.getMail(), getFrom(), getSessionController().getCurrentAnnee());
@@ -525,7 +498,6 @@ public class ManagerController extends AbstractContextAwareController {
 	}
 
 	public List<PersonnelComposante> getTarget() {
-		//		return target;
 		return getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
 	}
 
@@ -556,19 +528,18 @@ public class ManagerController extends AbstractContextAwareController {
 	public List<User> getUsers() {
 		if(users==null || users.isEmpty())
 		{
-			Map<String, String> lpc = new HashMap();
-			lpc = this.getPc();
+			Map<String, String> lpc = this.getPc();
 			if(lpc!=null)
 			{
-				for(String mapKey : lpc.keySet())
-				{
-					if (logger.isDebugEnabled())
-						logger.debug("===>"+mapKey+"<===");
+				for (Map.Entry<String,String> entry : lpc.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
 					User u = new User();
-					u.setLogin(mapKey);
-					u.setDisplayName(lpc.get(mapKey));
+					u.setLogin(key);
+					u.setDisplayName(value);
 					users.add(u);
 				}
+
 			}
 		}
 		return users;
@@ -624,7 +595,7 @@ public class ManagerController extends AbstractContextAwareController {
 	}
 
 	public List<String> getListeComposantesFermeSplit() {
-		if(listeComposantesFerme!=null && !listeComposantesFerme.equals("") && this.listeComposantesFermeSplit==null)
+		if(listeComposantesFerme!=null && !"".equals(listeComposantesFerme) && this.listeComposantesFermeSplit==null)
 		{
 			listeComposantesFermeSplit = new ArrayList<String>();
 			if(this.listeComposantesFerme.split(",").length>1)
@@ -856,20 +827,4 @@ public class ManagerController extends AbstractContextAwareController {
 			List<PersonnelComposante> listePlayersDetailsDroits) {
 		this.listePlayersDetailsDroits = listePlayersDetailsDroits;
 	}
-
-//	public String getLdapDisplayNameAttribute() {
-//		return ldapDisplayNameAttribute;
-//	}
-//
-//	public void setLdapDisplayNameAttribute(String ldapDisplayNameAttribute) {
-//		this.ldapDisplayNameAttribute = ldapDisplayNameAttribute;
-//	}
-//
-//	public String getLdapEmailAttribute() {
-//		return ldapEmailAttribute;
-//	}
-//
-//	public void setLdapEmailAttribute(String ldapEmailAttribute) {
-//		this.ldapEmailAttribute = ldapEmailAttribute;
-//	}
 }

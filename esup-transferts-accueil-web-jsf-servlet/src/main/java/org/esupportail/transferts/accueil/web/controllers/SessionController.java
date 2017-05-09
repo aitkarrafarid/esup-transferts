@@ -47,7 +47,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	/**
 	 * The authenticator.
 	 */
-	private Authenticator authenticator;
+	private transient Authenticator authenticator;
 
 	private static final Logger logger = new LoggerImpl(SessionController.class);
 

@@ -72,13 +72,13 @@ public class UserController extends AbstractContextAwareController {
 	private String codTypDip;
 	private Integer codeNiveau;
 	private String codeDiplome;
-	private List<SelectItem> listeTypesDiplome = null;
-	private List<SelectItem> listeAnneesEtude = null;
-	private List<SelectItem> listeLibellesDiplome = null;
+	private transient List<SelectItem> listeTypesDiplome = null;
+	private transient List<SelectItem> listeAnneesEtude = null;
+	private transient List<SelectItem> listeLibellesDiplome = null;
 	private List<OffreDeFormationsDTO> listeLibellesEtape;
 	private OffreDeFormationsDTO currentOdf;
 	private OdfDataModel odfDataModel;
-	private List<SelectItem> listeEtablissements = null;
+	private transient List<SelectItem> listeEtablissements = null;
 	private boolean deptVide = true;
 	private SituationUniversitaire currentSituationUniv;
 	private AccueilAnnee currentAccueilAnnee;
@@ -92,11 +92,11 @@ public class UserController extends AbstractContextAwareController {
 	private boolean etabPartenaireSaisieDepart;
 	private List<SelectItem> listeComposantes;
 	private String codeComposante;
-	private List<AccueilDecision> listeAccueilDecision = null;
+	private transient List<AccueilDecision> listeAccueilDecision = null;
 	private Parametres parametreAppliInfosAccueil;
 	private String aideTypeTransfert;
 	private List<TrSituationUniversitaire> lTrSituationUniversitaire;
-	private List<Correspondance> listeCorrespondances = null;
+	private transient List<Correspondance> listeCorrespondances = null;
 	private boolean choixDuVoeuParComposanteByPartenaire;
 	/*
 	 ******************* INIT ******************** */
@@ -512,8 +512,6 @@ public class UserController extends AbstractContextAwareController {
 		{
 			String summary = getString("ERREUR.ANNEE_ETUDE");
 			String detail = getString("ERREUR.ANNEE_ETUDE");
-			//			String summary = "Vous devez selectionner une annee d'etude";
-			//			String detail = "Vous devez selectionner une annee d'etude";
 			Severity severity=FacesMessage.SEVERITY_ERROR;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 		}
@@ -533,7 +531,7 @@ public class UserController extends AbstractContextAwareController {
 			this.currentEtudiant.getAccueil().setSituationUniversitaire(lSitUniv);
 		}
 		if(currentCleAccueilAnnee!=null && !"".equals(currentCleAccueilAnnee)
-				&& currentCleAccueilResultat!=null && !"".equals(currentAccueilResultat)
+				&& currentCleAccueilResultat!=null && !"".equals(currentCleAccueilResultat)
 				&& currentSituationUniv.getLibelle()!=null && !"".equals(currentSituationUniv.getLibelle()))
 		{
 			currentAccueilAnnee = getDomainService().getAccueilAnneeById(Integer.parseInt(currentCleAccueilAnnee));

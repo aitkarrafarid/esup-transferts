@@ -35,9 +35,9 @@ public class ScheduleController extends AbstractContextAwareController implement
 	 */
 	private static final Logger logger = new LoggerImpl(ScheduleController.class);
 
-	private ScheduleModel eventModel;
+	private transient ScheduleModel eventModel;
 
-	private ScheduleEvent event = new DefaultScheduleEvent();
+	private transient ScheduleEvent event = new DefaultScheduleEvent();
 
 	private List<Fermeture> listeFermetures;
 	

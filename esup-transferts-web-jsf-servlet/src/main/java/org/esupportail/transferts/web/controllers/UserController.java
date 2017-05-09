@@ -61,10 +61,10 @@ public class UserController extends AbstractContextAwareController {
 	private Parametres parametreAppli;
 	private String studentAffiliation;
 	/*Debut propri�t� Concernant le voeux d'orientation*/
-	private List<SelectItem> listeEtablissements = null;
-	private List<SelectItem> listeTypesDiplome = null;
-	private List<SelectItem> listeAnneesEtude = null;
-	private List<SelectItem> listeLibellesDiplome = null;
+	private transient List<SelectItem> listeEtablissements = null;
+	private transient List<SelectItem> listeTypesDiplome = null;
+	private transient List<SelectItem> listeAnneesEtude = null;
+	private transient List<SelectItem> listeLibellesDiplome = null;
 	private List<OffreDeFormationsDTO> listeLibellesEtape;
 	private boolean deptVide = true;
 	private boolean typesDiplomeVide = true;
@@ -77,16 +77,16 @@ public class UserController extends AbstractContextAwareController {
 	private Integer codeNiveau;
 	private String codeDiplome;
 	private OffreDeFormationsDTO currentOdf;
-	private OdfDataModel odfDataModel;
+	private transient OdfDataModel odfDataModel;
 	private String source;
-	Avis currentAvis;
+	private Avis currentAvis;
 	private DomainServiceOpi domainServiceWSOpiExt;
 	private Parametres parametreAppliInfosDepart;
 	private String aideTypeTransfert;
 	private String codeComposante;
 	private List<SelectItem> listeComposantes;
 	private boolean choixDuVoeuParComposanteByPartenaire;
-	private TreeNode root;
+	private transient TreeNode root;
 
 	@Override
 	public void afterPropertiesSetInternal() {
@@ -611,6 +611,7 @@ public class UserController extends AbstractContextAwareController {
 			}
 			catch (AddressException e)
 			{
+				logger.error(e);
 				String summary = getString("ERREUR.ENVOI_MAIL");
 				String detail = getString("ERREUR.ENVOI_MAIL");
 				Severity severity = FacesMessage.SEVERITY_INFO;
@@ -629,6 +630,7 @@ public class UserController extends AbstractContextAwareController {
 			}
 			catch (AddressException e)
 			{
+				logger.error(e);
 				String summary = getString("ERREUR.ENVOI_MAIL");
 				String detail = getString("ERREUR.ENVOI_MAIL");
 				Severity severity = FacesMessage.SEVERITY_INFO;
@@ -919,7 +921,6 @@ public class UserController extends AbstractContextAwareController {
 						List<DatasExterne> listeInterditBu;
 						List<Interdit> listeInterditsNiveau1;
 						WebService currentWsBu=getDomainService().getWebServiceByCode("bu");
-						Integer etatConnexion=0;
 						if(getSessionController().isUseWsBu() && currentWsBu!=null)
 						{
 							Object tabReturn[] = Fonctions.appelWSAuth(currentWsBu.getUrl(),
@@ -932,7 +933,7 @@ public class UserController extends AbstractContextAwareController {
 									this.currentEtudiantInterdit.getNumeroEtudiant());
 
 							listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
-							etatConnexion = (Integer) tabReturn[1];
+							Integer etatConnexion = (Integer) tabReturn[1];
 
 							if (logger.isDebugEnabled()) {
 								logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
@@ -992,8 +993,8 @@ public class UserController extends AbstractContextAwareController {
 							this.currentEtudiant = this.currentEtudiantInterdit;
 
 							getSessionController().setError(true);
-							String summary = "";
-							String detail = "";
+							String summary;
+							String detail;
 							String tmp;
 							if(currentEtudiantInterdit.getListeBlocagesDTO() !=null)
 							{
@@ -1017,11 +1018,6 @@ public class UserController extends AbstractContextAwareController {
 									FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 								}
 							}
-//							Severity severity=FacesMessage.SEVERITY_ERROR;
-//							String summary2 = getString("ERREUR.INTERDIT_BU");
-//							String detail2 = getString("ERREUR.INTERDIT_BU");
-//							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary2, detail2));
-//							this.initialiseTransientEtudiantRef();
 						}
 						this.initialiseTransientEtudiantRef();
 					}
@@ -1077,7 +1073,7 @@ public class UserController extends AbstractContextAwareController {
 			List<DatasExterne> listeInterditBu;
 			List<Interdit> listeInterditsNiveau1;
 			WebService currentWsBu = getDomainService().getWebServiceByCode("bu");
-			Integer etatConnexion=0;
+//			Integer etatConnexion=0;
 			if(getSessionController().isUseWsBu() && currentWsBu!=null)
 			{
 				Object tabReturn[] = Fonctions.appelWSAuth(currentWsBu.getUrl(),
@@ -1090,7 +1086,7 @@ public class UserController extends AbstractContextAwareController {
 						this.currentEtudiant.getNumeroEtudiant());
 
 				listeInterditsNiveau1 = (List<Interdit>) tabReturn[0];
-				etatConnexion = (Integer) tabReturn[1];
+				Integer etatConnexion = (Integer) tabReturn[1];
 
 				if (logger.isDebugEnabled()) {
 					logger.debug("listeInterditsNiveau1===>" + listeInterditsNiveau1 + "<===");
@@ -1222,17 +1218,33 @@ public class UserController extends AbstractContextAwareController {
 		 * 
 		 * */
 		Map<String, String> map = getDomainServiceScolarite().getEtapePremiereAndCodeCgeAndLibCge(currentEtudiant.getNumeroEtudiant());
-		for (String mapKey : map.keySet()) {
-			if(mapKey.equals("libWebVet"))
-				currentEtudiant.setLibEtapePremiereLocal(map.get(mapKey));
-			if(mapKey.equals("codeCGE"))
-				currentEtudiant.setCodCge(map.get(mapKey));
-			if(mapKey.equals("libCGE"))
-				currentEtudiant.setLibCge(map.get(mapKey));
-			if(mapKey.equals("codeComposante"))
-				currentEtudiant.setComposante(map.get(mapKey));
-			if(mapKey.equals("libComposante"))
-				currentEtudiant.setLibComposante(map.get(mapKey));
+
+//		for (String mapKey : map.keySet()) {
+//			if(mapKey.equals("libWebVet"))
+//				currentEtudiant.setLibEtapePremiereLocal(map.get(mapKey));
+//			if(mapKey.equals("codeCGE"))
+//				currentEtudiant.setCodCge(map.get(mapKey));
+//			if(mapKey.equals("libCGE"))
+//				currentEtudiant.setLibCge(map.get(mapKey));
+//			if(mapKey.equals("codeComposante"))
+//				currentEtudiant.setComposante(map.get(mapKey));
+//			if(mapKey.equals("libComposante"))
+//				currentEtudiant.setLibComposante(map.get(mapKey));
+//		}
+
+		for (Map.Entry<String,String> entry : map.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			if(key.equals("libWebVet"))
+				currentEtudiant.setLibEtapePremiereLocal(value);
+			if(key.equals("codeCGE"))
+				currentEtudiant.setCodCge(value);
+			if(key.equals("libCGE"))
+				currentEtudiant.setLibCge(value);
+			if(key.equals("codeComposante"))
+				currentEtudiant.setComposante(value);
+			if(key.equals("libComposante"))
+				currentEtudiant.setLibComposante(value);
 		}
 
 		TrResultatVdiVetDTO trResultatVdiVetDTO;

@@ -29,16 +29,14 @@ public class OdfController extends AbstractContextAwareController {
 	 */
 	private static final Logger logger = new LoggerImpl(OdfController.class);
 	private List<OffreDeFormationsDTO> odfs;
-	//	private List<OffreDeFormationsDTO> listeODFScolarite;
-	private OffreDeFormationsDTO[] selectedOdfs; 
-	private OdfDataModel odfDataModel;
-	//	private DomainService domainServiceOdf;
+	private OffreDeFormationsDTO[] selectedOdfs;
+	private transient OdfDataModel odfDataModel;
 	private List<String> listFormationsEnDoublons;
-	private FileGeneratorService fileGeneratorService;
+	private transient FileGeneratorService fileGeneratorService;
 	private List<OffreDeFormationsDTO> filteredODF;  
 	private Integer nbOdfs;
 	private String filtre;
-	private List<OffreDeFormationsDTO> list=null;
+	private transient List<OffreDeFormationsDTO> list=null;
 
 	public void addMessage() 
 	{
@@ -61,14 +59,9 @@ public class OdfController extends AbstractContextAwareController {
 	public void alertPartenaireMAJOdfs()
 	{
 		String sujet = getString("MAIL.ODF.MAJ.SUJET");
-		//		List<WsPub> listePartenaires = getDomainService().getListeWsPub();
 		List<WsPub> listePartenaires = getDomainService().getWsPubByAnnee(getSessionController().getCurrentAnnee());
 
-//		String libEtab=null;
-//		if(libEtab==null)
 		String libEtab = getDomainServiceScolarite().getEtablissementByRne(getSessionController().getRne()).getLibOffEtb();
-
-		//		String tmp = "";
 
 		for(WsPub part : listePartenaires)
 		{
@@ -81,6 +74,7 @@ public class OdfController extends AbstractContextAwareController {
 				} 
 				catch (AddressException e) 
 				{
+					logger.error(e);
 					String summary1 = getString("ERREUR.ENVOI_MAIL");
 					String detail1 = getString("ERREUR.ENVOI_MAIL");
 					Severity severity1 = FacesMessage.SEVERITY_ERROR;
@@ -104,7 +98,7 @@ public class OdfController extends AbstractContextAwareController {
 		String fileName = "Offre_de_formation_" + getSessionController().getCurrentAnnee()+"-"+anneeSuivante + "." + typeExport;
 
 		List<OffreDeFormationsDTO> list = getDomainService().getAllOffreDeFormationByAnneeAndRneAndAtifOuPas(getSessionController().getCurrentAnnee(), getSessionController().getRne());
-		if(list!=null && list.size()!=0)
+		if(list!=null && !list.isEmpty())
 		{
 			this.selectedOdfs = new OffreDeFormationsDTO[list.size()];
 			if(logger.isDebugEnabled())
@@ -125,7 +119,7 @@ public class OdfController extends AbstractContextAwareController {
 		getFileGeneratorService().exportXlsODF(selectedOdfs, typeExport, fileName, colonnesChoisies);		
 	}
 
-	// combien de doublons dans letableau pass� en param�tre ?
+	// combien de doublons dans le tableau passe en parametre ?
 	public int getNbDoublons(String[] tab)
 	{
 		listFormationsEnDoublons = new ArrayList<String>();
@@ -158,7 +152,7 @@ public class OdfController extends AbstractContextAwareController {
 		{
 			String tmp="Code Diplome : ";
 			for(int i=0;i<listFormationsEnDoublons.size();i++)
-				tmp+=listFormationsEnDoublons.get(i).substring(0, listFormationsEnDoublons.get(i).indexOf("|"))+" - ";
+				tmp+=listFormationsEnDoublons.get(i).substring(0, listFormationsEnDoublons.get(i).indexOf('|'))+" - ";
 			String summary = "Liste des doublons : ";
 			String detail = tmp;
 			if (logger.isDebugEnabled())
@@ -177,7 +171,7 @@ public class OdfController extends AbstractContextAwareController {
 
 	public void addOdfs()
 	{
-		if(getFiltre()!=null && !getFiltre().equals("decoche"))
+		if(getFiltre()!=null && !"decoche".equals(getFiltre()))
 		{
 			List<OffreDeFormationsDTO> LOdfsLocal = getDomainService().getSelectedOdfs(getSessionController().getCurrentAnnee(),getSessionController().getRne());
 			List<OffreDeFormationsDTO> listFormationsInactives = new ArrayList<OffreDeFormationsDTO>();
@@ -295,7 +289,7 @@ public class OdfController extends AbstractContextAwareController {
 			}	
 			getDomainService().addOdfs(temp3);		
 			
-			if(getFiltre()!=null && getFiltre().equals("coche"))
+			if(getFiltre()!=null && "coche".equals(getFiltre()))
 			{
 				if (logger.isDebugEnabled())
 					logger.debug("public void addOdfs()-----getFiltre()===>"+getFiltre()+"<===");
@@ -313,7 +307,7 @@ public class OdfController extends AbstractContextAwareController {
 			}
 			getDomainService().addOdfs(selectedOdfs);
 			
-			if(getFiltre()!=null && getFiltre().equals("decoche"))
+			if(getFiltre()!=null && "decoche".equals(getFiltre()))
 			{
 				if (logger.isDebugEnabled())
 					logger.debug("public void addOdfs()-----getFiltre()===>"+getFiltre()+"<===");
@@ -328,20 +322,19 @@ public class OdfController extends AbstractContextAwareController {
 
 	public String goToSynchroOdf() 
 	{
-		if (logger.isDebugEnabled())
+		if (logger.isDebugEnabled()) {
 			logger.debug("goToSynchroOdf");
-
-		logger.debug("public String goToSynchroOdf()-----getFiltre()===>"+getFiltre()+"<===");
-
+			logger.debug("public String goToSynchroOdf()-----getFiltre()===>" + getFiltre() + "<===");
+		}
 		odfs = new ArrayList<OffreDeFormationsDTO>();
 		this.odfDataModel = null;
 		this.selectedOdfs = null;
 		this.filteredODF = null;
 
-		if(selectedOdfs==null || getFiltre().equals("coche"));
+		if(selectedOdfs==null || "coche".equals(getFiltre()));
 		{
 			List<OffreDeFormationsDTO> list = getDomainService().getSelectedOdfs(getSessionController().getCurrentAnnee(), getSessionController().getRne());
-			if(list!=null && list.size()!=0)
+			if(list!=null)
 			{
 				this.selectedOdfs = new OffreDeFormationsDTO[list.size()];
 				for(int i=0;i<list.size();i++)
@@ -370,14 +363,10 @@ public class OdfController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled())
 				logger.debug("list===>"+list.size()+"<===");
 
-		//		List<OffreDeFormationsDTO> list=null;
-
-		if(getFiltre()==null || getFiltre().equals("toutes"))
+		if(getFiltre()==null || "toutes".equals(getFiltre()))
 		{		
 			if (logger.isDebugEnabled())
 				logger.debug("getFiltre()===>toutes<===");
-			//list = new ArrayList<OffreDeFormationsDTO>();
-			//			if(list==null || list.isEmpty())
 
 			list = getDomainServiceScolarite().getOffreDeFormation(getSessionController().getRne(), getSessionController().getCurrentAnnee());
 			if(list!=null)
@@ -421,7 +410,7 @@ public class OdfController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled())
 					logger.debug("##########################TEST NULL################################");
 		}
-		else if(getFiltre()!=null && getFiltre().equals("coche"))
+		else if(getFiltre()!=null && "coche".equals(getFiltre()))
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("getFiltre()===>coche<===");
@@ -435,7 +424,7 @@ public class OdfController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled())
 				logger.debug("nbOdfs===>"+nbOdfs+"<===");
 		}
-		else if(getFiltre()!=null && getFiltre().equals("decoche"))
+		else if(getFiltre()!=null && "decoche".equals(getFiltre()))
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("getFiltre()===>decoche<===");
@@ -527,14 +516,6 @@ public class OdfController extends AbstractContextAwareController {
 	public void setOdfDataModel(OdfDataModel odfDataModel) {
 		this.odfDataModel = odfDataModel;
 	}
-
-	//	public DomainService getDomainServiceOdf() {
-	//		return domainServiceOdf;
-	//	}
-	//
-	//	public void setDomainServiceOdf(DomainService domainServiceOdf) {
-	//		this.domainServiceOdf = domainServiceOdf;
-	//	}
 
 	public List<String> getListFormationsEnDoublons() {
 		return listFormationsEnDoublons;

@@ -832,7 +832,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		TrResultatVdiVetDTO trResultatVdiVetDTO;
 		List<ResultatEtape> listResultatEtape = new ArrayList<ResultatEtape>();
 		List<ResultatSession> listResultatSession;
-		ResultatEtape re; 
+//		ResultatEtape re;
 		ResultatSession r; 
 
 		int nb = 0;
@@ -860,7 +860,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 						//logger.debug("année --> " + etapeResVdiVetDTO[j].get);
 					}	
 
-					re = new ResultatEtape();
+//					re = new ResultatEtape();
 					ResultatVetDTO[] resultatVetDTO = etapeResVdiVetDTO[j].getResultatVet();
 					listResultatSession = new ArrayList<ResultatSession>();
 
@@ -1048,13 +1048,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		InfoAdmEtuDTO infoAdmEtuDTO;
 		try {
 			infoAdmEtuDTO = etudiantMetierService.recupererInfosAdmEtu(numeroEtudiant);
-			CoordonneesDTO2 coordonneesDTO = etudiantMetierService.recupererAdressesEtudiant_v2(numeroEtudiant, null, null);
-			AdresseDTO2 adresseFixe = coordonneesDTO.getAdresseFixe();
-			CommuneDTO2 communeDTO = adresseFixe.getCommune();
-			PaysDTO paysDTO = adresseFixe.getPays();
-			NationaliteDTO nationaliteDTO = infoAdmEtuDTO.getNationaliteDTO();
-			IndBacDTO[] IndBacDTO = infoAdmEtuDTO.getListeBacs();
-
 			/*OPI*/
 			/*IND_OPI*/
 			indOpi.setCodPayNat(infoAdmEtuDTO.getNationaliteDTO().getCodeNationalite());
@@ -1098,7 +1091,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			indOpi.setCodMnb(listeBacs[0].getMentionBac().getCodMention());
 			indOpi.setDaabacObtOba(listeBacs[0].getAnneeObtentionBac());
 			indOpi.setCodTpe(listeBacs[0].getTypeEtbBac().getCodTypeEtb());
-			//indOpi.setOpiBac(opiBac);
 			indOpi.setVoeux(voeuxIns);
 			return indOpi;			
 		} catch (Exception e) {

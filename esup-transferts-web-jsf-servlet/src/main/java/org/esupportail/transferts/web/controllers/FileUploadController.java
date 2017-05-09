@@ -26,10 +26,8 @@ public class FileUploadController extends AbstractContextAwareController impleme
 	 */
 	private static final Logger logger = new LoggerImpl(FileUploadController.class);
 	private String wsdl;
-//	private List<SelectItem> listeFichiers = new ArrayList<SelectItem>();
-//	private List<Fichier> listeFichiers2 = new ArrayList<Fichier>();
 	private Fichier fichier = new Fichier();
-	private UploadedFile file; 
+	private transient UploadedFile file;
 	private String source;
 	private Fichier selectedFichier;
 	private Fichier selectedFichierDelete;
@@ -69,7 +67,7 @@ public class FileUploadController extends AbstractContextAwareController impleme
 		}
 	}	
 	
-	public void deleteFichier()
+	public String deleteFichier()
 	{
 		try{
 			getDomainService().deleteFichier(selectedFichierDelete.getMd5(),getSessionController().getAnnee(), getSource());
@@ -79,19 +77,24 @@ public class FileUploadController extends AbstractContextAwareController impleme
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));			
 		}
 		catch (Exception e) {
+			logger.error(e);
 			if(e.getMessage().contains("org.hibernate.exception.ConstraintViolationException"))
 			{
 				String summary = getString("SUPPRESSION.SIGNATURE_ECHEC");
-				String detail = getString("SUPPRESSION.SIGNATURE_ECHEC");							
+				String detail = getString("SUPPRESSION.SIGNATURE_ECHEC");
 				Severity severity = FacesMessage.SEVERITY_ERROR;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));				
+//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(severity, summary, detail));
+				context.getExternalContext().getFlash().setKeepMessages(true);
 			}
 			else
 			{
                 if (logger.isDebugEnabled())
 				    logger.debug(e.getMessage());
 			}
-		}		
+		}
+		return "goToSignature";
 	}
 	
 	public Fichier getSelectedFichier() {
@@ -137,12 +140,11 @@ public class FileUploadController extends AbstractContextAwareController impleme
 					logger.debug("NOM --> " + result.getName());
 					logger.debug("TAILLE --> " + result.getUsableSpace());
 					logger.debug("CHEMIN --> " + result.getAbsolutePath());
-					//					logger.debug("CHEMIN --> " + result.get);
 					logger.debug("Mime Type of " + result.getName() + " is " +
 							new MimetypesFileTypeMap().getContentType(result));
 				}			
 				String type = new MimetypesFileTypeMap().getContentType(result);
-				if(type.equalsIgnoreCase("image/jpeg") || type.equalsIgnoreCase("image/gif") || type.equalsIgnoreCase("application/octet-stream"))
+				if("image/jpeg".equalsIgnoreCase(type) || "image/gif".equalsIgnoreCase(type) || "application/octet-stream".equalsIgnoreCase(type))
 				{
 					
 					fichier.setMd5(FileHashSum.md5sum(result));

@@ -24,12 +24,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * A bean to memorize the context of the application.
@@ -52,7 +53,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	/**
 	 * The authenticator.
 	 */
-	private Authenticator authenticator;
+	private transient Authenticator authenticator;
 
 	private static final Logger logger = new LoggerImpl(SessionController.class);
 
@@ -162,14 +163,14 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		Versions version = null;
 		Parametres paramChoixDuVoeuParComposante = null;
-		String text="";
-		text = "Liste des erreurs : <BR /><BR />";
+		String text="Liste des erreurs : <BR /><BR />";
 
 		try{
 			version = getDomainService().getVersionByEtat(1);
 		}
 		catch(Exception  e)
 		{
+			logger.error(e);
 			if(e.getCause()!=null && e.getCause().getCause()!=null)
 				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (Versions) ===> NOK <BR />";
 			else
@@ -186,8 +187,9 @@ public class SessionController extends AbstractDomainAwareBean {
 				setCurrentAnnee(this.defaultCodeSize.getAnnee());
 			}
 		}
-		catch(Exception  e)
+		catch(Exception e)
 		{
+			logger.error(e);
 			if(e.getCause()!=null && e.getCause().getCause()!=null)
 				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (code_size) ===> NOK <BR />";
 			else
@@ -294,8 +296,9 @@ public class SessionController extends AbstractDomainAwareBean {
 			else
 				setUseRelanceResumeSVA(false);
 		}
-		catch(Exception  e)
+		catch(Exception e)
 		{
+			logger.error(e);
 			if(e.getCause()!=null && e.getCause().getCause()!=null)
 				text += "- Erreurs : "+e.getCause().getCause().getMessage()+" (parametres) ===> NOK <BR />";
 			else
@@ -305,9 +308,9 @@ public class SessionController extends AbstractDomainAwareBean {
 
 		String v = getApplicationService().getVersion().toString();
 		if (logger.isDebugEnabled())
-			logger.debug("Version Application ===>"+v.toString()+"<===");
+			logger.debug("Version Application ===>"+v+"<===");
 
-		text += "- Version de l'application : "+v.toString()+" ===> OK <BR />";
+		text += "- Version de l'application : "+v+" ===> OK <BR />";
 
 		if(version==null)
 		{
@@ -319,14 +322,14 @@ public class SessionController extends AbstractDomainAwareBean {
 		}
 		else
 		{
-			if(!version.getNumero().equals(v.toString()))
+			if(!version.getNumero().equals(v))
 			{
-				text += "- Version de la base de données : "+version.getNumero()+" est différente de la version de l'application ("+v.toString()+"), veuillez passer le script de migration correspondant ===> NOK <BR />";
+				text += "- Version de la base de données : "+version.getNumero()+" est différente de la version de l'application ("+v+"), veuillez passer le script de migration correspondant ===> NOK <BR />";
 				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "L'application a rencontré des erreurs lors de son lancement", text);
 				RequestContext.getCurrentInstance().showMessageInDialog(message);
 				if (logger.isDebugEnabled()) {
 					logger.debug("Version BDD ===>" + version.toString() + "<===");
-					logger.debug("Version Application ===>" + v.toString() + "<===");
+					logger.debug("Version Application ===>" + v + "<===");
 				}
 			}
 
@@ -341,7 +344,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	public User getCurrentUser() throws Exception {
 		User user = authenticator.getUser();
 		// Verification du login authorise
-		if (listSuperGestionnaire!= null && !listSuperGestionnaire.isEmpty() && listSuperGestionnaire.size() > 0) {
+		if (listSuperGestionnaire!= null && !listSuperGestionnaire.isEmpty()) {
 			if(user!=null)
 			{
 				user.setAdmin(false);
@@ -361,7 +364,7 @@ public class SessionController extends AbstractDomainAwareBean {
 				}
 			}
 		}
-		if (listInformaticiens!= null && !listInformaticiens.isEmpty() && listInformaticiens.size() > 0) {
+		if (listInformaticiens!= null && user!=null && !listInformaticiens.isEmpty()) {
 			user.setInformaticien(false);
 			for (String ident : listInformaticiens) {
 				if (ident.equals(user.getLogin()))
@@ -388,7 +391,7 @@ public class SessionController extends AbstractDomainAwareBean {
         if (logger.isDebugEnabled())
 		    logger.debug("trResultatVdiVetDTO===>"+trResultatVdiVetDTO+"<===");
 
-		if(trResultatVdiVetDTO!=null && trResultatVdiVetDTO.getEtapes().size()>0) {
+		if(trResultatVdiVetDTO!=null && !trResultatVdiVetDTO.getEtapes().isEmpty()) {
 			for (ResultatEtape re : trResultatVdiVetDTO.getEtapes()) {
 
                 if (logger.isDebugEnabled()){
@@ -396,17 +399,16 @@ public class SessionController extends AbstractDomainAwareBean {
 				    logger.debug("re.getLibEtape()===>" + re.getLibEtape() + "<===");
                 }
 
-				TreeNode treeNodeResultatEtape = new DefaultTreeNode(new DocumentResultats(re.getAnnee().toString() + "-" + re.getLibEtape(), "", ""), root);
+				TreeNode treeNodeResultatEtape = new DefaultTreeNode(new DocumentResultats(re.getAnnee() + "-" + re.getLibEtape(), "", ""), root);
 
-				if(re.getSession()!=null && re.getSession().size()>0) {
+				if(re.getSession()!=null && !re.getSession().isEmpty()) {
 					for (ResultatSession rs : re.getSession()) {
                         if (logger.isDebugEnabled()) {
                             logger.debug("rs.getLibSession()===>" + rs.getLibSession() + "<===");
                             logger.debug("rs.getMention()===>" + rs.getMention() + "<===");
                             logger.debug("rs.getResultat()===>" + rs.getResultat() + "<===");
                         }
-						TreeNode treeNodeResultatSession = new DefaultTreeNode(new DocumentResultats(rs.getLibSession(), rs.getMention(), rs.getResultat()), treeNodeResultatEtape);
-
+						new DefaultTreeNode(new DocumentResultats(rs.getLibSession(), rs.getMention(), rs.getResultat()), treeNodeResultatEtape);
 					}
 				}
 			}
@@ -439,12 +441,8 @@ public class SessionController extends AbstractDomainAwareBean {
 				casLogoutUrl,
 				"property casLogoutUrl of class " + getClass().getName() + " is null");
 		forwardUrl = String.format(casLogoutUrl, StringUtils.utf8UrlEncode(returnUrl));
-		// note: the session beans will be kept even when invalidating 
-		// the session so they have to be reset (by the exception controller).
-		// We invalidate the session however for the other attributes.
 		request.getSession().invalidate();
 		request.getSession(true);
-		// calling this method will reset all the beans of the application
 		exceptionController.restart();
 		externalContext.redirect(forwardUrl);
 		facesContext.responseComplete();
@@ -554,7 +552,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	public List<DatasExterne> convertListInterditsToListDatasExterne(List<Interdit> lInterdits)
 	{
 		List<DatasExterne> listeDatasEterneNiveau2=null;
-		if(lInterdits!=null && lInterdits.size()>0) {
+		if(lInterdits!=null && !lInterdits.isEmpty()) {
 			listeDatasEterneNiveau2 = new ArrayList<DatasExterne>();
 			for (Interdit c : lInterdits) {
 				if (logger.isDebugEnabled()) {
