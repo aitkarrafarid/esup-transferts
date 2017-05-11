@@ -22,7 +22,7 @@ public class CodeSizeDataModel extends ListDataModel<CodeSizeAnnee> implements S
         List<CodeSizeAnnee> listeCodeSize = (List<CodeSizeAnnee>) getWrappedData();  
           
         for(CodeSizeAnnee liste : listeCodeSize) {  
-            if(liste.getAnnee().equals(rowKey))  
+            if(rowKey.equals(liste.getAnnee()))
                 return liste;  
         }  
           

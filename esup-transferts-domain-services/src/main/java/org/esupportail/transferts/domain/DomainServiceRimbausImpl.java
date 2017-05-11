@@ -434,7 +434,6 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			}
 		} catch (Exception e) {
 			logger.error(e);
-			typeEtablissementDTO = null;
 		}
 		return trEtablissement;
 	}
@@ -456,7 +455,6 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 			}
 		} catch (Exception e) {
 			logger.error(e);
-			typeEtablissementDTO = null;
 		}
 		return trEtablissement;
 	}
@@ -888,9 +886,7 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 
 			String composante = composanteRimbaus.getCode();
 
-			String libComposante="";
-
-			libComposante=composanteRimbaus.getLibelle();
+			String libComposante = composanteRimbaus.getLibelle();
 
 			Map<String, String> map = new HashMap<String, String>();
 

@@ -115,7 +115,9 @@ public class EsupExceptionHandler extends ExceptionHandlerWrapper {
 			}
 			NavigationHandler navigation = fc.getApplication().getNavigationHandler();
 			// Redirection vers la page des erreurs
-			String view = e.getExceptionView();
+			String view = null;
+			if(e!=null)
+				view = e.getExceptionView();
 			if (log.isDebugEnabled()) {
 				log.debug("fc --> " + fc);
 				log.debug("view --> " + view);

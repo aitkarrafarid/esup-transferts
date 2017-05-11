@@ -162,7 +162,7 @@ public class SessionController extends AbstractDomainAwareBean {
 			propertiesSysteme.add(new SystemeProperties(cle, System.getProperty(cle)));
 		}
 		Versions version = null;
-		Parametres paramChoixDuVoeuParComposante = null;
+		Parametres paramChoixDuVoeuParComposante;
 		String text="Liste des erreurs : <BR /><BR />";
 
 		try{

@@ -228,8 +228,6 @@ public class PartenaireController extends AbstractContextAwareController {
 			{
 				for(WsPub part : listePartenaires)
 				{
-//					if (!(part.getRne().equals(getSessionController().getRne())))
-//					{
 						part.setOnline(0);
 						part.setSyncOdf(0);
 						if (part.getUrl() != null)
@@ -253,9 +251,10 @@ public class PartenaireController extends AbstractContextAwareController {
 							Integer etatConnexion2 = (Integer) tabReturn2[1];
 							if(etatConnexion2==1) {
 								paramChoixDuVoeuParComposante = (Parametres) tabReturn2[0];
-								if(part.isChoixDuVoeuParComposante()!=paramChoixDuVoeuParComposante.isBool())
+								if(part.isChoixDuVoeuParComposante()!=paramChoixDuVoeuParComposante.isBool()) {
 									part.setChoixDuVoeuParComposante(paramChoixDuVoeuParComposante.isBool());
 									getDomainService().updateWsPub(part);
+								}
 							}
 
                             if (logger.isDebugEnabled()) {

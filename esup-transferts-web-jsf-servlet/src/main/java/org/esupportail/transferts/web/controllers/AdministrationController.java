@@ -1587,7 +1587,7 @@ public class AdministrationController extends AbstractContextAwareController {
 		boolean valid = true;
 		if(ajout_etablissement_manuellement!=null && getSessionController().getAjoutEtablissementManuellement()!="")
 		{
-			Map <String, String> maps=null;
+			Map <String, String> maps;
 			if(getSessionController().isActivEtablissementManuellement())
 			{
 				maps = Fonctions.stringSplitToMap(getSessionController().getAjoutEtablissementManuellement(), ",", true);
@@ -1633,7 +1633,8 @@ public class AdministrationController extends AbstractContextAwareController {
 		{
 			getSessionController().setAjoutEtablissementManuellement("");
 			getSessionController().setActivEtablissementManuellement(false);
-			ajout_etablissement_manuellement = getDomainService().updateConfiguration(ajout_etablissement_manuellement);
+//			ajout_etablissement_manuellement = getDomainService().updateConfiguration(ajout_etablissement_manuellement);
+			getDomainService().updateConfiguration(ajout_etablissement_manuellement);
 			String summary = getString("ENREGISTREMENT.CONFIGURATION");
 			String detail = getString("ENREGISTREMENT.CONFIGURATION");
 			Severity severity = FacesMessage.SEVERITY_INFO;

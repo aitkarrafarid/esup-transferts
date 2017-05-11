@@ -166,7 +166,7 @@ public class Fonctions {
                         logger.debug("Method m===>"+m+"<===");
                     }
 
-                    if(collection.equals("arrayList"))
+                    if("arrayList".equals(collection))
                         try {
                             objectRetourList = (List<Object>) ReflectionUtils.invokeMethod(m, monService, params);
                         }catch (Exception e){
@@ -201,7 +201,7 @@ public class Fonctions {
         AuthCacheValue.setAuthCache(new AuthCacheImpl());
         Authenticator.setDefault(null);
 
-        if(collection.equals("arrayList"))
+        if("arrayList".equals(collection))
             tabReturn[0]=objectRetourList;
         else
             tabReturn[0]=objectRetour;

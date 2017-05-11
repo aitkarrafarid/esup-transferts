@@ -136,7 +136,7 @@ public class AuthenticatorImpl implements Serializable, InitializingBean,
 			}
 		} catch (Exception e) {
 			logger.error(e);
-			String[] args = { e.getMessage() };
+//			String[] args = { e.getMessage() };
 			User user = new User();
 			return user;			
 		}

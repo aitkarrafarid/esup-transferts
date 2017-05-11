@@ -55,8 +55,7 @@ public class BaseConverterUtil {
             tempVal = baseDigits.substring( mod, mod + 1 ) + tempVal;  
             decimalNumber = decimalNumber / base;  
         }  
-  
-        return tempVal;  
+        return tempVal;
     }  
   
     private static int fromOtherBaseToDecimal( int base, String number ) {  

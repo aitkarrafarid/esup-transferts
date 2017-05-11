@@ -5,6 +5,7 @@ package org.esupportail.transferts.web.utils;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.transferts.web.controllers.UserController;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +23,7 @@ public class FileHashSum {
 	/**
 	 * A logger.
 	 */
-//	private static final Logger logger = new LoggerImpl(this.getClass());
+	private static final Logger logger = new LoggerImpl(FileHashSum.class);
 	/**
 	 * compare le <code>sha1sum</code> donné avec l'empreinte du fichier local <code>file</code>.
 	 * @param file le fichier dont on doit calculer l'empreinte sha1
@@ -53,15 +54,13 @@ public class FileHashSum {
 				fis = new FileInputStream(file);
 				dis = new DigestInputStream(fis, md);
 				dis.on(true);
-
-				while (dis.read() != -1){
-					;
-				}
+//				while (dis.read() != -1){
+//					;
+//				}
 				byte[] b = md.digest();
 				localSha1Sum = getHexString(b);
 			} catch (Exception ex) {
-//				logger.error(ex.getMessage());
-				org.apache.log4j.Logger.getLogger(ex.getMessage());
+				logger.error(ex);
 			}finally {
 				try {
 					if(dis!=null)
@@ -69,7 +68,7 @@ public class FileHashSum {
 					if(fis!=null)
 						fis.close();
 				} catch (IOException e) {
-					org.apache.log4j.Logger.getLogger(e.getMessage());
+					logger.error(e);
 				}
 			}
 		}
@@ -108,14 +107,13 @@ public class FileHashSum {
 				fis = new FileInputStream(file);
 				dis = new DigestInputStream(fis, md);
 				dis.on(true);
-
-				while (dis.read() != -1){
-					;
-				}
+//				while (dis.read() != -1){
+//					;
+//				}
 				byte[] b = md.digest();
 				localMd5Sum = getHexString(b);
 			} catch (Exception ex) {
-				org.apache.log4j.Logger.getLogger(ex.getMessage());
+				logger.error(ex);
 			}finally {
 				try {
 					if(dis!=null)
@@ -123,7 +121,7 @@ public class FileHashSum {
 					if(fis!=null)
 						fis.close();
 				} catch (IOException e) {
-					org.apache.log4j.Logger.getLogger(e.getMessage());
+					logger.error(e);
 				}
 			}
 		}

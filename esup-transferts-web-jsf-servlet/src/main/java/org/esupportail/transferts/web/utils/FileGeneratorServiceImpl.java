@@ -67,6 +67,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 							endResult = result.toString();
 						} 
 					} catch (NullPointerException e) {
+						logger.error(e);
                         if (logger.isDebugEnabled())
 						    logger.debug("la colonne " + s.getKeyLabel() + "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 					}
@@ -105,6 +106,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 						endResult = result.toString();
 					} 
 				} catch (NullPointerException e) {
+					logger.error(e);
                     if (logger.isDebugEnabled())
 					    logger.debug("la colonne " + s.getKeyLabel() + "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 				}
@@ -144,6 +146,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 						endResult = result.toString();
 					} 
 				} catch (NullPointerException e) {
+					logger.error(e);
                     if (logger.isDebugEnabled())
 					    logger.debug("la colonne " + s.getKeyLabel() + "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 				}
@@ -227,7 +230,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 				logger.debug("test.length() --> "+test.length());
 				logger.debug("nb --> "+nb);
 			}
-			Charset utf8charset = Charset.forName("UTF-8");
+//			Charset utf8charset = Charset.forName("UTF-8");
 			Charset iso88591charset = Charset.forName("ISO-8859-1");
 			byte[] data;
 			data = test.getBytes(iso88591charset);
@@ -256,6 +259,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 							endResult = result.toString();
 						} 
 					} catch (NullPointerException e) {
+						logger.error(e);
                         if (logger.isDebugEnabled())
 						    logger.debug("la colonne " + s.getKeyLabel()	+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 					}
@@ -297,6 +301,7 @@ public class FileGeneratorServiceImpl implements Serializable, InitializingBean,
 							endResult = result.toString();
 						} 
 					} catch (NullPointerException e) {
+						logger.error(e);
                         if (logger.isDebugEnabled())
 						    logger.debug("la colonne " + s.getKeyLabel()+ "pour la propriete " + s.getNameProperty() + "est vide (property null)");
 					}

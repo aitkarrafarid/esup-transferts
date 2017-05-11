@@ -48,7 +48,7 @@ public class BusinessManager {
 		setCurrentAnnee(csa.getAnnee());
 
 		WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.getCurrentRne(), this.getCurrentAnnee());
-		if(wp!=null && !wp.getMailCorrespondantFonctionnel().equals(null) && !wp.getMailCorrespondantFonctionnel().equals(""))
+		if(wp!=null && !"null".equalsIgnoreCase(wp.getMailCorrespondantFonctionnel()) && !"".equals(wp.getMailCorrespondantFonctionnel()))
 			this.setCurrentMail(wp.getMailCorrespondantFonctionnel());
 	}
 
@@ -108,15 +108,15 @@ public class BusinessManager {
 			if(this.isReloadDemandeTransfertsAccueilEchecAutoForScheduler())
 				this.reloadFeedBackTransfertsAccueilEchec("A");
 
-			if(isUseRelanceDepartPersonnelConcerneSVA() && lEtuDepart!=null && lEtuDepart.size()>0)
+			if(isUseRelanceDepartPersonnelConcerneSVA() && lEtuDepart!=null && !lEtuDepart.isEmpty())
 				this.envoiMail(lEtuDepart, "D");
 
-			if(this.isTransfertsAccueil() && isUseRelanceAccueilPersonnelConcerneSVA() && lEtuAccueil!=null && lEtuAccueil.size()>0)
+			if(this.isTransfertsAccueil() && isUseRelanceAccueilPersonnelConcerneSVA() && lEtuAccueil!=null && !lEtuAccueil.isEmpty())
 				this.envoiMail(lEtuAccueil, "A");
 
-			if(this.isUseRelanceResumeSVA() && lEtuDepart!=null && lEtuDepart.size()>0) {
+			if(this.isUseRelanceResumeSVA() && lEtuDepart!=null && !lEtuDepart.isEmpty()) {
 				this.envoiMailResume(lEtuDepart, "D");
-				if(this.isTransfertsAccueil() && lEtuAccueil!=null && lEtuAccueil.size()>0)
+				if(this.isTransfertsAccueil() && lEtuAccueil!=null && !lEtuAccueil.isEmpty())
 					this.envoiMailResume(lEtuAccueil, "A");
 			}
 
@@ -131,7 +131,7 @@ public class BusinessManager {
 		if(this.getCurrentAnnee()!=null)
 		{
 			List<EtudiantRef> lEtuDepart = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "D");
-			if(lEtuDepart!=null && lEtuDepart.size()>0)
+			if(lEtuDepart!=null && !lEtuDepart.isEmpty())
 				this.envoiMail(lEtuDepart, "D");
 		}
 	}
@@ -143,7 +143,7 @@ public class BusinessManager {
 		if(this.getCurrentAnnee()!=null)
 		{
 			List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "A");
-			if(lEtuAccueil!=null && lEtuAccueil.size()>0)
+			if(lEtuAccueil!=null && !lEtuAccueil.isEmpty())
 				this.envoiMail(lEtuAccueil, "A");
 		}
 	}
@@ -155,11 +155,11 @@ public class BusinessManager {
 
 		if(this.getCurrentAnnee()!=null) {
 			List<EtudiantRef> lEtuDepart = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "D");
-			if (lEtuDepart != null && lEtuDepart.size() > 0)
+			if (lEtuDepart != null && !lEtuDepart.isEmpty())
 				this.envoiMailResume(lEtuDepart, "D");
 
 			List<EtudiantRef> lEtuAccueil = getDomainService().getAllDemandesTransfertsByAnnee(this.getCurrentAnnee(), "A");
-			if(this.isTransfertsAccueil() && lEtuAccueil!=null && lEtuAccueil.size()>0)
+			if(this.isTransfertsAccueil() && lEtuAccueil!=null && !lEtuAccueil.isEmpty())
 				this.envoiMailResume(lEtuAccueil, "A");
 		}
 	}
@@ -197,8 +197,8 @@ public class BusinessManager {
 			List<EtudiantRef> listeEtudiantRefAlertSilenceVautAccord = new ArrayList<EtudiantRef>();
 			List<EtudiantRef> listeEtudiantRefAlertDepassementSilenceVautAccord = new ArrayList<EtudiantRef>();
 			Date now = new Date();
-			String sujet="";
-			String body="";
+			String sujet;
+			String body;
 
 			if (logger.isDebugEnabled())
 			    logger.debug("lEtu.size()===>"+lEtu.size()+" / "+source+"<===");
@@ -222,7 +222,7 @@ public class BusinessManager {
 
 			if(listeEtudiantRefAlertSilenceVautAccord!=null && !listeEtudiantRefAlertSilenceVautAccord.isEmpty())
 			{
-				if(source.equals("A"))
+				if("A".equals(source))
 				{
 					Collections.sort(listeEtudiantRefAlertSilenceVautAccord, new CompareByComposanteAccueil());
 					sujet = "[transferts accueil] Silence vaut accord (délai de 6 semaines dépassés)";
@@ -242,9 +242,9 @@ public class BusinessManager {
 				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertSilenceVautAccord)
 				{
-					if(source.equals("D"))
+					if("D".equals(source))
 					{
-						if(libComp.equals(""))
+						if("".equals(libComp))
 							libComp=etu.getComposante();
 						else if(libComp.equals(etu.getComposante()))
 							repeat=true;
@@ -256,7 +256,7 @@ public class BusinessManager {
 					}
 					else
 					{
-						if(libComp.equals(""))
+						if("".equals(libComp))
 							libComp=etu.getTransferts().getOdf().getCodeComposante();
 						else if(libComp.equals(etu.getTransferts().getOdf().getCodeComposante()))
 							repeat=true;
@@ -283,7 +283,6 @@ public class BusinessManager {
 				}
 				catch (AddressException e)
 				{
-//					if (logger.isDebugEnabled())
 					logger.error("===>Echec envoi de mail<===");
 					logger.error(e);
 				}
@@ -298,7 +297,7 @@ public class BusinessManager {
 
 			if(listeEtudiantRefAlertDepassementSilenceVautAccord!=null && !listeEtudiantRefAlertDepassementSilenceVautAccord.isEmpty())
 			{
-				if(source.equals("A"))
+				if("A".equals(source))
 				{
 					Collections.sort(listeEtudiantRefAlertDepassementSilenceVautAccord, new CompareByComposanteAccueil());
 					sujet = "[transferts accueil] Silence vaut accord (délai des 2 mois dépassés)";
@@ -318,9 +317,9 @@ public class BusinessManager {
 				boolean repeat=false;
 				for(EtudiantRef etu : listeEtudiantRefAlertDepassementSilenceVautAccord)
 				{
-					if(source.equals("D"))
+					if("D".equals(source))
 					{
-						if(libComp.equals(""))
+						if("".equals(libComp))
 							libComp=etu.getComposante();
 						else if(libComp.equals(etu.getComposante()))
 							repeat=true;
@@ -332,7 +331,7 @@ public class BusinessManager {
 					}
 					else
 					{
-						if(libComp.equals(""))
+						if("".equals(libComp))
 							libComp=etu.getTransferts().getOdf().getCodeComposante();
 						else if(libComp.equals(etu.getTransferts().getOdf().getCodeComposante()))
 							repeat=true;
@@ -358,7 +357,6 @@ public class BusinessManager {
 				}
 				catch (AddressException e)
 				{
-//					if (logger.isDebugEnabled())
 					logger.error("===>Echec envoi de mail<===");
 					logger.error(e);
 				}
@@ -373,7 +371,7 @@ public class BusinessManager {
 		}
 		else
 		{
-			if(source.equals("A")){
+			if("A".equals(source)){
 				if (logger.isDebugEnabled())
 					logger.debug("[accueil]===>lEtu.size()===>0<===");
 			}
@@ -394,8 +392,8 @@ public class BusinessManager {
 			List<EtudiantRef> listeEtudiantRefAlertDepassementSilenceVautAccord = new ArrayList<EtudiantRef>();
 			Set listDestinataires=null;
 			Date now = new Date();
-			String sujet="";
-			String body="";
+			String sujet;
+			String body = null;
 
 			if (logger.isDebugEnabled())
 			    logger.debug("lEtu.size()===>"+lEtu.size()+" / "+source+"<===");
@@ -419,17 +417,15 @@ public class BusinessManager {
 
 			if(listeEtudiantRefAlertSilenceVautAccord!=null && !listeEtudiantRefAlertSilenceVautAccord.isEmpty())
 			{
-				if(source.equals("A"))
+				if("A".equals(source))
 				{
 					Collections.sort(listeEtudiantRefAlertSilenceVautAccord, new CompareByComposanteAccueil());
 					sujet = "[transferts accueil] Silence vaut accord (délai de 6 semaines dépassés)";
-//					body = "Liste des des demande de transferts accueil dépassant le délai des 6 semaines : <BR />\r\n";
 				}
 				else
 				{
 					Collections.sort(listeEtudiantRefAlertSilenceVautAccord, new CompareByComposanteDepart());
 					sujet = "[transferts départ] Silence vaut accord (délai de 6 semaines dépassés)";
-//					body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR />\r\n";
 				}
 
 				if (logger.isDebugEnabled())
@@ -437,14 +433,13 @@ public class BusinessManager {
 
 				String libComp="";
 				boolean repeat=false;
-				Integer envoiAlert=null;
+				Integer envoiAlert;
 				Integer compteurAlert=1;
 				for(EtudiantRef etu : listeEtudiantRefAlertSilenceVautAccord)
 				{
-//					String body2 = "<BR />\r\n" + libComp + "<BR />\r\n";
-					if(source.equals("D"))
+					if("D".equals(source))
 					{
-						if(libComp.equals("")) {
+						if("".equals(libComp)) {
 							libComp = etu.getComposante();
 							envoiAlert=0;
 						}
@@ -461,7 +456,7 @@ public class BusinessManager {
 					}
 					else
 					{
-						if(libComp.equals(""))
+						if("".equals(libComp))
 						{
 							libComp = etu.getTransferts().getOdf().getCodeComposante();
 							envoiAlert=0;
@@ -487,7 +482,7 @@ public class BusinessManager {
 
 						listDestinataires=new HashSet(); // on crée notre Set
 
-						if(source.equals("A"))
+						if("A".equals(source))
 							body = "Liste des des demande de transferts accueil dépassant le délai des 6 semaines : <BR />\r\n";
 						else
 							body = "Liste des des demande de transferts départ dépassant le délai des 6 semaines : <BR />\r\n";
@@ -499,10 +494,10 @@ public class BusinessManager {
                         if(logger.isDebugEnabled())
 						    logger.debug("lp===>"+lp+"<===");
 
-						if(lp!=null && lp.size()>0) {
+						if(lp!=null && !lp.isEmpty()) {
 							for (PersonnelComposante pc : lp) {
-								if (pc.getAlertMailSva().equalsIgnoreCase("OUI") && pc.getMailPersonnel()!=null && !pc.getMailPersonnel().equals(""))
-									listDestinataires.add(new String(pc.getMailPersonnel())); // on ajoute des string quelconques // oups, je l'ai déja ajouté, la fonction gère l'exception levée, et l'objet n'est pas ajouté
+								if ("OUI".equalsIgnoreCase(pc.getAlertMailSva()) && pc.getMailPersonnel()!=null && !"".equals(pc.getMailPersonnel()))
+									listDestinataires.add(pc.getMailPersonnel()); // on ajoute des string quelconques // oups, je l'ai déja ajouté, la fonction gère l'exception levée, et l'objet n'est pas ajouté
 							}
 						}
 					}
@@ -534,17 +529,15 @@ public class BusinessManager {
 
 			if(listeEtudiantRefAlertDepassementSilenceVautAccord!=null && !listeEtudiantRefAlertDepassementSilenceVautAccord.isEmpty())
 			{
-				if(source.equals("A"))
+				if("A".equals(source))
 				{
 					Collections.sort(listeEtudiantRefAlertDepassementSilenceVautAccord, new CompareByComposanteAccueil());
 					sujet = "[transferts accueil] Silence vaut accord (délai des 2 mois dépassés)";
-//					body = "Liste des des demande de transferts accueil dépassant le délai des 2 mois : <BR /><BR />\r\n";
 				}
 				else
 				{
 					Collections.sort(listeEtudiantRefAlertDepassementSilenceVautAccord, new CompareByComposanteDepart());
 					sujet = "[transferts départ] Silence vaut accord (délai des 2 mois dépassés)";
-//					body = "Liste des des demande de transferts départ dépassant le délai des 2 mois : <BR /><BR />\r\n";
 				}
 
 				if (logger.isDebugEnabled())
@@ -552,13 +545,13 @@ public class BusinessManager {
 
 				String libComp="";
 				boolean repeat=false;
-				Integer envoiDepassement=null;
+				Integer envoiDepassement;
 				Integer compteurDepassement=1;
 				for(EtudiantRef etu : listeEtudiantRefAlertDepassementSilenceVautAccord)
 				{
-					if(source.equals("D"))
+					if("D".equals(source))
 					{
-						if(libComp.equals(""))
+						if("".equals(libComp))
 						{
 							libComp = etu.getComposante();
 							envoiDepassement=0;
@@ -577,7 +570,7 @@ public class BusinessManager {
 					}
 					else
 					{
-						if(libComp.equals(""))
+						if("".equals(libComp))
 						{
 							libComp = etu.getTransferts().getOdf().getCodeComposante();
 							envoiDepassement=0;
@@ -604,7 +597,7 @@ public class BusinessManager {
 
 						listDestinataires=new HashSet(); // on crée notre Set
 
-						if(source.equals("A"))
+						if("A".equals(source))
 							body = "Liste des des demande de transferts accueil dépassant le délai des 2 mois : <BR /><BR />\r\n";
 						else
 							body = "Liste des des demande de transferts départ dépassant le délai des 2 mois : <BR /><BR />\r\n";
@@ -616,10 +609,10 @@ public class BusinessManager {
                         if(logger.isDebugEnabled())
 						    logger.debug("lp===>"+lp+"<===");
 
-						if(lp!=null && lp.size()>0) {
+						if(lp!=null && !lp.isEmpty()) {
 							for (PersonnelComposante pc : lp) {
-								if (pc.getAlertMailSva().equalsIgnoreCase("OUI") && pc.getMailPersonnel()!=null && !pc.getMailPersonnel().equals(""))
-									listDestinataires.add(new String(pc.getMailPersonnel())); // on ajoute des string quelconques // oups, je l'ai déja ajouté, la fonction gère l'exception levée, et l'objet n'est pas ajouté
+								if ("OUI".equalsIgnoreCase(pc.getAlertMailSva()) && pc.getMailPersonnel()!=null && !"".equals(pc.getMailPersonnel()))
+									listDestinataires.add(pc.getMailPersonnel()); // on ajoute des string quelconques // oups, je l'ai déja ajouté, la fonction gère l'exception levée, et l'objet n'est pas ajouté
 							}
 						}
 					}
@@ -651,7 +644,7 @@ public class BusinessManager {
 		}
 		else
 		{
-			if(source.equals("A")){
+			if("A".equals(source)){
 				if (logger.isDebugEnabled())
 					logger.debug("[accueil]===>lEtu.size()===>0<===");
 			}
@@ -806,7 +799,7 @@ public class BusinessManager {
 		    logger.debug("reloadDemandeTransfertsDepartEchec===>" + source + "<===");
 		List<EtudiantRef> listeEtudiantRef = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), source);
 
-		if(listeEtudiantRef!=null && listeEtudiantRef.size()>0)
+		if(listeEtudiantRef!=null && !listeEtudiantRef.isEmpty())
 		{
 			for (EtudiantRef etudiant : listeEtudiantRef) {
 				if (etudiant.getTransferts().getTemoinOPIWs() != null && etudiant.getTransferts().getTemoinOPIWs() == 2) {
@@ -849,7 +842,7 @@ public class BusinessManager {
 											logger.debug("re.getSession() : " + re.getSession());
 										}
 
-										if (rs.getResultat() != null && !rs.getResultat().equals("")) {
+										if (rs.getResultat() != null && !"".equals(rs.getResultat())) {
 											test = false;
 											SituationUniversitaire su = new SituationUniversitaire();
 											String timestamp = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
@@ -944,7 +937,7 @@ public class BusinessManager {
 
 		List<EtudiantRef> listeEtudiantRef = getDomainService().getAllDemandesTransfertsByAnnee(getCurrentAnnee(), source);
 
-		if(listeEtudiantRef!=null && listeEtudiantRef.size()>0) {
+		if(listeEtudiantRef!=null && !listeEtudiantRef.isEmpty()) {
 			for (EtudiantRef etudiant : listeEtudiantRef) {
 				if (etudiant.getTransferts().getTemoinOPIWs() != null && etudiant.getTransferts().getTemoinOPIWs() == 2) {
 					/**
@@ -995,11 +988,11 @@ public class BusinessManager {
 								logger.debug("3--ad.getAvis()===>" + ad.getAvis() + "<===");
 							}
 
-							if (ad.getAvis().equals("A")) {
+							if ("A".equals(ad.getAvis())) {
 								decision = "F";
 								feedBackDecision = 1;
 
-							} else if (ad.getAvis().equals("B")) {
+							} else if ("B".equals(ad.getAvis())) {
 								decision = "D";
 								feedBackDecision = 2;
 							} else {
@@ -1008,7 +1001,7 @@ public class BusinessManager {
 						}
 					}
 
-					if (!decision.equals("A"))
+					if (!"A".equals(decision))
 					{
 						WsPub p = getDomainService().getWsPubByRneAndAnnee(etudiant.getAccueil().getCodeRneUnivDepart(), getCurrentAnnee());
 						if (p != null) {

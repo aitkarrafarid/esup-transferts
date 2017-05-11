@@ -55,8 +55,8 @@ public class StatistiqueController extends AbstractContextAwareController implem
 			logger.debug("Nombre total d'etablissments -->"+selChartSeries.getData().keySet().size());
 			logger.debug("Rne -->"+rne);
 		}
-		String summary = null;
-		String detail = null;
+		String summary;
+		String detail;
 
 		TrEtablissementDTO etab = getDomainServiceScolarite().getEtablissementByRne(rne);
 

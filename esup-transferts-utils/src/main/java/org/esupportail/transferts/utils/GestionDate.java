@@ -11,8 +11,8 @@ import java.util.Date;
 
 public class GestionDate {
 
-	protected static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	protected static final SimpleDateFormat dateHeureFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+//	protected static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//	protected static final SimpleDateFormat dateHeureFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
 	public GestionDate() {
 		// TODO Auto-generated constructor stub
@@ -22,11 +22,11 @@ public class GestionDate {
 	 * Formater une date
 	 */
 	public static String formatterDate(Date date) {
-		return dateFormat.format(date);
+		return new SimpleDateFormat("dd/MM/yyyy").format(date);
 	}
 
 	public static String formatterDateHeure(Date date) {
-		return dateHeureFormat.format(date);
+		return new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date);
 	}	
 
 	/*

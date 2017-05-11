@@ -106,7 +106,7 @@ public class UserController extends AbstractContextAwareController {
 		setAnneeEtudeVide(true);
 		setLibelleDiplomeVide(true);
 
-		if(this.currentEtudiant.getTransferts().getDept() !=null && !this.currentEtudiant.getTransferts().getDept().equals(""))
+		if(this.currentEtudiant.getTransferts().getDept() !=null && !"".equals(this.currentEtudiant.getTransferts().getDept()))
 		{
 			setDeptVide(false);
 			currentEtudiant.getTransferts().setRne(null);
@@ -131,7 +131,7 @@ public class UserController extends AbstractContextAwareController {
 		setAnneeEtudeVide(true);
 		setLibelleDiplomeVide(true);
 
-		if(this.currentEtudiant.getTransferts().getRne() !=null && !this.currentEtudiant.getTransferts().getRne().equals("") && isPartenaire())
+		if(this.currentEtudiant.getTransferts().getRne() !=null && !"".equals(this.currentEtudiant.getTransferts().getRne()) && isPartenaire())
 		{
 			WsPub wp = getDomainService().getWsPubByRneAndAnnee(this.currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee());
 
@@ -169,7 +169,7 @@ public class UserController extends AbstractContextAwareController {
 			logger.debug("public void resetAnneeEtude()");
 
 		setTypesDiplomeAutreVide(true);
-		if(getCodTypDip() !=null && !getCodTypDip().equals(""))
+		if(getCodTypDip() !=null && !"".equals(getCodTypDip()))
 		{
 			setDeptVide(false);
 			setTypesDiplomeVide(false);
@@ -181,11 +181,6 @@ public class UserController extends AbstractContextAwareController {
 				setComposanteVide(true);
 			else
 				setLibelleDiplomeVide(true);
-
-//			if(getSessionController().isChoixDuVoeuParComposante())
-//				setComposanteVide(true);
-//			else
-//				setLibelleDiplomeVide(true);
 
 			this.getListeAnneesEtude();
 		}
@@ -218,7 +213,6 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("===>public void resetLibelleDiplome()<===");
 		setTypesDiplomeAutreVide(true);
-//		if(getCodeNiveau() !=null && !getCodeNiveau().equals(""))
 		if(getCodeNiveau() !=null)
 		{
 			setDeptVide(false);
@@ -243,7 +237,7 @@ public class UserController extends AbstractContextAwareController {
 			logger.debug("===>public void resetLibelleEtape()<===");
 		if(this.isChoixDuVoeuParComposanteByPartenaire())
 		{
-			if(getCodeComposante() !=null && !getCodeComposante().equals(""))
+			if(getCodeComposante() !=null && !"".equals(getCodeComposante()))
 			{
 				setComposanteVide(false);
 				setTypesDiplomeAutreVide(true);
@@ -264,7 +258,7 @@ public class UserController extends AbstractContextAwareController {
 		}
 		else
 		{
-			if(getCodeDiplome() !=null && !getCodeDiplome().equals(""))
+			if(getCodeDiplome() !=null && !"".equals(getCodeDiplome()))
 			{
 				setTypesDiplomeAutreVide(true);
 				setTypesDiplomeVide(false);
@@ -300,7 +294,7 @@ public class UserController extends AbstractContextAwareController {
 		setSource("D");
 		this.currentEtudiant.setAccueil(null);
 		this.currentEtudiant.setSource(getSource());
-		if(this.currentEtudiant.getAdresse().getCodPay().equals("100"))
+		if("100".equals(this.currentEtudiant.getAdresse().getCodPay()))
 			this.currentEtudiant.getAdresse().setCodeVilleEtranger(null);
 		else
 		{
@@ -320,7 +314,7 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("getSessionController().getValidationAutomatique()===>"+getSessionController().getValidationAutomatique()+"<===");
 
-		if(!getSessionController().getValidationAutomatique().equals("") && getSessionController().getValidationAutomatique().equals("composante"))
+		if(!"".equals(getSessionController().getValidationAutomatique()) && "composante".equals(getSessionController().getValidationAutomatique()))
 		{
 			Composante currentComposante = getDomainService().getComposantesFromBddByAnneeAndSourceAndCodeComposante(getSessionController().getCurrentAnnee(), getSource(), this.currentEtudiant.getComposante());
 			if (logger.isDebugEnabled())
@@ -330,7 +324,7 @@ public class UserController extends AbstractContextAwareController {
 			{
 				if (logger.isDebugEnabled())
 					logger.debug("if(currentComposante!=null)");
-				if(currentComposante.getValidAuto().equals("oui"))
+				if("oui".equals(currentComposante.getValidAuto()))
 				{
 					if (logger.isDebugEnabled())
 						logger.debug("if(currentComposante!=null && currentComposante.getValidAuto().equals(oui))");
@@ -351,7 +345,7 @@ public class UserController extends AbstractContextAwareController {
 			}
 
 		}
-		else if(!getSessionController().getValidationAutomatique().equals("") && getSessionController().getValidationAutomatique().equals("cge"))
+		else if(!"".equals(getSessionController().getValidationAutomatique()) && "cge".equals(getSessionController().getValidationAutomatique()))
 		{
 			CGE currentCGE = getDomainService().getCGEFromBddByAnneeAndSourceAndCodeCGE(getSessionController().getCurrentAnnee(), getSource(), this.currentEtudiant.getCodCge());
 			if (logger.isDebugEnabled())
@@ -361,7 +355,7 @@ public class UserController extends AbstractContextAwareController {
 			{
 				if (logger.isDebugEnabled())
 					logger.debug("if(currentCGE!=null)");
-				if(currentCGE.getValidAuto().equals("oui"))
+				if("oui".equals(currentCGE.getValidAuto()))
 				{
 					if (logger.isDebugEnabled())
 						logger.debug("if(currentCGE!=null && currentCGE.getValidAuto().equals(oui))");
@@ -387,19 +381,19 @@ public class UserController extends AbstractContextAwareController {
 				logger.debug("===>this.addDemandeTransfertsSansValidationAuto()==''<===");
 			this.addDemandeTransfertsSansValidationAuto();
 		}
-		if(!this.getMailInformation().equals("")) {
+		if(!"".equals(this.getMailInformation())) {
 			this.envoiMailInformations();
 		}
 
 
-		if(this.currentEtudiant.getComposante()!=null && !this.currentEtudiant.getComposante().equals("")) {
+		if(this.currentEtudiant.getComposante()!=null && !"".equals(this.currentEtudiant.getComposante())) {
 			Set listDestinataires=new HashSet(); // on crée notre Set
 			List<PersonnelComposante> lp = getDomainService().getDroitPersonnelComposanteBySourceAndAnneeAndCodeComposante("D", getSessionController().getCurrentAnnee(), this.currentEtudiant.getComposante());
 
 			if (logger.isDebugEnabled())
 				logger.debug("lp===>" + lp + "<===");
 
-			if (lp != null && lp.size() > 0) {
+			if (lp != null && !lp.isEmpty()) {
 				String sujet = getString("MAIL.INFORMATION.SUJET");
 				String body;
 				body=getString("MAIL.INFORMATION.BODY",
@@ -409,8 +403,8 @@ public class UserController extends AbstractContextAwareController {
 						this.currentEtudiant.getNomPatronymique(),
 						this.currentEtudiant.getDateNaissance());
 				for (PersonnelComposante pc : lp) {
-					if (pc.getAlertMailDemandeTransfert().equalsIgnoreCase("OUI") && pc.getMailPersonnel() != null && !pc.getMailPersonnel().equals(""))
-						listDestinataires.add(new String(pc.getMailPersonnel())); // on ajoute des string quelconques // oups, je l'ai déja ajouté, la fonction gère l'exception levée, et l'objet n'est pas ajouté
+					if ("OUI".equalsIgnoreCase(pc.getAlertMailDemandeTransfert()) && pc.getMailPersonnel() != null && !"".equals(pc.getMailPersonnel()))
+						listDestinataires.add(pc.getMailPersonnel()); // on ajoute des string quelconques // oups, je l'ai déja ajouté, la fonction gère l'exception levée, et l'objet n'est pas ajouté
 				}
 				this.envoiMailMasse(listDestinataires, sujet, body);
 			}
@@ -585,11 +579,11 @@ public class UserController extends AbstractContextAwareController {
 		}
 		this.addCorrespondance(correspondance);
 
-		if((!getSessionController().getValidationAutomatique().equals("") && getSessionController().getValidationAutomatique().equals("cge"))
-				|| (!getSessionController().getValidationAutomatique().equals("") && getSessionController().getValidationAutomatique().equals("composante")))
+		if((!"".equals(getSessionController().getValidationAutomatique()) && "cge".equals(getSessionController().getValidationAutomatique()))
+				|| (!"".equals(getSessionController().getValidationAutomatique()) && "composante".equals(getSessionController().getValidationAutomatique())))
 		{
 			String sujet = getString("TRANSFERT_AUTO_MAIL_SUJET");
-			String body = getString("TRANSFERT_AUTO_MAIL_BODY");
+			String body;
 
 			correspondance = new Correspondance();
 			try {
@@ -659,7 +653,7 @@ public class UserController extends AbstractContextAwareController {
 		else
 			this.currentEtudiant.getTransferts().setTemoinTransfertValide(2);
 
-		if(this.currentEtudiant.getAdresse().getCodPay().equals("100"))
+		if("100".equals(this.currentEtudiant.getAdresse().getCodPay()))
 			this.currentEtudiant.getAdresse().setCodeVilleEtranger(null);
 		else
 		{
@@ -672,8 +666,8 @@ public class UserController extends AbstractContextAwareController {
 		getDomainService().addDemandeTransferts(this.currentEtudiant);
 		this.presentBdd=true;
 
-		if((!getSessionController().getValidationAutomatique().equals("") && getSessionController().getValidationAutomatique().equals("cge"))
-				|| (!getSessionController().getValidationAutomatique().equals("") && getSessionController().getValidationAutomatique().equals("composante")))
+		if((!"".equals(getSessionController().getValidationAutomatique()) && "cge".equals(getSessionController().getValidationAutomatique()))
+				|| (!"".equals(getSessionController().getValidationAutomatique()) && "composante".equals(getSessionController().getValidationAutomatique())))
 		{
 			String summary = getString("ENREGISTREMENT.DEMANDE_TRANSFERT_VALID_AUTO");
 			String detail = getString("ENREGISTREMENT.DEMANDE_TRANSFERT_VALID_AUTO");
@@ -743,7 +737,7 @@ public class UserController extends AbstractContextAwareController {
 								logger.debug("re.getSession() : " + re.getSession());
 							}
 
-							if(rs.getResultat()!=null && !rs.getResultat().equals(""))
+							if(rs.getResultat()!=null && !"".equals(rs.getResultat()))
 							{
 								test=false;
 								SituationUniversitaire su = new SituationUniversitaire();
@@ -961,7 +955,7 @@ public class UserController extends AbstractContextAwareController {
 							}
 							//					this.currentEtudiant = getDomainService().getPresenceEtudiantRef(getSessionController().getCurrentUser().getNumeroEtudiant(), getSessionController().getCurrentAnnee());
 							this.currentEtudiant = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(getSessionController().getCurrentUser().getNumeroEtudiant(), getSessionController().getCurrentAnnee(), "D");
-							if(this.currentEtudiant.getSource().equals("A"))
+							if("A".equals(this.currentEtudiant.getSource()))
 							{
 								String summary = "Vous ne pouvez pas effectuer une demande de transferts d�part car sous avez deja effecute une demande de transfert accueil";
 								String detail = "Vous ne pouveze pas effectuer une demande de transferts d�part car sous avez deja effecute une demande de transfert accueil";
@@ -980,7 +974,7 @@ public class UserController extends AbstractContextAwareController {
 								logger.debug("Pas de demande de transferts !!!");
 								logger.debug("Aucun interdit !!!");
 							}
-							if(this.currentEtudiant==null || this.currentEtudiant.getNumeroEtudiant()==null || this.currentEtudiant.getNumeroEtudiant().equals(""))
+							if(this.currentEtudiant==null || this.currentEtudiant.getNumeroEtudiant()==null || "".equals(this.currentEtudiant.getNumeroEtudiant()))
 								this.currentEtudiant = this.currentEtudiantInterdit;
 						}
 
@@ -1117,7 +1111,7 @@ public class UserController extends AbstractContextAwareController {
 					//					this.currentEtudiant = getDomainService().getPresenceEtudiantRef(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee());	
 					this.currentEtudiant = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), "D");
 
-					if(this.currentEtudiant==null || this.currentEtudiant.getSource().equals("A"))
+					if(this.currentEtudiant==null || "A".equals(this.currentEtudiant.getSource()))
 					{
 						String summary = "Vous ne pouvez pas effectuer une demande de transferts depart car vous avez deja effecute une demande de transfert accueil";
 						String detail = "Vous ne pouvez pas effectuer une demande de transferts depart car vous avez deja effecute une demande de transfert accueil";
@@ -1197,7 +1191,7 @@ public class UserController extends AbstractContextAwareController {
 
 		this.initialiseTransientEtudiantRef();
 
-		if(this.currentEtudiant.getTransferts().getTypeTransfert().equals("T"))
+		if("T".equals(this.currentEtudiant.getTransferts().getTypeTransfert()))
 			this.currentEtudiant.getTransferts().setLibTypeTransfert("Total");
 		else
 			this.currentEtudiant.getTransferts().setLibTypeTransfert("Partiel");
@@ -1218,32 +1212,18 @@ public class UserController extends AbstractContextAwareController {
 		 * 
 		 * */
 		Map<String, String> map = getDomainServiceScolarite().getEtapePremiereAndCodeCgeAndLibCge(currentEtudiant.getNumeroEtudiant());
-
-//		for (String mapKey : map.keySet()) {
-//			if(mapKey.equals("libWebVet"))
-//				currentEtudiant.setLibEtapePremiereLocal(map.get(mapKey));
-//			if(mapKey.equals("codeCGE"))
-//				currentEtudiant.setCodCge(map.get(mapKey));
-//			if(mapKey.equals("libCGE"))
-//				currentEtudiant.setLibCge(map.get(mapKey));
-//			if(mapKey.equals("codeComposante"))
-//				currentEtudiant.setComposante(map.get(mapKey));
-//			if(mapKey.equals("libComposante"))
-//				currentEtudiant.setLibComposante(map.get(mapKey));
-//		}
-
 		for (Map.Entry<String,String> entry : map.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
-			if(key.equals("libWebVet"))
+			if("libWebVet".equals(key))
 				currentEtudiant.setLibEtapePremiereLocal(value);
-			if(key.equals("codeCGE"))
+			if("codeCGE".equals(key))
 				currentEtudiant.setCodCge(value);
-			if(key.equals("libCGE"))
+			if("libCGE".equals(key))
 				currentEtudiant.setLibCge(value);
-			if(key.equals("codeComposante"))
+			if("codeComposante".equals(key))
 				currentEtudiant.setComposante(value);
-			if(key.equals("libComposante"))
+			if("libComposante".equals(key))
 				currentEtudiant.setLibComposante(value);
 		}
 
@@ -1310,7 +1290,7 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("goToAdresseApogee");
 		}
-		if(!this.currentEtudiant.getAdresse().getCodPay().equals("100"))
+		if(!"100".equals(this.currentEtudiant.getAdresse().getCodPay()))
 			this.itemValueCodePay=this.currentEtudiant.getAdresse().getCodPay();
 		return "goToAdresseApogee";
 	}
@@ -1328,8 +1308,8 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("goToVoeuxOrientation");
 		}
-		if((this.currentEtudiant.getAdresse().getNumTel()==null || this.currentEtudiant.getAdresse().getNumTel().equals(""))
-				&& (this.currentEtudiant.getAdresse().getNumTelPortable()==null || this.currentEtudiant.getAdresse().getNumTelPortable().equals("")))
+		if((this.currentEtudiant.getAdresse().getNumTel()==null || "".equals(this.currentEtudiant.getAdresse().getNumTel()))
+				&& (this.currentEtudiant.getAdresse().getNumTelPortable()==null || "".equals(this.currentEtudiant.getAdresse().getNumTelPortable())))
 		{
 			String summary = getString("ERREUR.TELEPHONE");
 			String detail = getString("ERREUR.TELEPHONE");
@@ -1348,8 +1328,8 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("goToVoeuxOrientationApogee");
 		}
-		if((this.currentEtudiant.getAdresse().getNumTel()==null || this.currentEtudiant.getAdresse().getNumTel().equals(""))
-				&& (this.currentEtudiant.getAdresse().getNumTelPortable()==null || this.currentEtudiant.getAdresse().getNumTelPortable().equals("")))
+		if((this.currentEtudiant.getAdresse().getNumTel()==null || "".equals(this.currentEtudiant.getAdresse().getNumTel()))
+				&& (this.currentEtudiant.getAdresse().getNumTelPortable()==null || "".equals(this.currentEtudiant.getAdresse().getNumTelPortable())))
 		{
 			String summary = getString("ERREUR.TELEPHONE");
 			String detail = getString("ERREUR.TELEPHONE");
@@ -1628,9 +1608,10 @@ public class UserController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled()) {
 				logger.debug("listeAnneesEtudeDTO : "+listeAnneesEtudeDTO);
 			}
-			for(Integer mapKey : listeAnneesEtudeDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeAnneesEtudeDTO.get(mapKey));
+			for (Map.Entry<Integer,String> entry : listeAnneesEtudeDTO.entrySet()) {
+				Integer key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeAnneesEtude.add(option);
 			}
 			Collections.sort(listeAnneesEtude,new ComparatorSelectItem());
@@ -1644,7 +1625,6 @@ public class UserController extends AbstractContextAwareController {
 		if (logger.isDebugEnabled())
 			logger.debug("public List<SelectItem> getListeLibellesDiplome()");
 		listeLibellesDiplome = new ArrayList<SelectItem>();
-		Map<String, String> listeLibellesDiplomeDTO = null;
 		if (logger.isDebugEnabled())
 		{
 			logger.debug("listeLibellesDiplomeDTO par diplome");
@@ -1652,15 +1632,15 @@ public class UserController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled())
 				logger.debug("###################################### --> "+currentEtudiant.getTransferts().getRne()+"-----"+getSessionController().getCurrentAnnee()+"-----"+getCodTypDip()+"-----"+getCodeNiveau()+"-----"+true+"-----D");
 		}
-		listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, "D");
-
+		Map<String, String> listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(), getCodeNiveau(), true, "D");
 		if(listeLibellesDiplomeDTO!=null && !listeLibellesDiplomeDTO.isEmpty())
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("listeLibellesDiplomeDTO : "+listeLibellesDiplomeDTO);
-			for(String mapKey : listeLibellesDiplomeDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
+			for (Map.Entry<String,String> entry : listeLibellesDiplomeDTO.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeLibellesDiplome.add(option);
 			}
 			Collections.sort(listeLibellesDiplome,new ComparatorSelectItem());
@@ -1719,7 +1699,7 @@ public class UserController extends AbstractContextAwareController {
 			PDFUtils.exportPDF(fileNameXml,FacesContext.getCurrentInstance(),
 					xslXmlPath, fileNamePdf, fileNameXsl);
 		} catch (Exception f) {
-			logger.error("ExportException ", f.fillInStackTrace());
+			logger.error(f);
 		}
 		return retour;
 	}
@@ -2323,9 +2303,10 @@ public class UserController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled()) {
 				logger.debug("listeComposantesDTO : "+listeComposantesDTO);
 			}
-			for(String mapKey : listeComposantesDTO.keySet())
-			{
-				SelectItem option = new SelectItem(mapKey, listeComposantesDTO.get(mapKey));
+			for (Map.Entry<String,String> entry : listeComposantesDTO.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				SelectItem option = new SelectItem(key, value);
 				listeComposantes.add(option);
 			}
 			Collections.sort(listeComposantes,new ComparatorSelectItem());
