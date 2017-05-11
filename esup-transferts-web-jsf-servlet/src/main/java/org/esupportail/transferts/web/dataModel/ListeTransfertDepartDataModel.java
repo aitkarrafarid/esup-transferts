@@ -4,7 +4,6 @@ import org.esupportail.transferts.domain.beans.EtudiantRef;
 import org.primefaces.model.SelectableDataModel;
 
 import javax.faces.model.ListDataModel;
-import java.io.Serializable;
 import java.util.List;
   
 public class ListeTransfertDepartDataModel extends ListDataModel<EtudiantRef> implements SelectableDataModel<EtudiantRef> {

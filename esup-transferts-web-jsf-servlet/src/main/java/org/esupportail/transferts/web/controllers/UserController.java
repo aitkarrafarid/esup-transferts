@@ -817,7 +817,6 @@ public class UserController extends AbstractContextAwareController {
 					String summary = getString("ENVOI.OPI");
 					String detail = getString("ENVOI.OPI");
 					Severity severity = FacesMessage.SEVERITY_INFO;
-//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 					FacesContext context = FacesContext.getCurrentInstance();
 					context.addMessage(null, new FacesMessage(severity, summary, detail));
 					context.getExternalContext().getFlash().setKeepMessages(true);
@@ -828,7 +827,6 @@ public class UserController extends AbstractContextAwareController {
 					String summary = getString("ERREUR.ACCES_OPI3");
 					String detail = getString("ERREUR.ACCES_OPI3");
 					Severity severity = FacesMessage.SEVERITY_ERROR;
-//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 					FacesContext context = FacesContext.getCurrentInstance();
 					context.addMessage(null, new FacesMessage(severity, summary, detail));
 					context.getExternalContext().getFlash().setKeepMessages(true);
@@ -841,7 +839,6 @@ public class UserController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled())
 					logger.debug("Aucun etudiant corresondant a l'INE suivant : "+this.currentEtudiant.getNumeroIne());
 				Severity severity = FacesMessage.SEVERITY_FATAL;
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(severity, summary, detail));
 				context.getExternalContext().getFlash().setKeepMessages(true);
@@ -853,7 +850,6 @@ public class UserController extends AbstractContextAwareController {
 			String summary = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
 			String detail = getString("WARNING.ETABLISSEMENT_NON_PARTENAIRE");
 			Severity severity = FacesMessage.SEVERITY_WARN;
-//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(severity, summary, detail));
 			context.getExternalContext().getFlash().setKeepMessages(true);
@@ -1573,20 +1569,12 @@ public class UserController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled()) {
 					logger.debug("listeTypesDiplomeDTO : "+listeTypesDiplomeDTO);
 				}
-
-//				for (String mapKey : listeTypesDiplomeDTO.keySet()) {
-//					// utilise ici hashMap.get(mapKey) pour acc�der aux valeurs
-//					SelectItem option = new SelectItem(mapKey, listeTypesDiplomeDTO.get(mapKey));
-//					listeTypesDiplome.add(option);
-//				}
-
 				for (Map.Entry<String,String> entry : listeTypesDiplomeDTO.entrySet()) {
 					String key = entry.getKey();
 					String value = entry.getValue();
 					SelectItem option = new SelectItem(key, value);
 					listeTypesDiplome.add(option);
 				}
-
 				Collections.sort(listeTypesDiplome,new ComparatorSelectItem());
 				return listeTypesDiplome;
 			}

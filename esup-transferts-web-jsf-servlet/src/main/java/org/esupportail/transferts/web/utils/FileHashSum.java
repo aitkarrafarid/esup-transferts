@@ -5,7 +5,6 @@ package org.esupportail.transferts.web.utils;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.transferts.web.controllers.UserController;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,9 +53,6 @@ public class FileHashSum {
 				fis = new FileInputStream(file);
 				dis = new DigestInputStream(fis, md);
 				dis.on(true);
-//				while (dis.read() != -1){
-//					;
-//				}
 				byte[] b = md.digest();
 				localSha1Sum = getHexString(b);
 			} catch (Exception ex) {
@@ -107,9 +103,6 @@ public class FileHashSum {
 				fis = new FileInputStream(file);
 				dis = new DigestInputStream(fis, md);
 				dis.on(true);
-//				while (dis.read() != -1){
-//					;
-//				}
 				byte[] b = md.digest();
 				localMd5Sum = getHexString(b);
 			} catch (Exception ex) {

@@ -596,7 +596,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			/*Reinitialisation des currents objects*/
 			currentCleAccueilAnnee=null;
 			currentCleAccueilResultat=null;
-//			AccueilAnnee currentAccueilAnnee = new AccueilAnnee();
 			currentAccueilResultat = new AccueilResultat();
 			currentSituationUniv = new SituationUniversitaire();
 			if (logger.isDebugEnabled())
@@ -1633,7 +1632,6 @@ public class AdministrationController extends AbstractContextAwareController {
 		{
 			getSessionController().setAjoutEtablissementManuellement("");
 			getSessionController().setActivEtablissementManuellement(false);
-//			ajout_etablissement_manuellement = getDomainService().updateConfiguration(ajout_etablissement_manuellement);
 			getDomainService().updateConfiguration(ajout_etablissement_manuellement);
 			String summary = getString("ENREGISTREMENT.CONFIGURATION");
 			String detail = getString("ENREGISTREMENT.CONFIGURATION");
@@ -2818,21 +2816,12 @@ public class AdministrationController extends AbstractContextAwareController {
 		{
 			if (logger.isDebugEnabled())
 				logger.debug("listeLibellesDiplomeDTO : "+listeLibellesDiplomeDTO);
-
-
-//			for(String mapKey : listeLibellesDiplomeDTO.keySet())
-//			{
-//				SelectItem option = new SelectItem(mapKey, listeLibellesDiplomeDTO.get(mapKey));
-//				listeLibellesDiplome.add(option);
-//			}
-
 			for (Map.Entry<String,String> entry : listeLibellesDiplomeDTO.entrySet()) {
 				String key = entry.getKey();
 				String value = entry.getValue();
 				SelectItem option = new SelectItem(key, value);
 				listeLibellesDiplome.add(option);
 			}
-
 			Collections.sort(listeLibellesDiplome,new ComparatorSelectItem());
 			return listeLibellesDiplome;
 		}
@@ -2846,10 +2835,6 @@ public class AdministrationController extends AbstractContextAwareController {
 			logger.debug("getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(currentDemandeTransferts.getTransferts().getRne(), getSessionController().getCurrentAnnee(), getCodTypDip(),	getCodeNiveau(), getCodeComposante(), false);");
 		}
 		listeLibellesDiplome = new ArrayList<SelectItem>();
-		//		Map<String, String> listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveau(currentDemandeTransferts.getTransferts().getRne(), 
-		//				getSessionController().getCurrentAnnee(), 
-		//				getCodTypDip(), 
-		//				getCodeNiveau());
 
 		Map<String, String> listeLibellesDiplomeDTO = getDomainService().getLibellesDiplomeByRneAndAnneeAndCodTypDipAndcodeNiveauAndComposante(currentDemandeTransferts.getTransferts().getRne(),
 				getSessionController().getCurrentAnnee(),
@@ -4638,7 +4623,6 @@ public class AdministrationController extends AbstractContextAwareController {
 		String test="";
 		if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0)
 		{
-//			int nb=getSelectedDemandeTransferts().length;
 			if (logger.isDebugEnabled())
 				logger.debug("if(getSelectedDemandeTransferts() !=null && getSelectedDemandeTransferts().length>0 && progress==0) -->"+getSelectedDemandeTransferts().length+"-----"+progress);
 

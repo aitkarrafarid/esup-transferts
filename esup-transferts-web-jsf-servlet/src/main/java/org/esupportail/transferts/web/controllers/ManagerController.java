@@ -34,8 +34,6 @@ public class ManagerController extends AbstractContextAwareController {
 	private String prenomRecherche;
 	private List<User> personnelsRecherche;
 	private DualListModel<PersonnelComposante> players;
-	private transient List<PersonnelComposante> source;
-	private transient List<PersonnelComposante> target;
 	/*Permet de r�soudre le probleme avec le p:ajaxStatus dans le header*/
 	private boolean use = false;
 	private Integer typePersonnel;
@@ -499,14 +497,6 @@ public class ManagerController extends AbstractContextAwareController {
 
 	public List<PersonnelComposante> getTarget() {
 		return getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
-	}
-
-	public void setSource(List<PersonnelComposante> source) {
-		this.source = source;
-	}
-
-	public void setTarget(List<PersonnelComposante> target) {
-		this.target = target;
 	}
 
 	public DualListModel<PersonnelComposante> getPlayers() {

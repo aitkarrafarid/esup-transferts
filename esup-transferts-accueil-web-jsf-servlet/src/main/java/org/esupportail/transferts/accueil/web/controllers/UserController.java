@@ -1511,20 +1511,12 @@ public class UserController extends AbstractContextAwareController {
 				if (logger.isDebugEnabled()) {
 					logger.debug("listeTypesDiplomeDTO : "+listeTypesDiplomeDTO);
 				}
-
-//				for (String mapKey : listeTypesDiplomeDTO.keySet()) {
-//					// utilise ici hashMap.get(mapKey) pour acceder aux valeurs
-//					SelectItem option = new SelectItem(mapKey, listeTypesDiplomeDTO.get(mapKey));
-//					listeTypesDiplome.add(option);
-//				}
-
 				for (Map.Entry<String,String> entry : listeTypesDiplomeDTO.entrySet()) {
 					String key = entry.getKey();
 					String value = entry.getValue();
 					SelectItem option = new SelectItem(key, value);
 					listeTypesDiplome.add(option);
 				}
-
 				Collections.sort(listeTypesDiplome,new ComparatorSelectItem());
 				return listeTypesDiplome;
 			}

@@ -4,22 +4,16 @@
  */
 package org.esupportail.transferts.dao;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
-import javax.persistence.*;
-
 import org.esupportail.commons.dao.AbstractGenericJPADaoService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.*;
-import org.springframework.dao.EmptyResultDataAccessException;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.*;
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2016
  *

@@ -832,8 +832,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		TrResultatVdiVetDTO trResultatVdiVetDTO;
 		List<ResultatEtape> listResultatEtape = new ArrayList<ResultatEtape>();
 		List<ResultatSession> listResultatSession;
-//		ResultatEtape re;
-		ResultatSession r; 
+		ResultatSession r;
 
 		int nb = 0;
 
@@ -850,17 +849,14 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				}	
 
 				for(int j=0;j<etapeResVdiVetDTO.length;j++)
-					//for(int j=etapeResVdiVetDTO.length;j>nb;j--)
 				{
 					if (logger.isDebugEnabled()) 
 					{
 						logger.debug("année --> " + etapeResVdiVetDTO[j].getCodAnu() + "/" + (Integer.parseInt(etapeResVdiVetDTO[j].getCodAnu())+1));	
 						logger.debug("etape --> " + etapeResVdiVetDTO[j].getEtape().getLibEtp());
 						logger.debug("etapeResVdiVetDTO[j].getCodTypIpe() --> " + etapeResVdiVetDTO[j].getCodTypIpe());
-						//logger.debug("année --> " + etapeResVdiVetDTO[j].get);
-					}	
+					}
 
-//					re = new ResultatEtape();
 					ResultatVetDTO[] resultatVetDTO = etapeResVdiVetDTO[j].getResultatVet();
 					listResultatSession = new ArrayList<ResultatSession>();
 

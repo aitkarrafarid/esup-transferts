@@ -11,9 +11,6 @@ import java.util.Date;
 
 public class GestionDate {
 
-//	protected static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//	protected static final SimpleDateFormat dateHeureFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-
 	public GestionDate() {
 		// TODO Auto-generated constructor stub
 	}

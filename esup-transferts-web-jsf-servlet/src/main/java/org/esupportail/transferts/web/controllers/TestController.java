@@ -142,10 +142,10 @@ public class TestController extends AbstractContextAwareController {
 
 	public void resetTypeDiplome()
 	{
-//		if (logger.isDebugEnabled())
-			logger.info("===>public void resetTypeDiplome()<===");
-			logger.info("this.etu.getTransferts().getRne()===>"+this.etu.getTransferts().getRne()+"<===");
-
+		if (logger.isDebugEnabled()) {
+			logger.debug("===>public void resetTypeDiplome()<===");
+			logger.debug("this.etu.getTransferts().getRne()===>" + this.etu.getTransferts().getRne() + "<===");
+		}
 		currentOdf=null;
 		etu.getTransferts().setOdf(currentOdf);		
 		setLibelleEtapeVide(true);
@@ -159,8 +159,8 @@ public class TestController extends AbstractContextAwareController {
 		else
 			wp=null;
 
-//        if (logger.isDebugEnabled())
-		    logger.info("wp===>"+wp+"<===");
+        if (logger.isDebugEnabled())
+		    logger.debug("wp===>"+wp+"<===");
 
 		if(wp!=null)
 				this.setChoixDuVoeuParComposanteByPartenaire(wp.isChoixDuVoeuParComposante());

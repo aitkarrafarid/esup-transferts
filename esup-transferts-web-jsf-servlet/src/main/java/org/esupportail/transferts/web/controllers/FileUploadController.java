@@ -83,7 +83,6 @@ public class FileUploadController extends AbstractContextAwareController impleme
 				String summary = getString("SUPPRESSION.SIGNATURE_ECHEC");
 				String detail = getString("SUPPRESSION.SIGNATURE_ECHEC");
 				Severity severity = FacesMessage.SEVERITY_ERROR;
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(severity, summary, detail));
 				context.getExternalContext().getFlash().setKeepMessages(true);
