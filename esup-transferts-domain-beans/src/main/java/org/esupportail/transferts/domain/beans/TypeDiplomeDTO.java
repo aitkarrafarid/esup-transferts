@@ -31,14 +31,11 @@ public class TypeDiplomeDTO implements Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof TypeDiplomeDTO)) return false;
-
+		if (this == o) {return true;}
+		if (!(o instanceof TypeDiplomeDTO)) {return false;}
 		TypeDiplomeDTO that = (TypeDiplomeDTO) o;
-
-		if (!getCodeTypeDiplome().equals(that.getCodeTypeDiplome())) return false;
+		if (!getCodeTypeDiplome().equals(that.getCodeTypeDiplome())) {return false;}
 		return getLibelleTypeDiplome().equals(that.getLibelleTypeDiplome());
-
 	}
 
 	@Override

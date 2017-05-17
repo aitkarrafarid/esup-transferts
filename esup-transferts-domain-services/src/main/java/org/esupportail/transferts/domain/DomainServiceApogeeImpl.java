@@ -1245,7 +1245,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		{
 			//OpiMetierServiceInterface opiMetierServiceInterface = new OpiMetierServiceInterfaceProxy();
 			//			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
-			DonneesOpiDTO5 donneesOpiDTO = new DonneesOpiDTO5();
+//			DonneesOpiDTO5 donneesOpiDTO = new DonneesOpiDTO5();
+			DonneesOpiDTO6 donneesOpiDTO = new DonneesOpiDTO6();
 
 			/*Initialisation de l'objet DonneesOpiDTO2 d'apogee a partir de l'objet OPI de esup-transferts*/
 
@@ -1312,7 +1313,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				logger.debug("####################################################################################################");				
 			}
 			//			MAJOpiIndDTO2 indDTO = new MAJOpiIndDTO2();
-			MAJOpiIndDTO4 indDTO = new MAJOpiIndDTO4();
+			MAJOpiIndDTO5 indDTO = new MAJOpiIndDTO5();
 
 			indDTO.setCodEtuOpi(opi.getCodEtuLpa());
 			indDTO.setCodOpiIntEpo(opi.getNumeroOpi()); // !!! OBLIGATOIRE !!!
@@ -1332,7 +1333,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			/*#################################################*/ 
 			/* MAJDonneesNaissanceDTO */
 			/*#################################################*/				
-			MAJDonneesNaissanceDTO donneesNaissanceDTO = new MAJDonneesNaissanceDTO();
+			MAJDonneesNaissanceDTO2 donneesNaissanceDTO = new MAJDonneesNaissanceDTO2();
 			donneesNaissanceDTO.setCodDepPayNai(opi.getCodDepPayNai());
 			donneesNaissanceDTO.setCodPayNat(opi.getCodPayNat());
 			donneesNaissanceDTO.setCodTypDepPayNai(opi.getCodTypDepPayNai());
@@ -1535,7 +1536,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			/*APPEL DE LA METHODE DU WS APOGEE*/
 			try {
-				opiMetierServiceInterface3.mettreajourDonneesOpi_v5(donneesOpiDTO);
+				opiMetierServiceInterface3.mettreajourDonneesOpi_v6(donneesOpiDTO);
 				// Traitement des exceptions
 			}catch (WebBaseException _ex) {
 				listeErreurs.add(opi);
