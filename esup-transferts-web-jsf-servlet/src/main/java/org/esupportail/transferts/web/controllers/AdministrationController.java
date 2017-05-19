@@ -252,19 +252,24 @@ public class AdministrationController extends AbstractContextAwareController {
 			}
 
 			List<PersonnelComposante> newLpc = new ArrayList<PersonnelComposante>();
-			for (PersonnelComposante pc : lpcDepart) {
-				PersonnelComposante tmp = (PersonnelComposante) pc.clone();
-				tmp.setAnnee(getSessionController().getCurrentAnnee());
-				newLpc.add(tmp);
+
+			if(lpcDepart!=null) {
+				for (PersonnelComposante pc : lpcDepart) {
+					PersonnelComposante tmp = (PersonnelComposante) pc.clone();
+					tmp.setAnnee(getSessionController().getCurrentAnnee());
+					newLpc.add(tmp);
+				}
 			}
 
-//			List<PersonnelComposante> newLpcAccueil = new ArrayList<PersonnelComposante>();
-			for (PersonnelComposante pc : lpcAccueil) {
-				PersonnelComposante tmp = (PersonnelComposante) pc.clone();
-				tmp.setAnnee(getSessionController().getCurrentAnnee());
-				newLpc.add(tmp);
+			if(lpcAccueil!=null) {
+				for (PersonnelComposante pc : lpcAccueil) {
+					PersonnelComposante tmp = (PersonnelComposante) pc.clone();
+					tmp.setAnnee(getSessionController().getCurrentAnnee());
+					newLpc.add(tmp);
+				}
 			}
-			getDomainService().addPersonnelComposanteFromImport(newLpc);
+			if(lpcDepart!=null || lpcAccueil!=null)
+				getDomainService().addPersonnelComposanteFromImport(newLpc);
 
 			String summary = "Importation des droits utilisateurs réussis";
 			String detail = "Importation des droits utilisateurs réussis";

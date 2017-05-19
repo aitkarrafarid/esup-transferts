@@ -1237,7 +1237,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			logger.debug("############################################################################################\n");			
 		}		
 
-
 		//		OpiMetierSoapBindingStub opiMetierServiceInterface2 = (OpiMetierSoapBindingStub) WSUtils.getService(WSUtils.OPI_SERVICE_NAME, this.user, this.password);
 		OpiMetierSoapBindingStub opiMetierServiceInterface3 = (OpiMetierSoapBindingStub) WSUtils.getService(WSUtils.OPI_SERVICE_NAME, this.user, this.password);
 
