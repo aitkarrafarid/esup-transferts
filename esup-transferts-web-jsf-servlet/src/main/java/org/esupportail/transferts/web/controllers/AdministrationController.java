@@ -3475,9 +3475,12 @@ public class AdministrationController extends AbstractContextAwareController {
 			if("libComposante".equals(key))
 				etu.setLibComposante(value);
 		}
+
 		TrResultatVdiVetDTO trResultatVdiVetDTO;
-		trResultatVdiVetDTO = getDomainServiceScolarite().getSessionsResultats(etu.getNumeroEtudiant(), "D");
-		setRoot(getSessionController().constructTreeNode(trResultatVdiVetDTO));
+		if(etu.getSource()!=null && "D".equals(etu.getSource())) {
+			trResultatVdiVetDTO = getDomainServiceScolarite().getSessionsResultats(etu.getNumeroEtudiant(), "D");
+			setRoot(getSessionController().constructTreeNode(trResultatVdiVetDTO));
+		}
 
 		return etu;
 	}
