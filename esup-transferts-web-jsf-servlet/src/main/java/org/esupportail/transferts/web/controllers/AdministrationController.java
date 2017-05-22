@@ -3460,24 +3460,25 @@ public class AdministrationController extends AbstractContextAwareController {
 		 * map.put("libComposante", insAdmEtpDTO[i].getComposante().getCodComposante());
 		 * 
 		 * */
-		Map<String, String> map = getDomainServiceScolarite().getEtapePremiereAndCodeCgeAndLibCge(etu.getNumeroEtudiant());
-		for (Map.Entry<String,String> entry : map.entrySet()) {
-			String key = entry.getKey();
-			String value = entry.getValue();
-			if("libWebVet".equals(key))
-				etu.setLibEtapePremiereLocal(value);
-			if("codeCGE".equals(key))
-				etu.setCodCge(value);
-			if("libCGE".equals(key))
-				etu.setLibCge(value);
-			if("codeComposante".equals(key))
-				etu.setComposante(value);
-			if("libComposante".equals(key))
-				etu.setLibComposante(value);
-		}
-
 		TrResultatVdiVetDTO trResultatVdiVetDTO;
 		if(etu.getSource()!=null && "D".equals(etu.getSource())) {
+
+			Map<String, String> map = getDomainServiceScolarite().getEtapePremiereAndCodeCgeAndLibCge(etu.getNumeroEtudiant());
+			for (Map.Entry<String,String> entry : map.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				if("libWebVet".equals(key))
+					etu.setLibEtapePremiereLocal(value);
+				if("codeCGE".equals(key))
+					etu.setCodCge(value);
+				if("libCGE".equals(key))
+					etu.setLibCge(value);
+				if("codeComposante".equals(key))
+					etu.setComposante(value);
+				if("libComposante".equals(key))
+					etu.setLibComposante(value);
+			}
+
 			trResultatVdiVetDTO = getDomainServiceScolarite().getSessionsResultats(etu.getNumeroEtudiant(), "D");
 			setRoot(getSessionController().constructTreeNode(trResultatVdiVetDTO));
 		}
