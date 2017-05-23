@@ -3,6 +3,8 @@ package org.esupportail.transferts.web.utils;
 import org.esupportail.transferts.utils.CheckNNE36;
 import org.esupportail.transferts.utils.GestionDate;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +26,7 @@ public class Test {
 		Test.calculCLeIne("0DDG5R0001");
 		System.out.println("-------------------------------------------");
 		Test.calculCLeIne("0DDG5Z0002");
+		ajouterZeroDevantLong(new Long(9999));
 
 	}
 
@@ -42,5 +45,10 @@ public class Test {
 	{
 		System.out.println("INE sans clé===>"+nne+"<===");
 		System.out.println("Clé INE===>"+ CheckNNE36.calculCLeIne(nne)+"<===");
+	}
+
+	public static void ajouterZeroDevantLong(Long l){
+		NumberFormat nf = new DecimalFormat("0000");
+		System.out.println( nf.format(l) );
 	}
 }

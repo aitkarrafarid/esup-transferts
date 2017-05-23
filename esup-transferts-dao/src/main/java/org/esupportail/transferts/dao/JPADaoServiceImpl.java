@@ -13,6 +13,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 /**
  * @author Farid AIT KARRA (Universite d'Artois) - 2016
@@ -378,7 +380,9 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 				SequenceOpi so = new SequenceOpi();
 				SequenceOpi som = entityManager.merge(so);
 
-				String value = Long.toString(som.getId());
+				NumberFormat nf = new DecimalFormat("0000");
+
+				String value = nf.format(som.getId());
 				if (logger.isDebugEnabled()){
 					logger.debug("Numero de sequence --> "+value);
 				}
