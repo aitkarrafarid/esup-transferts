@@ -1915,9 +1915,7 @@ public class UserController extends AbstractContextAwareController {
 	}
 
 	public boolean isMaxSU() {
-		if(this.currentEtudiant.getAccueil().getSituationUniversitaire() == null)
-			return false;
-		else if(this.currentEtudiant.getAccueil().getSituationUniversitaire() != null && this.currentEtudiant.getAccueil().getSituationUniversitaire().size()<7)
+		if((this.currentEtudiant.getAccueil().getSituationUniversitaire() == null) || (this.currentEtudiant.getAccueil().getSituationUniversitaire() != null && this.currentEtudiant.getAccueil().getSituationUniversitaire().size()<7))
 			return false;
 		else
 			return true;

@@ -26,7 +26,7 @@ public class Test {
 		Test.calculCLeIne("0DDG5R0001");
 		System.out.println("-------------------------------------------");
 		Test.calculCLeIne("0DDG5Z0002");
-		ajouterZeroDevantLong(new Long(1000));
+		ajouterZeroDevantLong((long) 100);
 
 	}
 

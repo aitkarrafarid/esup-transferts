@@ -58,7 +58,7 @@ public class DownloadServlet extends HttpServlet {
 	@Override
 	public void service(
 			final ServletRequest servletRequest, 
-			final ServletResponse servletResponse) 
+			final ServletResponse servletResponse)
 	throws ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -69,9 +69,6 @@ public class DownloadServlet extends HttpServlet {
 		}
     	ServletRequestAttributes previousRequestAttributes = null;
         try {
-//        	previousRequestAttributes = ContextUtils.bindRequestAndContext(
-//        			request, getServletContext());
-//			BeanUtils.initBeanFactory(getServletContext());
 			String contentType = (String) DownloadUtils.getDownloadAttribute(
 					CONTENT_TYPE_ATTRIBUTE + id);
 			if (contentType != null) {
