@@ -27,4 +27,6 @@ public interface DomainServiceOpi extends Serializable {
 	public Integer addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source, Integer temoinRetourTransfertAccueil);
 
 	public Parametres getParametreByCode(String codeParametre);
+
+	public Versions getVersionByEtat(Integer etat);
 }

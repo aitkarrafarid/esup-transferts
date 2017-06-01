@@ -62,16 +62,13 @@
 						value="/media/images/alert.png" rendered="#{car.syncOdf==3}" />
 				</p:column>
 
+				<p:column headerText="Version application" style="width:125px">
+					<h:outputText value="#{car.versionApplication}" />
+				</p:column>
+
 				<p:column headerText="Affichage de l'ODF" style="width:125px">
-					<!--<p:cellEditor>-->
-						<!--<f:facet name="output">-->
 							<h:outputText value="Composante" rendered="#{car.choixDuVoeuParComposante}"/>
 							<h:outputText value="Diplome" rendered="#{!car.choixDuVoeuParComposante}"/>
-						<!--</f:facet>-->
-						<!--<f:facet name="input">-->
-							<!--<h:outputText value="#{car.choixDuVoeuParComposante}" rendered="#{car.choixDuVoeuParComposante}" />-->
-						<!--</f:facet>-->
-					<!--</p:cellEditor>-->
 				</p:column>
 
 				<p:column headerText="RNE" style="width:125px">

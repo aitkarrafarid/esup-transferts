@@ -101,6 +101,12 @@ public class WsPub implements Serializable, Cloneable {
 	@Column(name = "choix_du_voeu_par_composante", nullable = false, columnDefinition = "INTEGER default 0")
 	private boolean choixDuVoeuParComposante;
 
+	/**
+	 * Version Application des partenaires
+	 */
+	@Column(name = "versionApplication", nullable = true)
+	private String versionApplication;
+
 	@Transient
 	private Integer online;
 	
@@ -257,5 +263,13 @@ public class WsPub implements Serializable, Cloneable {
 
 	public void setChoixDuVoeuParComposante(boolean choixDuVoeuParComposante) {
 		this.choixDuVoeuParComposante = choixDuVoeuParComposante;
+	}
+
+	public String getVersionApplication() {
+		return versionApplication;
+	}
+
+	public void setVersionApplication(String versionApplication) {
+		this.versionApplication = versionApplication;
 	}
 }

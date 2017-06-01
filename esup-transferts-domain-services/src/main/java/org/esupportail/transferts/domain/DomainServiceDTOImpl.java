@@ -145,4 +145,6 @@ public class DomainServiceDTOImpl implements DomainServiceDTO, InitializingBean 
 		}
 		return listeBac;
 	}
+
+
 }

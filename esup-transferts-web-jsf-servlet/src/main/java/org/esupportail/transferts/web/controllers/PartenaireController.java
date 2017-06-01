@@ -4,6 +4,7 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.OffreDeFormationsDTO;
 import org.esupportail.transferts.domain.beans.Parametres;
+import org.esupportail.transferts.domain.beans.Versions;
 import org.esupportail.transferts.domain.beans.WsPub;
 import org.esupportail.transferts.utils.Fonctions;
 import org.primefaces.event.RowEditEvent;
@@ -219,6 +220,41 @@ public class PartenaireController extends AbstractContextAwareController {
 		return logger;
 	}
 
+	public boolean testVersionPartenaires(WsPub partenaire){
+		boolean testVersion=false;
+		Versions versionAppliPartenaires =null;
+
+		Object tabReturn3[] = Fonctions.appelWSAuth(partenaire.getUrl(),
+				partenaire.getIdentifiant(),
+				partenaire.getPassword(),
+				"org.esupportail.transferts.domain.DomainServiceOpi",
+				"getVersionByEtat",
+				"Object",
+				getSessionController().getTimeOutConnexionWs(),
+				1);
+
+//		if (logger.isDebugEnabled()) {
+			logger.warn("tabReturn3[0]===>" + tabReturn3[0] + "<===");
+			logger.warn("tabReturn3[1]===>" + tabReturn3[1] + "<===");
+//		}
+
+		Integer etatConnexion3 = (Integer) tabReturn3[1];
+		if(etatConnexion3==1) {
+			versionAppliPartenaires = (Versions) tabReturn3[0];
+			partenaire.setVersionApplication(versionAppliPartenaires.getNumero());
+			getDomainService().updateWsPub(partenaire);
+			if(versionAppliPartenaires.getNumero().equals(partenaire.getVersionApplication()))
+				testVersion=true;
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("versionAppliPartenaires===>" + versionAppliPartenaires + "<===");
+			logger.debug("etatConnexion3===>" + etatConnexion3 + "<===");
+		}
+
+		return testVersion;
+	}
+
 	public List<WsPub> getPartenaires()
 	{
 		if(listePartenaires==null)
@@ -228,11 +264,13 @@ public class PartenaireController extends AbstractContextAwareController {
 			{
 				for(WsPub part : listePartenaires)
 				{
-						part.setOnline(0);
-						part.setSyncOdf(0);
-						if (part.getUrl() != null)
+					part.setOnline(0);
+					part.setSyncOdf(0);
+					if (part.getUrl() != null) {
+
+						if (this.testVersionPartenaires(part))
 						{
-							Parametres paramChoixDuVoeuParComposante =null;
+							Parametres paramChoixDuVoeuParComposante = null;
 
 							Object tabReturn2[] = Fonctions.appelWSAuth(part.getUrl(),
 									part.getIdentifiant(),
@@ -243,31 +281,30 @@ public class PartenaireController extends AbstractContextAwareController {
 									getSessionController().getTimeOutConnexionWs(),
 									"choixDuVoeuParComposante");
 
-                            if (logger.isDebugEnabled()) {
-                                logger.debug("tabReturn2[0]===>" + tabReturn2[0] + "<===");
-                                logger.debug("tabReturn2[1]===>" + tabReturn2[1] + "<===");
-                            }
+							if (logger.isDebugEnabled()) {
+								logger.debug("tabReturn2[0]===>" + tabReturn2[0] + "<===");
+								logger.debug("tabReturn2[1]===>" + tabReturn2[1] + "<===");
+							}
 
 							Integer etatConnexion2 = (Integer) tabReturn2[1];
-							if(etatConnexion2==1) {
+							if (etatConnexion2 == 1) {
 								paramChoixDuVoeuParComposante = (Parametres) tabReturn2[0];
-								if(part.isChoixDuVoeuParComposante()!=paramChoixDuVoeuParComposante.isBool()) {
+								if (part.isChoixDuVoeuParComposante() != paramChoixDuVoeuParComposante.isBool()) {
 									part.setChoixDuVoeuParComposante(paramChoixDuVoeuParComposante.isBool());
 									getDomainService().updateWsPub(part);
 								}
 							}
 
-                            if (logger.isDebugEnabled()) {
-                                logger.debug("paramChoixDuVoeuParComposante===>" + paramChoixDuVoeuParComposante + "<===");
-                                logger.debug("etatConnexion2===>" + etatConnexion2 + "<===");
-                            }
+							if (logger.isDebugEnabled()) {
+								logger.debug("paramChoixDuVoeuParComposante===>" + paramChoixDuVoeuParComposante + "<===");
+								logger.debug("etatConnexion2===>" + etatConnexion2 + "<===");
+							}
 
 							Date d = getDomainService().getDateMaxMajByRneAndAnnee(getSessionController().getCurrentAnnee(), part.getRne());
 							if (logger.isDebugEnabled())
 								logger.debug("######################### Date Max MAJ ################################" + d);
 
-							if (d != null)
-							{
+							if (d != null) {
 								Object tabReturn[] = Fonctions.appelWSAuth(part.getUrl(),
 										part.getIdentifiant(),
 										part.getPassword(),
@@ -289,9 +326,7 @@ public class PartenaireController extends AbstractContextAwareController {
 									} else
 										part.setSyncOdf(1);
 								}
-							}
-							else
-							{
+							} else {
 								Object tabReturn[] = Fonctions.appelWSAuth(part.getUrl(),
 										part.getIdentifiant(),
 										part.getPassword(),
@@ -314,7 +349,7 @@ public class PartenaireController extends AbstractContextAwareController {
 								}
 							}
 						}
-//					}
+					}
 					else
 					{
 						Parametres p = getDomainService().getParametreByCode("choixDuVoeuParComposante");

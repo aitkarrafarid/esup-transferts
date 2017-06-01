@@ -81,4 +81,9 @@ public class DomainServiceImplOpi implements DomainServiceOpi, InitializingBean 
 	public Integer addFeedBackFromTransfertAccueilToTransfertDepart(String ine, Integer currentAnnee, String source, Integer temoinRetourTransfertAccueil) {
 		return getDaoService().addFeedBackFromTransfertAccueilToTransfertDepart(ine, currentAnnee, source, temoinRetourTransfertAccueil);
 	}
+
+	@Override
+	public Versions getVersionByEtat(Integer etat) {
+		return getDaoService().getVersionByEtat(etat);
+	}
 }
