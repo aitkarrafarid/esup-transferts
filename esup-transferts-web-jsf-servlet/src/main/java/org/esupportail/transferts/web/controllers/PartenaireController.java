@@ -233,20 +233,22 @@ public class PartenaireController extends AbstractContextAwareController {
 				getSessionController().getTimeOutConnexionWs(),
 				1);
 
-//		if (logger.isDebugEnabled()) {
-			logger.warn("partenaire.getLibEtab()==>" + partenaire.getLibEtab() + "<===");
-			logger.warn("tabReturn3[0]===>" + tabReturn3[0] + "<===");
-			logger.warn("tabReturn3[1]===>" + tabReturn3[1] + "<===");
-//		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("partenaire.getLibEtab()==>" + partenaire.getLibEtab() + "<===");
+			logger.debug("tabReturn3[0]===>" + tabReturn3[0] + "<===");
+			logger.debug("tabReturn3[1]===>" + tabReturn3[1] + "<===");
+		}
 
 		Integer etatConnexion3 = (Integer) tabReturn3[1];
 		if(etatConnexion3==1) {
 			versionAppliPartenaires = (Versions) tabReturn3[0];
 			Versions currentVersion = getDomainService().getVersionByEtat(1);
-			if(currentVersion!=null && versionAppliPartenaires!=null && versionAppliPartenaires.getNumero().equals(currentVersion.getNumero()))
-				testVersion=true;
-			partenaire.setVersionApplication(versionAppliPartenaires.getNumero());
-			getDomainService().updateWsPub(partenaire);
+			if(currentVersion!=null && versionAppliPartenaires!=null) {
+				if(versionAppliPartenaires.getNumero().equals(currentVersion.getNumero()))
+					testVersion = true;
+				partenaire.setVersionApplication(versionAppliPartenaires.getNumero());
+				getDomainService().updateWsPub(partenaire);
+			}
 		}
 
 		if (logger.isDebugEnabled()) {
