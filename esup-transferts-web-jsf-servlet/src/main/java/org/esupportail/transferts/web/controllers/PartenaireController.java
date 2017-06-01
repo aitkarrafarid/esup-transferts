@@ -234,6 +234,7 @@ public class PartenaireController extends AbstractContextAwareController {
 				1);
 
 //		if (logger.isDebugEnabled()) {
+			logger.warn("partenaire.getLibEtab()==>" + partenaire.getLibEtab() + "<===");
 			logger.warn("tabReturn3[0]===>" + tabReturn3[0] + "<===");
 			logger.warn("tabReturn3[1]===>" + tabReturn3[1] + "<===");
 //		}
@@ -241,10 +242,11 @@ public class PartenaireController extends AbstractContextAwareController {
 		Integer etatConnexion3 = (Integer) tabReturn3[1];
 		if(etatConnexion3==1) {
 			versionAppliPartenaires = (Versions) tabReturn3[0];
+			Versions currentVersion = getDomainService().getVersionByEtat(1);
+			if(currentVersion!=null && versionAppliPartenaires!=null && versionAppliPartenaires.getNumero().equals(currentVersion.getNumero()))
+				testVersion=true;
 			partenaire.setVersionApplication(versionAppliPartenaires.getNumero());
 			getDomainService().updateWsPub(partenaire);
-			if(versionAppliPartenaires.getNumero().equals(partenaire.getVersionApplication()))
-				testVersion=true;
 		}
 
 		if (logger.isDebugEnabled()) {
@@ -349,6 +351,10 @@ public class PartenaireController extends AbstractContextAwareController {
 								}
 							}
 						}
+						else{
+							part.setOnline(0);
+							part.setSyncOdf(0);
+						}
 					}
 					else
 					{
@@ -361,8 +367,8 @@ public class PartenaireController extends AbstractContextAwareController {
 						{
 							part.setChoixDuVoeuParComposante(true);
 						}
-						part.setOnline(1);
-						part.setSyncOdf(1);
+//						part.setOnline(1);
+//						part.setSyncOdf(1);
 					}
 				}
 			}
