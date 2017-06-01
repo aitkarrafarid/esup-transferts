@@ -162,7 +162,7 @@ public class StatistiqueController extends AbstractContextAwareController implem
         Axis yAxis = categoryModelTotalDepartAndArrive.getAxis(AxisType.Y);
         yAxis.setLabel("Type de ");
         yAxis.setMin(0);
-        yAxis.setMax(200);		
+        yAxis.setMax(2000);
 		
 		ChartSeries totalDepart = new ChartSeries();
 		ChartSeries totalAccueil = new ChartSeries();

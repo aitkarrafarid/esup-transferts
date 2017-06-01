@@ -1,11 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:t="http://myfaces.apache.org/tomahawk"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/stylesheets/gestionnaire/template.xhtml">
 
@@ -29,38 +27,18 @@
 					styleClass="panel"
 					header="Liste des statistiques #{sessionController.currentAnnee}/#{sessionController.currentAnnee+1}" />
 				<h:panelGrid columns="2">
-					<!-- 					<p:chart id="depart" -->
-					<!-- 						value="#{statistiqueController.categoryModelDetailsDepartAndArrive}" orientation="horizontal"  -->
-					<!-- 						legendPosition="ne1" title="Liste des transferts" min="0" max="200" -->
-					<!-- 						style="height:5000px;width:500px" animate="true"> -->
-					<!-- 						<p:ajax event="itemSelect" -->
-					<!-- 							listener="#{statistiqueController.itemSelect}" update="messages" /> -->
-					<!-- 					</p:chart> -->
-
 					<p:chart type="bar"
 						model="#{statistiqueController.categoryModelDetailsDepartAndArrive}"
-						style="min-height:500px;width:600px" animate="true">
+						style="height:4000px;width:1600px" animate="true">
 						<p:ajax event="itemSelect"
 							listener="#{statistiqueController.itemSelect}" update="messages" />
 					</p:chart>
 
-					<p:chart type="bar" model="#{statistiqueController.categoryModelTotalDepartAndArrive}" style="min-height:500px"/>
-
-<!-- 					<p:chart id="arrive" type="bar" -->
-<!-- 						value="#{statistiqueController.categoryModelTotalDepartAndArrive}" /> -->
-
-					<!-- 					<p:barChart id="opi" value="#{statistiqueController.categoryModel}" -->
-					<!-- 						legendPosition="ne" title="Données OPI" min="0" max="200" -->
-					<!-- 						style="width:400px" animate="true" />						 -->
+					<p:chart type="bar" model="#{statistiqueController.categoryModelTotalDepartAndArrive}" style="height:800px;width:600px" />
 				</h:panelGrid>
 			</center>
 			<p:messages id="msgs2" showDetail="false" />
 		</h:form>
 	</ui:define>
-
-	<!-- 	<ui:define name="content"> -->
-	<!-- 		<ui:include src="/stylesheets/_include/_footer.xhtml"></ui:include> -->
-	<!-- 	</ui:define> -->
-
 </ui:composition>
 </html>

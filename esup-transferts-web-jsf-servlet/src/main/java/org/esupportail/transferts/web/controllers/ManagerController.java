@@ -264,13 +264,9 @@ public class ManagerController extends AbstractContextAwareController {
 			// creation du filtre sur le nom et le prenom
 			//			String filter = "(&(givenName="+this.prenomRecherche+"*)(sn="+this.nomRecherche+"*))";
 			//			String filter = "(&(givenName="+this.prenomRecherche+"*)(sn="+this.nomRecherche+"*)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)))";
-			String[] tokens2 = this.employeeAffiliation.split(",");
 
 			if(logger.isDebugEnabled())
-			{
-                logger.debug("tokens2-->" + tokens2.length);
                 logger.debug("filter -->" + filter);
-			}
 
 			this.personnelsRecherche = getSessionController().rechercherLdap(filter);
 		}
@@ -302,13 +298,9 @@ public class ManagerController extends AbstractContextAwareController {
 
 			// creation du filtre sur le nom et le prenom
 			//			String filter = "(uid=corinne.minjeau)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)(eduPersonPrimaryAffiliation=affiliate))";
-			String[] tokens2 = this.employeeAffiliation.split(",");
 
 			if(logger.isDebugEnabled())
-			{
-    			logger.debug("tokens2-->" + tokens2.length);
 	    		logger.debug("filter -->" + filter);
-			}
 
 			List<User> lUsers = getSessionController().rechercherLdap(filter);
 
@@ -349,13 +341,9 @@ public class ManagerController extends AbstractContextAwareController {
 
 			// creation du filtre sur le nom et le prenom
 			//			String filter = "(uid=corinne.minjeau)(|(eduPersonPrimaryAffiliation=STAFF)(eduPersonPrimaryAffiliation=member)(eduPersonPrimaryAffiliation=employee)(eduPersonPrimaryAffiliation=affiliate))";
-			String[] tokens2 = this.employeeAffiliation.split(",");
 
 			if(logger.isDebugEnabled())
-			{
-                logger.debug("tokens2-->" + tokens2.length);
                 logger.debug("filter -->" + filter);
-			}
 
 			List<User> lUsers = getSessionController().rechercherLdap(filter);
 
