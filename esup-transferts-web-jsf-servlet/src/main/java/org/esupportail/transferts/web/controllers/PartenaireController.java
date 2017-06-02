@@ -248,7 +248,13 @@ public class PartenaireController extends AbstractContextAwareController {
 					testVersion = true;
 				partenaire.setVersionApplication(versionAppliPartenaires.getNumero());
 				getDomainService().updateWsPub(partenaire);
+			}else if(versionAppliPartenaires==null){
+				partenaire.setVersionApplication("Non disponible");
+				getDomainService().updateWsPub(partenaire);
 			}
+		}else{
+			partenaire.setVersionApplication("Non disponible");
+			getDomainService().updateWsPub(partenaire);
 		}
 
 		if (logger.isDebugEnabled()) {
