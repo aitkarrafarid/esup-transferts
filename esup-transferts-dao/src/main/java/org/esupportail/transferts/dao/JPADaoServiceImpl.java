@@ -1413,7 +1413,8 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			logger.debug("uid --> "+uid);
 			logger.debug("source --> "+source);
 			logger.debug("annee --> "+annee);
-			logger.debug("target.size() --> "+target.size());
+			if(target!=null)
+				logger.debug("target.size() --> "+target.size());
 		}
 		Query q = entityManager.createNamedQuery("deleteListeManagersByUidAndSourceAndAnnee");
 		q.setParameter("uid", uid);
@@ -1423,9 +1424,10 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 		if (logger.isDebugEnabled()){
 			logger.debug("delete ---> "+delete);
 		}
-		for(PersonnelComposante pc : target)
-		{
-			entityManager.merge(pc);
+		if(target!=null && !target.isEmpty()) {
+			for (PersonnelComposante pc : target) {
+				entityManager.merge(pc);
+			}
 		}
 	}
 

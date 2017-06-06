@@ -181,9 +181,16 @@ public class ManagerController extends AbstractContextAwareController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 		}
 		else{
-			String summary = "Aucune affectation n'est possible";
-			String detail = "Aucune affectation n'est possible";
-			Severity severity = FacesMessage.SEVERITY_WARN;
+//			String summary = "Aucune affectation n'est possible";
+//			String detail = "Aucune affectation n'est possible";
+//			Severity severity = FacesMessage.SEVERITY_WARN;
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+
+			getDomainService().addPersonnelComposante(personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee(), null);
+			listeComposantesDetailsDroits = getDomainService().getListeComposantesByUidAndSourceAndAnnee(this.personnelChoisi.getLogin(), getFrom(), getSessionController().getCurrentAnnee());
+			String summary = "L'affectation de vos composantes a bien ete prise en compte";
+			String detail = "L'affectation de vos composantes a bien ete prise en compte";
+			Severity severity = FacesMessage.SEVERITY_INFO;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 		}
 	}
