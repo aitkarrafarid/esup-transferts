@@ -4589,6 +4589,8 @@ public class AdministrationController extends AbstractContextAwareController {
 			correspondance.setEtudiant(this.currentDemandeTransferts);
 			correspondance.setAuteur(getSessionController().getCurrentUser().getDisplayName());
 			correspondance.setDateSaisie(new Date());
+//			correspondance.setTitre(getString("TRANSFERT_MAIL_SUJET"));
+//			correspondance.setMsg(getString("TRANSFERT_MAIL_BODY", this.currentDemandeTransferts.getPrenom1(), this.currentDemandeTransferts.getNomPatronymique()));
 			correspondance.setTitre(getString("TRANSFERT_MAIL_SUJET"));
 			correspondance.setMsg(getString("TRANSFERT_MAIL_BODY", this.currentDemandeTransferts.getPrenom1(), this.currentDemandeTransferts.getNomPatronymique()));
 		} catch (Exception e1) {

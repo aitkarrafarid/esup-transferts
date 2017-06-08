@@ -573,11 +573,27 @@ public class UserController extends AbstractContextAwareController {
 			correspondance.setAuteur("Application esup-transferts");
 			correspondance.setDateSaisie(new Date());
 			correspondance.setTitre(getString("TRANSFERT_MAIL_SUJET"));
-			correspondance.setMsg(getString("TRANSFERT_MAIL_BODY", this.currentEtudiant.getPrenom1(), this.currentEtudiant.getNomPatronymique()));
+			correspondance.setMsg(getString("MAIL.ETUDIANT.BODY", this.currentEtudiant.getPrenom1(), this.currentEtudiant.getNomPatronymique()));
 		} catch (Exception e1) {
 			logger.error(e1);
 		}
 		this.addCorrespondance(correspondance);
+
+		try {
+			String sujet = getString("TRANSFERT_MAIL_SUJET");
+			String body = getString("MAIL.ETUDIANT.BODY", this.currentEtudiant.getPrenom1(),
+					this.currentEtudiant.getNomPatronymique());
+
+			getSmtpService().send(new InternetAddress(this.currentEtudiant.getAdresse().getEmail()), sujet, body, body);
+		}
+		catch (AddressException e)
+		{
+			logger.error(e);
+			String summary = getString("ERREUR.ENVOI_MAIL");
+			String detail = getString("ERREUR.ENVOI_MAIL");
+			Severity severity = FacesMessage.SEVERITY_INFO;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+		}
 
 		if((!"".equals(getSessionController().getValidationAutomatique()) && "cge".equals(getSessionController().getValidationAutomatique()))
 				|| (!"".equals(getSessionController().getValidationAutomatique()) && "composante".equals(getSessionController().getValidationAutomatique())))
@@ -614,10 +630,22 @@ public class UserController extends AbstractContextAwareController {
 		}
 		else
 		{
-			String sujet = getString("TRANSFERT_MAIL_SUJET");
-			String body = getString("TRANSFERT_MAIL_BODY");
+			Correspondance correspondance2 = new Correspondance();
 			try {
-				body = getString("TRANSFERT_MAIL_BODY", this.currentEtudiant.getPrenom1(),
+				correspondance2.setEtudiant(this.currentEtudiant);
+				correspondance2.setAuteur("Application esup-transferts");
+				correspondance2.setDateSaisie(new Date());
+				correspondance2.setTitre(getString("TRANSFERT_MAIL_SUJET"));
+				correspondance2.setMsg(getString("MAIL.ETUDIANT.BODY", this.currentEtudiant.getPrenom1(), this.currentEtudiant.getNomPatronymique()));
+			} catch (Exception e1) {
+				logger.error(e1);
+			}
+			this.addCorrespondance(correspondance2);
+
+			String sujet = getString("TRANSFERT_MAIL_SUJET");
+			String body;
+			try {
+				body = getString("MAIL.ETUDIANT.BODY", this.currentEtudiant.getPrenom1(),
 						this.currentEtudiant.getNomPatronymique());
 
 				getSmtpService().send(new InternetAddress(this.currentEtudiant.getAdresse().getEmail()), sujet, body, body);
