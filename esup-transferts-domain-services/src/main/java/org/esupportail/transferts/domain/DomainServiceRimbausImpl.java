@@ -57,9 +57,16 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 	/**
 	 *
 	 */
+	private String user;
+	
+	private String password;
+	
+	private DomainServiceScolarite dssApo;
+	
 	private static final long serialVersionUID = 1L;
 	private List<String> forcerBlocageListSplit = new ArrayList<String>();
 	private static final String codeComposanteInconnue = "N.A";
+	
 	/**
 	 * For Logging.
 	 */
@@ -80,6 +87,16 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 		this.forcerBlocageListSplit=forcerBlocageListSplit;
 		rta = new RimbausTransfertAcces();
 	}
+	
+	public DomainServiceRimbausImpl(List<String> forcerBlocageListSplit, String user, String password) {
+		this.forcerBlocageListSplit=forcerBlocageListSplit;
+		rta = new RimbausTransfertAcces();
+		this.user=user;
+		this.password=password;
+		dssApo= new DomainServiceApogeeImpl(this.forcerBlocageListSplit, user, password);
+	}
+
+	
 
 	@Override
 	public EtudiantRef getCurrentEtudiant(String supannEtuId) {
@@ -397,6 +414,9 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 	public List<TrEtablissementDTO> getListeEtablissements(
 			String typeEtablissement, String dept) {
 		// appel au WS RIMBAUS
+		
+		logger.info("+++++ getListeEtablissements "+typeEtablissement+","+dept);
+		
 		List<TrEtablissementDTO> listTrEtablissementDTO = null;
 		Etablissement[] listeEtablissements;
 		try {
@@ -419,6 +439,8 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 
 	public TrEtablissementDTO getEtablissementByRne(String rne) {
 		// appel au WS RIMBAUS
+		logger.info("getEtablissementByRne "+ rne);
+		
 		TrEtablissementDTO trEtablissement = null;
 		Etablissement[] typeEtablissementDTO;
 		try {
@@ -430,7 +452,8 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 						typeEtablissementDTO[0].getLibEtb(),
 						typeEtablissementDTO[0].getDepartement().getCodeDept(),
 						typeEtablissementDTO[0].getDepartement().getLibDept(),
-						typeEtablissementDTO[0].getAcademie().getLibAcd());
+						typeEtablissementDTO[0].getAcademie().getLibAcd()
+						,typeEtablissementDTO[0].getLibEtb(),"","","","","");
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -451,7 +474,8 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 						typeEtablissementDTO[0].getLibEtb(),
 						typeEtablissementDTO[0].getDepartement().getCodeDept(),
 						typeEtablissementDTO[0].getDepartement().getLibDept(),
-						typeEtablissementDTO[0].getAcademie().getLibAcd());
+						typeEtablissementDTO[0].getAcademie().getLibAcd()
+						,typeEtablissementDTO[0].getLibEtb(),"","","","","");
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -748,20 +772,19 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 
 	@Override
 	public List<IndOpi> synchroOpi(List<IndOpi> listeSynchroScolarite) {
-		return null;
-		// TODO Auto-generated method stub
+		return dssApo.synchroOpi(listeSynchroScolarite);
 	}
 
 	@Override
 	public List<TrBac> recupererBacOuEquWS(String codeBac) {
-
+		logger.warn("+++++ recupererBacOuEquWS()"+codeBac);
 		try {
 			List<TrBac> lBac = new ArrayList<TrBac>();
 			Bac[] tabBacouEquiv = rta.recupererListeBac(codeBac);
 
 			for(int i=0;i<tabBacouEquiv.length;i++)
 				lBac.add(new TrBac(tabBacouEquiv[i].getCodBac(), tabBacouEquiv[i].getLibelleBac()));
-
+			logger.warn("----> recupererBacOuEquWS()"+lBac);
 			return lBac;
 		} catch (Exception e) {
 			logger.error(e);
@@ -982,4 +1005,5 @@ public class DomainServiceRimbausImpl implements DomainServiceScolarite {
 	{
 		return null;
 	}
+	
 }

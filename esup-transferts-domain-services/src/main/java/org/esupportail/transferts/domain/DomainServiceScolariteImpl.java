@@ -60,7 +60,7 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 				+ this.getClass().getName() + " can not be null");			
 
 		if("RIMBAUS".equals(getSourceScol()))
-			dss= new DomainServiceRimbausImpl(this.forcerBlocageListSplit);
+			dss= new DomainServiceRimbausImpl(this.forcerBlocageListSplit, user, password);
 		else if ("APOGEE".equals(getSourceScol()))
 //			dss= new DomainServiceApogeeImpl(this.forcerBlocageListSplit);
 			dss= new DomainServiceApogeeImpl(this.forcerBlocageListSplit, user, password);
