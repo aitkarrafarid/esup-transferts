@@ -128,12 +128,12 @@
 					</p:submenu>
 				</p:column>
 				<p:column>
-					<p:submenu label="Paramètres accueil">
+					<p:submenu label="Paramètres accueil" rendered="#{sessionController.currentUser.admin or sessionController.transfertsAccueil}">
 						<p:menuitem value="Visualisation de l'ODF"
 							rendered="#{sessionController.transfertsAccueil}"
 							action="#{testController.goToTest2}" />
 						<p:menuitem value="Droits des utilisateurs"
-							rendered="#{sessionController.currentUser.admin and sessionController.transfertsAccueil}"
+							rendered="#{sessionController.currentUser.admin}"
 							action="#{managerController.goToListeManagerAccueil}" />
 						<p:menuitem value="Liste des signatures "
 							rendered="#{sessionController.currentUser.admin}"

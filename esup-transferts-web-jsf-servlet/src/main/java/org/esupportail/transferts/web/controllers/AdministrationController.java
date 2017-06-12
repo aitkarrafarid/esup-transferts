@@ -4358,6 +4358,11 @@ public class AdministrationController extends AbstractContextAwareController {
 				this.currentDemandeTransferts = this.addDemandeTransfertsFromAvis(1);
 
 				this.currentAccueilDecision = new AccueilDecision();
+				
+				if (!getSessionController().isTransfertsAccueil())
+				{
+					this.addAccueilDecisionDefinitif();
+				}
 
 				if (logger.isDebugEnabled())
 					logger.debug("===>this.currentAccueilDecision = new AccueilDecision();<===");

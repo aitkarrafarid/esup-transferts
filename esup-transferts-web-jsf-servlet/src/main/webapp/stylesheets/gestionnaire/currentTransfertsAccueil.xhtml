@@ -734,7 +734,7 @@
 							action="#{administrationController.goToSaisirDecision}" />
 				<p:menuitem value="Imprimer" icon="/media/images/pdf.png"
 							update="msgs,msgs2,growl"
-							rendered="#{(sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitEditionPdf=='oui')}"
+							rendered="#{sessionController.transfertsAccueil and ((sessionController.currentUser.admin) || (administrationController.droitPC!=null and administrationController.droitPC.droitEditionPdf=='oui'))}"
 							action="#{administrationController.imprimerDemandeTransfertAccueil}" />
 				<p:menuitem value="Déverrouiller" icon="/media/images/gpg.png"
 							rendered="#{(administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2 and sessionController.currentUser.admin) || (administrationController.currentDemandeTransferts.transferts.temoinTransfertValide==2 and administrationController.droitPC!=null and administrationController.droitPC.droitDeverrouiller=='oui')}"
