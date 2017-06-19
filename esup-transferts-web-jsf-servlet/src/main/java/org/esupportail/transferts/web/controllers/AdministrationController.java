@@ -4687,6 +4687,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 						setCodePaysItems(etu[i].getAdresse().getCodPay());
 
+						this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierByIdAndAnneeAndFrom(this.getSelectedmd5(), getSessionController().getCurrentAnnee(), getSource()));
 						this.addTransfertOpi();
 
 						String sujet = getString("TRANSFERT_MAIL_SUJET");
