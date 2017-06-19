@@ -38,6 +38,7 @@
 		<property name="ldapUserService" ref="ldapUserService" />
 		<property name="ldapDisplayNameAttribute" value="${ldap.displayNameAttribute}" />
 		<property name="ldapEmailAttribute" value="${ldap.emailAttribute}" />
+		<property name="decisionAccueilFavorableToAutoSynchroOPI" value="${decisionAccueilFavorable.toAutoSynchroOPI}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"

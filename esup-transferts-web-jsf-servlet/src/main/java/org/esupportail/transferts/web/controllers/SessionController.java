@@ -101,6 +101,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	private String ldapDisplayNameAttribute;
 	private String ldapEmailAttribute;
 	private List<SystemeProperties> propertiesSysteme;
+	private boolean decisionAccueilFavorableToAutoSynchroOPI;
 
 	/*
 	 ******************* INIT ******************** */
@@ -143,6 +144,9 @@ public class SessionController extends AbstractDomainAwareBean {
 				+ this.getClass().getName() + " can not be null");
 
 		Assert.hasText(timezone, "property timezone of class "
+				+ this.getClass().getName() + " can not be null");
+
+		Assert.notNull(this.decisionAccueilFavorableToAutoSynchroOPI, "property decisionAccueilFavorableToAutoSynchroOPI of class "
 				+ this.getClass().getName() + " can not be null");
 
 		this.listInformaticiens=Fonctions.stringSplitToArrayList(this.informaticiens, ",");
@@ -941,5 +945,13 @@ public class SessionController extends AbstractDomainAwareBean {
 
 	public void setPropertiesSysteme(List<SystemeProperties> propertiesSysteme) {
 		this.propertiesSysteme = propertiesSysteme;
+	}
+
+	public boolean isDecisionAccueilFavorableToAutoSynchroOPI() {
+		return decisionAccueilFavorableToAutoSynchroOPI;
+	}
+
+	public void setDecisionAccueilFavorableToAutoSynchroOPI(boolean decisionAccueilFavorableToAutoSynchroOPI) {
+		this.decisionAccueilFavorableToAutoSynchroOPI = decisionAccueilFavorableToAutoSynchroOPI;
 	}
 }

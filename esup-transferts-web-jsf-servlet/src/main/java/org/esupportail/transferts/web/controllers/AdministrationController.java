@@ -3830,6 +3830,12 @@ public class AdministrationController extends AbstractContextAwareController {
 		}
 	}
 
+	private void decisionAccueilFavorableToAutoSynchroOPI(IndOpi opi){
+		selectedOpis = new IndOpi[1];
+		selectedOpis[0] = opi;
+		this.synchroOpi();
+	}
+
 	public void addAccueilDecisionDefinitif()
 	{
 		if (logger.isDebugEnabled())
@@ -4066,6 +4072,8 @@ public class AdministrationController extends AbstractContextAwareController {
 											etab.getLibOffEtb());
 								}
 								getDomainService().addIndOpi(opi, maj);
+								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI())
+									decisionAccueilFavorableToAutoSynchroOPI(opi);
 							}
 							else
 							{
@@ -4115,6 +4123,8 @@ public class AdministrationController extends AbstractContextAwareController {
 						{
 							if("F".equals(decision))
 								getDomainService().addIndOpi(opi, maj);
+								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI())
+									decisionAccueilFavorableToAutoSynchroOPI(opi);
 						}
 					}
 					else
@@ -4156,6 +4166,8 @@ public class AdministrationController extends AbstractContextAwareController {
 											etab.getLibOffEtb());
 								}
 								getDomainService().addIndOpi(opi, maj);
+								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI())
+									decisionAccueilFavorableToAutoSynchroOPI(opi);
 							}
 							else
 							{
@@ -4202,6 +4214,8 @@ public class AdministrationController extends AbstractContextAwareController {
 						{
 							if("F".equals(decision))
 								getDomainService().addIndOpi(opi, maj);
+								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI())
+									decisionAccueilFavorableToAutoSynchroOPI(opi);
 						}
 					}
 				}
