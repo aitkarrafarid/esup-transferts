@@ -158,6 +158,7 @@ public class AdministrationController extends AbstractContextAwareController {
 	private Integer totalNombreDatasExterneNiveau2;
 	private Integer totalNombreDatasExterneNiveau3;
 	private Versions version;
+	private boolean droitAvisDefinitifTransfertDepartMultiple;
 
 
 	@Override
@@ -1877,6 +1878,7 @@ public class AdministrationController extends AbstractContextAwareController {
 			setCurrentAvis(new Avis());
 			setProgress(null);
 			setSwitchTraiteNontraite(false);
+			setDroitAvisDefinitifTransfertDepartMultiple(true);
 			return "goToValideMasseTransfertsDepart";
 		}
 		else
@@ -2416,7 +2418,10 @@ public class AdministrationController extends AbstractContextAwareController {
 			{
 				for(PersonnelComposante pc : lPc)
 				{
-					chaineComposante+=pc.getCodeComposante()+",";
+					if(this.isDroitAvisDefinitifTransfertDepartMultiple() && pc.getDroitAvisDefinitif()!=null && "oui".equalsIgnoreCase(pc.getDroitAvisDefinitif()))
+						chaineComposante+=pc.getCodeComposante()+",";
+					else if(!this.isDroitAvisDefinitifTransfertDepartMultiple())
+						chaineComposante+=pc.getCodeComposante()+",";
 				}
 			}
 		} catch (Exception e) {
@@ -2456,14 +2461,6 @@ public class AdministrationController extends AbstractContextAwareController {
 								logger.debug("Signature !!!");
 							}
 						}
-						//					if (etu.getLibEtapePremiereLocal() == null || etu.getLibEtapePremiereLocal().equals("Non disponible")) 
-						//					{
-						//						if (logger.isDebugEnabled()) {
-						//							logger.debug("Derniere IA non renseigne --> "+etu.getNumeroEtudiant()+" ----- "+etu.getNomPatronymique());
-						//						}	
-						//						etu=this.initialiseTransientEtudiantRef(etu);
-						//						getDomainService().addDemandeTransferts(etu);
-						//					}
 						if (logger.isDebugEnabled())
 							try {
 								logger.debug("admin - switchTraiteNontraite - chaineComposante --> "+getSessionController().getCurrentUser().isAdmin()+" - "+switchTraiteNontraite+" - "+chaineComposante);
@@ -2557,6 +2554,7 @@ public class AdministrationController extends AbstractContextAwareController {
 					listeTransfertDepartDataModel = new ListeTransfertDepartDataModel(new ArrayList<EtudiantRef>());
 				}
 			}
+			this.setDroitAvisDefinitifTransfertDepartMultiple(false);
 			return listeTransfertDepartDataModel;
 		}
 	}
@@ -4125,6 +4123,7 @@ public class AdministrationController extends AbstractContextAwareController {
 								getDomainService().addIndOpi(opi, maj);
 								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI())
 									decisionAccueilFavorableToAutoSynchroOPI(opi);
+
 						}
 					}
 					else
@@ -4166,8 +4165,11 @@ public class AdministrationController extends AbstractContextAwareController {
 											etab.getLibOffEtb());
 								}
 								getDomainService().addIndOpi(opi, maj);
-								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI())
-									decisionAccueilFavorableToAutoSynchroOPI(opi);
+								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI()) {
+									selectedOpis = new IndOpi[1];
+									selectedOpis[0] = opi;
+									this.synchroOpi();
+								}
 							}
 							else
 							{
@@ -4212,10 +4214,14 @@ public class AdministrationController extends AbstractContextAwareController {
 						}
 						else
 						{
-							if("F".equals(decision))
+							if("F".equals(decision)) {
 								getDomainService().addIndOpi(opi, maj);
-								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI())
-									decisionAccueilFavorableToAutoSynchroOPI(opi);
+								if(getSessionController().isDecisionAccueilFavorableToAutoSynchroOPI()) {
+									selectedOpis = new IndOpi[1];
+									selectedOpis[0] = opi;
+									this.synchroOpi();
+								}
+							}
 						}
 					}
 				}
@@ -5866,5 +5872,13 @@ public class AdministrationController extends AbstractContextAwareController {
 
 	public void setVersion(Versions version) {
 		this.version = version;
+	}
+
+	public boolean isDroitAvisDefinitifTransfertDepartMultiple() {
+		return droitAvisDefinitifTransfertDepartMultiple;
+	}
+
+	public void setDroitAvisDefinitifTransfertDepartMultiple(boolean droitAvisDefinitifTransfertDepartMultiple) {
+		this.droitAvisDefinitifTransfertDepartMultiple = droitAvisDefinitifTransfertDepartMultiple;
 	}
 }
