@@ -4577,10 +4577,8 @@ public class AdministrationController extends AbstractContextAwareController {
 			Severity severity = FacesMessage.SEVERITY_WARN;
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
 		}
-
+		this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
 		getDomainService().addDemandeTransferts(this.currentDemandeTransferts);
-
-
 	}
 
 	public void addCorrespondance(Correspondance corresp){
@@ -4707,7 +4705,7 @@ public class AdministrationController extends AbstractContextAwareController {
 
 						setCodePaysItems(etu[i].getAdresse().getCodPay());
 
-						this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierByIdAndAnneeAndFrom(this.getSelectedmd5(), getSessionController().getCurrentAnnee(), getSource()));
+						this.currentDemandeTransferts.getTransferts().setFichier(getDomainService().getFichierDefautByAnneeAndFrom(getSessionController().getCurrentAnnee(), getSource()));
 						this.addTransfertOpi();
 
 						String sujet = getString("TRANSFERT_MAIL_SUJET");
