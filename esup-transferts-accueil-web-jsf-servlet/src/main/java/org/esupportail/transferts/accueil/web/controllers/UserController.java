@@ -33,6 +33,7 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A bean to memorize the context of the application.
@@ -1504,7 +1505,9 @@ public class UserController extends AbstractContextAwareController {
 		{
 			if(listeTypesDiplome==null)
 				logger.debug("if(listeTypesDiplome==null) --> " + listeTypesDiplome);
-			listeTypesDiplome = new ArrayList<SelectItem>();
+//			listeTypesDiplome = new ArrayList<SelectItem>();
+			listeTypesDiplome = new CopyOnWriteArrayList<SelectItem>();
+
 			Map<String, String> listeTypesDiplomeDTO = getDomainService().getOdfTypesDiplomeByRneAndAnnee(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), true, "A");
 			if(listeTypesDiplomeDTO!=null && !listeTypesDiplomeDTO.isEmpty())
 			{
