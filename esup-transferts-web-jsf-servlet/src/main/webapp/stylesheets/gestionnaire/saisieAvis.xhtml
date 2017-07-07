@@ -295,7 +295,7 @@
 						<p:commandButton value="Retour" immediate="true"
 							action="#{administrationController.goToCurrentDemandeTransferts}" />
 						<p:commandButton value="Enregistrer l'avis"
-							rendered="#{((sessionController.currentUser.admin) or (administrationController.droitPC!=null and administrationController.droitPC.droitAvis=='oui')) and ((administrationController.currentAvis.idDecisionDossier != 2 and administrationController.currentAvis.idDecisionDossier != 1) or administrationController.droitPC.droitAvisDefinitif=='non') and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}"
+							rendered="#{((sessionController.currentUser.admin) or (administrationController.droitPC!=null and administrationController.droitPC.droitAvis=='oui')) and ((administrationController.currentAvis.idDecisionDossier != 2 and administrationController.currentAvis.idDecisionDossier != 1) or (administrationController.droitPC.droitAvisDefinitif=='non' and !sessionController.currentUser.admin)) and administrationController.currentDemandeTransferts.transferts.temoinTransfertValide!=2}"
 							action="#{administrationController.addAvis}"
 							update=":infos:msgs,:currentAvis:msgs2,:infos:growl,:infos:listeAvisDetails,:currentAvis:avis,:currentAvis:bouton" />
 						<p:commandButton
