@@ -1505,8 +1505,8 @@ public class UserController extends AbstractContextAwareController {
 		{
 			if(listeTypesDiplome==null)
 				logger.debug("if(listeTypesDiplome==null) --> " + listeTypesDiplome);
-//			listeTypesDiplome = new ArrayList<SelectItem>();
-			listeTypesDiplome = new CopyOnWriteArrayList<SelectItem>();
+			listeTypesDiplome = new ArrayList<SelectItem>();
+//			listeTypesDiplome = new CopyOnWriteArrayList<SelectItem>();
 
 			Map<String, String> listeTypesDiplomeDTO = getDomainService().getOdfTypesDiplomeByRneAndAnnee(currentEtudiant.getTransferts().getRne(), getSessionController().getCurrentAnnee(), true, "A");
 			if(listeTypesDiplomeDTO!=null && !listeTypesDiplomeDTO.isEmpty())
