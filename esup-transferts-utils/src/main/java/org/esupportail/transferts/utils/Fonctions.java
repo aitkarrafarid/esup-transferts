@@ -166,15 +166,19 @@ public class Fonctions {
                         logger.debug("Method m===>"+m+"<===");
                     }
 
-                    if("arrayList".equals(collection))
+                    if("arrayList".equals(collection)) {
                         try {
                             objectRetourList = (List<Object>) ReflectionUtils.invokeMethod(m, monService, params);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             logger.error(e);
                         }
-                    else
-                        objectRetour = (Object) ReflectionUtils.invokeMethod(m, monService, params);
-
+                    }else {
+                        try {
+                            objectRetour = (Object) ReflectionUtils.invokeMethod(m, monService, params);
+                        } catch (Exception e) {
+                            logger.error(e);
+                        }
+                    }
                     if(logger.isDebugEnabled()) {
                         logger.debug("objectRetourList===>" + objectRetourList + "<===");
                         logger.debug("objectRetour===>" + objectRetour + "<===");
