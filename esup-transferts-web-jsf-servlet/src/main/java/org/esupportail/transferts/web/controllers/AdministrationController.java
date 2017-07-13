@@ -484,14 +484,21 @@ public class AdministrationController extends AbstractContextAwareController {
 	public void decisionChange(ValueChangeEvent vce)
 	{
 		String decision = "";
-		String voeux = vce.getNewValue().toString();
-		switch (voeux.charAt(0))
-		{
-			case 'A': decision=getString("DECISION.FAVORABLE"); break;
-			case 'B': decision=getString("DECISION.DEFAVORABLE"); break;
-			case 'C': decision=getString("DECISION.AUTRE"); break;
+		if(vce!=null && !"".equals(vce) && vce.getNewValue()!=null) {
+			String voeux = vce.getNewValue().toString();
+			switch (voeux.charAt(0)) {
+				case 'A':
+					decision = getString("DECISION.FAVORABLE");
+					break;
+				case 'B':
+					decision = getString("DECISION.DEFAVORABLE");
+					break;
+				case 'C':
+					decision = getString("DECISION.AUTRE");
+					break;
+			}
+			this.currentAccueilDecision.setDecision(decision);
 		}
-		this.currentAccueilDecision.setDecision(decision);
 	}
 
 	public List<SelectItem> getListeAccueilAnnee()
