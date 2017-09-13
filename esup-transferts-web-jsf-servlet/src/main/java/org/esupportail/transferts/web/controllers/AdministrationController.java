@@ -2107,18 +2107,34 @@ public class AdministrationController extends AbstractContextAwareController {
 		if(this.currentDemandeTransferts.getAccueil()!=null && this.currentDemandeTransferts.getAccueil().getSituationUniversitaire()!=null) {
 			tableau = new Integer[this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size()];
 
-			if ("L".equals(this.currentDemandeTransferts.getAccueil().getFrom_source())) {
+//			if ("L".equals(this.currentDemandeTransferts.getAccueil().getFrom_source())) {
 				for (int i = 0; i < this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size(); i++)
-					tableau[i] = Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getAnnee().getLibelle().substring(0, 4));
-			} else if ("P".equals(this.currentDemandeTransferts.getAccueil().getFrom_source())) {
-				for (int i = 0; i < this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size(); i++)
-					tableau[i] = Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getLibAccueilAnnee().substring(0, 4));
-			} else {
-				String summary = "Impossible de determiner la source de la demande de transfert";
-				String detail = "Impossible de determiner la source de la demande de transfert";
-				Severity severity = FacesMessage.SEVERITY_FATAL;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
-			}
+				{
+					try {
+						tableau[i] = Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getLibAccueilAnnee().substring(0, 4));
+					}catch (Exception e)
+					{
+//						logger.error(e);
+						tableau[i] = Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getAnnee().getLibelle().substring(0, 4));
+					}
+				}
+//			} else if ("P".equals(this.currentDemandeTransferts.getAccueil().getFrom_source())) {
+//				for (int i = 0; i < this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size(); i++)
+//				{
+//					try {
+//						tableau[i] = Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getLibAccueilAnnee().substring(0, 4));
+//					}catch (Exception e)
+//					{
+//						logger.error(e);
+//						tableau[i] = Integer.parseInt(this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().get(i).getAnnee().getLibelle().substring(0, 4));
+//					}
+//				}
+//			} else {
+//				String summary = "Impossible de determiner la source de la demande de transfert";
+//				String detail = "Impossible de determiner la source de la demande de transfert";
+//				Severity severity = FacesMessage.SEVERITY_FATAL;
+//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+//			}
 
 			if (logger.isDebugEnabled())
 				for (int i = 0; i < tableau.length; i++)
@@ -5261,7 +5277,8 @@ public class AdministrationController extends AbstractContextAwareController {
 			if (logger.isDebugEnabled())
 			{
 				logger.debug("===>bbbbb<===");
-				logger.debug("this.currentDemandeTransferts.getAccueil().getSituationUniversitaire()===>"+this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size()+"<===");
+				if(this.currentDemandeTransferts!=null && this.currentDemandeTransferts.getAccueil()!=null && this.currentDemandeTransferts.getAccueil().getSituationUniversitaire()!=null)
+					logger.debug("this.currentDemandeTransferts.getAccueil().getSituationUniversitaire()===>"+this.currentDemandeTransferts.getAccueil().getSituationUniversitaire().size()+"<===");
 			}
 			this.currentDemandeTransferts.getAccueil().setSituationUniversitaire(getDomainService().getSituationUniversitaireByNumeroEtudiantAndAnnee(this.currentDemandeTransferts.getNumeroEtudiant(), this.currentDemandeTransferts.getAnnee()));
 			return new SituationUniversitaireDataModel();
