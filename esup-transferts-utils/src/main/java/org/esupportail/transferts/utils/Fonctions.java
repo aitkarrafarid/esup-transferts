@@ -179,6 +179,7 @@ public class Fonctions {
                             logger.error(e);
                         }
                     }
+
                     if(logger.isDebugEnabled()) {
                         logger.debug("objectRetourList===>" + objectRetourList + "<===");
                         logger.debug("objectRetour===>" + objectRetour + "<===");
