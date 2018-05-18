@@ -113,6 +113,7 @@ public class FileUploadController extends AbstractContextAwareController impleme
 		{
 			String chemin = this.getTempPath() + file.getFileName();
 			File result = new File(chemin);
+			logger.debug("file.getFileName() --> " + file.getFileName());
 			FileOutputStream fileOutputStream=null;
 			try {
 				fileOutputStream = new FileOutputStream(result);
@@ -134,6 +135,7 @@ public class FileUploadController extends AbstractContextAwareController impleme
 
 				if (logger.isDebugEnabled()) {
 					logger.debug("Libellé --> " + fichier.getLibelle());
+					logger.debug("Result --> " + result.getAbsolutePath() + " // " + result.getName() + " // " + result.toString());
 					logger.debug("MD5 --> " + FileHashSum.md5sum(result));
 					logger.debug("CurrentAnnee --> "+ getSessionController().getCurrentAnnee());
 					logger.debug("NOM --> " + result.getName());

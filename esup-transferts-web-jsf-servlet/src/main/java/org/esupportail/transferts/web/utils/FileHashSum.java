@@ -6,9 +6,7 @@ package org.esupportail.transferts.web.utils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
@@ -101,10 +99,22 @@ public class FileHashSum {
 			try {
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				fis = new FileInputStream(file);
-				dis = new DigestInputStream(fis, md);
-				dis.on(true);
+//				dis = new DigestInputStream(fis, md);
+//				dis.on(true);
+				//Create byte array to read data in chunks
+				byte[] byteArray = new byte[1024];
+				int bytesCount = 0;
+				//Read file data and update in message digest
+				while ((bytesCount = fis.read(byteArray)) != -1) {
+					md.update(byteArray, 0, bytesCount);
+				};
 				byte[] b = md.digest();
+				System.out.println("fis"+fis);
+				System.out.println("file"+file);
+				System.out.println("dis"+dis);
+				System.out.println("b"+b);
 				localMd5Sum = getHexString(b);
+				System.out.println("localMd5Sum"+localMd5Sum);
 			} catch (Exception ex) {
 				logger.error(ex);
 			}finally {
@@ -123,12 +133,16 @@ public class FileHashSum {
 
 	private static String getHexString(byte[] bytes) {
 		StringBuilder sb = new StringBuilder(bytes.length*2);
-		for (byte b : bytes) {
-			if (b <= 0x0F && b >= 0x00) { // On rajoute le 0 de poid fort ignoré à la conversion.
-				sb.append('0');
-			}
-			sb.append( String.format("%x", b) );
+		for(int i=0; i< bytes.length ;i++)
+		{
+			sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
 		}
+//		for (byte b : bytes) {
+//			if (b <= 0x0F && b >= 0x00) { // On rajoute le 0 de poid fort ignoré à la conversion.
+//				sb.append('0');
+//			}
+//			sb.append( String.format("%x", b) );
+//		}
 		return sb.toString();
 	}
 }
