@@ -86,7 +86,8 @@ public class DownloadServlet extends HttpServlet {
 			byte [] data = (byte []) DownloadUtils.getDownloadAttribute(
 					DATA_ATTRIBUTE + id);
 			if (data == null) {
-				throw new DownloadException("data is null, can not download");
+				response.sendRedirect("/stylesheets/exceptions/downloadException.xhtml");
+				return;
 			}
 			response.setContentLength(data.length);
 			ServletOutputStream out = response.getOutputStream();

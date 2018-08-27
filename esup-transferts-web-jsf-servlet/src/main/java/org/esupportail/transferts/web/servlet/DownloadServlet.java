@@ -6,6 +6,8 @@ import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.commons.utils.DownloadUtils;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
@@ -82,7 +84,8 @@ public class DownloadServlet extends HttpServlet {
 			byte [] data = (byte []) DownloadUtils.getDownloadAttribute(
 					DATA_ATTRIBUTE + id);
 			if (data == null) {
-				throw new DownloadException("data is null, can not download");
+				response.sendRedirect("/stylesheets/exceptions/downloadException.xhtml");
+				return;
 			}
 			response.setContentLength(data.length);
 			ServletOutputStream out = response.getOutputStream();
