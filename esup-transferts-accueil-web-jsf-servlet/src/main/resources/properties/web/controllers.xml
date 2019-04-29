@@ -61,6 +61,8 @@
 		parent="abstractContextAwareController" scope="session">
 		<property name="ineToUpperCase" value="${ine.toUpperCase}" />
 		<property name="mailInformation" value="${mail.information}" />
+		<property name="checkInesUrlService" value="${checkInes.urlService}" />
+		<property name="useInes" value="${ines.use}" />
 	</bean>
 	
 </beans>

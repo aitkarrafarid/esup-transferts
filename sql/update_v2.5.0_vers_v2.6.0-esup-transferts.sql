@@ -4,10 +4,10 @@ Insert into ACCUEIL_ANNEE
  Values
    (16, '2017/2018');
 
-Update VERSIONS set ETAT=0 WHERE NUMERO = '2.4.0';
+Update VERSIONS set ETAT=0 WHERE NUMERO = '2.5.0';
 
 Insert into VERSIONS (NUMERO, COMMENTAIRE, ETAT)
  Values
-   ('2.5.0', '', 1);
+   ('2.6.0', '', 1);
 
 commit;

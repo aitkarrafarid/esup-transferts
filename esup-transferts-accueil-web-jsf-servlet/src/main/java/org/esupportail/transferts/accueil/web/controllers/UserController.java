@@ -19,6 +19,7 @@ import org.esupportail.transferts.utils.CheckNNE36;
 import org.esupportail.transferts.utils.Fonctions;
 import org.esupportail.transferts.utils.GestionDate;
 import org.springframework.util.Assert;
+import org.springframework.web.client.RestTemplate;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -30,6 +31,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.*;
+import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -99,6 +101,8 @@ public class UserController extends AbstractContextAwareController {
 	private List<TrSituationUniversitaire> lTrSituationUniversitaire;
 	private transient List<Correspondance> listeCorrespondances = null;
 	private boolean choixDuVoeuParComposanteByPartenaire;
+	private String checkInesUrlService;
+	private Boolean useInes;
 	/*
 	 ******************* INIT ******************** */
 
@@ -745,6 +749,25 @@ public class UserController extends AbstractContextAwareController {
 		return "goToAdresseApogee";
 	}
 
+	public boolean checkInes(String ine, String cle){
+		try {
+			/* Definition de l'uri */
+			URI uri = URI.create(this.getCheckInesUrlService()+"v1/check-ine");
+
+			/* Ajout des parametres */
+			Map<String, String> mapPostParameter = new HashMap<>();
+			mapPostParameter.put("type", "INES");
+			mapPostParameter.put("ine", ine);
+			mapPostParameter.put("cle", cle);
+
+			return new RestTemplate().postForObject(uri, mapPostParameter, Boolean.class);
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return false;
+	}
+
 	public String verifieBeaOrIne()
 	{
 		currentEtudiant=null;
@@ -752,13 +775,37 @@ public class UserController extends AbstractContextAwareController {
 		String retour=null;
 		String numero = getIneApogee().toUpperCase();
 //		numero = getIneApogee().toUpperCase();
+		Boolean ines = false;
 
 		if (numero.length()==11)
 		{
+
 			String lettreCle = numero.substring(10, numero.length());
 			String numeroSansCle = numero.substring(0, 10);
 
-			if (numero.length()==11 && numeroSansCle.matches("[0-9]+") && lettreCle.matches("[a-zA-Z]+") && !lettreCle.matches("[ioqIOQ]+"))
+			if (numero.substring(numero.length()-2, numero.length()).matches("[a-zA-Z]+")){
+				ines = true;
+				lettreCle = numero.substring(9, numero.length());
+				numeroSansCle = numero.substring(0, 9);
+			}
+
+			if ((useInes) && (ines)){
+				if (checkInes(numeroSansCle,lettreCle)) {
+					if (logger.isDebugEnabled())
+						logger.debug("################## Numero INES OK #####################");
+					System.out.println("INES VALIDE");
+					retour = this.authApogee();
+				}
+				else{
+					if (logger.isDebugEnabled())
+						logger.debug("################## Numero INES INVALIDE #####################");
+					String summary = getString("ERREUR.VERIFICATION_INES");
+					String detail = getString("ERREUR.VERIFICATION_INES");
+					Severity severity=FacesMessage.SEVERITY_ERROR;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
+				}
+			}
+			else if (numero.length()==11 && numeroSansCle.matches("[0-9]+") && lettreCle.matches("[a-zA-Z]+") && !lettreCle.matches("[ioqIOQ]+"))
 			{
 				if(CheckBEA23.verifie(numero)==0)
 				{
@@ -2035,5 +2082,21 @@ public class UserController extends AbstractContextAwareController {
 
 	public void setChoixDuVoeuParComposanteByPartenaire(boolean choixDuVoeuParComposanteByPartenaire) {
 		this.choixDuVoeuParComposanteByPartenaire = choixDuVoeuParComposanteByPartenaire;
+	}
+
+	public void setCheckInesUrlService(String checkInesUrlService) {
+		this.checkInesUrlService = checkInesUrlService;
+	}
+
+	public String getCheckInesUrlService() {
+		return checkInesUrlService;
+	}
+
+	public void setUseInes(Boolean useInes) {
+		this.useInes = useInes;
+	}
+
+	public Boolean getUseInes() {
+		return useInes;
 	}
 }
