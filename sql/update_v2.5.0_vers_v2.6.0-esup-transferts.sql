@@ -2,7 +2,7 @@
 Insert into ACCUEIL_ANNEE
    (ID_ACCUEIL_ANNEE, LIBELLE)
  Values
-   (16, '2017/2018');
+   (17, '2018/2019');
 
 Update VERSIONS set ETAT=0 WHERE NUMERO = '2.5.0';
 
