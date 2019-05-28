@@ -71,6 +71,7 @@
 		<property name="mailInformation" value="${mail.information}" />
 		<property name="ineToUpperCase" value="${ine.toUpperCase}" />
 		<property name="studentAffiliation" value="${ldap.student.affiliation}" />
+		<property name="exclusionEtablissement" value="${etab.exclusion}" />
 	</bean>
 
 	<bean id="administrationController"

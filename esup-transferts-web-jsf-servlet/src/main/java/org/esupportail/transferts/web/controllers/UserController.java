@@ -87,6 +87,7 @@ public class UserController extends AbstractContextAwareController {
 	private List<SelectItem> listeComposantes;
 	private boolean choixDuVoeuParComposanteByPartenaire;
 	private transient TreeNode root;
+	private String exclusionEtablissement;
 
 	@Override
 	public void afterPropertiesSetInternal() {
@@ -1541,6 +1542,14 @@ public class UserController extends AbstractContextAwareController {
 					currentEtudiant.getTransferts().getDept(), getSessionController().getAjoutEtablissementManuellement(), "," ,getSessionController().isActivEtablissementManuellement());
 			Collections.sort(listeEtablissements, new ComparatorSelectItem());
 		}
+		String[] tabExclusionEtablissement = exclusionEtablissement.split(",");
+		List<String> listExclusionEtablissement = Arrays.asList(tabExclusionEtablissement);
+		List<SelectItem> etabASupprimer = new ArrayList<SelectItem>();
+		for (SelectItem etablissement : listeEtablissements){
+			if (listExclusionEtablissement.contains((String) etablissement.getValue()))
+					etabASupprimer.add(etablissement);
+		}
+		listeEtablissements.removeAll(etabASupprimer);
 		return listeEtablissements;
 	}
 
@@ -2342,6 +2351,14 @@ public class UserController extends AbstractContextAwareController {
 
 	public void setChoixDuVoeuParComposanteByPartenaire(boolean choixDuVoeuParComposanteByPartenaire) {
 		this.choixDuVoeuParComposanteByPartenaire = choixDuVoeuParComposanteByPartenaire;
+	}
+
+	public String getExclusionEtablissement() {
+		return exclusionEtablissement;
+	}
+
+	public void setExclusionEtablissement(String exclusionEtablissement) {
+		this.exclusionEtablissement = exclusionEtablissement;
 	}
 
 	public TreeNode getRoot() {
