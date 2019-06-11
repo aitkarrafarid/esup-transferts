@@ -440,7 +440,11 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			logger.debug("codCleNneIndOpi --> " + codCleNneIndOpi);
 		}
 		//TODO Modif Flo pour le nouvel INE A VERIFIER !
-		String ine = codCleNneIndOpi+codCleNneIndOpi;
+//		String ine = codNneIndOpi+codCleNneIndOpi;
+		String ine = codNneIndOpi;
+		if (logger.isDebugEnabled()) {
+			logger.debug("ine --> " + ine);
+		}
 
 		EtudiantMetierServiceInterfaceProxy etudiantMetierService = new EtudiantMetierServiceInterfaceProxy();
 		// Recuperation des infos de l'etudiant dans Apogee
