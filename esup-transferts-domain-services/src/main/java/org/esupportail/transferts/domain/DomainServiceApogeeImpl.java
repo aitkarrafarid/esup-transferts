@@ -1247,7 +1247,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			//OpiMetierServiceInterface opiMetierServiceInterface = new OpiMetierServiceInterfaceProxy();
 			//			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
 //			DonneesOpiDTO5 donneesOpiDTO = new DonneesOpiDTO5();
-			DonneesOpiDTO7 donneesOpiDTO = new DonneesOpiDTO7();
+			DonneesOpiDTO8 donneesOpiDTO = new DonneesOpiDTO8();
 
 			/*Initialisation de l'objet DonneesOpiDTO2 d'apogee a partir de l'objet OPI de esup-transferts*/
 
@@ -1475,9 +1475,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			/*#################################################*/ 
 			/* MAJOpiVoeuDTO */
 			/*#################################################*/
-			MAJOpiVoeuDTO tabVoeux[] = new MAJOpiVoeuDTO[1];
+			MAJOpiVoeuDTO2 tabVoeux[] = new MAJOpiVoeuDTO2[1];
 			//			MAJOpiVoeuDTO tabVoeux[] = new MAJOpiV
-			MAJOpiVoeuDTO opiVoeuDTO = new MAJOpiVoeuDTO();
+			MAJOpiVoeuDTO2 opiVoeuDTO = new MAJOpiVoeuDTO2();
 			if (logger.isDebugEnabled()) {
 				logger.debug("################################################### MAJOpiVoeuDTO #####################################################");
 				logger.debug("!!! OBLIGATOIRE !!! opi.getVoeux().getCodCge() --> "+opi.getVoeux().getCodCge());
@@ -1537,7 +1537,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			/*APPEL DE LA METHODE DU WS APOGEE*/
 			try {
-				opiMetierServiceInterface3.mettreajourDonneesOpi_v7(donneesOpiDTO);
+				opiMetierServiceInterface3.mettreajourDonneesOpi_v8(donneesOpiDTO);
 				// Traitement des exceptions
 			}catch (WebBaseException _ex) {
 				listeErreurs.add(opi);

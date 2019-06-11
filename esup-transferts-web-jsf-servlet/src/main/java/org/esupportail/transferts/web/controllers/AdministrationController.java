@@ -3972,9 +3972,18 @@ public class AdministrationController extends AbstractContextAwareController {
 					opi.setSource(getSource());
 				opi.setSynchro(0);
 
-				String ineSansCle = this.currentDemandeTransferts.getNumeroIne().substring(0, this.currentDemandeTransferts.getNumeroIne().length()-1);
-				String cleIne = this.currentDemandeTransferts.getNumeroIne().substring(this.currentDemandeTransferts.getNumeroIne().length()-1, this.currentDemandeTransferts.getNumeroIne().length());
-				opi.setCodNneIndOpi(ineSansCle);
+				String ine = this.currentDemandeTransferts.getNumeroIne().toUpperCase();
+				String ineSansCle = ine.substring(0, this.currentDemandeTransferts.getNumeroIne().length()-1);
+				String cleIne = ine.substring(this.currentDemandeTransferts.getNumeroIne().length()-1, this.currentDemandeTransferts.getNumeroIne().length());
+
+				if (ine.substring(ine.length()-2, ine.length()).matches("[a-zA-Z]+")){
+					ineSansCle = ine.substring(0, 9);
+					cleIne = ine.substring(9, ine.length());
+				}
+
+				// Mise à jour mettreajourOPI_v7 - codnneindopi = ine complet
+//				opi.setCodNneIndOpi(ineSansCle);
+				opi.setCodNneIndOpi(ine);
 				opi.setCodCleNneIndOpi(cleIne);
 
 				opi.setDateNaiIndOpi(this.currentDemandeTransferts.getDateNaissance());

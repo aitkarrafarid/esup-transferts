@@ -21,11 +21,11 @@ import java.util.Date;
 		@NamedQuery(name = "allIndOpi", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee"),
 		@NamedQuery(name = "allIndOpiByAnnee", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee"),
 		@NamedQuery(name = "getIndOpiBySource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.numeroOpi = :numeroOpi AND indOpi.annee = :annee AND indOpi.source = :source"),
-		@NamedQuery(name = "getIndOpiExtractBySource", query = "SELECT DISTINCT RPAD (NVL(io.numeroOpi,' '), 10, ' ')"
+		@NamedQuery(name = "getIndOpiExtractBySource", query = "SELECT DISTINCT RPAD (NVL(io.numeroOpi,' '), 11, ' ')"
 				+ "|| RPAD (' ',1,' ')"
 				+ "|| RPAD (NVL(io.codPayNat,' '),3,' ')"
 				+ "|| RPAD (NVL(io.codEtb,' '),8,' ')"
-				+ "|| RPAD (NVL(io.codNneIndOpi,' '),10,' ')"
+				+ "|| RPAD (NVL(io.codNneIndOpi,' '),11,' ')"
 				+ "|| RPAD (NVL(io.codCleNneIndOpi,' '),1,' ')"
 				+ "|| TO_CHAR (io.dateNaiIndOpi, 'DDMMYYYY')"
 				+ "|| RPAD (NVL(io.temDateNaiRelOpi,' '),1,' ')"
@@ -72,7 +72,7 @@ import java.util.Date;
 				+ "|| RPAD (' ',3,' ')"
 				+ "FROM IndOpi io "
 				+ "WHERE io.annee = :annee AND io.source = :source"),
-		@NamedQuery(name = "getVoeuxInsExtractBySource", query = "SELECT DISTINCT RPAD (NVL(vi.voeux.numeroOpi,' '), 10, ' ') "
+		@NamedQuery(name = "getVoeuxInsExtractBySource", query = "SELECT DISTINCT RPAD (NVL(vi.voeux.numeroOpi,' '), 11, ' ') "
 				+ "|| RPAD (NVL(vi.voeux.libNomPatIndOpi,' '),30,' ') "
 				+ "|| RPAD (NVL(vi.voeux.libPr1IndOpi,' '),20,' ') "
 				+ "|| RPAD (NVL(vi.voeux.codCge,' '),3,' ') "
@@ -143,13 +143,13 @@ public class IndOpi implements Serializable {
 	/**
 	 * Numero national etudiant
 	 */
-	@Column(name = "COD_NNE_IND_OPI", length = 10)
+	@Column(name = "COD_NNE_IND_OPI", length = 11)
 	private String codNneIndOpi;
 
 	/**
 	 * Cle du numero national etudiant
 	 */
-	@Column(name = "COD_CLE_NNE_IND_OPI", length = 1)
+	@Column(name = "COD_CLE_NNE_IND_OPI", length = 2)
 	private String codCleNneIndOpi;
 
 	/**
