@@ -441,6 +441,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 		//TODO Modif Flo pour le nouvel INE A VERIFIER !
 //		String ine = codNneIndOpi+codCleNneIndOpi;
+//		String ine = codNneIndOpi.substring(0, codNneIndOpi.length()-codCleNneIndOpi.length());
 		String ine = codNneIndOpi;
 		if (logger.isDebugEnabled()) {
 			logger.debug("ine --> " + ine);
@@ -1251,7 +1252,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			//OpiMetierServiceInterface opiMetierServiceInterface = new OpiMetierServiceInterfaceProxy();
 			//			DonneesOpiDTO2 donneesOpiDTO = new DonneesOpiDTO2();
 //			DonneesOpiDTO5 donneesOpiDTO = new DonneesOpiDTO5();
-			DonneesOpiDTO8 donneesOpiDTO = new DonneesOpiDTO8();
+			DonneesOpiDTO9 donneesOpiDTO = new DonneesOpiDTO9();
 
 			/*Initialisation de l'objet DonneesOpiDTO2 d'apogee a partir de l'objet OPI de esup-transferts*/
 
@@ -1479,9 +1480,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			/*#################################################*/ 
 			/* MAJOpiVoeuDTO */
 			/*#################################################*/
-			MAJOpiVoeuDTO2 tabVoeux[] = new MAJOpiVoeuDTO2[1];
+			MAJOpiVoeuDTO3 tabVoeux[] = new MAJOpiVoeuDTO3[1];
 			//			MAJOpiVoeuDTO tabVoeux[] = new MAJOpiV
-			MAJOpiVoeuDTO2 opiVoeuDTO = new MAJOpiVoeuDTO2();
+			MAJOpiVoeuDTO3 opiVoeuDTO = new MAJOpiVoeuDTO3();
 			if (logger.isDebugEnabled()) {
 				logger.debug("################################################### MAJOpiVoeuDTO #####################################################");
 				logger.debug("!!! OBLIGATOIRE !!! opi.getVoeux().getCodCge() --> "+opi.getVoeux().getCodCge());
@@ -1514,7 +1515,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			opiVoeuDTO.setNumCls(Integer.parseInt(opi.getVoeux().getNumCls())); // !!! OBLIGATOIRE !!!
 
 
-			/*#################################################*/ 
+			/*#################################################*/
 			/* MAJTitreAccesExterneDTO */
 			/*#################################################*/
 			MAJTitreAccesExterneDTO titreAccesExterneDTO = new MAJTitreAccesExterneDTO();
@@ -1539,9 +1540,16 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			tabVoeux[0]=opiVoeuDTO;
 			donneesOpiDTO.setVoeux(tabVoeux);
 
+			MAJOpiDacDTO majOpiDacDTO = new MAJOpiDacDTO();
+			majOpiDacDTO.setCodNif(1);
+			donneesOpiDTO.setDac(majOpiDacDTO);
+
+//			logger.info("donneOpiDTO=" + donneesOpiDTO);
+			//logger.info("tabVoeux=" + tabVoeux);
+
 			/*APPEL DE LA METHODE DU WS APOGEE*/
 			try {
-				opiMetierServiceInterface3.mettreajourDonneesOpi_v8(donneesOpiDTO);
+				opiMetierServiceInterface3.mettreajourDonneesOpi_v9(donneesOpiDTO);
 				// Traitement des exceptions
 			}catch (WebBaseException _ex) {
 				listeErreurs.add(opi);
