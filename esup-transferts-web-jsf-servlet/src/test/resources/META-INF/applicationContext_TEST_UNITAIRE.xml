@@ -9,8 +9,6 @@
 		<property name="locations">
 			<list>
 				<value>classpath:META-INF/defaults_TEST_UNITAIRE.properties</value>
-				<value>classpath:META-INF/config_TEST_UNITAIRE.properties</value>
-				<value>classpath:META-INF/configUrlServices_TEST_UNITAIRE.properties</value>
 			</list>
 		</property>
 	</bean>

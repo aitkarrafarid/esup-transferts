@@ -12,7 +12,6 @@
 			<list>
 				<value>classpath:/properties/defaults.properties</value>
 				<value>classpath:/properties/config.properties</value>
-				<value>classpath:/configUrlServices.properties</value>
 			</list>
 		</property>
 	</bean>

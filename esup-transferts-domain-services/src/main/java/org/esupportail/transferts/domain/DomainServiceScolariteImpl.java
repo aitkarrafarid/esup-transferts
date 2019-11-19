@@ -3,10 +3,7 @@
  */
 package org.esupportail.transferts.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.transferts.domain.beans.CGE;
@@ -45,7 +42,17 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 	private DomainServiceScolarite dss;
 	
 	private String forcerBlocage;
-	private List<String> forcerBlocageListSplit = new ArrayList<String>();	
+	private List<String> forcerBlocageListSplit = new ArrayList<>();
+
+	private String urlEtudiantMetierService;
+	private String urlAdministratifMetierService;
+	private String urlGeographieMetierService;
+	private String urlScolariteMetierService;
+	private String urlPedagogiqueMetierService;
+	private String urlEtablissementMetierService;
+	private String urlOpiMetierService;
+	private String urlReferentielMetierService;
+	private String urlOffreFormationMetierService;
 
 	/**
 	 * Constructor.
@@ -56,26 +63,17 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Assert.hasText(sourceScol, "property sourceScol of class "
-				+ this.getClass().getName() + " can not be null");			
-
-		if("RIMBAUS".equals(getSourceScol()))
-			dss= new DomainServiceRimbausImpl(this.forcerBlocageListSplit, user, password);
-		else if ("APOGEE".equals(getSourceScol()))
-//			dss= new DomainServiceApogeeImpl(this.forcerBlocageListSplit);
-			dss= new DomainServiceApogeeImpl(this.forcerBlocageListSplit, user, password);
-		else
-			System.err.println("Propriete non renseigne");
-		
-		if(this.forcerBlocage!=null && this.forcerBlocage!="" && ((this.forcerBlocage.split(",")).length>1))
-		{
+		if(this.forcerBlocage!=null && this.forcerBlocage!="" && ((this.forcerBlocage.split(",")).length>1)) {
 			String[] tokens = this.forcerBlocage.split(",");
-			for(int i=0; i<tokens.length; i++)
-				this.forcerBlocageListSplit.add(tokens[i]);
+			this.forcerBlocageListSplit.addAll(Arrays.asList(tokens));
+		} else {
+			this.forcerBlocageListSplit.add(this.forcerBlocage);
 		}
-		else
-			this.forcerBlocageListSplit.add(this.forcerBlocage);	
-		
+
+		dss = new DomainServiceApogeeImpl(forcerBlocageListSplit, user, password,
+				urlEtudiantMetierService,urlAdministratifMetierService,urlGeographieMetierService,
+				urlScolariteMetierService,urlPedagogiqueMetierService,urlEtablissementMetierService,
+				urlOpiMetierService,urlReferentielMetierService,urlOffreFormationMetierService);
 	}
 
 	@Override
@@ -141,15 +139,8 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 
 	@Override
 	public String getComposante(String supannEtuId) {
-		// TODO Auto-generated method stub
-		//return null;
 		return dss.getComposante(supannEtuId);
 	}
-
-//	@Override
-//	public String getEtapePremiere(String supannEtuId) {
-//		return dss.getEtapePremiere(supannEtuId);
-//	}	
 
 	@Override
 	public List<OffreDeFormationsDTO> getOffreDeFormation(String rne, Integer annee) {
@@ -221,15 +212,6 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 	@Override
 	public TrInfosAdmEtu getInfosAdmEtu(String supannEtuId) {
 		return dss.getInfosAdmEtu(supannEtuId);
-	}	
-	
-	public String getSourceScol() {
-		return sourceScol;
-	}
-
-	public void setSourceScol(String sourceScol) {
-		System.err.println("SOURCESCOL"+sourceScol);
-		this.sourceScol = sourceScol;
 	}
 
 	public String getForcerBlocage() {
@@ -262,5 +244,78 @@ public class DomainServiceScolariteImpl implements DomainServiceScolarite, Initi
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+
+	public String getUrlEtudiantMetierService() {
+		return urlEtudiantMetierService;
+	}
+
+	public void setUrlEtudiantMetierService(String urlEtudiantMetierService) {
+		this.urlEtudiantMetierService = urlEtudiantMetierService;
+	}
+
+	public String getUrlAdministratifMetierService() {
+		return urlAdministratifMetierService;
+	}
+
+	public void setUrlAdministratifMetierService(String urlAdministratifMetierService) {
+		this.urlAdministratifMetierService = urlAdministratifMetierService;
+	}
+
+	public String getUrlGeographieMetierService() {
+		return urlGeographieMetierService;
+	}
+
+	public void setUrlGeographieMetierService(String urlGeographieMetierService) {
+		this.urlGeographieMetierService = urlGeographieMetierService;
+	}
+
+	public String getUrlScolariteMetierService() {
+		return urlScolariteMetierService;
+	}
+
+	public void setUrlScolariteMetierService(String urlScolariteMetierService) {
+		this.urlScolariteMetierService = urlScolariteMetierService;
+	}
+
+	public String getUrlPedagogiqueMetierService() {
+		return urlPedagogiqueMetierService;
+	}
+
+	public void setUrlPedagogiqueMetierService(String urlPedagogiqueMetierService) {
+		this.urlPedagogiqueMetierService = urlPedagogiqueMetierService;
+	}
+
+	public String getUrlEtablissementMetierService() {
+		return urlEtablissementMetierService;
+	}
+
+	public void setUrlEtablissementMetierService(String urlEtablissementMetierService) {
+		this.urlEtablissementMetierService = urlEtablissementMetierService;
+	}
+
+	public String getUrlOpiMetierService() {
+		return urlOpiMetierService;
+	}
+
+	public void setUrlOpiMetierService(String urlOpiMetierService) {
+		this.urlOpiMetierService = urlOpiMetierService;
+	}
+
+	public String getUrlReferentielMetierService() {
+		return urlReferentielMetierService;
+	}
+
+	public void setUrlReferentielMetierService(String urlReferentielMetierService) {
+		this.urlReferentielMetierService = urlReferentielMetierService;
+	}
+
+	public String getUrlOffreFormationMetierService() {
+		return urlOffreFormationMetierService;
+	}
+
+	public void setUrlOffreFormationMetierService(String urlOffreFormationMetierService) {
+		this.urlOffreFormationMetierService = urlOffreFormationMetierService;
 	}
 }

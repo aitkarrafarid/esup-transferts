@@ -1072,29 +1072,22 @@ public class UserController extends AbstractContextAwareController {
 		}
 	}
 
-	public String authApogee()
-	{
-		if (logger.isDebugEnabled()) {
-			logger.debug("ineApogee --> "+ineApogee);
-			logger.debug("dateNaissanceApogee --> "+dateNaissanceApogee);
-		}
-		this.currentEtudiant = new EtudiantRef();
-		if(isIneToUpperCase())
-			this.currentEtudiant = getDomainServiceScolarite().getCurrentEtudiantIne(ineApogee.toUpperCase(), dateNaissanceApogee);
-		else
-			this.currentEtudiant = getDomainServiceScolarite().getCurrentEtudiantIne(ineApogee, dateNaissanceApogee);
+	public String authApogee() {
+		logger.debug("ineApogee --> "+ineApogee);
+		logger.debug("dateNaissanceApogee --> "+dateNaissanceApogee);
+		this.currentEtudiant = isIneToUpperCase()
+				? getDomainServiceScolarite().getCurrentEtudiantIne(ineApogee.toUpperCase(), dateNaissanceApogee)
+				: getDomainServiceScolarite().getCurrentEtudiantIne(ineApogee, dateNaissanceApogee);
 
-		if (logger.isDebugEnabled())
-			logger.debug("this.currentEtudiant -->"+this.currentEtudiant);
+		logger.debug("this.currentEtudiant -->"+this.currentEtudiant);
 
-		if(this.currentEtudiant!=null)
-		{
+		if(this.currentEtudiant!=null) {
 			List<DatasExterne> listeInterditBu;
 			List<Interdit> listeInterditsNiveau1;
 			WebService currentWsBu = getDomainService().getWebServiceByCode("bu");
 //			Integer etatConnexion=0;
-			if(getSessionController().isUseWsBu() && currentWsBu!=null)
-			{
+
+			if(getSessionController().isUseWsBu() && currentWsBu!=null) {
 				Object tabReturn[] = Fonctions.appelWSAuth(currentWsBu.getUrl(),
 						currentWsBu.getIdentifiant(),
 						currentWsBu.getPwd(),
@@ -1116,65 +1109,47 @@ public class UserController extends AbstractContextAwareController {
 					listeInterditBu = getSessionController().convertListInterditsToListDatasExterne(listeInterditsNiveau1);
 				else
 					listeInterditBu = getSessionController().returnWebServiceOffline(getString("WARNING.SERVICE_INDISPONIBLE"));
-			}
-			else {
+			} else {
 				listeInterditBu = getDomainService().getAllDatasExterneByIdentifiantAndNiveau(this.currentEtudiant.getNumeroIne(), 1);
 			}
 
 			if(listeInterditBu!=null && !listeInterditBu.isEmpty())
 				this.currentEtudiant.setInterditLocal(true);
 
-			if(!this.currentEtudiant.isInterdit() && !this.currentEtudiant.isInterditLocal())
-			{
+			if(!this.currentEtudiant.isInterdit() && !this.currentEtudiant.isInterditLocal()) {
 				setVerifDateNaisApogee(true);
 				this.existeBdd(this.currentEtudiant.getNumeroEtudiant());
-				if(isPresentBdd())
-				{
-					if (logger.isDebugEnabled()) {
-						logger.debug("Demande de transferts existante !!!");
-					}
-					//					this.currentEtudiant = getDomainService().getPresenceEtudiantRef(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee());	
+				if(isPresentBdd()) {
+					logger.debug("Demande de transferts existante !!!");
 					this.currentEtudiant = getDomainService().getDemandeTransfertByAnneeAndNumeroEtudiantAndSource(this.currentEtudiant.getNumeroEtudiant(), getSessionController().getCurrentAnnee(), "D");
 
-					if(this.currentEtudiant==null || "A".equals(this.currentEtudiant.getSource()))
-					{
+					if(this.currentEtudiant==null || "A".equals(this.currentEtudiant.getSource())) {
 						String summary = "Vous ne pouvez pas effectuer une demande de transferts depart car vous avez deja effecute une demande de transfert accueil";
 						String detail = "Vous ne pouvez pas effectuer une demande de transferts depart car vous avez deja effecute une demande de transfert accueil";
 						Severity severity=FacesMessage.SEVERITY_ERROR;
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 						setVerifDateNaisApogee(false);
 						return null;
-					}
-					else
-					{
+					} else {
 						this.initialiseNomenclatures();
 						return "goToRecapitulatifApogee";
 					}
-				}
-				else
-				{
-					if (logger.isDebugEnabled()) {
-						logger.debug("Pas de demande de transferts !!!");
-					}
+				} else {
+					logger.debug("Pas de demande de transferts !!!");
 					this.initialiseTransientEtudiantRef();
 					return "goToEtatCivilApogee";
 				}
-			}
-			else
-			{
+			} else {
 				String tmp;
-				for(TrBlocageDTO b : this.currentEtudiant.getListeBlocagesDTO())
-				{
+				for(TrBlocageDTO b : this.currentEtudiant.getListeBlocagesDTO()) {
 					tmp = b.getCodeBlocage()+" - "+b.getLibBlocage();
 					String summary = "Attention : \n" + "- "+ tmp;
 					String detail = "Attention : \n" + "- "+ tmp;
 					Severity severity=FacesMessage.SEVERITY_ERROR;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 				}
-				if(listeInterditBu !=null)
-				{
-					for(DatasExterne lInterditBu : listeInterditBu)
-					{
+				if(listeInterditBu !=null) {
+					for(DatasExterne lInterditBu : listeInterditBu) {
 						tmp = lInterditBu.getLibInterdit();
 						String summary = "Attention : \n" + "- "+ tmp;
 						String detail = "Attention : \n" + "- "+ tmp;
@@ -1182,15 +1157,9 @@ public class UserController extends AbstractContextAwareController {
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 					}
 				}
-//				Severity severity=FacesMessage.SEVERITY_ERROR;
-//				String summary2 = getString("ERREUR.INTERDIT_BU");
-//				String detail2 = getString("ERREUR.INTERDIT_BU");
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary2, detail2));
 				return null;
 			}
-		}
-		else
-		{
+		} else {
 			setVerifDateNaisApogee(false);
 			String summary = getString("ERREUR.CONNEXION_BDD_SCOLARITE");
 			String detail = getString("ERREUR.CONNEXION_BDD_SCOLARITE");
@@ -1198,7 +1167,6 @@ public class UserController extends AbstractContextAwareController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity,summary, detail));
 			return null;
 		}
-
 	}
 
 	public void initialiseNomenclatures()

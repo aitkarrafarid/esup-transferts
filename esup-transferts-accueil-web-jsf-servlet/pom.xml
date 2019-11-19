@@ -84,11 +84,6 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.axis</groupId>
-			<artifactId>axis</artifactId>
-			<version>1.4</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.xml</groupId>
 			<artifactId>jaxrpc-api</artifactId>
 			<version>1.1</version>
@@ -192,7 +187,6 @@
 	</dependencies>
 	<properties>
 		<javax.servlet.version>2.5</javax.servlet.version>
-		<cas.url>https://sso-cas.univ-rennes1.fr</cas.url>
 		<tomcat.host>localhost</tomcat.host>
 		<tomcat.port.string>:8080</tomcat.port.string>
 		<log.level>INFO</log.level>

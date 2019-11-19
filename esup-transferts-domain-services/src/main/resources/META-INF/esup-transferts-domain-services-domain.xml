@@ -36,12 +36,19 @@
 
 	<bean id="domainServiceScolarite"
 		class="org.esupportail.transferts.domain.DomainServiceScolariteImpl">
-		<property name="sourceScol">
-			<value>${source.scol}</value>
-		</property>
 		<property name="forcerBlocage" value="${forcer.blocage}" />
-		<property name="user" value="${user}" />
-		<property name="password" value="${password}" />		
+		<property name="user" value="${apowsdl.user}" />
+		<property name="password" value="${apowsdl.password}" />
+
+		<property name="urlEtudiantMetierService" value="${url.etudiant}" />
+		<property name="urlAdministratifMetierService" value="${url.administratif}" />
+		<property name="urlGeographieMetierService" value="${url.geographie}" />
+		<property name="urlScolariteMetierService" value="${url.scolarite}" />
+		<property name="urlPedagogiqueMetierService" value="${url.pedagogique}" />
+		<property name="urlEtablissementMetierService" value="${url.etablissement}" />
+		<property name="urlOpiMetierService" value="${url.opi}" />
+		<property name="urlReferentielMetierService" value="${url.referentiel}" />
+		<property name="urlOffreFormationMetierService" value="${url.offreFormation}" />
 	</bean>
 
 	<bean id="domainServiceDTO" class="org.esupportail.transferts.domain.DomainServiceDTOImpl">
