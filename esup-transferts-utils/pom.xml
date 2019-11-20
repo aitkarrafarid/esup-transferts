@@ -154,12 +154,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.codehaus.mojo</groupId>
-			<artifactId>jaxws-maven-plugin</artifactId>
-			<version>2.5</version>
-			<type>maven-plugin</type>
-		</dependency>
-		<dependency>
 			<groupId>org.esupportail.transferts</groupId>
 			<artifactId>esup-transferts-domain-beans</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -187,16 +181,10 @@
 			</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.esupportail</groupId>
-			<artifactId>esup-commons2-ws-cxf</artifactId>
-			<version>${esupcommons.version}</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.esupportail</groupId>
-			<artifactId>esup-commons2-rs-cxf</artifactId>
-			<version>${esupcommons.version}</version>
-			<type>pom</type>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>2.4.2</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
