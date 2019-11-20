@@ -676,10 +676,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 		if(contratPedagogiqueResultatVdiVetDTO!=null) {
 			for(int i=contratPedagogiqueResultatVdiVetDTO.length-1;i>=0;i--) {
-				EtapeResVdiVetDTO2[] etapeResVdiVetDTO = contratPedagogiqueResultatVdiVetDTO[i].getEtapes().getItem().toArray(new EtapeResVdiVetDTO2[0]);
-				ResultatVdiDTO[] resultatVdiDTO = contratPedagogiqueResultatVdiVetDTO[i].getResultatVdi().getItem().toArray(new ResultatVdiDTO[0]);
+				EtapeResVdiVetDTO2[] etapeResVdiVetDTO = contratPedagogiqueResultatVdiVetDTO[i].getEtapes() == null
+						? null : contratPedagogiqueResultatVdiVetDTO[i].getEtapes().getItem().toArray(new EtapeResVdiVetDTO2[0]);
+//				ResultatVdiDTO[] resultatVdiDTO = contratPedagogiqueResultatVdiVetDTO[i].getResultatVdi() == null
+//						? null : contratPedagogiqueResultatVdiVetDTO[i].getResultatVdi().getItem().toArray(new ResultatVdiDTO[0]);
 
-				logger.debug("Diplome --> " + resultatVdiDTO +"\netapeResVdiVetDTO.length -----> " + etapeResVdiVetDTO.length);
+				logger.debug("Diplome --> "+ etapeResVdiVetDTO.length +"-----> " + etapeResVdiVetDTO.length);
 
 				for (EtapeResVdiVetDTO2 etapeResVdiVetDTO2 : etapeResVdiVetDTO) {
 					logger.debug("année --> " + etapeResVdiVetDTO2.getCodAnu() + "/" + (Integer.parseInt(etapeResVdiVetDTO2.getCodAnu()) + 1)
