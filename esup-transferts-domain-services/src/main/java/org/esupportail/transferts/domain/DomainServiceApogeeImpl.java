@@ -121,7 +121,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			InfoAdmEtuDTO2 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV2(supannEtuId);
 
 			logger.debug("Numero etudiant -->"+etudiant.getNumeroEtudiant());
-			BlocageDTO[] listeBlocagesDTO = infoAdmEtuDTO.getListeBlocages().getItem().toArray(new BlocageDTO[0]);
+			BlocageDTO[] listeBlocagesDTO = infoAdmEtuDTO.getListeBlocages() != null
+					? infoAdmEtuDTO.getListeBlocages().getItem().toArray(new BlocageDTO[0]) : new BlocageDTO[0];
 
 			logger.debug("listeBlocagesDTO -->"+listeBlocagesDTO.length);
 
@@ -142,7 +143,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			NationaliteDTO nationaliteDTO = infoAdmEtuDTO.getNationaliteDTO();
 			logger.debug("nationaliteDTO -->"+nationaliteDTO);
 
-			IndBacDTO[] indBac = infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]);
+			IndBacDTO[] indBac = infoAdmEtuDTO.getListeBacs() != null
+					? infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]) : new IndBacDTO[0];
 			logger.debug("indBac -->"+indBac.length);
 
 			infosAccueil.setAnneeBac(indBac[0].getAnneeObtentionBac());
@@ -254,7 +256,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			if(dateFormat.format(dateNaissance).equals(dateFormat.format(infoAdmEtuDTO.getDateNaissance().toGregorianCalendar().getTime()))) {
 				logger.debug("===>Compare date OK<===");
 
-				BlocageDTO[] listeBlocagesDTO = infoAdmEtuDTO.getListeBlocages().getItem().toArray(new BlocageDTO[0]);
+				BlocageDTO[] listeBlocagesDTO = infoAdmEtuDTO.getListeBlocages() != null
+						? infoAdmEtuDTO.getListeBlocages().getItem().toArray(new BlocageDTO[0]) : new BlocageDTO[0];
 				logger.debug("listeBlocagesDTO -->"+listeBlocagesDTO.length);
 
 				// Recup Adresses
@@ -273,7 +276,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				NationaliteDTO nationaliteDTO = infoAdmEtuDTO.getNationaliteDTO();
 				logger.debug("nationaliteDTO -->"+nationaliteDTO.toString());
 
-				IndBacDTO[] indBac = infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]);
+				IndBacDTO[] indBac = infoAdmEtuDTO.getListeBacs() != null
+						? infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]) : new IndBacDTO[0];
 				logger.debug("indBac -->"+indBac.length);
 
 				infosAccueil.setAnneeBac(indBac[0].getAnneeObtentionBac());
@@ -520,7 +524,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	public TrBac getBaccalaureat(String supannEtuId){
 		try {
 			InfoAdmEtuDTO2 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV2(supannEtuId);
-			IndBacDTO[] indBacDTO = infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]);
+			IndBacDTO[] indBacDTO = infoAdmEtuDTO.getListeBacs() != null
+					? infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]) : new IndBacDTO[0];
 
 			if (logger.isDebugEnabled())
 				for (IndBacDTO b : indBacDTO) logger.debug("indBacDTO.length = " + indBacDTO.length
@@ -534,12 +539,12 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			if(indBacDTO[0]!=null && !"ETRANGER".equals(indBacDTO[0].getDepartementBac().getLibDept()))
 				etabBac = this.getEtablissementByDepartement(indBacDTO[0].getDepartementBac().getCodeDept()).getLibAcademie();
 
-			return new TrBac(indBacDTO[0].getCodBac(),
+			return indBacDTO[0] != null ? new TrBac(indBacDTO[0].getCodBac(),
 					indBacDTO[0].getLibelleBac(),
 					indBacDTO[0].getDepartementBac().getLibDept(),
 					indBacDTO[0].getEtbBac().getLibEtb(),
 					indBacDTO[0].getAnneeObtentionBac(),
-					etabBac);
+					etabBac) : null;
 		} catch (Exception e) {
 			logger.error(e);
 			return null;
@@ -676,8 +681,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 		if(contratPedagogiqueResultatVdiVetDTO!=null) {
 			for(int i=contratPedagogiqueResultatVdiVetDTO.length-1;i>=0;i--) {
-				EtapeResVdiVetDTO2[] etapeResVdiVetDTO = contratPedagogiqueResultatVdiVetDTO[i].getEtapes() == null
-						? null : contratPedagogiqueResultatVdiVetDTO[i].getEtapes().getItem().toArray(new EtapeResVdiVetDTO2[0]);
+				EtapeResVdiVetDTO2[] etapeResVdiVetDTO = contratPedagogiqueResultatVdiVetDTO[i].getEtapes() != null
+						? contratPedagogiqueResultatVdiVetDTO[i].getEtapes().getItem().toArray(new EtapeResVdiVetDTO2[0])
+						: new EtapeResVdiVetDTO2[0];
 //				ResultatVdiDTO[] resultatVdiDTO = contratPedagogiqueResultatVdiVetDTO[i].getResultatVdi() == null
 //						? null : contratPedagogiqueResultatVdiVetDTO[i].getResultatVdi().getItem().toArray(new ResultatVdiDTO[0]);
 
@@ -688,7 +694,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 							+ "\netape --> " + etapeResVdiVetDTO2.getEtape().getLibEtp()
 							+ "\netapeResVdiVetDTO[j].getCodTypIpe() --> " + etapeResVdiVetDTO2.getCodTypIpe());
 
-					ResultatVetDTO[] resultatVetDTO = etapeResVdiVetDTO2.getResultatVet().getItem().toArray(new ResultatVetDTO[0]);
+					ResultatVetDTO[] resultatVetDTO = etapeResVdiVetDTO2.getResultatVet() != null
+							? etapeResVdiVetDTO2.getResultatVet().getItem().toArray(new ResultatVetDTO[0])
+							: new ResultatVetDTO[0];
 					listResultatSession = new ArrayList<>();
 
 					if (nb <= max) {
@@ -803,7 +811,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			indOpi.setDaaEtrSup(infoAdmEtuDTO.getAnneePremiereInscEtr());
 
 			/*OPI_BAC*/
-			IndBacDTO[] listeBacs = infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]);
+			IndBacDTO[] listeBacs = infoAdmEtuDTO.getListeBacs() != null
+					? infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]) : new IndBacDTO[0];
 			indOpi.setCodBac(listeBacs[0].getCodBac());
 			indOpi.setCodEtbBac(listeBacs[0].getEtbBac().getCodeEtb());
 			indOpi.setCodDep(listeBacs[0].getDepartementBac().getCodeDept());
@@ -845,7 +854,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 			diplomeDTO3 = getOffreFormationMetierService().recupererSEV3(se).toArray(new DiplomeDTO3[0]);
 
 			for(DiplomeDTO3 ld : diplomeDTO3) {
-				VersionDiplomeDTO3[] versionDiplomeDTO3 =ld.getListVersionDiplome().getItem().toArray(new VersionDiplomeDTO3[0]);
+				VersionDiplomeDTO3[] versionDiplomeDTO3 = ld.getListVersionDiplome() != null
+						? ld.getListVersionDiplome().getItem().toArray(new VersionDiplomeDTO3[0]) : new VersionDiplomeDTO3[0];
 				logger.debug("CodTypDip --> "+ ld.getTypeDiplome().getCodTypDip()
 						+ "\nLibTypDip --> "+ ld.getTypeDiplome().getLibTypDip()
 						+ "\nLibDip --> "+ ld.getLibDip()
@@ -856,14 +866,19 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 				for(VersionDiplomeDTO3 lvd : versionDiplomeDTO3) {
 					logger.debug("lvd.getCodCursusLmd --> "+lvd.getCodCursusLmd() +"\nlvd.getLibWebVdi() --> "+lvd.getLibWebVdi());
-					EtapeDTO3[] etapeDTO3 = lvd.getOffreFormation().getListEtape().getItem().toArray(new EtapeDTO3[0]);
+					EtapeDTO3[] etapeDTO3 = lvd.getOffreFormation().getListEtape() != null
+							? lvd.getOffreFormation().getListEtape().getItem().toArray(new EtapeDTO3[0]) : new EtapeDTO3[0];
 					for(EtapeDTO3 le : etapeDTO3) {
-						ComposanteCentreGestionDTO[] ccgOri = le.getListComposanteCentreGestion().getItem().toArray(new ComposanteCentreGestionDTO[0]);
+						ComposanteCentreGestionDTO[] ccgOri = le.getListComposanteCentreGestion() != null
+								? le.getListComposanteCentreGestion().getItem().toArray(new ComposanteCentreGestionDTO[0])
+								: new ComposanteCentreGestionDTO[0];
 
 						for(int i=0;i<ccgOri.length;i++) {
 							logger.debug("--> le.getListComposanteCentreGestion()[i].getCodCentreGestion()-->"+ccgOri[i].getCodCentreGestion()
 									+"\n--> ccgOri[i].getLibCentreGestion()-->"+ccgOri[i].getLibCentreGestion());
-							VersionEtapeDTO3[] versionEtapeDTO21=le.getListVersionEtape().getItem().toArray(new VersionEtapeDTO3[0]);
+							VersionEtapeDTO3[] versionEtapeDTO21 = le.getListVersionEtape() != null
+									? le.getListVersionEtape().getItem().toArray(new VersionEtapeDTO3[0])
+									: new VersionEtapeDTO3[0];
 
 							for(VersionEtapeDTO3 ve : versionEtapeDTO21) {
 								if(ccgOri[i].getCodComposante().equals(ve.getComposante().getCodComposante())) {
