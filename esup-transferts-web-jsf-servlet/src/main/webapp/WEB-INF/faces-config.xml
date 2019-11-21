@@ -29,13 +29,4 @@
 		<exception-handler-factory>org.esupportail.commons.exceptions.ExceptionHandlerFactory</exception-handler-factory>
 	</factory>
 
-	<!-- <factory> -->
-	<!-- <exception-handler-factory>org.esupportail.transferts.web.exceptions.ExceptionHandler</exception-handler-factory> -->
-	<!-- </factory> -->
-
-	<!-- <lifecycle> -->
-	<!-- <phase-listener>org.esupportail.commons.jsf.DeepLinkingPhaseListener</phase-listener> -->
-	<!-- <phase-listener>org.esupportail.commons.jsf.MessagesPhaseListener</phase-listener> -->
-	<!-- <phase-listener>org.esupportail.commons.jsf.ResourceBundlePhaseListener</phase-listener> -->
-	<!-- </lifecycle> -->
 </faces-config>

@@ -61,7 +61,7 @@
 		</h:panelGrid>
 
 		<BR /><BR />
-		<p:treeTable value="#{userController.root}" var="document">
+		<p:treeTable value="#{userController.root}" var="document" rendered="#{not empty userController.root}">
 			<f:facet name="header">
 				Dossier universitaire *
 			</f:facet>

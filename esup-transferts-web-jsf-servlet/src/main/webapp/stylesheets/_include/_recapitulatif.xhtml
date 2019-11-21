@@ -263,7 +263,7 @@
 		<p:spacer height="20px" />
 		<p:fieldset legend="Dossier scolaire *" toggleable="true"
 					toggleSpeed="200">
-			<p:treeTable value="#{userController.root}" var="document">
+			<p:treeTable value="#{userController.root}" var="document" rendered="#{not empty userController.root}">
 				<f:facet name="header">
 					Dossier universitaire *
 				</f:facet>

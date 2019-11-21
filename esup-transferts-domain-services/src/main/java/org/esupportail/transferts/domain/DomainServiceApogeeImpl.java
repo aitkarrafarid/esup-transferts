@@ -921,7 +921,6 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		}
 	}
 
-	//TODO Sécuriser l'appel du web service !
 	@Override
 	public List<IndOpi> synchroOpi(List<IndOpi> listeOpis){
 		List<IndOpi> listeErreurs = new ArrayList<>();
