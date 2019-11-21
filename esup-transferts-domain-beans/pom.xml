@@ -22,21 +22,18 @@
 			<artifactId>esup-commons2-jpa</artifactId>
 			<version>${esupcommons.version}</version>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>local</groupId>-->
-<!--			<artifactId>apo-webservicesclient</artifactId>-->
-<!--			<version>1.0.0</version>-->
-<!--			<scope>system</scope>-->
-<!--			<systemPath>C:/workspace_transferts/esup-transferts/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/apo-webservicesclient.jar</systemPath>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>local</groupId>-->
-<!--			<artifactId>RimbausTransfert.jar</artifactId>-->
-<!--			<version>1.0.0</version>-->
-<!--			<scope>system</scope>-->
-<!--			<systemPath>C:/workspace_transferts/esup-transferts/esup-transferts-web-jsf-servlet/src/main/webapp/WEB-INF/lib/RimbausTransfert.jar</systemPath>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
