@@ -21,73 +21,73 @@ import java.util.Date;
 		@NamedQuery(name = "allIndOpi", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee"),
 		@NamedQuery(name = "allIndOpiByAnnee", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.annee = :annee"),
 		@NamedQuery(name = "getIndOpiBySource", query = "SELECT indOpi FROM IndOpi indOpi WHERE indOpi.numeroOpi = :numeroOpi AND indOpi.annee = :annee AND indOpi.source = :source"),
-		@NamedQuery(name = "getIndOpiExtractBySource", query = "SELECT DISTINCT RPAD (NVL(io.numeroOpi,' '), 11, ' ')"
+		@NamedQuery(name = "getIndOpiExtractBySource", query = "SELECT DISTINCT RPAD (IFNULL(io.numeroOpi,' '), 11, ' ')"
 				+ "|| RPAD (' ',1,' ')"
-				+ "|| RPAD (NVL(io.codPayNat,' '),3,' ')"
-				+ "|| RPAD (NVL(io.codEtb,' '),8,' ')"
-				+ "|| RPAD (NVL(io.codNneIndOpi,' '),11,' ')"
-				+ "|| RPAD (NVL(io.codCleNneIndOpi,' '),1,' ')"
-				+ "|| TO_CHAR (io.dateNaiIndOpi, 'DDMMYYYY')"
-				+ "|| RPAD (NVL(io.temDateNaiRelOpi,' '),1,' ')"
+				+ "|| RPAD (IFNULL(io.codPayNat,' '),3,' ')"
+				+ "|| RPAD (IFNULL(io.codEtb,' '),8,' ')"
+				+ "|| RPAD (IFNULL(io.codNneIndOpi,' '),11,' ')"
+				+ "|| RPAD (IFNULL(io.codCleNneIndOpi,' '),1,' ')"
+				+ "|| DATE_FORMAT(io.dateNaiIndOpi, '%Y-%m-%d')"
+				+ "|| RPAD (IFNULL(io.temDateNaiRelOpi,' '),1,' ')"
 				+ "|| RPAD (' ',6,' ')"
-				+ "|| RPAD (NVL(io.daaEntEtbOpi,' '),4,' ')"
-				+ "|| RPAD (NVL(io.libNomPatIndOpi,' '),30,' ')"
-				+ "|| RPAD (NVL(io.libNomUsuIndOpi,' '),30,' ')"
-				+ "|| RPAD (NVL(io.libPr1IndOpi,' '),20,' ')"
-				+ "|| RPAD (NVL(io.libPr2IndOpi,' '),20,' ')"
-				+ "|| RPAD (NVL(io.libPr3IndOpi,' '),20,' ')"
-				+ "|| RPAD (NVL(io.LibVilNaiEtuOpi,' '),30,' ')"
-				+ "|| RPAD (NVL(io.codDepPayNai,' '),3,' ')"
-				+ "|| RPAD (NVL(io.codTypDepPayNai,' '),1,' ')"
+				+ "|| RPAD (IFNULL(io.daaEntEtbOpi,' '),4,' ')"
+				+ "|| RPAD (IFNULL(io.libNomPatIndOpi,' '),30,' ')"
+				+ "|| RPAD (IFNULL(io.libNomUsuIndOpi,' '),30,' ')"
+				+ "|| RPAD (IFNULL(io.libPr1IndOpi,' '),20,' ')"
+				+ "|| RPAD (IFNULL(io.libPr2IndOpi,' '),20,' ')"
+				+ "|| RPAD (IFNULL(io.libPr3IndOpi,' '),20,' ')"
+				+ "|| RPAD (IFNULL(io.LibVilNaiEtuOpi,' '),30,' ')"
+				+ "|| RPAD (IFNULL(io.codDepPayNai,' '),3,' ')"
+				+ "|| RPAD (IFNULL(io.codTypDepPayNai,' '),1,' ')"
 				+ "|| RPAD (' ',115,' ')"
 //				+ "|| RPAD (' ',21,' ')"
 				+
-				 "|| RPAD (NVL (io.codBac, ' '),4, ' ')" +
-				 "|| RPAD (NVL (io.codEtbBac, ' '),8, ' ')" +
-				 "|| RPAD (NVL(io.codDep,' '),3,' ')" +
-				 "|| RPAD (NVL (io.codMnb, ' '),2, ' ')" +
-				 "|| RPAD (NVL(io.daabacObtOba,' '),4,' ')" +
-				"|| RPAD (NVL(io.codPay,' '),3,' ')"
+				 "|| RPAD (IFNULL(io.codBac, ' '),4, ' ')" +
+				 "|| RPAD (IFNULL(io.codEtbBac, ' '),8, ' ')" +
+				 "|| RPAD (IFNULL(io.codDep,' '),3,' ')" +
+				 "|| RPAD (IFNULL(io.codMnb, ' '),2, ' ')" +
+				 "|| RPAD (IFNULL(io.daabacObtOba,' '),4,' ')" +
+				"|| RPAD (IFNULL(io.codPay,' '),3,' ')"
 				+
 				// "|| RPAD (' ',5,' ')" +
-				"|| RPAD (NVL(io.codBdi,' '),5,' ')"
-				+ "|| RPAD (NVL(io.codCom,' '),5,' ')"
-				+ "|| RPAD (NVL(io.libAd1,' '),32,' ')"
-				+ "|| RPAD (NVL(io.libAd2,' '),32,' ')"
-				+ "|| RPAD (NVL(io.libAd3,' '),32,' ')"
-				+ "|| RPAD (NVL(io.libAde,' '),32,' ')"
-				+ "|| RPAD (NVL(io.numTel,' '),15,' ')"
-				+ "|| RPAD (NVL(io.daaEnsSupOpi,' '),4,' ')"
+				"|| RPAD (IFNULL(io.codBdi,' '),5,' ')"
+				+ "|| RPAD (IFNULL(io.codCom,' '),5,' ')"
+				+ "|| RPAD (IFNULL(io.libAd1,' '),32,' ')"
+				+ "|| RPAD (IFNULL(io.libAd2,' '),32,' ')"
+				+ "|| RPAD (IFNULL(io.libAd3,' '),32,' ')"
+				+ "|| RPAD (IFNULL(io.libAde,' '),32,' ')"
+				+ "|| RPAD (IFNULL(io.numTel,' '),15,' ')"
+				+ "|| RPAD (IFNULL(io.daaEnsSupOpi,' '),4,' ')"
 				+ "|| RPAD (' ',160,' ')"
-				+ "|| RPAD (NVL(io.codSexEtuOpi,' '),1,' ')"
+				+ "|| RPAD (IFNULL(io.codSexEtuOpi,' '),1,' ')"
 				+ "|| RPAD (' ',4,' ')"
-				+ "|| RPAD (NVL(io.adrMailOpi,' '),200,' ')"
-				+ "|| RPAD (NVL(io.numTelPorOpi,' '),15,' ')"
+				+ "|| RPAD (IFNULL(io.adrMailOpi,' '),200,' ')"
+				+ "|| RPAD (IFNULL(io.numTelPorOpi,' '),15,' ')"
 				+ "|| RPAD (' ',2,' ')"
 				+
-				// "|| RPAD (NVL(io.codTpe,' '),2,' ')" +
+				// "|| RPAD (IFNULL(io.codTpe,' '),2,' ')" +
 				"|| RPAD (' ',71,' ')"
-				+ "|| RPAD (NVL(io.daaEtrSup,' '),4,' ')"
+				+ "|| RPAD (IFNULL(io.daaEtrSup,' '),4,' ')"
 				+ "|| RPAD (' ',219,' ') "
 				+ "|| RPAD (' ',3,' ')"
 				+ "FROM IndOpi io "
 				+ "WHERE io.annee = :annee AND io.source = :source"),
-		@NamedQuery(name = "getVoeuxInsExtractBySource", query = "SELECT DISTINCT RPAD (NVL(vi.voeux.numeroOpi,' '), 11, ' ') "
-				+ "|| RPAD (NVL(vi.voeux.libNomPatIndOpi,' '),30,' ') "
-				+ "|| RPAD (NVL(vi.voeux.libPr1IndOpi,' '),20,' ') "
-				+ "|| RPAD (NVL(vi.voeux.codCge,' '),3,' ') "
-				+ "|| RPAD (NVL(vi.voeux.codEtp,' '),6,' ') "
-				+ "|| RPAD (NVL(vi.voeux.codVrsVet,' '),3,' ') "
-				+ "|| RPAD (NVL(vi.voeux.codDip,' '),7,' ') "
+		@NamedQuery(name = "getVoeuxInsExtractBySource", query = "SELECT DISTINCT RPAD (IFNULL(vi.voeux.numeroOpi,' '), 11, ' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.libNomPatIndOpi,' '),30,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.libPr1IndOpi,' '),20,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.codCge,' '),3,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.codEtp,' '),6,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.codVrsVet,' '),3,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.codDip,' '),7,' ') "
 				+
-				// "|| RPAD (NVL(vi.voeux.codVrsVdi,' '),3,' ') " +
-				"|| RPAD (NVL(vi.voeux.codVrsVdi,null),3,' ') "
-				+ "|| RPAD (NVL(vi.voeux.codCmp,' '),3,' ') "
+				// "|| RPAD (IFNULL(vi.voeux.codVrsVdi,' '),3,' ') " +
+				"|| RPAD (IFNULL(vi.voeux.codVrsVdi,null),3,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.codCmp,' '),3,' ') "
 				+ "|| RPAD (' ',4,' ') "
-				+ "|| RPAD (NVL(vi.voeux.codDemDos,' '),1,' ') "
-				+ "|| RPAD (NVL(vi.voeux.codDemDos,' '),1,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.codDemDos,' '),1,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.codDemDos,' '),1,' ') "
 				+ "|| RPAD ('F',1,' ') "
-				+ "|| RPAD (NVL(vi.voeux.numCls,' '),2,' ') "
+				+ "|| RPAD (IFNULL(vi.voeux.numCls,' '),2,' ') "
 				+ "|| RPAD (' ',268,' ') "
 				+ " FROM IndOpi vi "
 				+ " WHERE vi.annee = :annee AND vi.source = :source"),
