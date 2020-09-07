@@ -9,10 +9,7 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.transferts.domain.beans.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
@@ -1537,11 +1534,21 @@ public class JPADaoServiceImpl extends AbstractGenericJPADaoService implements D
 			Query q = entityManager.createNamedQuery("getPresenceEtudiantRefByIneAndAnnee");
 			q.setParameter("numeroIne", ine);
 			q.setParameter("annee", currentAnnee);
+
 			EtudiantRef etudiant = (EtudiantRef) q.getSingleResult();
 			return etudiant;
 		}
-		catch(NoResultException e){
-			logger.warn(e);
+		catch(NoResultException nre){
+			logger.warn(nre);
+			return null;
+		}
+		catch(NonUniqueResultException nure){
+			logger.error("Doublon étudiant pour l'INE "+ ine + " - Exception : ");
+			logger.error(nure);
+			throw new NonUniqueResultException();
+		}
+		catch(Exception e){
+			logger.error(e);
 			return null;
 		}
 	}
