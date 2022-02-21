@@ -118,7 +118,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		etudiant.setNumeroEtudiant(supannEtuId);
 		try {
 			// Recuperation des infos de l'etudiant dans Apogee
-			InfoAdmEtuDTO2 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV2(supannEtuId);
+			InfoAdmEtuDTO3 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV3(supannEtuId);
 
 			logger.debug("Numero etudiant -->"+etudiant.getNumeroEtudiant());
 			BlocageDTO[] listeBlocagesDTO = infoAdmEtuDTO.getListeBlocages() != null
@@ -246,7 +246,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 
 			// Recuperation des infos de l'etudiant dans Apogee
 			logger.debug("ine===>" + ine + "<===");
-			InfoAdmEtuDTO2 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV2(String.valueOf(identifiantEtudiant.getCodEtu()));
+			InfoAdmEtuDTO3 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV3(String.valueOf(identifiantEtudiant.getCodEtu()));
 
 			if(infoAdmEtuDTO != null)
 				logger.debug("===>if(identifiantEtudiant!=null && infoAdmEtuDTO!=null)<==="
@@ -523,7 +523,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	@Override
 	public TrBac getBaccalaureat(String supannEtuId){
 		try {
-			InfoAdmEtuDTO2 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV2(supannEtuId);
+			InfoAdmEtuDTO3 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV3(supannEtuId);
 			IndBacDTO[] indBacDTO = infoAdmEtuDTO.getListeBacs() != null
 					? infoAdmEtuDTO.getListeBacs().getItem().toArray(new IndBacDTO[0]) : new IndBacDTO[0];
 
@@ -554,9 +554,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 	@Override
 	public TrInfosAdmEtu getInfosAdmEtu(String supannEtuId){
 		// Recuperation des infos de l'etudiant dans Apogee
-		InfoAdmEtuDTO2 infoAdmEtuDTO;
+		InfoAdmEtuDTO3 infoAdmEtuDTO;
 		try {
-			infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV2(supannEtuId);
+			infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV3(supannEtuId);
 
 			NationaliteDTO nationaliteDTO = infoAdmEtuDTO.getNationaliteDTO();
 
@@ -778,9 +778,9 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 		logger.debug("getInfosOpi(String numeroEtudiant)");
 		VoeuxIns voeuxIns = new VoeuxIns();
 		IndOpi indOpi = new IndOpi();
-		InfoAdmEtuDTO2 infoAdmEtuDTO;
+		InfoAdmEtuDTO3 infoAdmEtuDTO;
 		try {
-			infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV2(numeroEtudiant);
+			infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV3(numeroEtudiant);
 			/*OPI*/
 			indOpi.setCodPayNat(infoAdmEtuDTO.getNationaliteDTO().getCodeNationalite());
 			indOpi.setCodEtb(infoAdmEtuDTO.getEtbPremiereInscUniv().getCodeEtb());
@@ -1187,7 +1187,7 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 					null,null,ine,null,null,null,null,null,null);
 
 			// Recup infos à partir des identifiants
-			InfoAdmEtuDTO2 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV2(String.valueOf(identifiantEtudiant.getCodEtu()));
+			InfoAdmEtuDTO3 infoAdmEtuDTO = getEtudiantMetierService().recupererInfosAdmEtuV3(String.valueOf(identifiantEtudiant.getCodEtu()));
 
 			logger.debug("ine --> " + ine);
 
