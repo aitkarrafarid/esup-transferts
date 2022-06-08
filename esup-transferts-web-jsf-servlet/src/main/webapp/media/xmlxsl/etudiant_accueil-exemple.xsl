@@ -27,6 +27,7 @@
 				</fo:flow>
 			</fo:page-sequence>
 
+<!--
 			<fo:page-sequence master-reference="all">
 				<fo:static-content flow-name="xsl-region-before">
 					<xsl:call-template name="entete" />
@@ -40,7 +41,9 @@
 					</fo:block>
 				</fo:flow>
 			</fo:page-sequence>
+-->
 
+<!--
 			<fo:page-sequence master-reference="all">
 				<fo:static-content flow-name="xsl-region-before">
 					<xsl:call-template name="entete" />
@@ -54,6 +57,7 @@
 					</fo:block>
 				</fo:flow>
 			</fo:page-sequence>
+-->
 
 		</fo:root>
 	</xsl:template>
@@ -552,6 +556,7 @@
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
+<!--
 					<fo:table-row>
 						<fo:table-cell border="0.018cm solid #000000">
 							<fo:block font-size="7pt" font-style="italic" text-align="justify">
@@ -569,6 +574,7 @@
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
+-->
 				</fo:table-body>
 			</fo:table>
 		</fo:block>
@@ -602,6 +608,7 @@
 		</fo:block>
 	</xsl:template>
 
+<!--
 	<xsl:template name="exemplaireUA">
 		<fo:block text-align="left" font-size="8pt" line-height="10pt"
 			border-top="#D1D7DC" border-top-style="solid" border-top-width="1pt"
@@ -617,7 +624,9 @@
 			<fo:page-number />
 		</fo:block>
 	</xsl:template>
+-->
 
+<!--
 	<xsl:template name="exemplaireUO">
 		<fo:block text-align="left" font-size="8pt" line-height="10pt"
 			border-top="#D1D7DC" border-top-style="solid" border-top-width="1pt"
@@ -633,6 +642,7 @@
 			<fo:page-number />
 		</fo:block>
 	</xsl:template>
+-->
 
 	<xsl:template name="exemplaireEtu">
 		<fo:block text-align="left" font-size="8pt" line-height="10pt"

@@ -14,13 +14,16 @@
 				</fo:simple-page-master>
 			</fo:layout-master-set>
 
+<!--
 			<fo:page-sequence master-reference="all">
 				<fo:static-content flow-name="xsl-region-before">
 					<xsl:call-template name="entete" />
 				</fo:static-content>
+-->
 				<!-- <fo:static-content flow-name="xsl-region-after"> -->
 				<!-- <xsl:call-template name="basDePage" /> -->
 				<!-- </fo:static-content> -->
+<!--
 				<fo:flow flow-name="xsl-region-body">
 					<fo:block>
 						<xsl:call-template name="miseEnPage" />
@@ -30,6 +33,7 @@
 					</fo:block>
 				</fo:flow>
 			</fo:page-sequence>
+-->
 
 			<fo:page-sequence master-reference="all">
 				<fo:static-content flow-name="xsl-region-before">
