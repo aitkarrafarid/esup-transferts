@@ -59,7 +59,7 @@
 										value="#{administrationController.currentDemandeTransferts.prenom1}" />
 								</p:column>
 								<p:column style="width:50%">
-									<h:outputText value="Nunméro I.N.E : " />
+									<h:outputText value="Numéro I.N.E : " />
 									<h:outputText
 										value="#{administrationController.currentDemandeTransferts.numeroIne}" />
 								</p:column>
@@ -72,13 +72,13 @@
 								</p:column>
 								<p:column style="width:50%">
 									<h:graphicImage alt="Reprise d'étude"
-										title="Aucune inscription administratrive universitaire"
+										title="Aucune inscription administrative universitaire"
 										value="/media/images/warning_40px.png" width="20px"
 										height="20px"
 										rendered="#{administrationController.repriseEtudes}" />
 									<p:spacer width="10px" />
 									<h:outputText
-										value="Aucune inscription administratrive universitaire en #{sessionController.currentAnnee-sessionController.regleGestionTE02}/#{sessionController.currentAnnee-sessionController.regleGestionTE02+1}"
+										value="Aucune inscription administrative universitaire en #{sessionController.currentAnnee-sessionController.regleGestionTE02}/#{sessionController.currentAnnee-sessionController.regleGestionTE02+1}"
 										rendered="#{administrationController.repriseEtudes}" />
 								</p:column>
 							</p:row>
@@ -127,7 +127,7 @@
 					<p:separator style="width:500px;height:10px" />
 
 					<p:fieldset id="listeDecisionDetails"
-						legend="liste des décision pour : #{administrationController.currentOdf.libVersionEtape}"
+						legend="liste des décisions pour : #{administrationController.currentOdf.libVersionEtape}"
 						styleClass="panel" collapsed="false" toggleable="true"
 						style="width:700px;" toggleSpeed="200">
 						<p:dataList emptyMessage="Aucune décision"
