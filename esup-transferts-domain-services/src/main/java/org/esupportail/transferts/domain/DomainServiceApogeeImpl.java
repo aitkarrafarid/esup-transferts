@@ -268,7 +268,8 @@ public class DomainServiceApogeeImpl implements DomainServiceScolarite {
 				logger.debug("adresseFixe -->"+adresseFixe.toString());
 
 				fr.univartois.wsclient.apogee.etudiant.CommuneDTO2 communeDTO = adresseFixe.getCommune();
-				logger.debug("communeDTO -->"+communeDTO.toString());
+				if (logger.isDebugEnabled() && communeDTO!=null) logger.debug("communeDTO -->"+communeDTO.toString());
+                else if(logger.isDebugEnabled() && communeDTO==null) logger.debug("communeDTO --> la commune est null");
 
 				fr.univartois.wsclient.apogee.etudiant.PaysDTO paysDTO = adresseFixe.getPays();
 				logger.debug("paysDTO -->"+paysDTO.toString());
